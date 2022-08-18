@@ -11,7 +11,7 @@ const SettingsScreen: React.FC<SettingsScreenProps> = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Settings!</Text>
-      <Text>{session.token}</Text>
+      <Text style={styles.text}>{session.token}</Text>
     </View>
   )
 }
@@ -23,17 +23,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'black',
   },
-  heading: {
-    fontSize: 40,
-    color: 'white',
-  },
   text: {
     fontSize: 30,
-    color: 'white',
-  },
-  welcome_text: {
-    fontSize: 20,
-    textAlign: 'center',
     color: 'white',
   }
 })

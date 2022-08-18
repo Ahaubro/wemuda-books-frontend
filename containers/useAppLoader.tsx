@@ -23,7 +23,7 @@ export function useAppLoader(): {
         // Pre-load fonts, make any API calls you need to do here
         await Font.loadAsync(preloadFonts)
         await tryLoginFromStorageAsync()
-        dispatch(startSession({ id: '1234', token: 'abcdefg' }))
+        //dispatch(startSession({ id: '1234', token: 'abcdefg' }))
       } catch (e) {
         console.warn(e)
       } finally {

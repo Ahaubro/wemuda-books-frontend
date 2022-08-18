@@ -5,19 +5,15 @@ import Entypo from '@expo/vector-icons/Entypo'
 import { StatusBar } from 'expo-status-bar'
 import { FONTS } from '../../utils/fontUtils'
 import i18n from 'i18n-js'
-import {useGetBooksQuery, Book, useGetBookByIdQuery, useDeleteBookMutation, useAddBookMutation, useUpdateBookMutation} from "../../redux/services/exampleApi"
+import {useGetBooksQuery, Book, useGetBookByIdQuery} from "../../redux/services/exampleApi"
+
 
 interface HomeScreenProps {}
 
 const HomeScreen: React.FC<HomeScreenProps> = () => {
 
-
-  // Skal lige have den her igen- LÆS
   const [books, setBooks] = useState<Book[]>([])
-  const [book, setBook] = useState<Book>()
-  
-  
-  //Forbinder til Api
+
   const fetchedBooks = useGetBooksQuery(null, { refetchOnMountOrArgChange: false });
   const fecthedBookById = useGetBookByIdQuery(2, {refetchOnMountOrArgChange: false});
   const [deleteBook, {isLoading}] = useDeleteBookMutation();
@@ -56,10 +52,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   
   }, [])
 
-
-
   console.log(fetchedBooks);
-  console.log(fecthedBookById)
 
 
   
@@ -67,7 +60,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   return (
     <View style={styles.container}>
       {fetchedBooks.isLoading && 
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size="large" style={{height: "100%"}}/>
       }
 
       {(fetchedBooks.data && fetchedBooks.data.books) && 
@@ -113,7 +106,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#ffffff',
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
+    paddingTop: 10
   },
   heading: {
     fontFamily: FONTS.bold,
@@ -128,6 +122,17 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     color: 'white',
+  },
+  book_box:{
+    backgroundColor: "#ccc",
+    height: 30,
+    padding: 30,
+    marginBottom: 10,
+    borderRadius: 10,
+    width: "100%",
+    flexDirection: 'row',
+    alignItems: "center",
+    justifyContent: "space-between"
   }
 })
 

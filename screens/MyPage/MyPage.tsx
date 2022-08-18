@@ -13,10 +13,6 @@ const MyPageScreen: React.FC<MyPageScreenProps> = () => {
     <View style={styles.container}>
       <Text style={styles.text}>My Page</Text>
       <Text> Hello (username)</Text>
-
-
-
-
     </View>
   )
 }
