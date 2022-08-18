@@ -5,14 +5,16 @@ import Entypo from '@expo/vector-icons/Entypo'
 import { StatusBar } from 'expo-status-bar'
 import { FONTS } from '../../utils/fontUtils'
 import i18n from 'i18n-js'
-import {useGetBooksQuery, Book, useGetBookByIdQuery} from "../../redux/services/exampleApi"
+import {useGetBooksQuery, Book, useGetBookByIdQuery, useDeleteBookMutation, useAddBookMutation, useUpdateBookMutation } from "../../redux/services/bookApi"
 
 
 interface HomeScreenProps {}
 
 const HomeScreen: React.FC<HomeScreenProps> = () => {
 
-  const [books, setBooks] = useState<Book[]>([])
+  const [books, setBooks] = useState<Book[]>([]);
+  const [book, setBook] = useState<Book>();
+
 
   const fetchedBooks = useGetBooksQuery(null, { refetchOnMountOrArgChange: false });
   const fecthedBookById = useGetBookByIdQuery(2, {refetchOnMountOrArgChange: false});
