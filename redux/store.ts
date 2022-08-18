@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { bookApi } from './services/exampleApi'
+import { bookApi } from './services/bookApi'
 import sessionReducer from './slices/sessionSlice'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import { rtkQueryErrorLogger } from './rtkQueryErrorLogger'
