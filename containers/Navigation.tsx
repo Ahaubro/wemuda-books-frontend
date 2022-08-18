@@ -43,11 +43,12 @@ const Navigation: React.FC<NavigationProps> = () => {
       >
         <Tab.Screen name="Home" component={HomeScreen} />
         {session.token ? (<>
+          
+        </>) : (<>
+          <Tab.Screen name="Login" component={LoginScreen}></Tab.Screen>
           <Tab.Screen name="Books" component={BooksScreen} />
           <Tab.Screen name="MyPage" component={MyPageScreen} />
           <Tab.Screen name="Settings" component={SettingsScreen} />
-        </>) : (<>
-          <Tab.Screen name="Login" component={LoginScreen}></Tab.Screen>
         </>)}
         
         

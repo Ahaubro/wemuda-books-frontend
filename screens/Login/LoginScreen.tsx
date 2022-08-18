@@ -6,12 +6,17 @@ import { StatusBar } from 'expo-status-bar'
 import { FONTS } from '../../utils/fontUtils'
 import i18n from 'i18n-js'
 import {useGetBooksQuery, Book, useGetBookByIdQuery} from "../../redux/services/bookApi"
+import {useLoginMutation} from '../../redux/services/userApi'
+import { useDispatch } from 'react-redux'
 
 interface LoginScreenProps {}
 
 const LoginScreen: React.FC<LoginScreenProps> = () => {
 
     const [state, setState] = useState<{ username: string, password: string }>({ username: "", password: "" })
+
+    const dispatch = useDispatch()
+    const [login, { isLoading }] = useLoginMutation()
 
     return (<View style={styles.container}>
         <Text style={styles.heading}>Login</Text>
@@ -24,6 +29,9 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
                 <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
                     <Text style={styles.label}>Password:</Text>
                     <TextInput onChangeText={(value) => setState({...state, password: value})} secureTextEntry={true} style={styles.textInput}></TextInput>
+                </View>
+                <View style={{marginTop: 20}}>
+                    <Button title="Login" onPress={() => {login}}></Button>
                 </View>
             </View>
         </View>
