@@ -64,8 +64,38 @@ export const bookApi = createApi({
     >({
       query: id => `/book/${id}`,
     }),
+
+    //Delete book
+    deleteBook: builder.mutation<{ statusText: string },  number >({
+      query:  id  => ({
+        url: `/book/${id}`,
+        method: 'DELETE',
+      }),
+    }),
+
+    //Update book
+    updateBook: builder.mutation<
+      { 
+        statusText: string 
+      },
+
+      { 
+        id: number;
+        title: string;
+        author: string;
+        genre: string;
+        releaseDate: string; 
+      }
+    >({
+      query: body => ({
+        url: `/${body.id}`,
+        method: 'PATCH',
+        body
+      }),
+    }),
+
   }),
 })
 
 
-export const { useGetBooksQuery, useGetBookByIdQuery, useAddBookMutation } = bookApi
+export const { useGetBooksQuery, useGetBookByIdQuery, useAddBookMutation, useDeleteBookMutation, useUpdateBookMutation } = bookApi

@@ -5,23 +5,59 @@ import Entypo from '@expo/vector-icons/Entypo'
 import { StatusBar } from 'expo-status-bar'
 import { FONTS } from '../../utils/fontUtils'
 import i18n from 'i18n-js'
-import {useGetBooksQuery, Book, useGetBookByIdQuery} from "../../redux/services/bookApi"
+import {useGetBooksQuery, Book, useGetBookByIdQuery, useDeleteBookMutation, useAddBookMutation, useUpdateBookMutation } from "../../redux/services/bookApi"
 
 
 interface HomeScreenProps {}
 
 const HomeScreen: React.FC<HomeScreenProps> = () => {
 
-  const [books, setBooks] = useState<Book[]>([])
+  const [books, setBooks] = useState<Book[]>([]);
+  const [book, setBook] = useState<Book>();
+
 
   const fetchedBooks = useGetBooksQuery(null, { refetchOnMountOrArgChange: false });
-  //const fecthedBookById = useGetBookByIdQuery(2, {refetchOnMountOrArgChange: false})
+  const fecthedBookById = useGetBookByIdQuery(2, {refetchOnMountOrArgChange: false});
+  const [deleteBook, {isLoading}] = useDeleteBookMutation();
+  const [addBook, {}] = useAddBookMutation();
+  const [updateBook, {isSuccess}] = useUpdateBookMutation();
 
+
+  
+  //Skal vi også lige have igen - LÆS
   useEffect(() => {
-    setBooks(fetchedBooks.data?.books ?? [])
+    setBooks(fetchedBooks.data?.books ?? []),
+    setBook(fecthedBookById.data)
+    
+    //deleteBook(1066).then(res=> {console.log("Book deleted")})
+
+    // updateBook({
+    //   id:1,
+    //   title: 'Ny titel',
+    //   author: 'Ole b',
+    //   genre: 'Fantasy',
+    //   releaseDate: '2015-09-25T05:50:06'
+    // }).unwrap()
+    // .then(res => {
+    //   console.log("Den er opdateret")
+    // }).catch( (error) => console.error("NIKS", error));
+    
+
+ // addBook({
+  //     title: 'Test fra frontend',
+  //     author: 'Arex',
+  //     genre: 'Fantasy',
+  //     releaseDate: '2015-09-25T05:50:06'
+  //   }).then(res => {
+  //     console.log("Ny bog oprettet")
+  //   })
+  
   }, [])
 
   console.log(fetchedBooks);
+
+
+  
 
   return (
     <View style={styles.container}>
@@ -33,23 +69,34 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
         <View style={{ flex: 1, width: "100%"}}>
           {fetchedBooks.data.books.map((item, index) => {
             return (
-              <View key={index} style={styles.book_box}>
+              <View key={index} style={{ backgroundColor: "#ccc", height: 30, padding: 30, marginBottom: 10, borderRadius: 10, width: "100%", flexDirection: 'row', alignItems: "center", justifyContent: "space-between"}}>
                 <Text style={{height: 50, width:40, backgroundColor:'white'}}></Text>
-                <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center", flexGrow: 1, paddingStart: 20}}>
-                  <View style={{justifyContent: "flex-start"}}>
-                    <Text>{item.title}</Text>
-                    <Text>{item.author}</Text>
-                  </View>
+                <View>
+                  <Text>{item.title}</Text>
+                  <Text>{item.author}</Text>
+                </View>
                   <View>
                     {item.genre}
                   </View>
-                </View>
               </View>
             )
           })}
         </View>
       }
+
+
+      {(fecthedBookById.data && fecthedBookById.data) &&
+      <View style={{flex:1, width: '50%'}}> 
+        <Text>{fecthedBookById.data.author}</Text>
+        <Text>{fecthedBookById.data.title}</Text>
+
+      </View>
+      }
+
+      {}
       
+      
+
       <StatusBar style="dark" />
     </View>
   )
