@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { exampleApi } from './services/exampleApi'
+import { bookApi } from './services/exampleApi'
 import sessionReducer from './slices/sessionSlice'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import { rtkQueryErrorLogger } from './rtkQueryErrorLogger'
@@ -7,10 +7,10 @@ import { rtkQueryErrorLogger } from './rtkQueryErrorLogger'
 const store = configureStore({
   reducer: {
     session: sessionReducer,
-    [exampleApi.reducerPath]: exampleApi.reducer,
+    [bookApi.reducerPath]: bookApi.reducer,
   },
   middleware: getDefaultMiddleware =>
-    getDefaultMiddleware().concat([exampleApi.middleware, rtkQueryErrorLogger]),
+    getDefaultMiddleware().concat([bookApi.middleware, rtkQueryErrorLogger]),
 })
 // optional, but required for refetchOnFocus/refetchOnReconnect behaviors
 // see `setupListeners` docs - takes an optional callback as the 2nd arg for customization

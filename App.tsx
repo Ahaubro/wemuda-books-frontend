@@ -10,6 +10,8 @@ import * as Localization from 'expo-localization'
 import i18n from 'i18n-js'
 import en from './lang/en.json'
 import da from './lang/da.json'
+import { ToastContainer } from "react-toastify"
+
 
 // Set the key-value pairs for the different languages you want to support.
 i18n.translations = {

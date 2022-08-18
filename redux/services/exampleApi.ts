@@ -4,7 +4,7 @@ import { API_URL } from '../../constants'
 import { RootState } from '../store'
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: API_URL,
+  baseUrl: 'https://localhost:7066/api',
   prepareHeaders: (headers, api) => {
     const state = api.getState() as RootState
     const token = state.session.token
@@ -15,25 +15,57 @@ const baseQuery = fetchBaseQuery({
   },
 })
 
-// Define a service using a base URL and expected endpoints
-export const exampleApi = createApi({
-  reducerPath: 'exampleApi',
+
+export type Book = {
+  title: string
+  author: string
+  genre: string
+  releaseDate: string
+}
+
+export const bookApi = createApi({
+  reducerPath: 'bookApi',
   baseQuery,
   endpoints: builder => ({
-    login: builder.mutation<
+
+    //Get all books
+    getBooks: builder.query<{ books: Book[] }, null>({
+      query: () => `/book`,
+    }),
+    
+    // Add book
+    addBook: builder.mutation<
       {
-        id: string
-        jwt: string
+        statusText: string 
       },
-      { username: string; password: string }
+      {
+        title: string,
+        author: string,
+        genre: string,
+        releaseDate: string;
+      }
     >({
       query: body => ({
-        url: '/login',
+        url: '/book',
         method: 'POST',
         body,
       }),
     }),
+
+    //Get book by id
+    getBookById: builder.query<
+      {
+        title: string,
+        author: string,
+        genre: string,
+        releaseDate: string;
+      },
+      number
+    >({
+      query: id => `/book/${id}`,
+    }),
   }),
 })
 
-export const { useLoginMutation } = exampleApi
+
+export const { useGetBooksQuery, useGetBookByIdQuery, useAddBookMutation } = bookApi
