@@ -5,23 +5,61 @@ import Entypo from '@expo/vector-icons/Entypo'
 import { StatusBar } from 'expo-status-bar'
 import { FONTS } from '../../utils/fontUtils'
 import i18n from 'i18n-js'
-import {useGetBooksQuery, Book, useGetBookByIdQuery} from "../../redux/services/exampleApi"
-
+import {useGetBooksQuery, Book, useGetBookByIdQuery, useDeleteBookMutation, useAddBookMutation, useUpdateBookMutation} from "../../redux/services/exampleApi"
 
 interface HomeScreenProps {}
 
 const HomeScreen: React.FC<HomeScreenProps> = () => {
 
+
+  // Skal lige have den her igen- LÆS
   const [books, setBooks] = useState<Book[]>([])
-
+  const [book, setBook] = useState<Book>()
+  
+  
+  //Forbinder til Api
   const fetchedBooks = useGetBooksQuery(null, { refetchOnMountOrArgChange: false });
-  //const fecthedBookById = useGetBookByIdQuery(2, {refetchOnMountOrArgChange: false})
+  const fecthedBookById = useGetBookByIdQuery(2, {refetchOnMountOrArgChange: false});
+  const [deleteBook, {isLoading}] = useDeleteBookMutation();
+  const [addBook, {}] = useAddBookMutation();
+  const [updateBook, {isSuccess}] = useUpdateBookMutation();
 
+
+  
+  //Skal vi også lige have igen - LÆS
   useEffect(() => {
-    setBooks(fetchedBooks.data?.books ?? [])
+    setBooks(fetchedBooks.data?.books ?? []),
+    setBook(fecthedBookById.data)
+    
+    //deleteBook(1066).then(res=> {console.log("Book deleted")})
+
+    // updateBook({
+    //   id:1,
+    //   title: 'Ny titel',
+    //   author: 'Ole b',
+    //   genre: 'Fantasy',
+    //   releaseDate: '2015-09-25T05:50:06'
+    // }).unwrap()
+    // .then(res => {
+    //   console.log("Den er opdateret")
+    // }).catch( (error) => console.error("NIKS", error));
+    
+
+ // addBook({
+  //     title: 'Test fra frontend',
+  //     author: 'Arex',
+  //     genre: 'Fantasy',
+  //     releaseDate: '2015-09-25T05:50:06'
+  //   }).then(res => {
+  //     console.log("Ny bog oprettet")
+  //   })
+  
   }, [])
 
+
+
   console.log(fetchedBooks);
+  console.log(fecthedBookById)
 
 
   
@@ -50,6 +88,17 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
           })}
         </View>
       }
+
+
+      {(fecthedBookById.data && fecthedBookById.data) &&
+      <View style={{flex:1, width: '50%'}}> 
+        <Text>{fecthedBookById.data.author}</Text>
+        <Text>{fecthedBookById.data.title}</Text>
+
+      </View>
+      }
+
+      {}
       
       
 
