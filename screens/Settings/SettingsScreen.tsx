@@ -11,7 +11,7 @@ const SettingsScreen: React.FC<SettingsScreenProps> = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Settings!</Text>
-      <Text style={styles.text}>{session.token}</Text>
+      {/*<Text style={styles.text}>{session.token}</Text>*/}
     </View>
   )
 }

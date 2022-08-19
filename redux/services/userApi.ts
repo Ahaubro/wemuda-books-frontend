@@ -5,7 +5,7 @@ import { API_URL } from '../../constants'
 import { RootState } from '../store'
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'https://localhost:7066/api',
+  baseUrl: 'https://localhost:7066/',
   prepareHeaders: (headers, api) => {
     const state = api.getState() as RootState
     const token = state.session.token
@@ -33,16 +33,16 @@ export const userApi = createApi({
     // }),
     
     // Add user
-    // addBook: builder.mutation<
-    //   { statusText: string },
-    //   { user: User }
-    // >({
-    //   query: body => ({
-    //     url: '/user',
-    //     method: 'POST',
-    //     body
-    //   })
-    // }),
+    signup: builder.mutation<
+      { statusText: string },
+      { firstname: string, lastname: string, username: string, password: string }
+    >({
+      query: body => ({
+        url: '/user',
+        method: 'POST',
+        body
+      })
+    }),
 
     //Get user by id
     // getUserById: builder.query<
@@ -67,4 +67,4 @@ export const userApi = createApi({
 })
 
 
-export const { /*useGetUsersQuery, useGetUserkByIdQuery, useAddUserMutation,*/ useLoginMutation } = userApi
+export const { /*useGetUsersQuery, useGetUserkByIdQuery,*/ useSignupMutation, useLoginMutation } = userApi
