@@ -13,7 +13,7 @@ interface LoginScreenProps {}
 
 const LoginScreen: React.FC<LoginScreenProps> = () => {
 
-    const [state, setState] = useState<{ username: string, password: string }>({ username: "", password: "" })
+    const [inputs, setInputs] = useState<{ username: string, password: string }>({ username: "", password: "" })
 
     const dispatch = useDispatch()
     const [login, { isLoading }] = useLoginMutation()
@@ -24,14 +24,18 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
             <View  style={{flexDirection: "column"}}>
                 <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
                     <Text style={styles.label}>Username:</Text>
-                    <TextInput onChangeText={(value) => setState({...state, username: value})} style={styles.textInput}></TextInput>
+                    <TextInput onChangeText={u => setInputs({...inputs, username: u})} style={styles.textInput}></TextInput>
                 </View>
                 <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
                     <Text style={styles.label}>Password:</Text>
-                    <TextInput onChangeText={(value) => setState({...state, password: value})} secureTextEntry={true} style={styles.textInput}></TextInput>
+                    <TextInput onChangeText={p => setInputs({...inputs, password: p})} secureTextEntry={true} style={styles.textInput}></TextInput>
                 </View>
                 <View style={{marginTop: 20}}>
-                    <Button title="Login" onPress={() => {login}}></Button>
+                    <Button title="Login" onPress={() => {
+                        if(inputs.username && inputs.password){
+                            
+                        }
+                    }}></Button>
                 </View>
             </View>
         </View>

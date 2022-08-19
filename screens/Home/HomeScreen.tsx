@@ -88,7 +88,6 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
           <View style={{flex:1, width: '50%'}}> 
             <Text>{fecthedBookById.data.author}</Text>
             <Text>{fecthedBookById.data.title}</Text>
-
           </View>}
         </View>
       }
