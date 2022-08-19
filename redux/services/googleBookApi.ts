@@ -16,8 +16,8 @@ const baseQuery = fetchBaseQuery({
 })
 
 export type GoogleBook = {
-    volumeId: string
-  }
+
+}
 
 export const googleBookApi = createApi({
     reducerPath: 'googleBookApi',
@@ -25,9 +25,9 @@ export const googleBookApi = createApi({
     endpoints: builder => ({ 
 
     //Get all books
-    getBooks: builder.query<{ books: GoogleBook[] }, null>({
-        query: () => `/`,
-      }),
+    getBooks: builder.query<{ books: GoogleBook []}, { query: string }>({
+        query: ({ query }) => `/?q=${query}+inauthor:keyes&key=AIzaSyDSndfWGDUSNAhLmQ6vd4fbikfj1PDhnp4`,
+      }), 
 
     })
 })
