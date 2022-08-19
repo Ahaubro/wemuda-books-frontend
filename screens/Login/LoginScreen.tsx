@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react'
-import { Button, StyleSheet, Text, ToastAndroid, View, ActivityIndicator, TextInput } from 'react-native'
-import Ionicons from '@expo/vector-icons/Ionicons'
-import Entypo from '@expo/vector-icons/Entypo'
-import { StatusBar } from 'expo-status-bar'
-import { FONTS } from '../../utils/fontUtils'
-import i18n from 'i18n-js'
-import {useGetBooksQuery, Book, useGetBookByIdQuery} from "../../redux/services/bookApi"
+import React, { useState } from 'react'
+import { Button, StyleSheet, Text, View, TextInput } from 'react-native'
 import {useLoginMutation} from '../../redux/services/userApi'
-import { useDispatch } from 'react-redux'
+import { useStore, useDispatch } from 'react-redux'
+import { RootState } from '../../redux/store'
+import store from '../../redux/store'
+import { endSession, startSession } from '../../redux/slices/sessionSlice'
+// import Ionicons from '@expo/vector-icons/Ionicons'
+// import Entypo from '@expo/vector-icons/Entypo'
+// import { StatusBar } from 'expo-status-bar'
+// import { FONTS } from '../../utils/fontUtils'
+// import i18n from 'i18n-js'
 
 interface LoginScreenProps {}
 
@@ -24,16 +26,33 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
             <View  style={{flexDirection: "column"}}>
                 <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
                     <Text style={styles.label}>Username:</Text>
-                    <TextInput onChangeText={u => setInputs({...inputs, username: u})} style={styles.textInput}></TextInput>
+                    <TextInput onChangeText={u => {
+                        setInputs({...inputs, username: u})
+                    }} style={styles.textInput}></TextInput>
                 </View>
                 <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
                     <Text style={styles.label}>Password:</Text>
-                    <TextInput onChangeText={p => setInputs({...inputs, password: p})} secureTextEntry={true} style={styles.textInput}></TextInput>
+                    <TextInput onChangeText={p => {
+                        setInputs({...inputs, password: p})
+                    }} secureTextEntry={true} style={styles.textInput}></TextInput>
                 </View>
                 <View style={{marginTop: 20}}>
+
                     <Button title="Login" onPress={() => {
                         if(inputs.username && inputs.password){
-                            
+                            login({...inputs}).unwrap().then(res => {
+                                if(res.token) {
+                                    console.log(res.token)
+                                    dispatch(
+                                        startSession({
+                                            token: res.token,
+                                            id: store.getState().session.id
+                                        })
+                                    )
+                                    //store.dispatch({type: 'session/token', payload: res.token})
+                                }
+                                console.log(store.getState().session)
+                            })
                         }
                     }}></Button>
                 </View>

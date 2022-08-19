@@ -4,12 +4,14 @@ import sessionReducer from './slices/sessionSlice'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import { rtkQueryErrorLogger } from './rtkQueryErrorLogger'
 import { googleBookApi } from './services/googleBookApi'
+import { userApi } from './services/userApi'
 
 const store = configureStore({
   reducer: {
     session: sessionReducer,
     [bookApi.reducerPath]: bookApi.reducer,
     [googleBookApi.reducerPath]: googleBookApi.reducer,
+    [userApi.reducerPath]: userApi.reducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware().concat([bookApi.middleware, rtkQueryErrorLogger]),
