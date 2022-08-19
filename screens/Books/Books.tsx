@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, ActivityIndicator, TextInput } from 'react-nati
 import { useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
 import {GoogleBook, useGetBooksQuery} from "../../redux/services/googleBookApi"
+import { validatePathConfig } from '@react-navigation/native'
 
 
 interface BooksScreenProps {}
@@ -10,22 +11,60 @@ interface BooksScreenProps {}
 const BooksScreen: React.FC<BooksScreenProps> = () => {
   const session = useSelector((state: RootState) => state.session)
 
+  //Booksearch useState
+  const [bookSearch, setBookSearch] = useState('')
+
+  //Fetched books useState
+  const [books, setBooks] = useState<GoogleBook[]>([]);
+  const fetchedBooks = useGetBooksQuery({ query: bookSearch }, { refetchOnMountOrArgChange: false })
+  const { data, error } = fetchedBooks;
+
+  //Use effect fetched books
+  useEffect( () => {
+    setBooks(fetchedBooks.data?.books ?? [])
+  }, [])
 
   
-  const [bookSearch, setBookSearch] = useState('')
+  // Info printet ud i konsollen for en bog
+
+  // console.log(data?.items[0].volumeInfo.title)
+  // console.log(data?.items[0].volumeInfo.authors)
+  // console.log(data?.items[0].volumeInfo.description)
+  // console.log(data?.items[0].volumeInfo.categories)
+  // console.log(data?.items[0].volumeInfo.infoLink)
+  // console.log(data?.items[0].volumeInfo.publisher)
 
   console.log(bookSearch)
 
-  const [books, setBooks] = useState<GoogleBook[]>([]);
-  const fetchedBooks = useGetBooksQuery({ query: bookSearch }, { refetchOnMountOrArgChange: false })
+  //Throttle funktionen
 
-  useEffect( () => {
-    setBooks(fetchedBooks.data?.books ?? [])
-    
-  }, [])
-  console.log(fetchedBooks)
+  // function throttle(cb:Function, delay:number) {
+  //   let shouldWait = false
+  //   let waitingArgs:any
 
+  //   const timeoutFunc = () => {
+  //       if(waitingArgs == undefined) {
+  //           shouldWait = false
+  //       } else {
+  //           cb(...waitingArgs)
+  //           waitingArgs = ""
+  //           setTimeout(timeoutFunc, delay)
+  //       }
+  //   }
 
+  //   return (...args: string[]) => {
+  //       if(shouldWait){
+  //           waitingArgs = args
+  //           console.log("Her", waitingArgs)
+  //           return
+  //       } 
+
+  //       cb(...args)
+  //       shouldWait = true
+  //       setTimeout(timeoutFunc, delay)
+
+  //   }
+  // }
 
 
   return (
@@ -35,39 +74,34 @@ const BooksScreen: React.FC<BooksScreenProps> = () => {
           <Text style={styles.label}>Input book title or author </Text>
           <TextInput 
             style={styles.input}
-            onChangeText={(val) => {
-              if(val.length > 3) {
-                setBookSearch(val);
+            onChangeText={ (val)=> {
 
-                // fetch('https://www.googleapis.com/books/v1/volumes?q='+bookSearch+'+inauthor:keyes&key=AIzaSyDSndfWGDUSNAhLmQ6vd4fbikfj1PDhnp4')
-                // .then((res) => {
-                //   res.json()
-                //   console.log(res)
-                // })
-                // .catch(err => console.log(err))
+              if(val.length > 3){
+                setBookSearch(val)
               }
+
+              // throttle( () => {
+              //   setBookSearch(val)
+              // }, 1000)
             }}  
           />
       </View>
-
-      {/* {(fetchedBooks.data && fetchedBooks.data.books) && 
+      
+      {(fetchedBooks.data?.items && fetchedBooks.data.items) && 
         <View style={{ flex: 1, width: "100%"}}>
-          {fetchedBooks.data.books.map((item, index) => {
+          {fetchedBooks.data?.items.map((item, index) => {
             return (
               <View key={index} style={{ backgroundColor: "#ccc", height: 30, padding: 30, marginBottom: 10, borderRadius: 10, width: "100%", flexDirection: 'row', alignItems: "center", justifyContent: "space-between"}}>
                 <Text style={{height: 50, width:40, backgroundColor:'white'}}></Text>
                 <View>
-                  <Text>{item.volumeId}</Text>
+                  <Text>Book Title: {item.volumeInfo.title}</Text>
+                  <Text></Text>
                 </View>
-                  <View>
-                  </View>
               </View>
             )
           })}
         </View>
-      } */}
-
-
+      }
     </View>
   )
 }
