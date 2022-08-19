@@ -69,31 +69,29 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
         <View style={{ flex: 1, width: "100%"}}>
           {fetchedBooks.data.books.map((item, index) => {
             return (
-              <View key={index} style={{ backgroundColor: "#ccc", height: 30, padding: 30, marginBottom: 10, borderRadius: 10, width: "100%", flexDirection: 'row', alignItems: "center", justifyContent: "space-between"}}>
+              <View key={index} style={styles.bookBox}>
                 <Text style={{height: 50, width:40, backgroundColor:'white'}}></Text>
-                <View>
-                  <Text>{item.title}</Text>
-                  <Text>{item.author}</Text>
-                </View>
+                <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center", flexGrow: 1, paddingStart: 20}}>
+                  <View style={{justifyContent: "flex-start"}}>
+                    <Text>{item.title}</Text>
+                    <Text>{item.author}</Text>
+                  </View>
                   <View>
                     {item.genre}
                   </View>
+                </View>
               </View>
             )
           })}
+
+          {(fecthedBookById.data && fecthedBookById.data) &&
+          <View style={{flex:1, width: '50%'}}> 
+            <Text>{fecthedBookById.data.author}</Text>
+            <Text>{fecthedBookById.data.title}</Text>
+
+          </View>}
         </View>
       }
-
-
-      {(fecthedBookById.data && fecthedBookById.data) &&
-      <View style={{flex:1, width: '50%'}}> 
-        <Text>{fecthedBookById.data.author}</Text>
-        <Text>{fecthedBookById.data.title}</Text>
-
-      </View>
-      }
-
-      {}
       
       
 
@@ -125,7 +123,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'white',
   },
-  book_box:{
+  bookBox:{
     backgroundColor: "#ccc",
     height: 30,
     padding: 30,
