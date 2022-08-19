@@ -11,10 +11,13 @@ const BooksScreen: React.FC<BooksScreenProps> = () => {
   const session = useSelector((state: RootState) => state.session)
 
 
-  // Bliver ved med at fetche om og om igen
+  
+  const [bookSearch, setBookSearch] = useState('')
+
+  console.log(bookSearch)
 
   const [books, setBooks] = useState<GoogleBook[]>([]);
-  const fetchedBooks = useGetBooksQuery({ query: "14" }, { refetchOnMountOrArgChange: false })
+  const fetchedBooks = useGetBooksQuery({ query: bookSearch }, { refetchOnMountOrArgChange: false })
 
   useEffect( () => {
     setBooks(fetchedBooks.data?.books ?? [])
@@ -22,12 +25,6 @@ const BooksScreen: React.FC<BooksScreenProps> = () => {
   }, [])
   console.log(fetchedBooks)
 
-
-
-  // Mangler at blive forbundet til query
-  const [bookSearch, setBookSearch] = useState('')
-
-  console.log(bookSearch)
 
 
 
