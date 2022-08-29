@@ -7,14 +7,10 @@ const baseQuery = fetchBaseQuery({
   baseUrl: 'https://www.googleapis.com/books/v1/volumes',
   prepareHeaders: (headers, api) => {
     const state = api.getState() as RootState
-    const token = state.session.token
-    if (token) {
-      headers.set('Authorization', `Bearer ${token}`)
-    }
+    
     return headers
   },
 })
-
 
 export type GoogleBook = {
   etag: string,
@@ -33,13 +29,11 @@ export const googleBookApi = createApi({
     baseQuery,
     endpoints: builder => ({ 
 
-      //Get books by query
+      //Get books by query - Frontend
       getBooks: builder.query<{ books: GoogleBook [] , items:GoogleBook[]}, { query: string }>({
-        query: ({ query }) => `/?q=${query}+inauthor:keyes&key=AIzaSyDSndfWGDUSNAhLmQ6vd4fbikfj1PDhnp4`,
+        query: ({  query }) => `/?q=${query}+inauthor:keyes&key=AIzaSyChWhnOsiYQiGWaMwwJD-Ms8iypyNWS3qo`,
         //transformResponse: (response) =>  response.data.items,
-      }), 
-
-
+      }),
     })
 })
 

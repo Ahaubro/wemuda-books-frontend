@@ -14,7 +14,7 @@ const store = configureStore({
     [userApi.reducerPath]: userApi.reducer,
   },
   middleware: getDefaultMiddleware =>
-    getDefaultMiddleware().concat([bookApi.middleware, googleBookApi.middleware, rtkQueryErrorLogger]),
+    getDefaultMiddleware().concat([bookApi.middleware, googleBookApi.middleware, userApi.middleware,  rtkQueryErrorLogger]),
 })
 // optional, but required for refetchOnFocus/refetchOnReconnect behaviors
 // see `setupListeners` docs - takes an optional callback as the 2nd arg for customization

@@ -6,11 +6,10 @@ import { RootState } from '../../redux/store'
 import store from '../../redux/store'
 import { endSession, startSession } from '../../redux/slices/sessionSlice'
 import Ionicons from '@expo/vector-icons/Ionicons'
-// import Ionicons from '@expo/vector-icons/Ionicons'
-// import Entypo from '@expo/vector-icons/Entypo'
-// import { StatusBar } from 'expo-status-bar'
-// import { FONTS } from '../../utils/fontUtils'
-// import i18n from 'i18n-js'
+import Entypo from '@expo/vector-icons/Entypo'
+import { StatusBar } from 'expo-status-bar'
+import { FONTS } from '../../utils/fontUtils'
+import i18n from 'i18n-js'
 
 interface LoginScreenProps {}
 
