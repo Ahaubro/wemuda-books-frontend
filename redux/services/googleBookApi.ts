@@ -15,15 +15,6 @@ const baseQuery = fetchBaseQuery({
   },
 })
 
-// export type GoogleBook = {
-//   items: {
-//     etag: string,
-//     volumeInfo: {
-//       lol: string
-//     }
-//   }[],
-//   id: string,
-// }
 
 export type GoogleBook = {
   etag: string,
@@ -42,7 +33,7 @@ export const googleBookApi = createApi({
     baseQuery,
     endpoints: builder => ({ 
 
-    //Get all books
+    //Get books by query
     getBooks: builder.query<{ books: GoogleBook [] , items:GoogleBook[]}, { query: string }>({
         query: ({ query }) => `/?q=${query}+inauthor:keyes&key=AIzaSyDSndfWGDUSNAhLmQ6vd4fbikfj1PDhnp4`,
         //transformResponse: (response) =>  response.data.items,

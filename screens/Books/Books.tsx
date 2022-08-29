@@ -9,62 +9,64 @@ import { validatePathConfig } from '@react-navigation/native'
 interface BooksScreenProps {}
 
 const BooksScreen: React.FC<BooksScreenProps> = () => {
-  const session = useSelector((state: RootState) => state.session)
+const session = useSelector((state: RootState) => state.session)
 
-  //Booksearch useState
-  const [bookSearch, setBookSearch] = useState('')
+//Booksearch useState
+const [bookSearch, setBookSearch] = useState('')
 
-  //Fetched books useState
-  const [books, setBooks] = useState<GoogleBook[]>([]);
-  const fetchedBooks = useGetBooksQuery({ query: bookSearch }, { refetchOnMountOrArgChange: false })
-  const { data, error } = fetchedBooks;
 
-  //Use effect fetched books
-  useEffect( () => {
-    setBooks(fetchedBooks.data?.books ?? [])
-  }, [])
+//Fetched books useState
+const [books, setBooks] = useState<GoogleBook[]>([]);
+const fetchedBooks = useGetBooksQuery({ query: bookSearch }, { refetchOnMountOrArgChange: false })
+const { data, error } = fetchedBooks;
+
+
+//Use effect fetched books
+useEffect( () => {
+  setBooks(fetchedBooks.data?.books ?? [])
+}, [])
 
   
-  // Info printet ud i konsollen for en bog
+// Info printet ud i konsollen for en bog
 
-  // console.log(data?.items[0].volumeInfo.title)
-  // console.log(data?.items[0].volumeInfo.authors)
-  // console.log(data?.items[0].volumeInfo.description)
-  // console.log(data?.items[0].volumeInfo.categories)
-  // console.log(data?.items[0].volumeInfo.infoLink)
-  // console.log(data?.items[0].volumeInfo.publisher)
+// console.log(data?.items[0].volumeInfo.title)
+// console.log(data?.items[0].volumeInfo.authors)
+// console.log(data?.items[0].volumeInfo.description)
+// console.log(data?.items[0].volumeInfo.categories)
+// console.log(data?.items[0].volumeInfo.infoLink)
+// console.log(data?.items[0].volumeInfo.publisher)
 
-  console.log(bookSearch)
+console.log(bookSearch)
 
-  //Throttle funktionen
 
-  // function throttle(cb:Function, delay:number) {
-  //   let shouldWait = false
-  //   let waitingArgs:any
+function throttle(cb:Function, delay=1000) {
+  let shouldWait = false
+  let waitingArgs: string[] | null
 
-  //   const timeoutFunc = () => {
-  //       if(waitingArgs == undefined) {
-  //           shouldWait = false
-  //       } else {
-  //           cb(...waitingArgs)
-  //           waitingArgs = ""
-  //           setTimeout(timeoutFunc, delay)
-  //       }
-  //   }
+  const timeoutFunc = () => {
+      if(waitingArgs == null) {
+          console.log("Første gang", shouldWait)
+          shouldWait = false
+      } else {
+          cb(...waitingArgs)
+          waitingArgs = null
+          setTimeout(timeoutFunc, delay)
+      }
+  }
 
-  //   return (...args: string[]) => {
-  //       if(shouldWait){
-  //           waitingArgs = args
-  //           console.log("Her", waitingArgs)
-  //           return
-  //       } 
+  return (...args:string[]) => {
+      if(shouldWait){
+          waitingArgs = args
+          console.log("Anden gang", shouldWait)
+          return
+      } 
 
-  //       cb(...args)
-  //       shouldWait = true
-  //       setTimeout(timeoutFunc, delay)
-
-  //   }
-  // }
+      cb(...args)
+      shouldWait = true
+      console.log("Tredje gang", shouldWait)
+      setTimeout(timeoutFunc, delay)
+  }
+}
 
 
   return (
@@ -75,18 +77,14 @@ const BooksScreen: React.FC<BooksScreenProps> = () => {
           <TextInput 
             style={styles.input}
             onChangeText={ (val)=> {
-
-              if(val.length > 3){
+              throttle( () => {
                 setBookSearch(val)
-              }
-
-              // throttle( () => {
-              //   setBookSearch(val)
-              // }, 1000)
+              }, 1000 )
             }}  
           />
       </View>
-      
+
+
       {(fetchedBooks.data?.items && fetchedBooks.data.items) && 
         <View style={{ flex: 1, width: "100%"}}>
           {fetchedBooks.data?.items.map((item, index) => {
