@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react'
-import { Text, View, StyleSheet } from 'react-native'
+import { Text, View, StyleSheet, Button } from 'react-native'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
 
@@ -11,8 +11,16 @@ const MyPageScreen: React.FC<MyPageScreenProps> = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>My Page</Text>
-      <Text> Hello (username)</Text>
+      <View style={{marginBottom: 20, alignItems: "center"}}>
+        <Text style={{width: 250, height: 250, backgroundColor: "#aaa"}}></Text>
+        <Text style={styles.heading}>(Firstname) (Lastname)</Text>
+        <Text style={styles.subHeading}>(Username)</Text>
+      </View>
+      
+      <View style={{alignItems: "flex-start"}}>
+        <Text style={styles.text}>Books Read: (BookCount)</Text>
+        <Text style={styles.text}>Minutes Read: (ActiveMinutes)</Text>
+      </View>
     </View>
   )
 }
@@ -22,16 +30,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor:'black',
+  },
+  heading: {
+    fontSize: 30,
+  },
+  subHeading: {
+    fontSize: 20,
+    color: "#aaa"
   },
   text: {
-    fontSize: 40,
-    color: 'white',
-  },
-  welcome_text: {
     fontSize: 20,
-    width:150,
-    color: 'white',
   }
 })
 

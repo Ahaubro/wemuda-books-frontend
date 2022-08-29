@@ -1,17 +1,24 @@
 import React from 'react'
-import { Text, View, StyleSheet } from 'react-native'
-import { useSelector } from 'react-redux'
+import { Text, View, StyleSheet, Button } from 'react-native'
+import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../redux/store'
+import { endSession } from '../../redux/slices/sessionSlice'
 
 interface SettingsScreenProps {}
 
 const SettingsScreen: React.FC<SettingsScreenProps> = () => {
   const session = useSelector((state: RootState) => state.session)
 
+  const dispatch = useDispatch()
+
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Settings!</Text>
-      {/*<Text style={styles.text}>{session.token}</Text>*/}
+      <Text style={styles.text}>Settings</Text>
+      {session.token &&
+        <View style={{marginTop: 20}}>
+          <Button title="Log Out" onPress={() => endSession()}></Button>
+        </View>
+      }
     </View>
   )
 }
@@ -21,11 +28,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'black',
   },
   text: {
-    fontSize: 30,
-    color: 'white',
+    fontSize: 30
   }
 })
 
