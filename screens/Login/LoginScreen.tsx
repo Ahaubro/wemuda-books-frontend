@@ -71,33 +71,33 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
             <View>
 
                 <View style={{marginVertical: 10}}>
-                    <Pressable onPress={() => {setScreen("login")}}><Ionicons name={"ios-arrow-back" as any} color="black"/></Pressable>
+                    <Pressable onPress={() => {setScreen("login")}}><Ionicons name={"ios-arrow-back" as any} color="black" style={{fontSize: 30}}/></Pressable>
                 </View>
 
                 <View><Text style={styles.heading}>Opret bruger</Text></View>
                 <View  style={{flexDirection: "column"}}>
                     <View style={{marginVertical: 5}}>
-                        <Text style={styles.label}>First name:</Text>
-                        <TextInput onChangeText={firstname => {
+                        <Text style={styles.label}>Fornavn:</Text>
+                        <TextInput placeholder="Indtast fornavn" placeholderTextColor={"#AAAAAA"} onChangeText={firstname => {
                             setSignupInputs({...signupInputs, firstname})
                         }} style={styles.textInput}></TextInput>
                     </View>
                     <View style={{marginVertical: 5}}>
-                        <Text style={styles.label}>Last name:</Text>
-                        <TextInput onChangeText={lastname => {
+                        <Text style={styles.label}>Efternavn:</Text>
+                        <TextInput placeholder="Indtast efternavn" placeholderTextColor={"#AAAAAA"} onChangeText={lastname => {
                             setSignupInputs({...signupInputs, lastname})
                         }} style={styles.textInput}></TextInput>
                     </View>
                     <View style={{marginVertical: 5}}>
-                        <Text style={styles.label}>Username:</Text>
-                        <TextInput onChangeText={username => {
+                        <Text style={styles.label}>Brugernavn:</Text>
+                        <TextInput placeholder="Indtast brugernavn" placeholderTextColor={"#AAAAAA"} onChangeText={username => {
                             setSignupInputs({...signupInputs, username})
                         }} style={styles.textInput}></TextInput>
                     </View>
     
                     <View style={{marginVertical: 5}}>
-                        <Text style={styles.label}>Password:</Text>
-                        <TextInput onChangeText={password => {
+                        <Text style={styles.label}>Kodeord:</Text>
+                        <TextInput placeholder="Indtast kodeord" placeholderTextColor={"#AAAAAA"} onChangeText={password => {
                             setSignupInputs({...signupInputs, password})
                         }} secureTextEntry={true} style={styles.textInput}></TextInput>
                     </View>
