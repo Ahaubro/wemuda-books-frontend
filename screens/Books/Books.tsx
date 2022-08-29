@@ -36,35 +36,40 @@ useEffect( () => {
 // console.log(data?.items[0].volumeInfo.infoLink)
 // console.log(data?.items[0].volumeInfo.publisher)
 
-console.log(bookSearch)
 
+const updateThrottleText = throttle((text:string) => {
+  //console.log("updateThrottleText:", text)
+  setBookSearch(text)
+}, 1000)
 
-function throttle(cb:Function, delay=1000) {
-  let shouldWait = false
-  let waitingArgs: string[] | null
+function throttle(passOn:Function, delay:number) {
+  let shouldWait: boolean
+  let waitingArg: string | null
 
-  const timeoutFunc = () => {
-      if(waitingArgs == null) {
-          console.log("Første gang", shouldWait)
+  const attemptPassOn = () => {
+      if(waitingArg == undefined) {
           shouldWait = false
       } else {
-          cb(...waitingArgs)
-          waitingArgs = null
-          setTimeout(timeoutFunc, delay)
+          console.log("attemptPassOn:", waitingArg)
+          passOn(waitingArg)
+          waitingArg = null
+          setTimeout(attemptPassOn, delay)
       }
   }
 
-  return (...args:string[]) => {
+  return (arg:string) => {
+      
       if(shouldWait){
-          waitingArgs = args
-          console.log("Anden gang", shouldWait)
+          console.log("should wait")
+          waitingArg = arg
+          //console.log("Anden gang", shouldWait)
           return
       } 
-
-      cb(...args)
+      console.log("should not wait")
+      passOn(arg)
       shouldWait = true
-      console.log("Tredje gang", shouldWait)
-      setTimeout(timeoutFunc, delay)
+      //console.log("Tredje gang", shouldWait)
+      setTimeout(attemptPassOn, delay)
   }
 }
 
@@ -76,11 +81,9 @@ function throttle(cb:Function, delay=1000) {
           <Text style={styles.label}>Input book title or author </Text>
           <TextInput 
             style={styles.input}
-            onChangeText={ (val)=> {
-              throttle( () => {
-                setBookSearch(val)
-              }, 1000 )
-            }}  
+            onChangeText={text => {
+              updateThrottleText(text)
+            }}
           />
       </View>
 
