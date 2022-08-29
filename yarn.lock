@@ -2109,6 +2109,11 @@
   "resolved" "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.11.tgz"
   "version" "7.0.11"
 
+"@types/lodash@^4.14.184":
+  "integrity" "sha512-RoZphVtHbxPZizt4IcILciSWiC6dcn+eZ8oX9IWEYfDMcocdd42f7NPI6fQj+6zI8y4E0L7gu2pcZKLGTRaV9Q=="
+  "resolved" "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.184.tgz"
+  "version" "4.14.184"
+
 "@types/minimatch@*":
   "integrity" "sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ=="
   "resolved" "https://registry.npmjs.org/@types/minimatch/-/minimatch-3.0.5.tgz"
@@ -4928,10 +4933,10 @@
   "resolved" "https://registry.npmjs.org/expo-updates-interface/-/expo-updates-interface-0.7.0.tgz"
   "version" "0.7.0"
 
-"expo-updates@*", "expo-updates@~0.14.4":
-  "integrity" "sha512-+TbhUmsbjkOMHR/fhZEtcIf7xa8d/UbcvicIAr6jD9FfluBoRatB2sXiswBEohQeQov4P4XlfBKyNE5QTpu0Xw=="
-  "resolved" "https://registry.npmjs.org/expo-updates/-/expo-updates-0.14.4.tgz"
-  "version" "0.14.4"
+"expo-updates@*", "expo-updates@~0.14.5":
+  "integrity" "sha512-m6IOiETTwsJhL93meHG/Y3FWuaRQIbn9LJ5wpWurQ7RniqIV9Ae61SRmJJyYtxk1qLy/dKJ/jHyF1xp8PKIlnQ=="
+  "resolved" "https://registry.npmjs.org/expo-updates/-/expo-updates-0.14.5.tgz"
+  "version" "0.14.5"
   dependencies:
     "@expo/code-signing-certificates" "0.0.2"
     "@expo/config" "~7.0.1"
@@ -9078,10 +9083,10 @@
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-18.2.0.tgz"
   "version" "18.2.0"
 
-"react-native-codegen@^0.69.1":
-  "integrity" "sha512-TOZEqBarczcyYN3iZE3VpKkooOevaAzBq9n7lU0h9mQUvtRhLVyolc+a5K6cWI0e4v4K69I0MqzjPcPeFKo32Q=="
-  "resolved" "https://registry.npmjs.org/react-native-codegen/-/react-native-codegen-0.69.1.tgz"
-  "version" "0.69.1"
+"react-native-codegen@^0.69.2":
+  "integrity" "sha512-yPcgMHD4mqLbckqnWjFBaxomDnBREfRjDi2G/WxNyPBQLD+PXUEmZTkDx6QoOXN+Bl2SkpnNOSsLE2+/RUHoPw=="
+  "resolved" "https://registry.npmjs.org/react-native-codegen/-/react-native-codegen-0.69.2.tgz"
+  "version" "0.69.2"
   dependencies:
     "@babel/parser" "^7.14.0"
     "flow-parser" "^0.121.0"
@@ -9119,10 +9124,10 @@
     "postcss-value-parser" "^4.2.0"
     "styleq" "^0.1.2"
 
-"react-native@*", "react-native@>=0.56.0", "react-native@>=0.59", "react-native@0.69.4":
-  "integrity" "sha512-rqNMialM/T4pHRKWqTIpOxA65B/9kUjtnepxwJqvsdCeMP9Q2YdSx4VASFR9RoEFYcPRU41yGf6EKrChNfns3g=="
-  "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.69.4.tgz"
-  "version" "0.69.4"
+"react-native@*", "react-native@>=0.56.0", "react-native@>=0.59", "react-native@0.69.5":
+  "integrity" "sha512-4Psrj1nDMLQjBXVH8n3UikzOHQc8+sa6NbxZQR0XKtpx8uC3HiJBgX+/FIum/RWxfi5J/Dt/+A2gLGmq2Hps8g=="
+  "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.69.5.tgz"
+  "version" "0.69.5"
   dependencies:
     "@jest/create-cache-key-function" "^27.0.1"
     "@react-native-community/cli" "^8.0.4"
@@ -9147,7 +9152,7 @@
     "pretty-format" "^26.5.2"
     "promise" "^8.0.3"
     "react-devtools-core" "4.24.0"
-    "react-native-codegen" "^0.69.1"
+    "react-native-codegen" "^0.69.2"
     "react-native-gradle-plugin" "^0.0.7"
     "react-refresh" "^0.4.0"
     "react-shallow-renderer" "16.15.0"

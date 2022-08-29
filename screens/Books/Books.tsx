@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
 import {GoogleBook, useGetBooksQuery} from "../../redux/services/googleBookApi"
 import { validatePathConfig } from '@react-navigation/native'
+import _ from 'lodash';
 
 
 interface BooksScreenProps {}
@@ -17,7 +18,7 @@ const [bookSearch, setBookSearch] = useState('')
 
 //Fetched books useState
 const [books, setBooks] = useState<GoogleBook[]>([]);
-const fetchedBooks = useGetBooksQuery({ query: bookSearch }, { refetchOnMountOrArgChange: false })
+const fetchedBooks = useGetBooksQuery({ query: bookSearch }, { refetchOnMountOrArgChange: false, skip: bookSearch.length === 0 })
 const { data, error } = fetchedBooks;
 
 
@@ -37,53 +38,16 @@ useEffect( () => {
 // console.log(data?.items[0].volumeInfo.publisher)
 
 
-const updateThrottleText = throttle((text:string) => {
-  //console.log("updateThrottleText:", text)
-  setBookSearch(text)
-}, 1000)
-
-function throttle(passOn:Function, delay:number) {
-  let shouldWait: boolean
-  let waitingArg: string | null
-
-  const attemptPassOn = () => {
-      if(waitingArg == undefined) {
-          shouldWait = false
-      } else {
-          console.log("attemptPassOn:", waitingArg)
-          passOn(waitingArg)
-          waitingArg = null
-          setTimeout(attemptPassOn, delay)
-      }
-  }
-
-  return (arg:string) => {
-      
-      if(shouldWait){
-          console.log("should wait")
-          waitingArg = arg
-          //console.log("Anden gang", shouldWait)
-          return
-      } 
-      console.log("should not wait")
-      passOn(arg)
-      shouldWait = true
-      //console.log("Tredje gang", shouldWait)
-      setTimeout(attemptPassOn, delay)
-  }
-}
-
-
   return (
     <View style={styles.container}>
       <Text style={styles.text}> Search for books {'\n'} </Text>
       <View style={{flexDirection: "column", justifyContent: "space-between", alignItems: "center"}}>
-          <Text style={styles.label}>Input book title or author </Text>
           <TextInput 
             style={styles.input}
-            onChangeText={text => {
-              updateThrottleText(text)
-            }}
+            onChangeText={ _.throttle( (text) => {
+              setBookSearch(text)
+            }, 1000)}
+            placeholder={"Enter a book name or author to search"}
           />
       </View>
 
@@ -101,6 +65,7 @@ function throttle(passOn:Function, delay:number) {
               </View>
             )
           })}
+
         </View>
       }
     </View>
@@ -145,7 +110,7 @@ const styles = StyleSheet.create({
       borderColor: '#777',
       padding: 8,
       margin: 10,
-      width: 250,
+      width: 270,
     }
   })
 
