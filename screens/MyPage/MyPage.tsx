@@ -18,6 +18,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = () => {
       </View>
       
       <View style={{alignItems: "flex-start"}}>
+        <Text style={styles.text}>My Books: (BookCount)</Text>
         <Text style={styles.text}>Books Read: (BookCount)</Text>
         <Text style={styles.text}>Minutes Read: (ActiveMinutes)</Text>
       </View>

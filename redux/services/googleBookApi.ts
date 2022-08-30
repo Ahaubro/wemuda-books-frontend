@@ -7,6 +7,7 @@ const baseQuery = fetchBaseQuery({
   baseUrl: 'https://www.googleapis.com/books/v1/volumes',
   prepareHeaders: (headers, api) => {
     const state = api.getState() as RootState
+    headers.set('Pragma', 'no-cache');
     
     return headers
   },
@@ -21,6 +22,9 @@ export type GoogleBook = {
       description: string,
       infoLink: string,
       publisher: string,
+      imageLinks: {
+        thumbnail: string,
+      }
     }
 }
 
@@ -29,10 +33,11 @@ export const googleBookApi = createApi({
     baseQuery,
     endpoints: builder => ({ 
 
-      //Get books by query - Frontend
+      //Get books by query - MÅ ALDRIG LiGGE I FRONTEND, FLYT FLYT FLYT
       getBooks: builder.query<{ books: GoogleBook [] , items:GoogleBook[]}, { query: string }>({
         query: ({  query }) => `/?q=${query}+inauthor:keyes&key=AIzaSyChWhnOsiYQiGWaMwwJD-Ms8iypyNWS3qo`,
         //transformResponse: (response) =>  response.data.items,
+        keepUnusedDataFor: 0
       }),
     })
 })
