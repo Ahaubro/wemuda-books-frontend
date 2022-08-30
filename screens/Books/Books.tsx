@@ -32,7 +32,9 @@ useEffect( () => {
 }, [])
 
   
-console.log(data?.items[5].volumeInfo)
+// Authors in progress
+
+
 
 const renderItem = (item: GoogleBook) => {
   return (
@@ -50,10 +52,10 @@ const renderItem = (item: GoogleBook) => {
 
   return (
     <View style={{backgroundColor: 'white', height: '100%'}}>
-      <Text style={styles.text}> {'\n'} Search  {'\n'} </Text>
+      <Text style={styles.text}> {'\n'} Search </Text>
       <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center", }}>
-        
-        <Ionicons name={'search'} size={20} color={'black'} /> 
+         
+      {<Ionicons name={'search'} size={20} color={'black'} />}
           <TextInput 
             style={styles.input}
             onChangeText={ _.throttle( (text) => {
@@ -70,22 +72,30 @@ const renderItem = (item: GoogleBook) => {
         <View style={{ flex: 1, width: "100%"}}>
           <FlatList keyExtractor={(item) => item.volumeInfo.title} data={fetchedBooks.data.items || []} renderItem={({ item, index }) => (
             <View  style={styles.booksContatiner}>
+              {item.volumeInfo.imageLinks ? 
+                <Image
+                  source={{ uri: item.volumeInfo.imageLinks.thumbnail}}
+                  defaultSource={{ uri: thumbDefault }}
+                  style={{ width: 40, height: 55 }}
+                />
+              :
+                <div style={{ width: 40, height: 55, backgroundColor: "#ccc", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                  No image
+                </div>
+              }
+              
 
-              <Image
-
-              //source={{ uri: item.volumeInfo.imageLinks.thumbnail }}
-              source={{ uri: thumbDefault }}
-              style={{ width: 40, height: 55 }}
-              />
-
-              <View style={{flexDirection: 'column', width:'50%'}}>
+              <View style={{flexDirection: 'column', width:'60%', padding: 15}}>
                 <Text style={{fontSize: 10, fontWeight: 'bold'}}>{item.volumeInfo.title}{'\n'}</Text>
-                <Text style={{fontSize: 10}}> { item.volumeInfo.authors } </Text>
+                <Text style={{fontSize: 10}}> { item.volumeInfo.authors.length} </Text>
               </View>
 
-              <Pressable style={{}} onPress={ () => {
-                console.log("Coming soon")
-              }}> <Text style={{fontWeight: 'bold', fontSize: 10}}> Want to read <Ionicons name={'chevron-down'} size={20} color={'black'} />  </Text> </Pressable>
+              <View style={{marginRight: -40}}> 
+                <Pressable style={{}} onPress={ () => {
+                  console.log("Coming soon")
+                }}> <Text style={{fontWeight: 'bold', fontSize: 10}}> Want to read <Ionicons name={'chevron-down'} size={20} color={'black'} />  </Text> </Pressable>
+              </View>
+
           </View>
           )} />
           {/* {fetchedBooks.data?.items.map((item, index) => {
@@ -117,6 +127,8 @@ const styles = StyleSheet.create({
       fontSize: 25,
       color: 'black',
       textAlign: 'left',
+      padding: 15,
+      fontWeight: 'bold',
     },
     welcome_text: {
       fontSize: 20,
@@ -145,8 +157,9 @@ const styles = StyleSheet.create({
     booksContatiner:{
       backgroundColor: "white", 
       height: 30, 
-      padding: 30, 
+      padding: 35, 
       marginBottom: 10, 
+      marginLeft: -15,
       borderRadius: 10, 
       width: "100%", 
       flexDirection: 'row', 
