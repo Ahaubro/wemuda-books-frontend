@@ -16,7 +16,7 @@ interface LoginScreenProps {}
 const LoginScreen: React.FC<LoginScreenProps> = () => {
 
     const [loginInputs, setLoginInputs] = useState<{ username: string, password: string }>({ username: "", password: "" })
-    const [signupInputs, setSignupInputs] = useState<{ firstname: string, lastname: string, username: string, password: string }>({ firstname: "", lastname: "", username: "", password: "" })
+    const [signupInputs, setSignupInputs] = useState<{ firstname: string, lastname: string, username: string, email: string, password: string }>({ firstname: "", lastname: "", username: "", email: "", password: "" })
     const [forgotPasswordInputs, setForgotPasswordInputs] = useState<{ username: string, email: string }>({ username: "", email: "" })
     const [screen, setScreen] = useState<string>("login")
 
@@ -81,16 +81,25 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
                             setSignupInputs({...signupInputs, firstname})
                         }} style={styles.textInput}></TextInput>
                     </View>
+
                     <View style={{marginVertical: 5}}>
                         <Text style={styles.label}>Efternavn:</Text>
                         <TextInput placeholder="Indtast efternavn" placeholderTextColor={"#AAAAAA"} onChangeText={lastname => {
                             setSignupInputs({...signupInputs, lastname})
                         }} style={styles.textInput}></TextInput>
                     </View>
+
                     <View style={{marginVertical: 5}}>
                         <Text style={styles.label}>Brugernavn:</Text>
                         <TextInput placeholder="Indtast brugernavn" placeholderTextColor={"#AAAAAA"} onChangeText={username => {
                             setSignupInputs({...signupInputs, username})
+                        }} style={styles.textInput}></TextInput>
+                    </View>
+
+                    <View style={{marginVertical: 5}}>
+                        <Text style={styles.label}>Email:</Text>
+                        <TextInput placeholder="Indtast email" placeholderTextColor={"#AAAAAA"} onChangeText={email => {
+                            setSignupInputs({...signupInputs, email})
                         }} style={styles.textInput}></TextInput>
                     </View>
     
