@@ -9,10 +9,12 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import { useSelector } from 'react-redux'
 import { RootState } from '../redux/store'
 import LoginScreen from '../screens/Login/LoginScreen'
+import { TabNavigationParamList } from '../types/NavigationTypes'
+import BookNavigator from './BookNavigator'
 
 interface NavigationProps {}
 
-const Tab = createBottomTabNavigator()
+const Tab = createBottomTabNavigator<TabNavigationParamList>()
 
 const Navigation: React.FC<NavigationProps> = () => {
 
@@ -22,6 +24,7 @@ const Navigation: React.FC<NavigationProps> = () => {
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={({ route }) => ({
+          headerShown: false,
           tabBarIcon: ({ focused, color, size }) => {
             let iconName
 
@@ -31,7 +34,7 @@ const Navigation: React.FC<NavigationProps> = () => {
               iconName = focused ? 'ios-list' : 'ios-list-outline'
             } else if(route.name === 'MyPage') {
               iconName = focused ? 'person': 'person-outline'
-            } else if(route.name === 'Books') {
+            } else if(route.name === 'BooksNavigator') {
               iconName = focused ? 'book': 'book-outline'
             } else if(route.name === 'Login') {
               iconName = focused ? 'key-sharp': 'key-outline'
@@ -44,7 +47,7 @@ const Navigation: React.FC<NavigationProps> = () => {
         <Tab.Screen name="Home" component={HomeScreen} />
         {session.token && 
           <>
-            <Tab.Screen name="Books" component={BooksScreen} />
+            <Tab.Screen name="BooksNavigator" component={BookNavigator} />
             <Tab.Screen name="MyPage" component={MyPageScreen} />
           </>
         }
