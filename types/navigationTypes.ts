@@ -10,7 +10,7 @@ export type TabNavigationParamList = {
 export type BookNavigatorParamList = {
     Books: undefined
     SelectedBookScreen: { 
-        bookId: number,
+        bookId: string,
         title: string,
         description: string,
         authors: string,

@@ -33,17 +33,15 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
     setBooks(fetchedBooks.data?.books ?? [])
   }, [])
 
-
-  // Selected book
-
-
+  console.log(fetchedBooks.data?.items[0]);
+  
 
   const renderItem = (item: GoogleBook) => {
     return (
       <View>
         <Image
           source={{ uri: item.volumeInfo.imageLinks.thumbnail }}
-          style={{ width: 45, height: 60 }}
+          style={{ width: 50, height: 65 }}
         />
 
         <Text>{item.volumeInfo.title}</Text>
@@ -77,9 +75,11 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
 
             <TouchableOpacity onPress={() => {
               navigation.navigate('SelectedBookScreen', {
-                bookId: 11,
+                bookId: item.id,
                 title: item.volumeInfo.title,
-                description: item.volumeInfo.description
+                authors: item.volumeInfo.authors,
+                description: item.volumeInfo.description,
+                thumbnail: item.volumeInfo.imageLinks.thumbnail
                 })
               }}>
 
@@ -88,10 +88,10 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
                   <Image
                     source={{ uri: item.volumeInfo.imageLinks.thumbnail }}
                     defaultSource={{ uri: thumbDefault }}
-                    style={{ width: 40, height: 55 }}
+                    style={{ width: 50, height: 65, borderRadius: 3 }}
                   />
                   :
-                  <div style={{ width: 40, height: 55, backgroundColor: "#ccc", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                  <div style={{ width: 50, height: 65, backgroundColor: "#ccc", display: "flex", justifyContent: "center", alignItems: "center" }}>
                     No image
                   </div>
                 }
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
   booksContatiner: {
     backgroundColor: "white",
     height: 30,
-    padding: 35,
+    padding: 40,
     marginBottom: 10,
     marginLeft: -15,
     borderRadius: 10,
