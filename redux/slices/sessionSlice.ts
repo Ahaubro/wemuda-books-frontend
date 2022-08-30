@@ -1,14 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface SessionState {
-  id: string
+  id: number
   token?: string
   isLoading: boolean
 }
 
 const initialState: SessionState = {
   token: undefined,
-  id: '',
+  id: 0,
   isLoading: true,
 }
 
@@ -19,7 +19,7 @@ export const sessionSlice = createSlice({
     startSession: (
       state: SessionState,
       action: PayloadAction<{
-        id: string
+        id: number
         token: string
       }>
     ) => {

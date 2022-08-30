@@ -2,14 +2,14 @@ import React, { useState } from 'react'
 import { Button, StyleSheet, Text, View, TextInput, Pressable } from 'react-native'
 import {useLoginMutation, useSignupMutation, User} from '../../redux/services/userApi'
 import { useStore, useDispatch } from 'react-redux'
-import { RootState } from '../../redux/store'
+// import { RootState } from '../../redux/store'
 import store from '../../redux/store'
-import { endSession, startSession } from '../../redux/slices/sessionSlice'
+import { startSession } from '../../redux/slices/sessionSlice'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import Entypo from '@expo/vector-icons/Entypo'
-import { StatusBar } from 'expo-status-bar'
-import { FONTS } from '../../utils/fontUtils'
-import i18n from 'i18n-js'
+// import Entypo from '@expo/vector-icons/Entypo'
+// import { StatusBar } from 'expo-status-bar'
+// import { FONTS } from '../../utils/fontUtils'
+// import i18n from 'i18n-js'
 
 interface LoginScreenProps {}
 
@@ -47,8 +47,10 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
                         <Pressable style={styles.buttonBlack} onPress={() => {
                             if(loginInputs.username && loginInputs.password){
                                 login({...loginInputs}).unwrap().then(res => {
+                                    console.log(res)
                                     if(res.token) {
-                                        dispatch( startSession({ token: res.token, id: store.getState().session.id }) )
+                                        dispatch( startSession({ token: res.token, id: res.user.id }) )
+                                        console.log(store.getState().session)
                                     }
                                 })
                             }
@@ -166,7 +168,7 @@ const styles = StyleSheet.create({
       alignItems: 'center'
     },
     heading: {
-      fontWeight: 500,
+      //fontWeight: 500,
       fontSize: 25,
       marginBottom: 30
     },
