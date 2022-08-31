@@ -17,6 +17,7 @@ const baseQuery = fetchBaseQuery({
 })
 
 export type User = {
+  id: number
   firstName: string
   lastName: string
   username: string
@@ -44,14 +45,6 @@ export const userApi = createApi({
       })
     }),
 
-    //Get user by id
-    // getUserById: builder.query<
-    //   {user: User},
-    //   {id: number}
-    // >({
-    //   query: id => `/book/${id}`,
-    // }),
-
     login: builder.mutation<
       {user: User, token: string},
       {username: string, password: string}
@@ -61,10 +54,18 @@ export const userApi = createApi({
         method: 'POST',
         body
       })
+    }),
+
+    //Get user by id
+    getUserById: builder.query<
+      User,
+      number
+    >({
+      query: id => `/user/${id}`,
     })
 
   })
 })
 
 
-export const { /*useGetUsersQuery, useGetUserkByIdQuery,*/ useSignupMutation, useLoginMutation } = userApi
+export const { /*useGetUsersQuery,*/ useGetUserByIdQuery, useSignupMutation, useLoginMutation } = userApi
