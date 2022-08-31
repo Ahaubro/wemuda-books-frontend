@@ -17,8 +17,8 @@ export type GoogleBook = {
   id: string,
   volumeInfo: {
       title: string,
-      authors: [],
-      categories: [],
+      authors: string[],
+      categories: string[],
       description: string,
       infoLink: string,
       publisher: string,
@@ -37,7 +37,7 @@ export const googleBookApi = createApi({
 
       //Get books by query - FLYT FLYT FLYT
       getBooks: builder.query<{ books: GoogleBook [] , items:GoogleBook[]}, { query: string }>({
-        query: ({  query }) => `/?q=${query}+inauthor:keyes&key=AIzaSyCWKH6RL88AmqlKC50ZVsvnwXDP0jLVm5w`,
+        query: ({  query }) => `/?q=${query}+inauthor:keyes&key=AIzaSyDfTY1bGdyfoCIFYKw9zxlZvOqRHz3LGYE`,
         //transformResponse: (response) =>  response.data.items,
         keepUnusedDataFor: 0
       }),

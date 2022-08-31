@@ -21,15 +21,17 @@ function SelectedBookScreen({ navigation, route }: Props) {
     const session = useSelector((state: RootState) => state.session)
 
     // Destructuring fra navigation.navigate (Books.tsx linje 75 - 81)
-    const { bookId, title, authors, description, thumbnail, averageRating, ratingsCount } = route.params
+    const { bookId, title, author, description, thumbnail, averageRating, ratingsCount } = route.params
 
     // Slice description (Check if undefined)
     let slicedDescription;
     if(description != undefined) {
-        slicedDescription = description.substring(0, 120)
+        slicedDescription = description.substring(0, 150)
     } else {
         slicedDescription = "";
     }
+
+    
 
     const dispatch = useDispatch()
 
@@ -78,7 +80,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
             <View>
                 <Text style={styles.title}>{title}</Text>
-                <Text style={styles.auhtors}>{authors}</Text>
+                 <Text style={styles.auhtors}>{author}</Text> 
             </View>
 
             <Text>{'\n'}</Text>
@@ -89,7 +91,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
                 <Pressable style={styles.blackPressableReading} onPress={() => {
                     console.log("Coming soon")
                 }}>
-                    Currently reading
+                    <Text style={{color: 'white', fontFamily: 'sans-serif'}}> Currently reading </Text>
                     <Ionicons name={'chevron-down'} size={18} color={'white'} />
                 </Pressable>
                
@@ -105,11 +107,14 @@ function SelectedBookScreen({ navigation, route }: Props) {
             <View style={styles.centerContainer}>
                 <Pressable style={styles.blackPressableSeemore} onPress={() => {
                     navigation.navigate('SelectedBookMoreScreen', {
+                        
                         title: title,
+                        
                         description: description,
+                        
                         })
                 }}>
-                    See more
+                    <Text style={{color: 'white', fontFamily: 'sans-serif'}}>See more</Text>
                 </Pressable>
             </View>
 

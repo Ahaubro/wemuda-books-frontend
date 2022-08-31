@@ -13,13 +13,15 @@ export type BookNavigatorParamList = {
         bookId: string,
         title: string,
         description: string,
-        authors: string,
+        author: string,
         thumbnail?: string, 
         averageRating: number,
         ratingsCount: number,
     }
     SelectedBookMoreScreen: { 
+        
         title: string,
         description: string,
+       
     }
 }

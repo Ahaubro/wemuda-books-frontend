@@ -20,17 +20,33 @@ type Props = {
 function SelectedBookScreen({ navigation, route }: Props) {
     const session = useSelector((state: RootState) => state.session)
 
-    const { title, description } = route.params
-    console.log(title, description)
+    //Destrcuturing
+    const {title, description } = route.params
 
     const dispatch = useDispatch()
 
     return (
-        <View style={{ backgroundColor: 'white', height: '100%' }}>
+        <View style={{backgroundColor: 'white', height: '100%'}}>
 
-            <Text>{title}</Text>
-            <Text>{description}</Text>
+            <Pressable style={{ padding: 20 }} onPress={() => {
+                navigation.pop()
+               
+            }}>
+                <Ionicons name={'chevron-back'} size={25} color={'black'} />
+            </Pressable>
 
+            <View style={styles.container}>
+
+                <View style={{marginLeft: 15, marginRight: 15}}>
+                    <Text style={styles.title}>{title}</Text>
+                </View>
+
+                <View style={styles.descriptionContainer}>
+                    <Text style={styles.descriptionHeader}>Full description </Text>
+                    <Text style={styles.description}>{description}</Text>
+                </View>
+            
+            </View>
 
         </View>
     )
@@ -38,11 +54,40 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         justifyContent: 'center',
         alignContent: 'center',
-        paddingTop: 10,
+        paddingTop: 15,
     },
+    title: {
+        fontSize: 20,
+        textAlign: 'center',
+        fontWeight: 'bold',
+        padding: 10,
+    },
+    descriptionHeader: {
+        fontWeight: 'bold', 
+        fontSize: 14, 
+        textAlign: 'center', 
+        padding: 5
+    },
+    description:{
+        textAlign: 'justify', 
+        padding: 5, 
+        color: 'grey', 
+        fontFamily: 'sans-serif', 
+        fontSize: 12,
+        hyphens: 'auto',
+    },
+    descriptionContainer:{
+        marginRight: 20,
+        marginLeft: 20,
+        marginTop: 10,
+        marginBottom: 10,
+        overflowY: 'scroll',
+        height: 380,
+        fontFamily: 'sans-serif', 
+        padding: 8,
+    }
 })
 
 export default SelectedBookScreen
