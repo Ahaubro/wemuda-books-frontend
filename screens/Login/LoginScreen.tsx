@@ -54,15 +54,15 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
                                     }
                                 })
                             }
-                        }}>Log ind</Pressable>
+                        }}><Text style={{color: "white", fontWeight: "bold"}}>Log ind</Text></Pressable>
                     </View>
 
                     <View style={{marginVertical: 5}}>
-                        <Pressable style={styles.buttonWhite} onPress={() => {setScreen("forgot password")}}>Glemt kodeord</Pressable>
+                        <Pressable style={styles.buttonWhite} onPress={() => {setScreen("forgot password")}}><Text style={{fontWeight: "bold"}}>Glemt kodeord</Text></Pressable>
                     </View>
 
                     <View>
-                        <Pressable style={styles.buttonWhite} onPress={() => {setScreen("signup")}}>Opret bruger</Pressable>
+                        <Pressable style={styles.buttonWhite} onPress={() => {setScreen("signup")}}><Text style={{fontWeight: "bold"}}>Opret bruger</Text></Pressable>
                     </View>
                 </View>
             </View>
@@ -119,7 +119,7 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
                                     setScreen("login")
                                 })
                             }
-                        }}>Opret bruger</Pressable>
+                        }}><Text>Opret bruger</Text></Pressable>
                     </View>
     
                 </View>
@@ -195,7 +195,6 @@ const styles = StyleSheet.create({
         textAlign: "center",
         backgroundColor: "black",
         borderRadius: 10,
-        color: "white",
         padding: 15
     },
     buttonWhite: {
