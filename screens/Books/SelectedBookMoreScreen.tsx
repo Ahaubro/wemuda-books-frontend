@@ -37,10 +37,12 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
             <View style={styles.container}>
 
-                <Text style={styles.title}>{title}</Text>
+                <View style={{marginLeft: 15, marginRight: 15}}>
+                    <Text style={styles.title}>{title}</Text>
+                </View>
 
                 <View style={styles.descriptionContainer}>
-                    <Text style={styles.descriptionHeader}>Description </Text>
+                    <Text style={styles.descriptionHeader}>Full description </Text>
                     <Text style={styles.description}>{description}</Text>
                 </View>
             
@@ -57,7 +59,7 @@ const styles = StyleSheet.create({
         paddingTop: 15,
     },
     title: {
-        fontSize: 25,
+        fontSize: 20,
         textAlign: 'center',
         fontWeight: 'bold',
         padding: 10,
@@ -84,7 +86,7 @@ const styles = StyleSheet.create({
         overflowY: 'scroll',
         height: 380,
         fontFamily: 'sans-serif', 
-        padding: 4,
+        padding: 8,
     }
 })
 
