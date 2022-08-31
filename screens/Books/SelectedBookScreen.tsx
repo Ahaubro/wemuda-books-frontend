@@ -21,7 +21,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
     const session = useSelector((state: RootState) => state.session)
 
     // Destructuring fra navigation.navigate (Books.tsx linje 75 - 81)
-    const { bookId, title, authors, description, thumbnail, averageRating, ratingsCount } = route.params
+    const { bookId, title, author, description, thumbnail, averageRating, ratingsCount } = route.params
 
     // Slice description (Check if undefined)
     let slicedDescription;
@@ -30,6 +30,8 @@ function SelectedBookScreen({ navigation, route }: Props) {
     } else {
         slicedDescription = "";
     }
+
+    
 
     const dispatch = useDispatch()
 
@@ -78,7 +80,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
             <View>
                 <Text style={styles.title}>{title}</Text>
-                <Text style={styles.auhtors}>{authors}</Text>
+                 <Text style={styles.auhtors}>{author}</Text> 
             </View>
 
             <Text>{'\n'}</Text>
@@ -105,8 +107,11 @@ function SelectedBookScreen({ navigation, route }: Props) {
             <View style={styles.centerContainer}>
                 <Pressable style={styles.blackPressableSeemore} onPress={() => {
                     navigation.navigate('SelectedBookMoreScreen', {
+                        
                         title: title,
+                        
                         description: description,
+                        
                         })
                 }}>
                     See more

@@ -27,11 +27,15 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
   // Default thumbnail
   const thumbDefault: any = 'https://books.google.com/books/content?id=qc8qvXhpLA0C&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api'
 
-
   //Use effect fetched books
   useEffect(() => {
     setBooks(fetchedBooks.data?.books ?? [])
   }, [])  
+
+  const getAuthors = (authors: string[]) => {
+    if(authors.length === 1) return authors[0]
+    else return `${authors[0]} and ${authors.length} others.`
+}
 
   const renderItem = (item: GoogleBook) => {
     return (
@@ -74,7 +78,7 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
               navigation.navigate('SelectedBookScreen', {
                 bookId: item.id,
                 title: item.volumeInfo.title,
-                authors: item.volumeInfo.authors,
+                authors: getAuthors(item.volumeInfo.authors),
                 description: item.volumeInfo.description,
                 thumbnail: item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.thumbnail : undefined,
                 averageRating: item.volumeInfo.averageRating,
@@ -98,7 +102,7 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
 
                 <View style={{ flexDirection: 'column', width: '60%', padding: 15 }}>
                   <Text style={{ fontSize: 10, fontWeight: 'bold' }}>{item.volumeInfo.title}{'\n'}</Text>
-                  <Text style={{ fontSize: 10 }}> {item.volumeInfo.authors.length} </Text>
+                  <Text style={{ fontSize: 10 }}> {getAuthors(item.volumeInfo.authors) } </Text>
                 </View>
 
                 {/* Navigation in progress */}
