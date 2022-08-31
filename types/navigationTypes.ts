@@ -18,4 +18,8 @@ export type BookNavigatorParamList = {
         averageRating: number,
         ratingsCount: number,
     }
+    SelectedBookMoreScreen: { 
+        title: string,
+        description: string,
+    }
 }

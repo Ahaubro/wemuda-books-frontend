@@ -35,7 +35,7 @@ export const googleBookApi = createApi({
     baseQuery,
     endpoints: builder => ({ 
 
-      //Get books by query - MÅ ALDRIG LiGGE I FRONTEND, FLYT FLYT FLYT
+      //Get books by query - FLYT FLYT FLYT
       getBooks: builder.query<{ books: GoogleBook [] , items:GoogleBook[]}, { query: string }>({
         query: ({  query }) => `/?q=${query}+inauthor:keyes&key=AIzaSyCWKH6RL88AmqlKC50ZVsvnwXDP0jLVm5w`,
         //transformResponse: (response) =>  response.data.items,

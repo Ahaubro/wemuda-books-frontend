@@ -104,7 +104,10 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
             <View style={styles.centerContainer}>
                 <Pressable style={styles.blackPressableSeemore} onPress={() => {
-                    console.log(description)
+                    navigation.navigate('SelectedBookMoreScreen', {
+                        title: title,
+                        description: description,
+                        })
                 }}>
                     See more
                 </Pressable>
