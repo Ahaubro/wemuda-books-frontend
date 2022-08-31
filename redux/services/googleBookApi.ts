@@ -22,17 +22,11 @@ export type GoogleBook = {
       description: string,
       infoLink: string,
       publisher: string,
+      averageRating: number,
+      ratingsCount: number,
       imageLinks: {
         thumbnail: string,
       }
-    }
-}
-
-export type GoogleBookById = {
-  bookId: string,
-  volumeInfo: {
-      averageRating: number,
-      ratingsCount: number,
     }
 }
 
@@ -41,19 +35,13 @@ export const googleBookApi = createApi({
     baseQuery,
     endpoints: builder => ({ 
 
-      //Get books by query - MÅ ALDRIG LiGGE I FRONTEND, FLYT FLYT FLYT
+      //Get books by query - FLYT FLYT FLYT
       getBooks: builder.query<{ books: GoogleBook [] , items:GoogleBook[]}, { query: string }>({
         query: ({  query }) => `/?q=${query}+inauthor:keyes&key=AIzaSyCWKH6RL88AmqlKC50ZVsvnwXDP0jLVm5w`,
         //transformResponse: (response) =>  response.data.items,
         keepUnusedDataFor: 0
       }),
-
-      //Get books by id
-      getBooksById: builder.query<{ books: GoogleBookById [] , items:GoogleBookById[]}, { id: string }>({
-        query: ({  id }) => `/${id}?key=AIzaSyCWKH6RL88AmqlKC50ZVsvnwXDP0jLVm5w`,
-        //transformResponse: (response) =>  response.data.items,
-      }),
     })
 })
 
-export const { useGetBooksQuery, useGetBooksByIdQuery } = googleBookApi
+export const { useGetBooksQuery } = googleBookApi

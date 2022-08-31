@@ -7,8 +7,6 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { RouteProp } from '@react-navigation/native'
 import { BookNavigatorParamList } from '../../types/NavigationTypes'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { GoogleBookById, useGetBooksByIdQuery } from "../../redux/services/googleBookApi"
-
 
 
 type SelectedBookScreenNavigationProps = StackNavigationProp<BookNavigatorParamList, 'SelectedBookScreen'>
@@ -22,29 +20,18 @@ type Props = {
 function SelectedBookScreen({ navigation, route }: Props) {
     const session = useSelector((state: RootState) => state.session)
 
-    // Destructuring
-    const { bookId, title, authors, description, thumbnail } = route.params
+    // Destructuring fra navigation.navigate (Books.tsx linje 75 - 81)
+    const { bookId, title, authors, description, thumbnail, averageRating, ratingsCount } = route.params
 
-    console.log("Booksid", bookId)
-    console.log("Bookstitle", title)
-
-    // Slice description
-    let slicedDescription = description.substring(0, 175)
-
-    //Get book by id
-    const [books, setBooks] = useState<GoogleBookById[]>([]);
-    const fetchedBooks = useGetBooksByIdQuery({ id: bookId }, { refetchOnMountOrArgChange: false })
-    const { data, error } = fetchedBooks;
+    // Slice description (Check if undefined)
+    let slicedDescription;
+    if(description != undefined) {
+        slicedDescription = description.substring(0, 120)
+    } else {
+        slicedDescription = "";
+    }
 
     const dispatch = useDispatch()
-
-    //Use effect fetched books
-    useEffect(() => {
-        setBooks(fetchedBooks.data?.books ?? [])
-    }, [])
-
-    // HERTIL
-    console.log(fetchedBooks);
 
     return (
         <View style={{ backgroundColor: 'white', height: '100%' }}>
@@ -56,10 +43,35 @@ function SelectedBookScreen({ navigation, route }: Props) {
             </Pressable>
 
             <View style={styles.imageView}>
-                <Image
+                {thumbnail ?
+                  <Image
                     source={{ uri: thumbnail }}
                     style={{ width: 110, height: 150, borderRadius: 5 }}
-                />
+                  />
+                  :
+                  <div style={{ width: 110, height: 150, backgroundColor: "#ccc", display: "flex", justifyContent: "center", alignItems: "center", borderRadius: 5}}>
+                    No image
+                  </div>
+                }
+            </View>
+            
+
+            <View style={{flexDirection: 'row', justifyContent: 'center', alignContent: 'center', padding: 5}}>
+
+                { averageRating ? 
+                
+                <Text>
+                    <Ionicons style={{color: '#d3d3d3', opacity: 0.95, marginTop: 3}} name={'star-sharp'} size={13} color={'grey'} /> 
+                    <Text style={{color: '#d3d3d3', opacity: 0.95}}> {averageRating} </Text>
+                    <Text style={{color: '#d3d3d3', opacity: 0.95, marginLeft: 6, marginRight: 4,}}> - </Text>
+                    <Text style={{color: '#d3d3d3', opacity: 0.95}}> {ratingsCount} votes </Text> 
+                </Text>
+                
+                :
+                    <Text style={{color: '#d3d3d3', opacity: 0.95}}>No votes yet</Text>
+                
+                }
+
             </View>
 
             <Text>{'\n'}</Text>
@@ -88,11 +100,14 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
 
             <Text style={{ fontWeight: 'bold', fontSize: 14, textAlign: 'center', padding: 5 }}>Description </Text>
-            <Text style={{ textAlign: 'center', padding: 5, marginRight: 5, marginLeft: 5, }}>{slicedDescription}...</Text>
+            <Text style={{ textAlign: 'center', padding: 5, marginRight: 5, marginLeft: 5, color: 'grey', fontFamily: 'sans-serif', fontSize: 12}}>{slicedDescription}...</Text>
 
             <View style={styles.centerContainer}>
                 <Pressable style={styles.blackPressableSeemore} onPress={() => {
-                    console.log(description)
+                    navigation.navigate('SelectedBookMoreScreen', {
+                        title: title,
+                        description: description,
+                        })
                 }}>
                     See more
                 </Pressable>
@@ -111,7 +126,7 @@ const styles = StyleSheet.create({
         paddingTop: 10,
     },
     title: {
-        fontSize: 25,
+        fontSize: 20,
         textAlign: 'center',
         fontWeight: 'bold',
     },
@@ -143,7 +158,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontWeight: 100,
         fontSize: 12,
-        padding: 8,
+        padding: 6,
         flexDirection: 'row',
         justifyContent: 'center',
         alignContent: 'center',
