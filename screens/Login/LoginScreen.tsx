@@ -50,15 +50,15 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
                         <Pressable style={styles.buttonBlack} onPress={() => {
                             if (loginInputs.username && loginInputs.password) {
                                 login({ ...loginInputs }).unwrap().then(res => {
-                                    console.log("response:", res)
+                                    //console.log("response:", res)
                                     if (res.token) {
-                                        console.log("session values:", { token: res.token, id: res.id })
+                                        //console.log("session values:", { token: res.token, id: res.id })
                                         dispatch(startSession({ token: res.token, id: res.id }))
                                     }
                                 })
                             }
                         }}>
-                            <Text style={{color: 'white', fontFamily: 'sans-serif'}}>Log ind</Text>
+                            <Text style={{ color: 'white', fontFamily: 'sans-serif' }}>Log ind</Text>
                         </Pressable>
                     </View>
 
@@ -70,7 +70,7 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
 
                     <View>
                         <Pressable style={styles.buttonWhite} onPress={() => { setScreen("signup") }}>
-                            <Text>Opret bruger</Text>    
+                            <Text>Opret bruger</Text>
                         </Pressable>
                     </View>
                 </View>

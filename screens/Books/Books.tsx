@@ -111,7 +111,8 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
                   <Pressable style={{}} onPress={() => {
                     console.log("Coming soon")
                   }}>
-                    <Text style={{ fontWeight: 'bold', fontSize: 10 }}> Want to read <Ionicons name={'chevron-down'} size={20} color={'black'} />  </Text> </Pressable>
+                    <Text style={{ fontWeight: 'bold', fontSize: 10 }}> Want to read <Ionicons name={'chevron-down'} size={20} color={'black'} /></Text>
+                  </Pressable>
                 </View>
 
               </View>

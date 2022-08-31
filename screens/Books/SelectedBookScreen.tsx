@@ -91,7 +91,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
                 <Pressable style={styles.blackPressableReading} onPress={() => {
                     console.log("Coming soon")
                 }}>
-                    Currently reading
+                    <Text style={{color: 'white', fontFamily: 'sans-serif'}}> Currently reading </Text>
                     <Ionicons name={'chevron-down'} size={18} color={'white'} />
                 </Pressable>
                
@@ -114,7 +114,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
                         
                         })
                 }}>
-                    See more
+                    <Text style={{color: 'white', fontFamily: 'sans-serif'}}>See more</Text>
                 </Pressable>
             </View>
 
