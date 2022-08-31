@@ -101,8 +101,8 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
 
 
                 <View style={{ flexDirection: 'column', width: '60%', padding: 15 }}>
-                  <Text style={{ fontSize: 10, fontWeight: 'bold' }}>{item.volumeInfo.title}{'\n'}</Text>
-                  <Text style={{ fontSize: 10 }}> {getAuthors(item.volumeInfo.authors) } </Text>
+                  <Text style={{ fontSize: 11, fontWeight: 'bold' }}>{item.volumeInfo.title}{'\n'}</Text>
+                  <Text style={{ fontSize: 11, marginTop: 3, marginLeft: -2 }}> {getAuthors(item.volumeInfo.authors) } </Text>
                 </View>
 
                 {/* Navigation in progress */}

@@ -21,8 +21,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
     const session = useSelector((state: RootState) => state.session)
 
     //Destrcuturing
-    const {title,description } = route.params
-    console.log(title, description)
+    const {title, description } = route.params
 
     const dispatch = useDispatch()
 
@@ -78,13 +77,14 @@ const styles = StyleSheet.create({
         hyphens: 'auto',
     },
     descriptionContainer:{
-        marginRight: 15,
-        marginLeft: 15,
+        marginRight: 20,
+        marginLeft: 20,
         marginTop: 10,
         marginBottom: 10,
         overflowY: 'scroll',
         height: 380,
         fontFamily: 'sans-serif', 
+        padding: 4,
     }
 })
 

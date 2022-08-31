@@ -26,7 +26,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
     // Slice description (Check if undefined)
     let slicedDescription;
     if(description != undefined) {
-        slicedDescription = description.substring(0, 120)
+        slicedDescription = description.substring(0, 150)
     } else {
         slicedDescription = "";
     }
