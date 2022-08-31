@@ -17,7 +17,7 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
 
     const [loginInputs, setLoginInputs] = useState<{ username: string, password: string }>({ username: "", password: "" })
     const [signupInputs, setSignupInputs] = useState<{ firstname: string, lastname: string, username: string, email: string, password: string }>({ firstname: "", lastname: "", username: "", email: "", password: "" })
-    const [forgotPasswordInputs, setForgotPasswordInputs] = useState<{ username: string, email: string }>({ username: "", email: "" })
+    const [forgotPasswordInputs, setForgotPasswordInputs] = useState<{ email: string }>({ email: "" })
     const [screen, setScreen] = useState<string>("login")
 
     const dispatch = useDispatch()
@@ -50,9 +50,9 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
                         <Pressable style={styles.buttonBlack} onPress={() => {
                             if (loginInputs.username && loginInputs.password) {
                                 login({ ...loginInputs }).unwrap().then(res => {
-                                    //console.log("response:", res)
+                                    console.log("response:", res)
                                     if (res.token) {
-                                        //console.log("session values:", { token: res.token, id: res.id })
+                                        console.log("session values:", { token: res.token, id: res.id })
                                         dispatch(startSession({ token: res.token, id: res.id }))
                                     }
                                 })
@@ -64,13 +64,13 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
 
                     <View style={{ marginVertical: 5 }}>
                         <Pressable style={styles.buttonWhite} onPress={() => { setScreen("forgot password") }}>
-                            <Text>Glemt kodeord</Text>
+                            <Text style={{ fontWeight: 'bold' }}>Glemt kodeord</Text>
                         </Pressable>
                     </View>
 
                     <View>
                         <Pressable style={styles.buttonWhite} onPress={() => { setScreen("signup") }}>
-                            <Text>Opret bruger</Text>
+                            <Text style={{ fontWeight: 'bold' }}>Opret bruger</Text>
                         </Pressable>
                     </View>
                 </View>
@@ -132,7 +132,7 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
                                 })
                             }
                         }}>
-                            <Text>Opret bruger</Text>
+                            <Text style={{ fontWeight: 'bold', color: 'white' }}>Opret bruger</Text>
                         </Pressable>
                     </View>
 
@@ -142,36 +142,43 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
 
         {screen == "forgot password" &&
             <View>
-                <View style={[{ width: "100%", justifyContent: "center" }, styles.heading]}><Text>Forgot Password</Text></View>
-                <View style={{ flexDirection: "column" }}>
-                    <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-                        <Text style={styles.label}>Username:</Text>
-                        <TextInput onChangeText={username => {
-                            setForgotPasswordInputs({ ...forgotPasswordInputs, username })
-                        }} style={styles.textInput}></TextInput>
-                    </View>
 
-                    <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                <View style={{marginTop: -260}}>
+                    <Pressable style={{}} onPress={() => {
+                        setScreen("login");
+                    }}>
+                        <Ionicons name={"ios-arrow-back" as any} color="black" style={{ fontSize: 30 }} />
+                    </Pressable>
+                </View>
+
+                <View style={{ width: "100%", marginTop: 15, marginBottom: 30 }}>
+                    <Text style={{fontWeight: 'bold', fontSize: 25}}>Glemt kodeord</Text>
+                </View>
+
+                <View style={{ flexDirection: "column" }}>
+
+                    <View style={{ flexDirection: "column" }}>
                         <Text style={styles.label}>Email:</Text>
-                        <TextInput onChangeText={email => {
+                        <TextInput placeholder='eksempel@email.com' onChangeText={email => {
                             setForgotPasswordInputs({ ...forgotPasswordInputs, email })
                         }} style={styles.textInput}></TextInput>
                     </View>
 
-                    <View style={{ paddingVertical: 20, borderBottomColor: "black", borderBottomWidth: 1 }}>
-                        <Button title="Change Password" onPress={() => {
-                            if (forgotPasswordInputs.username && forgotPasswordInputs.email) {
+                    <View>
+                        <Pressable style={styles.buttonBlack} onPress={() => {
+                            if (forgotPasswordInputs.email) {
 
                             }
-                        }}></Button>
+                        }}>
+                            <Text style={{ color: 'white' }}>Change password</Text>
+                        </Pressable>
                     </View>
 
-                    <View style={{ marginVertical: 20 }}>
-                        <Button title="Log In" onPress={() => { setScreen("login") }}></Button>
-                    </View>
                 </View>
+
             </View>
         }
+
     </View>)
 }
 
@@ -179,17 +186,18 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: 'white',
+        height: '100%',
     },
     heading: {
-        //fontWeight: 500,
+        fontWeight: 'bold',
         fontSize: 25,
         marginBottom: 30
     },
     label: {
         fontSize: 12,
         fontWeight: "bold",
-        marginEnd: 20
     },
     textInput: {
         borderWidth: 1,
@@ -198,8 +206,9 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         paddingHorizontal: 10,
         paddingVertical: 10,
-        marginVertical: 10,
-        fontSize: 15
+        marginVertical: 2,
+        fontSize: 15,
+        width: 300,
     },
     buttonBlack: {
         fontSize: 12,
@@ -210,7 +219,8 @@ const styles = StyleSheet.create({
         backgroundColor: "black",
         borderRadius: 10,
         color: "white",
-        padding: 15
+        padding: 15,
+        marginTop: 5,
     },
     buttonWhite: {
         fontSize: 12,
@@ -221,7 +231,8 @@ const styles = StyleSheet.create({
         backgroundColor: "none",
         borderRadius: 10,
         color: "black",
-        padding: 15
+        padding: 3,
+        marginTop: 3,
     }
 })
 
