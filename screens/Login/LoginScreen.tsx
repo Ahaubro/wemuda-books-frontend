@@ -47,10 +47,10 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
                         <Pressable style={styles.buttonBlack} onPress={() => {
                             if(loginInputs.username && loginInputs.password){
                                 login({...loginInputs}).unwrap().then(res => {
-                                    console.log(res)
+                                    console.log("response:", res)
                                     if(res.token) {
-                                        dispatch( startSession({ token: res.token, id: res.user.id }) )
-                                        console.log(store.getState().session)
+                                        console.log("session values:", { token: res.token, id: res.id })
+                                        dispatch( startSession({ token: res.token, id: res.id }) )
                                     }
                                 })
                             }

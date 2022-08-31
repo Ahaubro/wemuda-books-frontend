@@ -3,16 +3,42 @@ import { Text, View, StyleSheet, Button } from 'react-native'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
 import { useGetUserByIdQuery, User } from '../../redux/services/userApi'
+import { useGetStatusUpdatesByUserQuery, StatusUpdate } from '../../redux/services/statusUpdateApi'
 
 interface MyPageScreenProps {}
 
 const MyPageScreen: React.FC<MyPageScreenProps> = () => {
   const session = useSelector((state: RootState) => state.session)
 
-  console.log(session.id)
+  //console.log(session.id)
   const user = useGetUserByIdQuery(session.id)
 
-  //console.log(user.data);
+  const [streak, setStreak] = useState(0);
+  const [minutes, setMinutes] = useState(0);
+
+  //let totalMins = 0
+
+  const statusUpdates = useGetStatusUpdatesByUserQuery(session.id)
+
+  useEffect(() => {
+    if(statusUpdates.data){
+      const totalMinutes = statusUpdates.data.statusUpdates.reduce((prev, next: StatusUpdate) => prev + next.minutesRead, 0)
+      setMinutes(totalMinutes)
+
+      const todayStart = new Date(new Date().setHours(0, 0, 0, 0))
+      const tomorrowStart = new Date(new Date().setDate(todayStart.getDay() + 1))
+      console.log(todayStart)
+      
+
+      let streakCounter = 0
+      
+
+    }
+  }, [statusUpdates.data])
+  
+  //   totalMins = 
+
+  //setMinutes(totalMins)
   
   return (
     <View style={{margin: 20, marginTop: 50}}>
@@ -23,11 +49,11 @@ const MyPageScreen: React.FC<MyPageScreenProps> = () => {
       <View style={{ borderBottomColor: "#aaa", borderBottomWidth: 1, paddingBottom: 20, flex: 1, flexDirection: "row", justifyContent: "center", width: "100%", alignItems: "stretch" }}>
         <View style={{}}>
           <Text style={{color: "#aaa"}}>Reading streak</Text>
-          <Text style={{fontSize: 20}}>? days</Text>
+          <Text style={{fontSize: 20}}>{streak} days</Text>
         </View>
         <View>
           <Text style={{color: "#aaa"}}>Minutes read</Text>
-          <Text style={{fontSize: 20}}>? minutes</Text>
+          <Text style={{fontSize: 20}}>{minutes} minutes</Text>
         </View>
       </View>
       

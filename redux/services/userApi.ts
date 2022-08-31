@@ -46,7 +46,7 @@ export const userApi = createApi({
     }),
 
     login: builder.mutation<
-      {user: User, token: string},
+      {id: number, firstname: string, lastname: string, username: string, token: string},
       {username: string, password: string}
     >({
       query: body => ({

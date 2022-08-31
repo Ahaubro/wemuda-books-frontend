@@ -5,6 +5,7 @@ import { setupListeners } from '@reduxjs/toolkit/query'
 import { rtkQueryErrorLogger } from './rtkQueryErrorLogger'
 import { googleBookApi } from './services/googleBookApi'
 import { userApi } from './services/userApi'
+import { statusUpdateApi } from './services/statusUpdateApi'
 
 const store = configureStore({
   reducer: {
@@ -12,9 +13,10 @@ const store = configureStore({
     [bookApi.reducerPath]: bookApi.reducer,
     [googleBookApi.reducerPath]: googleBookApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
+    [statusUpdateApi.reducerPath]: statusUpdateApi.reducer
   },
   middleware: getDefaultMiddleware =>
-    getDefaultMiddleware().concat([bookApi.middleware, googleBookApi.middleware, userApi.middleware,  rtkQueryErrorLogger]),
+    getDefaultMiddleware().concat([bookApi.middleware, googleBookApi.middleware, userApi.middleware, statusUpdateApi.middleware, rtkQueryErrorLogger]),
 })
 // optional, but required for refetchOnFocus/refetchOnReconnect behaviors
 // see `setupListeners` docs - takes an optional callback as the 2nd arg for customization
