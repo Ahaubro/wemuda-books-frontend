@@ -14,6 +14,8 @@ export type BookNavigatorParamList = {
         title: string,
         description: string,
         authors: string,
-        thumbnail: string, 
+        thumbnail?: string, 
+        averageRating: number,
+        ratingsCount: number,
     }
 }

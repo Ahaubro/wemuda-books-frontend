@@ -31,10 +31,7 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
   //Use effect fetched books
   useEffect(() => {
     setBooks(fetchedBooks.data?.books ?? [])
-  }, [])
-
-  console.log(fetchedBooks.data?.items[0]);
-  
+  }, [])  
 
   const renderItem = (item: GoogleBook) => {
     return (
@@ -62,7 +59,7 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
           onChangeText={_.throttle((text) => {
             setBookSearch(text)
           }, 1000)}
-          placeholder={"Enter a book name or author to search"}
+          placeholder={"Enter book name or author to search"}
         />
 
         <Text>{'\n'}</Text>
@@ -79,7 +76,9 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
                 title: item.volumeInfo.title,
                 authors: item.volumeInfo.authors,
                 description: item.volumeInfo.description,
-                thumbnail: item.volumeInfo.imageLinks.thumbnail
+                thumbnail: item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.thumbnail : undefined,
+                averageRating: item.volumeInfo.averageRating,
+                ratingsCount: item.volumeInfo.ratingsCount,
                 })
               }}>
 
