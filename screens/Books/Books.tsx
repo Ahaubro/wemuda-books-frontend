@@ -13,7 +13,9 @@ interface BooksScreenProps {
 }
 const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
 
+
   const session = useSelector((state: RootState) => state.session)
+
 
   //Booksearch useState
   const [bookSearch, setBookSearch] = useState('')
@@ -24,13 +26,18 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
   const fetchedBooks = useGetBooksQuery({ query: bookSearch }, { refetchOnMountOrArgChange: false, skip: bookSearch.length === 0 })
   const { data, error } = fetchedBooks;
 
+
   // Default thumbnail
   const thumbDefault: any = 'https://books.google.com/books/content?id=qc8qvXhpLA0C&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api'
+
 
   //Use effect fetched books
   useEffect(() => {
     setBooks(fetchedBooks.data?.books ?? [])
   }, [])  
+
+  // Too many requests
+  console.log("Lad os se", bookSearch)
 
 
   const getAuthors = (authors: string[]) => {
@@ -63,7 +70,8 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
           style={styles.input}
           onChangeText={_.throttle((text) => {
             setBookSearch(text)
-          }, 1000)}
+          }, 1000)
+        }
           placeholder={"Enter book name or author to search"}
         />
 

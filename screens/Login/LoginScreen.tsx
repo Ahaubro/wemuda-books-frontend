@@ -110,12 +110,6 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
                             <Text style={{ fontWeight: 'bold' }}><Text style={{ fontWeight: "bold" }}>Glemt kodeord</Text></Text>
                         </Pressable>
                     </View>
-
-                    <View>
-                        <Pressable style={styles.buttonWhite} onPress={() => { setScreen("signup") }}>
-                            <Text style={{ fontWeight: 'bold' }}>Opret bruger</Text>
-                        </Pressable>
-                    </View>
                 </View>
             </View>
         }
@@ -181,7 +175,7 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
                                 })
                             }
                         }}>
-                            <Text style={{ fontWeight: 'bold', color: 'white' }}>Opret bruger</Text>
+                            <Text style={{ color: 'white', fontFamily: 'sans-serif' }}>Opret bruger</Text>
                         </Pressable>
                     </View>
 
@@ -201,8 +195,8 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
                 </View>
 
 
-                <View style={{ width: "100%", marginTop: 15, marginBottom: 30 }}>
-                    <Text style={{ fontWeight: 'bold', fontSize: 25, padding: 10 }}>Glemt kodeord</Text>
+                <View style={{ }}>
+                    <Text style={styles.heading}>Glemt kodeord</Text>
                 </View>
 
                 <View style={{ flexDirection: "column", justifyContent: 'center', alignContent: 'center' }}>
