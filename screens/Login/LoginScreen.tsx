@@ -18,15 +18,49 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
     const [loginInputs, setLoginInputs] = useState<{ username: string, password: string }>({ username: "", password: "" })
     const [signupInputs, setSignupInputs] = useState<{ firstname: string, lastname: string, username: string, email: string, password: string }>({ firstname: "", lastname: "", username: "", email: "", password: "" })
     const [forgotPasswordInputs, setForgotPasswordInputs] = useState<{ email: string }>({ email: "" })
-    const [screen, setScreen] = useState<string>("login")
+    const [screen, setScreen] = useState<string>("welcome")
 
     const dispatch = useDispatch()
     const [login] = useLoginMutation()
     const [signup] = useSignupMutation()
 
     return (<View style={styles.container}>
+
+        {screen == "welcome" &&
+            <View style={{flexDirection: 'column', justifyContent: 'center', alignContent: 'flex-start'}}>
+
+                <Text style={{fontSize: 25, fontWeight: 'bold', fontFamily: 'sans-serif', textAlign: 'center', marginTop: -50}}>Welcome</Text>
+
+
+                <View>
+                    <Pressable style={styles.buttonBlack} onPress={() => {
+                        setScreen("signup")
+                    }}>
+                        <Text style={{ color: 'white', fontFamily: 'sans-serif' }}>Kom godt igang</Text>
+                    </Pressable>
+                </View>
+
+                <View>
+                    <Pressable style={styles.welcomeLoginPressable} onPress={() => {
+                        setScreen("login")
+                    }}>
+                        <Text style={{ color: 'black', fontFamily: 'sans-serif' }}>Log in</Text>
+                    </Pressable>
+                </View>
+
+            </View>
+        }
+
         {screen == "login" &&
             <View>
+
+                <View style={{ marginVertical: 10 }}>
+                    <Pressable onPress={() => { 
+                        setScreen("welcome") }}>
+                            <Ionicons name={"ios-arrow-back" as any} color="black" style={{ fontSize: 30 }} />
+                        </Pressable>
+                </View>
+
                 <View style={{ width: "100%", justifyContent: "center" }}>
                     <Text style={styles.heading}>Log in</Text>
                 </View>
@@ -64,7 +98,7 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
 
                     <View style={{ marginVertical: 5 }}>
                         <Pressable style={styles.buttonWhite} onPress={() => { setScreen("forgot password") }}>
-                            <Text style={{ fontWeight: 'bold' }}><Text style={{fontWeight: "bold"}}>Glemt kodeord</Text></Text>
+                            <Text style={{ fontWeight: 'bold' }}><Text style={{ fontWeight: "bold" }}>Glemt kodeord</Text></Text>
                         </Pressable>
                     </View>
 
@@ -81,7 +115,7 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
             <View>
 
                 <View style={{ marginVertical: 10 }}>
-                    <Pressable onPress={() => { setScreen("login") }}><Ionicons name={"ios-arrow-back" as any} color="black" style={{ fontSize: 30 }} /></Pressable>
+                    <Pressable onPress={() => { setScreen("welcome") }}><Ionicons name={"ios-arrow-back" as any} color="black" style={{ fontSize: 30 }} /></Pressable>
                 </View>
 
                 <View>
@@ -143,7 +177,7 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
         {screen == "forgot password" &&
             <View>
 
-                <View style={{marginTop: -260}}>
+                <View style={{ marginTop: -260 }}>
                     <Pressable style={{}} onPress={() => {
                         setScreen("login");
                     }}>
@@ -152,7 +186,7 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
                 </View>
 
                 <View style={{ width: "100%", marginTop: 15, marginBottom: 30 }}>
-                    <Text style={{fontWeight: 'bold', fontSize: 25}}>Glemt kodeord</Text>
+                    <Text style={{ fontWeight: 'bold', fontSize: 25 }}>Glemt kodeord</Text>
                 </View>
 
                 <View style={{ flexDirection: "column" }}>
@@ -233,6 +267,19 @@ const styles = StyleSheet.create({
         color: "black",
         padding: 3,
         marginTop: 3,
+    },
+    welcomeLoginPressable:{
+        fontSize: 12,
+        fontWeight: 700,
+        fontFamily: "sans-serif",
+        width: 200,
+        textAlign: "center",
+        backgroundColor: "none",
+        borderRadius: 10,
+        color: "black",
+        padding: 3,
+        marginTop: 3,
+        border: '1px solid black',
     }
 })
 

@@ -35,13 +35,20 @@ export const googleBookApi = createApi({
     baseQuery,
     endpoints: builder => ({ 
 
-      //Get books by query - FLYT FLYT FLYT
+      //Get books query - FLYT FLYT FLYT
       getBooks: builder.query<{ books: GoogleBook [] , items:GoogleBook[]}, { query: string }>({
         query: ({  query }) => `/?q=${query}+inauthor:keyes&key=AIzaSyDfTY1bGdyfoCIFYKw9zxlZvOqRHz3LGYE`,
+        //transformResponse: (response) =>  response.data.items,
+        keepUnusedDataFor: 0
+      }),
+
+      //Get books by id query - FLYT FLYT FLYT
+      getBookById: builder.query<{ book: GoogleBook [] , item:GoogleBook[]}, { id: string }>({
+        query: ({  id }) => `/?${id}+inauthor:keyes&key=AIzaSyDfTY1bGdyfoCIFYKw9zxlZvOqRHz3LGYE`,
         //transformResponse: (response) =>  response.data.items,
         keepUnusedDataFor: 0
       }),
     })
 })
 
-export const { useGetBooksQuery } = googleBookApi
+export const { useGetBooksQuery, useGetBookByIdQuery } = googleBookApi

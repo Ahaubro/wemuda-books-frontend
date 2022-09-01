@@ -44,9 +44,9 @@ const Navigation: React.FC<NavigationProps> = () => {
           },
         })}
       >
-        <Tab.Screen name="Home" component={HomeScreen} />
         {session.token && 
           <>
+            <Tab.Screen name="Home" component={HomeScreen} />
             <Tab.Screen name="BooksNavigator" component={BookNavigator} />
             <Tab.Screen name="MyPage" component={MyPageScreen} />
           </>
