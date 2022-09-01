@@ -5,6 +5,7 @@ import { RootState } from '../../redux/store'
 import { useGetUserByIdQuery, User } from '../../redux/services/userApi'
 import { useGetStatusUpdatesByUserQuery, StatusUpdate } from '../../redux/services/statusUpdateApi'
 import { lte } from 'lodash'
+import {GoogleBook, useGetBookByIdQuery, useLazyGetBookByIdQuery} from '../../redux/services/googleBookApi'
 
 interface MyPageScreenProps {}
 
@@ -17,6 +18,8 @@ const MyPageScreen: React.FC<MyPageScreenProps> = () => {
   const [minutes, setMinutes] = useState(0);
 
   const statusUpdates = useGetStatusUpdatesByUserQuery(session.id)
+
+  const [books, setBooks] = useState([] as GoogleBook[])
 
   useEffect(() => {
     if(statusUpdates.data){
@@ -49,8 +52,21 @@ const MyPageScreen: React.FC<MyPageScreenProps> = () => {
 
     }
   }, [statusUpdates.data])
-  
-  const [emptyBooks] = useState([1,2,3,4,5,6,7,8,9])
+
+  const [bookIds] = useState(["QCF9AHclv_4C", "WZKHswEACAAJ", "9PuctAEACAAJ", "hoDePAAACAAJ", "ZSfqxgKbrWMC"])
+
+  const [getBook] = useLazyGetBookByIdQuery()
+
+  useEffect(() => {
+    bookIds.forEach(id => {
+      getBook({ id }).unwrap().then((data) => {
+        console.log(id, data)
+        books.push(data?.book)
+      })
+    })
+  }, [bookIds])
+
+  console.log(books)
   
   return (
     <View style={{margin: 20, marginTop: 50}}>
@@ -72,9 +88,9 @@ const MyPageScreen: React.FC<MyPageScreenProps> = () => {
       
       <View style={{marginTop: 20}}>
         <Text style={styles.subHeading}>Want to read</Text>
-        <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={emptyBooks} renderItem={( ({item}) => (
+        <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={books} renderItem={( ({item}) => (
           <View style={{marginRight: 10}}>
-            <Text style={{width: 75, height: 100, backgroundColor: "#DDD"}}></Text>
+            <Text style={{width: 75, height: 100, backgroundColor: "#DDD"}}>{item?.volumeInfo.title}</Text>
           </View>
         ) )}
         />
@@ -85,7 +101,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = () => {
 
       <View style={{marginTop: 20}}>
         <Text style={styles.subHeading}>My history</Text>
-        <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={emptyBooks} renderItem={( ({item}) => (
+        <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={bookIds} renderItem={( ({item}) => (
           <View style={{marginRight: 10}}>
             <Text style={{width: 75, height: 100, backgroundColor: "#DDD"}}></Text>
           </View>

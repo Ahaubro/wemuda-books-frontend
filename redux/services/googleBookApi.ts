@@ -43,12 +43,12 @@ export const googleBookApi = createApi({
       }),
 
       //Get books by id query - FLYT FLYT FLYT
-      getBookById: builder.query<{ book: GoogleBook [] , item:GoogleBook[]}, { id: string }>({
-        query: ({  id }) => `/?${id}+inauthor:keyes&key=AIzaSyDfTY1bGdyfoCIFYKw9zxlZvOqRHz3LGYE`,
+      getBookById: builder.query<{ book: GoogleBook, item: GoogleBook}, { id: string }>({
+        query: ({ id }) => `/${id}?key=AIzaSyDfTY1bGdyfoCIFYKw9zxlZvOqRHz3LGYE`,
         //transformResponse: (response) =>  response.data.items,
         keepUnusedDataFor: 0
       }),
     })
 })
 
-export const { useGetBooksQuery, useGetBookByIdQuery } = googleBookApi
+export const { useGetBooksQuery, useGetBookByIdQuery, useLazyGetBookByIdQuery } = googleBookApi
