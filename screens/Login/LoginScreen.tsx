@@ -6,6 +6,7 @@ import { useStore, useDispatch } from 'react-redux'
 import store from '../../redux/store'
 import { startSession } from '../../redux/slices/sessionSlice'
 import Ionicons from '@expo/vector-icons/Ionicons'
+import { enableAllPlugins } from 'immer'
 // import Entypo from '@expo/vector-icons/Entypo'
 // import { StatusBar } from 'expo-status-bar'
 // import { FONTS } from '../../utils/fontUtils'
@@ -27,24 +28,32 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
     return (<View style={styles.container}>
 
         {screen == "welcome" &&
-            <View style={{flexDirection: 'column', justifyContent: 'center', alignContent: 'flex-start'}}>
+            <View style={{flexDirection: 'column', justifyContent: 'center', alignContent: 'center', marginVertical: 150}}>
 
-                <Text style={{fontSize: 25, fontWeight: 'bold', fontFamily: 'sans-serif', textAlign: 'center', marginTop: -50}}>Welcome</Text>
+                <Text style={{fontSize: 25, fontWeight: 'bold', fontFamily: 'sans-serif', textAlign: 'center', paddingBottom: 60}}>Velkommen</Text>
 
 
-                <View>
+                <View style={{padding: 3}}>
                     <Pressable style={styles.buttonBlack} onPress={() => {
                         setScreen("signup")
                     }}>
-                        <Text style={{ color: 'white', fontFamily: 'sans-serif' }}>Kom godt igang</Text>
+                        <Text style={{ color: 'white', fontFamily: 'sans-serif' }}>Kom i gang</Text>
                     </Pressable>
                 </View>
 
-                <View>
+                <View style={{padding: 3}}>
                     <Pressable style={styles.welcomeLoginPressable} onPress={() => {
                         setScreen("login")
                     }}>
                         <Text style={{ color: 'black', fontFamily: 'sans-serif' }}>Log in</Text>
+                    </Pressable>
+                </View>
+
+                <View style={{padding: 5}}>
+                    <Pressable style={{}} onPress={() => {
+                        console.log("Coming soon")
+                    }}>
+                        <Text style={{ color: 'black', fontFamily: 'sans-serif', fontWeight:'bold', textAlign:'center', fontSize: 12}}>Fortsæt uden login</Text>
                     </Pressable>
                 </View>
 
@@ -54,10 +63,10 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
         {screen == "login" &&
             <View>
 
-                <View style={{ marginVertical: 10 }}>
+                <View style={styles.backArrowPos}>
                     <Pressable onPress={() => { 
                         setScreen("welcome") }}>
-                            <Ionicons name={"ios-arrow-back" as any} color="black" style={{ fontSize: 30 }} />
+                            <Ionicons name={"ios-arrow-back" as any} color="black" style={{ fontSize: 30}} />
                         </Pressable>
                 </View>
 
@@ -114,15 +123,21 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
         {screen == "signup" &&
             <View>
 
-                <View style={{ marginVertical: 10 }}>
-                    <Pressable onPress={() => { setScreen("welcome") }}><Ionicons name={"ios-arrow-back" as any} color="black" style={{ fontSize: 30 }} /></Pressable>
+                <View style={styles.backArrowPos}>
+                    <Pressable onPress={() => { 
+                        setScreen("welcome") 
+                        }}>
+                            <Ionicons name={"ios-arrow-back" as any} color="black" style={{ fontSize: 30}} />
+                        </Pressable>
                 </View>
 
                 <View>
-                    <Text style={styles.heading}>Opret bruger</Text>
+                    <Text style={styles.heading}>Kom i gang</Text>
                 </View>
 
-                <View style={{ flexDirection: "column" }}>
+                <View style={{ flexDirection: 'column', justifyContent: 'center', alignContent: 'center', }}>
+
+
                     <View style={{ marginVertical: 5 }}>
                         <Text style={styles.label}>Fornavn:</Text>
                         <TextInput placeholder="Indtast fornavn" placeholderTextColor={"#AAAAAA"} onChangeText={firstname => {
@@ -177,19 +192,20 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
         {screen == "forgot password" &&
             <View>
 
-                <View style={{ marginTop: -260 }}>
+                <View style={styles.backArrowPos}>
                     <Pressable style={{}} onPress={() => {
                         setScreen("login");
                     }}>
-                        <Ionicons name={"ios-arrow-back" as any} color="black" style={{ fontSize: 30 }} />
+                        <Ionicons name={"ios-arrow-back" as any} color="black" style={{ fontSize: 30}} />
                     </Pressable>
                 </View>
 
+
                 <View style={{ width: "100%", marginTop: 15, marginBottom: 30 }}>
-                    <Text style={{ fontWeight: 'bold', fontSize: 25 }}>Glemt kodeord</Text>
+                    <Text style={{ fontWeight: 'bold', fontSize: 25, padding: 10 }}>Glemt kodeord</Text>
                 </View>
 
-                <View style={{ flexDirection: "column" }}>
+                <View style={{ flexDirection: "column", justifyContent: 'center', alignContent: 'center' }}>
 
                     <View style={{ flexDirection: "column" }}>
                         <Text style={styles.label}>Email:</Text>
@@ -218,16 +234,14 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
         backgroundColor: 'white',
         height: '100%',
     },
     heading: {
         fontWeight: 'bold',
         fontSize: 25,
-        marginBottom: 30
+        marginBottom: 30,
+        padding: 7,
     },
     label: {
         fontSize: 12,
@@ -238,48 +252,58 @@ const styles = StyleSheet.create({
         borderStyle: "solid",
         borderColor: "gray",
         borderRadius: 10,
-        paddingHorizontal: 10,
-        paddingVertical: 10,
-        marginVertical: 2,
+        paddingHorizontal: 8,
+        paddingVertical: 8, 
         fontSize: 15,
-        width: 300,
+        marginLeft: 5,
+        marginRight: 5,
+        
     },
     buttonBlack: {
         fontSize: 12,
         fontWeight: 700,
         fontFamily: "sans-serif",
-        width: "100%",
         textAlign: "center",
         backgroundColor: "black",
         borderRadius: 10,
         color: "white",
-        padding: 15,
+        padding: 10,
         marginTop: 5,
+        marginLeft: 5,
+        marginRight: 5,
     },
     buttonWhite: {
         fontSize: 12,
         fontWeight: 700,
         fontFamily: "sans-serif",
-        width: "100%",
         textAlign: "center",
         backgroundColor: "none",
         borderRadius: 10,
         color: "black",
         padding: 3,
         marginTop: 3,
+        marginLeft: 5,
+        marginRight: 5,
     },
     welcomeLoginPressable:{
         fontSize: 12,
         fontWeight: 700,
         fontFamily: "sans-serif",
-        width: 200,
         textAlign: "center",
         backgroundColor: "none",
         borderRadius: 10,
         color: "black",
-        padding: 3,
+        padding: 8,
         marginTop: 3,
         border: '1px solid black',
+        marginLeft: 5,
+        marginRight: 5,
+    },
+    backArrowPos:{
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignContent: 'flex-start',
+        marginTop: 30
     }
 })
 

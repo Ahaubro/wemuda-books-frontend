@@ -52,8 +52,6 @@ const Navigation: React.FC<NavigationProps> = () => {
           </>
         }
 
-        {/* <Tab.Screen name="Settings" component={SettingsScreen} /> */}
-
         {!session.token && 
           <Tab.Screen name="Login" component={LoginScreen}></Tab.Screen>
         }

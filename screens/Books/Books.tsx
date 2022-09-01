@@ -32,6 +32,7 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
     setBooks(fetchedBooks.data?.books ?? [])
   }, [])  
 
+
   const getAuthors = (authors: string[]) => {
     if(authors.length === 1) return authors[0]
     else return `${authors[0]} and ${authors.length} others.`
