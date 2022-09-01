@@ -29,13 +29,13 @@ const Navigation: React.FC<NavigationProps> = () => {
             let iconName
 
             if (route.name === 'Home') {
-              iconName = focused ? 'home' : 'home-outline'
+              iconName = focused ? 'book': 'book-outline'
             } else if (route.name === 'Settings') {
               iconName = focused ? 'ios-list' : 'ios-list-outline'
             } else if(route.name === 'MyPage') {
               iconName = focused ? 'person': 'person-outline'
             } else if(route.name === 'BooksNavigator') {
-              iconName = focused ? 'book': 'book-outline'
+              iconName = focused ? 'search': 'search-outline'
             } else if(route.name === 'Login') {
               iconName = focused ? 'key-sharp': 'key-outline'
             }
@@ -47,17 +47,15 @@ const Navigation: React.FC<NavigationProps> = () => {
         {session.token && 
           <>
             <Tab.Screen name="Home" component={HomeScreen} />
-            <Tab.Screen name="BooksNavigator" component={BookNavigator} />
-            <Tab.Screen name="MyPage" component={MyPageScreen} />
+            <Tab.Screen name="BooksNavigator" component={BookNavigator} options={{title: 'Search'}} />
+            <Tab.Screen name="MyPage" component={MyPageScreen} options={{title: 'Profile'}} />
           </>
         }
 
-        {/* <Tab.Screen name="Settings" component={SettingsScreen} /> */}
 
         {!session.token && 
-          <Tab.Screen name="Login" component={LoginScreen}></Tab.Screen>
+          <Tab.Screen name="Login" component={LoginScreen} options={{tabBarStyle: {display: 'none'}}}></Tab.Screen>
         }
-        
         
       </Tab.Navigator>
     </NavigationContainer>
