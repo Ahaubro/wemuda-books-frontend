@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { Button, StyleSheet, Text, View, TextInput, Pressable } from 'react-native'
-import { useLoginMutation, useSignupMutation, User } from '../../redux/services/userApi'
+import { useLoginMutation, useSignupMutation, User, useChangePasswordMutation } from '../../redux/services/userApi'
 import { useStore, useDispatch } from 'react-redux'
 // import { RootState } from '../../redux/store'
 import store from '../../redux/store'
 import { startSession } from '../../redux/slices/sessionSlice'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { enableAllPlugins } from 'immer'
+import Books from "../../screens/Books/Books"
 // import Entypo from '@expo/vector-icons/Entypo'
 // import { StatusBar } from 'expo-status-bar'
 // import { FONTS } from '../../utils/fontUtils'
@@ -21,9 +22,10 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
     const [forgotPasswordInputs, setForgotPasswordInputs] = useState<{ email: string }>({ email: "" })
     const [screen, setScreen] = useState<string>("welcome")
 
-    const dispatch = useDispatch()
-    const [login] = useLoginMutation()
-    const [signup] = useSignupMutation()
+    const dispatch = useDispatch();
+    const [login] = useLoginMutation();
+    const [signup] = useSignupMutation();
+    //const [changePassword] = useChangePasswordMutation();
 
     return (<View style={styles.container}>
 
@@ -170,7 +172,8 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
                     <View style={{ paddingVertical: 10 }}>
                         <Pressable style={styles.buttonBlack} onPress={() => {
                             if (signupInputs.firstname && signupInputs.lastname && signupInputs.username && signupInputs.password) {
-                                signup(signupInputs).unwrap().then(() => {
+                                signup(signupInputs).unwrap().then( res => {
+                                    console.log("RESPONSE", res)
                                     setScreen("login")
                                 })
                             }
@@ -205,13 +208,17 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
                         <Text style={styles.label}>Email:</Text>
                         <TextInput placeholder='eksempel@email.com' onChangeText={email => {
                             setForgotPasswordInputs({ ...forgotPasswordInputs, email })
-                        }} style={styles.textInput}></TextInput>
+                        }} style={styles.textInput}>
+                        </TextInput>
                     </View>
 
                     <View>
                         <Pressable style={styles.buttonBlack} onPress={() => {
                             if (forgotPasswordInputs.email) {
-
+                                console.log(forgotPasswordInputs.email)
+                                // changePassword(forgotPasswordInputs).unwrap().then( () => {
+                                //     setScreen("login")
+                                // })
                             }
                         }}>
                             <Text style={{ color: 'white' }}>Change password</Text>

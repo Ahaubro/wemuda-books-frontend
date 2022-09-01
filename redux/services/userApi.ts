@@ -1,6 +1,7 @@
 // Need to use the React-specific entry point to import createApi
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { UserInterfaceIdiom } from 'expo-constants'
+import { StringNullableChain } from 'lodash'
 import { API_URL } from '../../constants'
 import { RootState } from '../store'
 
@@ -45,6 +46,7 @@ export const userApi = createApi({
       })
     }),
 
+    //Authenticate
     login: builder.mutation<
       {id: number, firstname: string, lastname: string, username: string, token: string},
       {username: string, password: string}
@@ -62,10 +64,23 @@ export const userApi = createApi({
       number
     >({
       query: id => `/user/${id}`,
-    })
+    }),
+
+    //Change password
+    changePassword: builder.mutation<
+      {statusText: string},
+      {email: string}
+    >({
+      query: body => ({
+        url: '/user/changePassword',
+        method: 'POST',
+        body
+      })
+    }),
+
 
   })
 })
 
 
-export const { /*useGetUsersQuery,*/ useGetUserByIdQuery, useSignupMutation, useLoginMutation } = userApi
+export const { /*useGetUsersQuery,*/ useGetUserByIdQuery, useSignupMutation, useLoginMutation, useChangePasswordMutation } = userApi

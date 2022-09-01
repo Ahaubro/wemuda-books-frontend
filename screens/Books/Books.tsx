@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, StyleSheet, ActivityIndicator, TextInput, Image, FlatList, Pressable, TouchableOpacity } from 'react-native'
+import { Text, View, StyleSheet, ActivityIndicator, TextInput, Image, FlatList, Pressable, TouchableOpacity, NativeEventEmitter } from 'react-native'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
 import { GoogleBook, useGetBooksQuery } from "../../redux/services/googleBookApi"
@@ -30,20 +30,24 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
   // Default thumbnail
   const thumbDefault: any = 'https://books.google.com/books/content?id=qc8qvXhpLA0C&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api'
 
+  // Too many requests
+  console.log("Lad os se", bookSearch)
 
   //Use effect fetched books
   useEffect(() => {
     setBooks(fetchedBooks.data?.books ?? [])
   }, [])  
 
-  // Too many requests
-  console.log("Lad os se", bookSearch)
-
 
   const getAuthors = (authors: string[]) => {
     if(authors.length === 1) return authors[0]
     else return `${authors[0]} and ${authors.length} others.`
-}
+  }
+
+  const sliceTitle = (title: string) => {
+    if(title.length < 20) return title
+    else return `${title.substring(0, 20)}... `
+  }
 
   const renderItem = (item: GoogleBook) => {
     return (
@@ -69,9 +73,16 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
         <TextInput
           style={styles.input}
           onChangeText={_.throttle((text) => {
-            setBookSearch(text)
-          }, 1000)
-        }
+            if(text.length > 2) {
+              setBookSearch(text);
+              } 
+            }, 1000)
+          }
+          onKeyPress={ ({nativeEvent}) => {
+            if(nativeEvent.key === 'Backspace'){
+              console.log("Backspace ramt")
+            }
+          }}
           placeholder={"Enter book name or author to search"}
         />
 
@@ -110,7 +121,7 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
 
 
                 <View style={{ flexDirection: 'column', width: '60%', padding: 15 }}>
-                  <Text style={{ fontSize: 11, fontWeight: 'bold' }}>{item.volumeInfo.title}{'\n'}</Text>
+                  <Text style={{ fontSize: 11, fontWeight: 'bold' }}>{sliceTitle(item.volumeInfo.title)}{'\n'}</Text>
                   <Text style={{ fontSize: 11, marginTop: 3, marginLeft: -2 }}> {getAuthors(item.volumeInfo.authors) } </Text>
                 </View>
 
