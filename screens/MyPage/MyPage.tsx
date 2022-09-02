@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react'
-import { Text, View, StyleSheet, Button, Pressable, FlatList } from 'react-native'
+import { Text, View, StyleSheet, Button, Pressable, FlatList, Image } from 'react-native'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
 import { useGetUserByIdQuery, User } from '../../redux/services/userApi'
@@ -7,6 +7,7 @@ import { useGetStatusUpdatesByUserQuery, StatusUpdate } from '../../redux/servic
 import { lte } from 'lodash'
 import {GoogleBook, useGetBookByIdQuery, useLazyGetBookByIdQuery} from '../../redux/services/googleBookApi'
 import Navigation from '../../containers/Navigation'
+import { useGetBooksByUserIdQuery, Book } from '../../redux/services/bookApi'
 
 interface MyPageScreenProps {
   navigation: any
@@ -22,8 +23,32 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({navigation}) => {
 
   const statusUpdates = useGetStatusUpdatesByUserQuery(session.id)
 
-  const [wantToReadBooks] = useState([{},{},{},{},{},{},{},{},{},{}] as GoogleBook[])
-  const [historyBooks] = useState([{},{},{},{},{},{},{},{},{},{}] as GoogleBook[])
+  const [allUserBooks, setAllUserBooks] = useState([] as Book[])
+  
+  const [wantToReadBooks, setWantToReadBooks] = useState([] as Book[])
+  const [wantToReadLoaded, setWantToReadLoaded] = useState(false)
+
+  const [historyBooks] = useState([] as Book[])
+
+  const fetchedUserBooks = useGetBooksByUserIdQuery(session.id)
+
+  useEffect(() => {
+    if(fetchedUserBooks.data){
+      console.log("Fetched:", fetchedUserBooks.data.books)
+      setAllUserBooks(fetchedUserBooks.data.books)
+    }
+  }, [fetchedUserBooks.data])
+
+  useEffect(() => {
+    setWantToReadBooks(allUserBooks.filter(()=>true))
+  }, [allUserBooks])
+
+  useEffect(() => {
+    setWantToReadLoaded(true)
+  }, [wantToReadBooks])
+
+  console.log("UserBooks:", allUserBooks)
+  console.log("WantToRead:", wantToReadBooks)
 
   useEffect(() => {
     if(statusUpdates.data){
@@ -31,7 +56,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({navigation}) => {
       const totalMinutes = statusUpdates.data.statusUpdates.reduce((prev, next: StatusUpdate) => prev + next.minutesRead, 0)
       setMinutes(String(totalMinutes))
 
-      //Co
+      //Count Streak
       let updatesInDay = []
 
       let dayBeginning = new Date(new Date().setHours(0, 0, 0, 0))
@@ -61,6 +86,9 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({navigation}) => {
 
     }
   }, [statusUpdates.data])
+
+  const thumbDefault = 'https://books.google.com/books/content?id=qc8qvXhpLA0C&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api'
+
 
   // const [bookIds] = useState(["QCF9AHclv_4C", "WZKHswEACAAJ", "9PuctAEACAAJ", "hoDePAAACAAJ", "ZSfqxgKbrWMC"])
 
@@ -97,12 +125,26 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({navigation}) => {
       
       <View style={{marginTop: 20}}>
         <Text style={styles.subHeading}>Want to read</Text>
-        <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={wantToReadBooks} renderItem={( ({item}) => (
-          <View style={{marginRight: 10}}>
-            <Text style={{width: 75, height: 100, backgroundColor: "#DDD"}}></Text>
-          </View>
-        ) )}
-        />
+        {wantToReadLoaded ?
+          <>
+          {allUserBooks.length > 0 ?
+            <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={wantToReadBooks} renderItem={( ({item:book}) => (
+              <View style={{marginRight: 10}}>
+                <Image
+                  source={{ uri: book.thumbnail }}
+                  defaultSource={{ uri: thumbDefault }}
+                  style={{ width: 50, height: 65 }}
+                />
+              </View>
+            ) )}
+            />
+            :
+            <View style={{paddingBottom: 20}}><Text>No Books</Text></View>
+          }
+          </>
+          :
+          <View style={{paddingBottom: 20}}><Text>Loading...</Text></View>
+        }
         <View style={{width: "100%", flex: 1, flexDirection: "row", justifyContent: "center"}}>
           <Pressable style={styles.buttonGray} onPress={() => {navigation.navigate('BookList', {books: wantToReadBooks})}}><Text style={{fontWeight: "bold"}}>Se alle</Text></Pressable>
         </View>
@@ -110,12 +152,16 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({navigation}) => {
 
       <View style={{marginTop: 20}}>
         <Text style={styles.subHeading}>My history</Text>
-        <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={historyBooks} renderItem={( ({item}) => (
-          <View style={{marginRight: 10}}>
-            <Text style={{width: 75, height: 100, backgroundColor: "#DDD"}}></Text>
-          </View>
-        ) )}
-        />
+        {historyBooks.length > 0 ?
+          <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={historyBooks} renderItem={( ({item}) => (
+            <View style={{marginRight: 10}}>
+              <Text style={{width: 75, height: 100, backgroundColor: "#DDD"}}></Text>
+            </View>
+          ) )}
+          />
+          :
+          <View style={{paddingBottom: 20}}><Text>No Books</Text></View>
+        }
 
         <View style={{width: "100%", flex: 1, flexDirection: "row", justifyContent: "center"}}>
           <Pressable style={styles.buttonGray}  onPress={() => {navigation.navigate('BookList', {books: historyBooks})}}><Text style={{fontWeight: "bold"}}>Se alle</Text></Pressable>
