@@ -33,23 +33,35 @@ export const bookApi = createApi({
       query: () => `/book`,
     }),
     
-    // Add book
+    // addBook: builder.mutation<
+    //   {
+    //     statusText: string 
+    //   },
+    //   {
+    //     title: string,
+    //     author: string,
+    //     genre: string,
+    //     releaseDate: string;
+    //   }
+    // >({
+    //   query: body => ({
+    //     url: '/book',
+    //     method: 'POST',
+    //     body,
+    //   }),
+    // }),
+
+    //GoogleBook post
     addBook: builder.mutation<
-      {
-        statusText: string 
-      },
-      {
-        title: string,
-        author: string,
-        genre: string,
-        releaseDate: string;
-      }
+    { statusText: string },
+    // { bookId: string, title: string, authors: string[], description: string, thumbnail: string, averageRating: number, ratingCount: number }
+    { userId: number, bookId: string, title: string, thumbnail: string, authors: string[], description: string, averageRating: number, ratingCount: number  }
     >({
-      query: body => ({
-        url: '/book',
-        method: 'POST',
-        body,
-      }),
+    query: body => ({
+      url: '/book',
+      method: 'POST',
+      body
+    })
     }),
 
     //Get book by id

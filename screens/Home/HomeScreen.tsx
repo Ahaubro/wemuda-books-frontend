@@ -5,13 +5,13 @@ import Entypo from '@expo/vector-icons/Entypo'
 import { StatusBar } from 'expo-status-bar'
 import { FONTS } from '../../utils/fontUtils'
 import i18n from 'i18n-js'
-import {useGetBooksQuery, Book, useGetBookByIdQuery, useDeleteBookMutation, useAddBookMutation, useUpdateBookMutation } from "../../redux/services/bookApi"
-import {useGetUserByIdQuery} from "../../redux/services/userApi"
-import {useSelector} from "react-redux"
+import { useGetBooksQuery, Book, useGetBookByIdQuery, useDeleteBookMutation, useAddBookMutation, useUpdateBookMutation } from "../../redux/services/bookApi"
+import { useGetUserByIdQuery } from "../../redux/services/userApi"
+import { useSelector } from "react-redux"
 import { RootState } from '../../redux/store'
 import { useGetStatusUpdatesByUserQuery, StatusUpdate } from '../../redux/services/statusUpdateApi'
 
-interface HomeScreenProps {}
+interface HomeScreenProps { }
 
 const HomeScreen: React.FC<HomeScreenProps> = () => {
   const session = useSelector((state: RootState) => state.session)
@@ -24,7 +24,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   const statusUpdates = useGetStatusUpdatesByUserQuery(session.id)
 
   useEffect(() => {
-    if(statusUpdates.data){
+    if (statusUpdates.data) {
       const totalMinutes = statusUpdates.data.statusUpdates.reduce((prev, next: StatusUpdate) => prev + next.minutesRead, 0)
       setMinutes(String(totalMinutes))
 
@@ -33,7 +33,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
       let dayBeginning = new Date(new Date().setHours(0, 0, 0, 0))
       let dayEnd = new Date(new Date(dayBeginning).setDate(dayBeginning.getDate() + 1))
 
-      updatesInDay = statusUpdates.data.statusUpdates.filter((s:StatusUpdate) => {
+      updatesInDay = statusUpdates.data.statusUpdates.filter((s: StatusUpdate) => {
         const time = new Date(s.timeOfUpdate)
         return dayBeginning <= time && time < dayEnd
       })
@@ -45,11 +45,11 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
           streakCounter++;
         dayEnd = dayBeginning
         dayBeginning = new Date(new Date(dayBeginning).setDate(dayBeginning.getDate() - 1))
-        updatesInDay = statusUpdates.data.statusUpdates.filter((s:StatusUpdate) => {
+        updatesInDay = statusUpdates.data.statusUpdates.filter((s: StatusUpdate) => {
           const time = new Date(s.timeOfUpdate)
           return dayBeginning <= time && time < dayEnd
         })
-      }while(updatesInDay.length > 0);
+      } while (updatesInDay.length > 0);
 
       setStreak(String(streakCounter))
 
@@ -59,12 +59,12 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   return (
     <View>
 
-      {session.token && 
-        <View style={{flex: 1, alignItems: "center", marginTop: 50, width: "100%", paddingHorizontal: 10}}>
-          <View style={{flex: 1, alignItems: "center", paddingBottom: 30}}>
-            <Text style={{fontWeight: "bold", marginBottom: 10}}>Currently reading</Text>
-            <Text style={{width: 150, height: 200, backgroundColor: "#DDD"}}></Text>
-            <Pressable style={{...styles.buttonGray, marginTop: 25}}><Text style={{fontWeight: "bold"}}>Update progress</Text></Pressable>
+      {session.token &&
+        <View style={{ flex: 1, alignItems: "center", marginTop: 50, width: "100%", paddingHorizontal: 10 }}>
+          <View style={{ flex: 1, alignItems: "center", paddingBottom: 30 }}>
+            <Text style={{ fontWeight: "bold", marginBottom: 10 }}>Currently reading</Text>
+            <Text style={{ width: 150, height: 200, backgroundColor: "#DDD" }}></Text>
+            <Pressable style={{ ...styles.buttonGray, marginTop: 25 }}><Text style={{ fontWeight: "bold" }}>Update progress</Text></Pressable>
           </View>
 
           <View style={{borderBottomColor: "#AAA", borderBottomWidth: 2, width: "100%", paddingBottom: 10}}>
@@ -72,7 +72,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
             <Text style={{fontWeight: "bold"}}><Text style={{fontSize: 20}}>?/?</Text> books read</Text>
           </View>
 
-          <View style={{marginTop: 10, flexDirection: "row", justifyContent: "space-between", width: "100%" }}>
+          <View style={{ marginTop: 10, flexDirection: "row", justifyContent: "space-between", width: "100%" }}>
             <View>
               <Text style={{color: "#AAA"}}>Reading streak</Text>
               <Text style={{fontSize: 20}}><Text style={{fontWeight: "bold"}}>{streak}</Text> days</Text>
@@ -86,7 +86,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
 
         </View>
       }
-      
+
       <StatusBar style="dark" />
     </View>
   )
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     fontSize: 35,
     textAlign: 'center',
   },
-  bookBox:{
+  bookBox: {
     backgroundColor: "#ccc",
     height: 30,
     padding: 30,

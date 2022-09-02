@@ -30,6 +30,7 @@ export type GoogleBook = {
     }
 }
 
+
 export const googleBookApi = createApi({
     reducerPath: 'googleBookApi',
     baseQuery,
@@ -43,7 +44,7 @@ export const googleBookApi = createApi({
       }),
 
       //Get books by id query - FLYT FLYT FLYT
-      getBookById: builder.query<{ book: GoogleBook, item: GoogleBook}, { id: string }>({
+      getBookById: builder.query<{ book: GoogleBook[], volumneInfo: GoogleBook[]}, { id: string }>({
         query: ({ id }) => `/${id}?key=AIzaSyDfTY1bGdyfoCIFYKw9zxlZvOqRHz3LGYE`,
         //transformResponse: (response) =>  response.data.items,
         keepUnusedDataFor: 0

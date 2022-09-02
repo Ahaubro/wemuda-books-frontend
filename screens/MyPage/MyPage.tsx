@@ -116,6 +116,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({navigation}) => {
           </View>
         ) )}
         />
+
         <View style={{width: "100%", flex: 1, flexDirection: "row", justifyContent: "center"}}>
           <Pressable style={styles.buttonGray}  onPress={() => {navigation.navigate('BookList', {books: historyBooks})}}><Text style={{fontWeight: "bold"}}>Se alle</Text></Pressable>
         </View>

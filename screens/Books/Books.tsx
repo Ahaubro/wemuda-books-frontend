@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, ActivityIndicator, TextInput, Image, FlatList, 
 import { useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
 import { GoogleBook, useGetBooksQuery } from "../../redux/services/googleBookApi"
+import { useAddBookMutation } from '../../redux/services/bookApi'
 import { } from '@react-navigation/native'
 import _ from 'lodash';
 import Ionicons from '@expo/vector-icons/Ionicons'
@@ -21,6 +22,12 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
   const [bookSearch, setBookSearch] = useState('')
 
 
+  //Add book in progress
+  const [addBook] = useAddBookMutation();
+  const [addBookAtributes, setAddBookAtributes] = useState<{ userId: number, bookId: string, title: string, thumbnail: string, authors: string[], description: string, averageRating: number, ratingCount: number}>({ userId: 0, bookId: "", title: "", thumbnail: "", authors: [], description: "", averageRating: 0, ratingCount:0})
+
+
+
   //Fetched books useState
   const [books, setBooks] = useState<GoogleBook[]>([]);
   const fetchedBooks = useGetBooksQuery({ query: bookSearch }, { refetchOnMountOrArgChange: false, skip: bookSearch.length === 0 })
@@ -30,20 +37,22 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
   // Default thumbnail
   const thumbDefault: any = 'https://books.google.com/books/content?id=qc8qvXhpLA0C&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api'
 
-  // Too many requests
-  console.log("Lad os se", bookSearch)
-
+  
   //Use effect fetched books
-  useEffect(() => {
+  useEffect( () => {
     setBooks(fetchedBooks.data?.books ?? [])
-  }, [])  
+  }, [])
+  console.log(fetchedBooks.data?.items[0].volumeInfo)
 
 
+  //Function that slice authors
   const getAuthors = (authors: string[]) => {
     if(authors.length === 1) return authors[0]
     else return `${authors[0]} and ${authors.length} others.`
   }
 
+
+  //Function that slice titles
   const sliceTitle = (title: string) => {
     if(title.length < 20) return title
     else return `${title.substring(0, 20)}... `
@@ -129,7 +138,19 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
 
                 <View style={{ marginRight: -40 }}>
                   <Pressable style={{}} onPress={() => {
-                    console.log("Coming soon")
+                    addBookAtributes.userId = session.id;
+                    addBookAtributes.bookId = item.id;
+                    addBookAtributes.title = item.volumeInfo.title;
+                    addBookAtributes.authors = item.volumeInfo.authors;
+                    addBookAtributes.description = item.volumeInfo.description;
+                    addBookAtributes.thumbnail = item.volumeInfo.imageLinks.thumbnail;
+                    addBookAtributes.averageRating = item.volumeInfo.averageRating;
+                    addBookAtributes.ratingCount = item.volumeInfo.ratingsCount
+                    
+                    console.log(addBookAtributes)
+
+                    addBook(addBookAtributes);
+                    
                   }}>
                     <Text style={{ fontWeight: 'bold', fontSize: 10 }}> Want to read <Ionicons name={'chevron-down'} size={20} color={'black'} /></Text>
                   </Pressable>
