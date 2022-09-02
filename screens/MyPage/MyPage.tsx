@@ -6,6 +6,7 @@ import { useGetUserByIdQuery, User } from '../../redux/services/userApi'
 import { useGetStatusUpdatesByUserQuery, StatusUpdate } from '../../redux/services/statusUpdateApi'
 import { lte } from 'lodash'
 import {GoogleBook, useGetBookByIdQuery, useLazyGetBookByIdQuery} from '../../redux/services/googleBookApi'
+import BooksScreen from '../Books/Books'
 
 interface MyPageScreenProps {}
 
@@ -19,7 +20,11 @@ const MyPageScreen: React.FC<MyPageScreenProps> = () => {
 
   const statusUpdates = useGetStatusUpdatesByUserQuery(session.id)
 
-  const [books, setBooks] = useState([] as GoogleBook[])
+  // Arex leger
+  const [books, setBooks] = useState<GoogleBook[]>([]);
+  // const fetchedBook = useGetBookByIdQuery({ id: 'zyTCAlFPjgYC' }, { refetchOnMountOrArgChange: false})
+  // const { data, error } = fetchedBook;
+
 
   useEffect(() => {
     if(statusUpdates.data){
@@ -58,15 +63,15 @@ const MyPageScreen: React.FC<MyPageScreenProps> = () => {
   const [getBook] = useLazyGetBookByIdQuery()
 
   useEffect(() => {
-    bookIds.forEach(id => {
-      getBook({ id }).unwrap().then((data) => {
-        console.log(id, data)
-        books.push(data?.book)
-      })
-    })
-  }, [bookIds])
+    // bookIds.forEach(id => {
+    //   getBook({ id }).unwrap().then((data) => {
+    //     console.log(id, data?.item)
+    //     books.push(data?.book)
+    //   })
+    // })
+    
+  }, [])
 
-  console.log(books)
   
   return (
     <View style={{margin: 20, marginTop: 50}}>
@@ -107,6 +112,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = () => {
           </View>
         ) )}
         />
+
         <View style={{width: "100%", flex: 1, flexDirection: "row", justifyContent: "center"}}>
           <Pressable style={styles.buttonGray}><Text style={{fontWeight: "bold"}}>Se alle</Text></Pressable>
         </View>

@@ -23,5 +23,6 @@ export type BookNavigatorParamList = {
         title: string,
         description: string,
        
-    }
+    },
+    
 }
