@@ -17,10 +17,13 @@ const baseQuery = fetchBaseQuery({
 
 
 export type Book = {
-  title: string
-  author: string
-  genre: string
-  releaseDate: string
+  bookId: string,
+  title: string,
+  description: string,
+  author: string,
+  thumbnail?: string, 
+  averageRating: number,
+  ratingsCount: number
 }
 
 export const bookApi = createApi({
@@ -65,17 +68,17 @@ export const bookApi = createApi({
     }),
 
     //Get book by id
-    getBookById: builder.query<
-      {
-        title: string,
-        author: string,
-        genre: string,
-        releaseDate: string;
-      },
-      number
-    >({
-      query: id => `/book/${id}`,
-    }),
+    // getBookById: builder.query<
+    //   {
+    //     title: string,
+    //     author: string,
+    //     genre: string,
+    //     releaseDate: string;
+    //   },
+    //   number
+    // >({
+    //   query: id => `/book/${id}`,
+    // }),
 
     //Delete book
     deleteBook: builder.mutation<{ statusText: string },  number >({
@@ -90,7 +93,6 @@ export const bookApi = createApi({
       { 
         statusText: string 
       },
-
       { 
         id: number;
         title: string;
@@ -106,8 +108,12 @@ export const bookApi = createApi({
       }),
     }),
 
+    getBooksByUserId: builder.query<{ books: Book[] }, number>({
+      query: userId => `/book/${userId}`,
+    }),
+
   }),
 })
 
 
-export const { useGetBooksQuery, useGetBookByIdQuery, useAddBookMutation, useDeleteBookMutation, useUpdateBookMutation } = bookApi
+export const { useGetBooksQuery, useAddBookMutation, useDeleteBookMutation, useUpdateBookMutation, useGetBooksByUserIdQuery } = bookApi
