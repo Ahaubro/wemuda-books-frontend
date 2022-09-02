@@ -22,8 +22,8 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({navigation}) => {
 
   const statusUpdates = useGetStatusUpdatesByUserQuery(session.id)
 
-  const [wantToReadBooks] = useState([{},{},{},{},{},{},{},{},{},{}] as GoogleBook[])
-  const [historyBooks] = useState([{},{},{},{},{},{},{},{},{},{}] as GoogleBook[])
+  const [wantToReadBooks] = useState([] as GoogleBook[])
+  const [historyBooks] = useState([] as GoogleBook[])
 
   useEffect(() => {
     if(statusUpdates.data){
