@@ -55,7 +55,8 @@ export const bookApi = createApi({
     addBook: builder.mutation<
     { statusText: string },
     // { bookId: string, title: string, authors: string[], description: string, thumbnail: string, averageRating: number, ratingCount: number }
-    { userId: number, bookId: string, title: string, thumbnail: string, authors: string[], description: string, averageRating: number, ratingCount: number  }
+    { userId: number, bookId: string, title: string, thumbnail: string, authors: string[], 
+      description: string, averageRating: number, ratingCount: number, bookStatus: string }
     >({
     query: body => ({
       url: '/book',
