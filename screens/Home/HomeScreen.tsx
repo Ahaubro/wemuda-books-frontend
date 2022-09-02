@@ -18,15 +18,15 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
 
   const user = useGetUserByIdQuery(session.id)
 
-  const [streak, setStreak] = useState(0);
-  const [minutes, setMinutes] = useState(0);
+  const [streak, setStreak] = useState("?");
+  const [minutes, setMinutes] = useState("?");
 
   const statusUpdates = useGetStatusUpdatesByUserQuery(session.id)
 
   useEffect(() => {
     if(statusUpdates.data){
       const totalMinutes = statusUpdates.data.statusUpdates.reduce((prev, next: StatusUpdate) => prev + next.minutesRead, 0)
-      setMinutes(totalMinutes)
+      setMinutes(String(totalMinutes))
 
       let updatesInDay = []
 
@@ -41,7 +41,8 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
       let streakCounter = 0
 
       do{
-        streakCounter++;
+        if(updatesInDay.length > 0)
+          streakCounter++;
         dayEnd = dayBeginning
         dayBeginning = new Date(new Date(dayBeginning).setDate(dayBeginning.getDate() - 1))
         updatesInDay = statusUpdates.data.statusUpdates.filter((s:StatusUpdate) => {
@@ -50,7 +51,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
         })
       }while(updatesInDay.length > 0);
 
-      setStreak(streakCounter)
+      setStreak(String(streakCounter))
 
     }
   }, [statusUpdates.data])
@@ -66,18 +67,18 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
             <Pressable style={{...styles.buttonGray, marginTop: 25}}><Text style={{fontWeight: "bold"}}>Update progress</Text></Pressable>
           </View>
 
-          <View style={{borderBottomColor: "#DDD", borderBottomWidth: 2, width: "100%", paddingBottom: 10}}>
-            <Text style={{color: "#DDD"}}>Reading Challenge</Text>
-            <Text style={{fontWeight: "bold"}}><Text style={{fontSize: 20}}>X/X</Text> books read</Text>
+          <View style={{borderBottomColor: "#AAA", borderBottomWidth: 2, width: "100%", paddingBottom: 10}}>
+            <Text style={{color: "#AAA"}}>Reading Challenge</Text>
+            <Text style={{fontWeight: "bold"}}><Text style={{fontSize: 20}}>?/?</Text> books read</Text>
           </View>
 
           <View style={{marginTop: 10, flexDirection: "row", justifyContent: "space-between", width: "100%" }}>
             <View>
-              <Text style={{color: "#DDD"}}>Reading streak</Text>
+              <Text style={{color: "#AAA"}}>Reading streak</Text>
               <Text style={{fontSize: 20}}><Text style={{fontWeight: "bold"}}>{streak}</Text> days</Text>
             </View>
             <View>
-              <Text style={{color: "#DDD"}}>Minutes read</Text>
+              <Text style={{color: "#AAA"}}>Minutes read</Text>
               <Text style={{fontSize: 20}}><Text style={{fontWeight: "bold"}}>{minutes}</Text> minutes</Text>
             </View>
             <View></View>

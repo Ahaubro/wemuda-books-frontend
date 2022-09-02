@@ -6,26 +6,32 @@ import { useGetUserByIdQuery, User } from '../../redux/services/userApi'
 import { useGetStatusUpdatesByUserQuery, StatusUpdate } from '../../redux/services/statusUpdateApi'
 import { lte } from 'lodash'
 import {GoogleBook, useGetBookByIdQuery, useLazyGetBookByIdQuery} from '../../redux/services/googleBookApi'
+import Navigation from '../../containers/Navigation'
 
-interface MyPageScreenProps {}
+interface MyPageScreenProps {
+  navigation: any
+}
 
-const MyPageScreen: React.FC<MyPageScreenProps> = () => {
+const MyPageScreen: React.FC<MyPageScreenProps> = ({navigation}) => {
   const session = useSelector((state: RootState) => state.session)
   
   const user = useGetUserByIdQuery(session.id)
 
-  const [streak, setStreak] = useState(0);
-  const [minutes, setMinutes] = useState(0);
+  const [streak, setStreak] = useState("?");
+  const [minutes, setMinutes] = useState("?");
 
   const statusUpdates = useGetStatusUpdatesByUserQuery(session.id)
 
-  const [books, setBooks] = useState([] as GoogleBook[])
+  const [wantToReadBooks] = useState([{},{},{},{},{},{},{},{},{},{}] as GoogleBook[])
+  const [historyBooks] = useState([{},{},{},{},{},{},{},{},{},{}] as GoogleBook[])
 
   useEffect(() => {
     if(statusUpdates.data){
+      //Count Minutes
       const totalMinutes = statusUpdates.data.statusUpdates.reduce((prev, next: StatusUpdate) => prev + next.minutesRead, 0)
-      setMinutes(totalMinutes)
+      setMinutes(String(totalMinutes))
 
+      //Co
       let updatesInDay = []
 
       let dayBeginning = new Date(new Date().setHours(0, 0, 0, 0))
@@ -39,34 +45,37 @@ const MyPageScreen: React.FC<MyPageScreenProps> = () => {
       let streakCounter = 0
 
       do{
-        streakCounter++;
+        if(updatesInDay.length > 0)
+          streakCounter++;
+
         dayEnd = dayBeginning
         dayBeginning = new Date(new Date(dayBeginning).setDate(dayBeginning.getDate() - 1))
+
         updatesInDay = statusUpdates.data.statusUpdates.filter((s:StatusUpdate) => {
           const time = new Date(s.timeOfUpdate)
           return dayBeginning <= time && time < dayEnd
         })
       }while(updatesInDay.length > 0);
 
-      setStreak(streakCounter)
+      setStreak(String(streakCounter))
 
     }
   }, [statusUpdates.data])
 
-  const [bookIds] = useState(["QCF9AHclv_4C", "WZKHswEACAAJ", "9PuctAEACAAJ", "hoDePAAACAAJ", "ZSfqxgKbrWMC"])
+  // const [bookIds] = useState(["QCF9AHclv_4C", "WZKHswEACAAJ", "9PuctAEACAAJ", "hoDePAAACAAJ", "ZSfqxgKbrWMC"])
 
-  const [getBook] = useLazyGetBookByIdQuery()
+  // const [getBook] = useLazyGetBookByIdQuery()
 
-  useEffect(() => {
-    bookIds.forEach(id => {
-      getBook({ id }).unwrap().then((data) => {
-        console.log(id, data)
-        books.push(data?.book)
-      })
-    })
-  }, [bookIds])
+  // useEffect(() => {
+  //   bookIds.forEach(id => {
+  //     getBook({ id }).unwrap().then((data) => {
+  //       console.log(id, data)
+  //       books.push(data?.book)
+  //     })
+  //   })
+  // }, [bookIds])
 
-  console.log(books)
+  // console.log(books)
   
   return (
     <View style={{margin: 20, marginTop: 50}}>
@@ -74,13 +83,13 @@ const MyPageScreen: React.FC<MyPageScreenProps> = () => {
         <Text style={styles.heading}>{user.data?.firstName} {user.data?.lastName}</Text>
       </View>
 
-      <View style={{ borderBottomColor: "#aaa", borderBottomWidth: 1, paddingBottom: 20, flex: 1, flexDirection: "row", justifyContent: "space-between", width: "100%", alignItems: "stretch" }}>
+      <View style={{ borderBottomColor: "#AAA", borderBottomWidth: 2, paddingBottom: 20, flex: 1, flexDirection: "row", justifyContent: "space-between", width: "100%", alignItems: "stretch" }}>
         <View>
-          <Text style={{color: "#aaa"}}>Reading streak</Text>
+          <Text style={{color: "#AAA"}}>Reading streak</Text>
           <Text style={{fontSize: 20}}><Text style={{fontWeight: "bold"}}>{streak}</Text> days</Text>
         </View>
         <View>
-          <Text style={{color: "#aaa"}}>Minutes read</Text>
+          <Text style={{color: "#AAA"}}>Minutes read</Text>
           <Text style={{fontSize: 20}}><Text style={{fontWeight: "bold"}}>{minutes}</Text> minutes</Text>
         </View>
         <View></View>
@@ -88,27 +97,27 @@ const MyPageScreen: React.FC<MyPageScreenProps> = () => {
       
       <View style={{marginTop: 20}}>
         <Text style={styles.subHeading}>Want to read</Text>
-        <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={books} renderItem={( ({item}) => (
-          <View style={{marginRight: 10}}>
-            <Text style={{width: 75, height: 100, backgroundColor: "#DDD"}}>{item?.volumeInfo.title}</Text>
-          </View>
-        ) )}
-        />
-        <View style={{width: "100%", flex: 1, flexDirection: "row", justifyContent: "center"}}>
-          <Pressable style={styles.buttonGray}><Text style={{fontWeight: "bold"}}>Se alle</Text></Pressable>
-        </View>
-      </View>
-
-      <View style={{marginTop: 20}}>
-        <Text style={styles.subHeading}>My history</Text>
-        <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={bookIds} renderItem={( ({item}) => (
+        <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={wantToReadBooks} renderItem={( ({item}) => (
           <View style={{marginRight: 10}}>
             <Text style={{width: 75, height: 100, backgroundColor: "#DDD"}}></Text>
           </View>
         ) )}
         />
         <View style={{width: "100%", flex: 1, flexDirection: "row", justifyContent: "center"}}>
-          <Pressable style={styles.buttonGray}><Text style={{fontWeight: "bold"}}>Se alle</Text></Pressable>
+          <Pressable style={styles.buttonGray} onPress={() => {navigation.navigate('BookList', {books: wantToReadBooks})}}><Text style={{fontWeight: "bold"}}>Se alle</Text></Pressable>
+        </View>
+      </View>
+
+      <View style={{marginTop: 20}}>
+        <Text style={styles.subHeading}>My history</Text>
+        <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={historyBooks} renderItem={( ({item}) => (
+          <View style={{marginRight: 10}}>
+            <Text style={{width: 75, height: 100, backgroundColor: "#DDD"}}></Text>
+          </View>
+        ) )}
+        />
+        <View style={{width: "100%", flex: 1, flexDirection: "row", justifyContent: "center"}}>
+          <Pressable style={styles.buttonGray}  onPress={() => {navigation.navigate('BookList', {books: historyBooks})}}><Text style={{fontWeight: "bold"}}>Se alle</Text></Pressable>
         </View>
       </View>
     </View>
