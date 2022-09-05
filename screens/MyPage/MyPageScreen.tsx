@@ -31,7 +31,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({navigation}) => {
   const [historyBooks, setHistoryBooks] = useState([] as Book[])
   const [historyState, setHistoryState] = useState("Loading...")
 
-  const fetchedUserBooks = useGetBooksByUserIdQuery(session.id)
+  const fetchedUserBooks = useGetBooksByUserIdQuery(session.id, {refetchOnMountOrArgChange: true})
 
   useEffect(() => {
     setWantToReadState("Loading...")
@@ -47,8 +47,8 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({navigation}) => {
 
   useEffect(() => {
     console.log("Filtering Books...")
-    setWantToReadBooks(allUserBooks.filter(() => true/*book => book.status == "WantToRead"*/))
-    setHistoryBooks(allUserBooks.filter(book => book.status == "HasRead"))
+    setWantToReadBooks(allUserBooks.filter(book => book.bookStatus == "WantToRead"))
+    setHistoryBooks(allUserBooks.filter(book => book.bookStatus == "History"))
   }, [allUserBooks])
 
   useEffect(() => {

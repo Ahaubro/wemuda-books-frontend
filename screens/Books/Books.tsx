@@ -57,7 +57,8 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
 
   //Function that slice authors
   const getAuthors = (authors: string[]) => {
-    if (authors.length === 1) return authors[0]
+    if (!authors) return "No Authors" 
+    else if (authors.length === 1) return authors[0]
     else return `${authors[0]} and ${authors.length} others.`
   }
 
