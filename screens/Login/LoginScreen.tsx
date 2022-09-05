@@ -7,15 +7,17 @@ import store from '../../redux/store'
 import { startSession } from '../../redux/slices/sessionSlice'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { enableAllPlugins } from 'immer'
-import Books from "../../screens/Books/Books"
+import BookNavigator from '../../containers/BookNavigator'
 // import Entypo from '@expo/vector-icons/Entypo'
 // import { StatusBar } from 'expo-status-bar'
 // import { FONTS } from '../../utils/fontUtils'
 // import i18n from 'i18n-js'
 
-interface LoginScreenProps { }
+interface LoginScreenProps { 
+    navigation: any,
+}
 
-const LoginScreen: React.FC<LoginScreenProps> = () => {
+const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
 
     const [loginInputs, setLoginInputs] = useState<{ username: string, password: string }>({ username: "", password: "" })
     const [signupInputs, setSignupInputs] = useState<{ firstname: string, lastname: string, username: string, email: string, password: string }>({ firstname: "", lastname: "", username: "", email: "", password: "" })
@@ -53,7 +55,7 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
 
                 <View style={{padding: 5}}>
                     <Pressable style={{}} onPress={() => {
-                        console.log("Coming soon")
+                        dispatch(startSession({id: 0, token: "guest"}))
                     }}>
                         <Text style={{ color: 'black', fontFamily: 'sans-serif', fontWeight:'bold', textAlign:'center', fontSize: 12}}>Fortsæt uden login</Text>
                     </Pressable>

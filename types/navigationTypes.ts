@@ -22,6 +22,7 @@ export type BookNavigatorParamList = {
         title: string,
         description: string,
     }
+    BookScreen: undefined
 }
 
 type Book = {
