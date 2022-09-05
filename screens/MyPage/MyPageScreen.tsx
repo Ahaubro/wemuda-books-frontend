@@ -47,7 +47,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({navigation}) => {
 
   useEffect(() => {
     console.log("Filtering Books...")
-    setWantToReadBooks(allUserBooks.filter(book => book.status == "WantToRead"))
+    setWantToReadBooks(allUserBooks.filter(() => true/*book => book.status == "WantToRead"*/))
     setHistoryBooks(allUserBooks.filter(book => book.status == "HasRead"))
   }, [allUserBooks])
 
@@ -57,16 +57,14 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({navigation}) => {
     setWantToReadState("No Books")
   }, [wantToReadBooks])
 
-<<<<<<< HEAD:screens/MyPage/MyPage.tsx
+
   //console.log("UserBooks:", allUserBooks)
   //console.log("WantToRead:", wantToReadBooks)
-=======
   useEffect(() => {
     console.log("Filtered History")
     console.log("History:", historyBooks)
     setHistoryState("No Books")
   }, [historyBooks])
->>>>>>> 30b81267d771f12f06df20accd8e380c91cb8a69:screens/MyPage/MyPageScreen.tsx
 
   useEffect(() => {
     if(statusUpdates.data){
