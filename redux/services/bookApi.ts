@@ -30,6 +30,7 @@ export type Book = {
 export const bookApi = createApi({
   reducerPath: 'bookApi',
   baseQuery,
+  tagTypes: ["Books"],
   endpoints: builder => ({
 
     //Get all books
@@ -48,7 +49,8 @@ export const bookApi = createApi({
       url: '/book',
       method: 'POST',
       body
-    })
+    }),
+    invalidatesTags: ["Books"]
     }),
 
     //Get book by bookId
@@ -94,6 +96,7 @@ export const bookApi = createApi({
 
     getBooksByUserId: builder.query<{ books: Book[] }, number>({
       query: userId => `/book/${userId}`,
+      providesTags: ["Books"]
     }),
 
   }),
