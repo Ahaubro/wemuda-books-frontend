@@ -1,8 +1,8 @@
 import React from 'react'
 import {createStackNavigator} from '@react-navigation/stack'
 import {MyPageNavigatorParamList} from '../types/NavigationTypes'
-import MyPageScreen from '../screens/MyPage/MyPage'
-import BookListScreen from '../screens/MyPage/BookList'
+import MyPageScreen from '../screens/MyPage/MyPageScreen'
+import BookListScreen from '../screens/MyPage/BookListScreen'
 
 const Stack = createStackNavigator<MyPageNavigatorParamList>()
 

@@ -37,6 +37,7 @@ type Book = {
 export type MyPageNavigatorParamList = {
     MyPage: undefined
     BookList: {
+        title: string,
         books: Book[]
     }
 }

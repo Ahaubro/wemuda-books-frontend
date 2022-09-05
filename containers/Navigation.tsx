@@ -4,13 +4,14 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import HomeScreen from '../screens/Home/HomeScreen'
 import SettingsScreen from '../screens/Settings/SettingsScreen'
 import BooksScreen from '../screens/Books/Books'
-import MyPageScreen from '../screens/MyPage/MyPage'
+import MyPageScreen from '../screens/MyPage/MyPageScreen'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { useSelector } from 'react-redux'
 import { RootState } from '../redux/store'
 import LoginScreen from '../screens/Login/LoginScreen'
 import { TabNavigationParamList } from '../types/NavigationTypes'
 import BookNavigator from './BookNavigator'
+import MyPageNavigator from './MyPageNavigator'
 
 interface NavigationProps {}
 
@@ -48,7 +49,7 @@ const Navigation: React.FC<NavigationProps> = () => {
           <>
             <Tab.Screen name="Home" component={HomeScreen} />
             <Tab.Screen name="BooksNavigator" component={BookNavigator} options={{title: 'Search'}} />
-            <Tab.Screen name="MyPage" component={MyPageScreen} options={{title: 'Profile'}} />
+            <Tab.Screen name="MyPage" component={MyPageNavigator} options={{title: 'Profile'}} />
           </>
         }
 

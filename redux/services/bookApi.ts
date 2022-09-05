@@ -23,7 +23,8 @@ export type Book = {
   author: string,
   thumbnail?: string, 
   averageRating: number,
-  ratingsCount: number
+  ratingsCount: number,
+  status: string
 }
 
 export const bookApi = createApi({
