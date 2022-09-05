@@ -57,7 +57,6 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({navigation}) => {
     setWantToReadState("No Books")
   }, [wantToReadBooks])
 
-
   //console.log("UserBooks:", allUserBooks)
   //console.log("WantToRead:", wantToReadBooks)
   useEffect(() => {
