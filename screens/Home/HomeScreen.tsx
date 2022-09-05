@@ -85,8 +85,8 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
                     style={{ width: 100, height: 150, borderRadius: 3 }}
                   />
                   :
-                  <div style={{ width: 50, height: 65, backgroundColor: "#ccc", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    No image
+                  <div style={{ width: 100, height: 150, backgroundColor: "#ccc", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    
                   </div>
                 }
 

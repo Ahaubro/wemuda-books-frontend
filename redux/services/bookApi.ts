@@ -92,6 +92,7 @@ export const bookApi = createApi({
         method: 'PATCH',
         body
       }),
+      invalidatesTags: ["Books"]
     }),
 
     getBooksByUserId: builder.query<{ books: Book[] }, number>({
