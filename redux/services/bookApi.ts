@@ -35,24 +35,6 @@ export const bookApi = createApi({
     getBooks: builder.query<{ books: Book[] }, null>({
       query: () => `/book`,
     }),
-    
-    // addBook: builder.mutation<
-    //   {
-    //     statusText: string 
-    //   },
-    //   {
-    //     title: string,
-    //     author: string,
-    //     genre: string,
-    //     releaseDate: string;
-    //   }
-    // >({
-    //   query: body => ({
-    //     url: '/book',
-    //     method: 'POST',
-    //     body,
-    //   }),
-    // }),
 
     //GoogleBook post
     addBook: builder.mutation<
@@ -68,18 +50,18 @@ export const bookApi = createApi({
     })
     }),
 
-    //Get book by id
-    // getBookById: builder.query<
-    //   {
-    //     title: string,
-    //     author: string,
-    //     genre: string,
-    //     releaseDate: string;
-    //   },
-    //   number
-    // >({
-    //   query: id => `/book/${id}`,
-    // }),
+    //Get book by bookId
+    getByBookId: builder.query<
+      {
+        id: number,
+        title: string,
+        bookStatus: string,
+        
+      },
+      string
+    >({
+      query: bookId => `/book/getByBookId/${bookId}`,
+    }),
 
     //Delete book
     deleteBook: builder.mutation<{ statusText: string },  number >({
@@ -95,15 +77,15 @@ export const bookApi = createApi({
         statusText: string 
       },
       { 
-        id: number;
+        userId: number;
+        bookId: string;
+        bookStatus: string;
         title: string;
-        author: string;
-        genre: string;
-        releaseDate: string; 
+        thumbnail: string | undefined; 
       }
     >({
       query: body => ({
-        url: `/${body.id}`,
+        url: `/book/${body.userId}/${body.bookId}`,
         method: 'PATCH',
         body
       }),
@@ -117,4 +99,4 @@ export const bookApi = createApi({
 })
 
 
-export const { useGetBooksQuery, useAddBookMutation, useDeleteBookMutation, useUpdateBookMutation, useGetBooksByUserIdQuery } = bookApi
+export const { useGetBooksQuery, useAddBookMutation, useDeleteBookMutation, useUpdateBookMutation, useGetBooksByUserIdQuery, useGetByBookIdQuery } = bookApi

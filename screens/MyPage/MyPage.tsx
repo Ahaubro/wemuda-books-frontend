@@ -34,7 +34,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({navigation}) => {
 
   useEffect(() => {
     if(fetchedUserBooks.data){
-      console.log("Fetched:", fetchedUserBooks.data.books)
+      //console.log("Fetched:", fetchedUserBooks.data.books)
       setAllUserBooks(fetchedUserBooks.data.books)
     }
   }, [fetchedUserBooks.data])
@@ -47,8 +47,8 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({navigation}) => {
     setWantToReadLoaded(true)
   }, [wantToReadBooks])
 
-  console.log("UserBooks:", allUserBooks)
-  console.log("WantToRead:", wantToReadBooks)
+  //console.log("UserBooks:", allUserBooks)
+  //console.log("WantToRead:", wantToReadBooks)
 
   useEffect(() => {
     if(statusUpdates.data){

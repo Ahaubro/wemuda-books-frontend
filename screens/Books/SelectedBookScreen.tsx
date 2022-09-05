@@ -7,6 +7,9 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { RouteProp } from '@react-navigation/native'
 import { BookNavigatorParamList } from '../../types/NavigationTypes'
 import Ionicons from '@expo/vector-icons/Ionicons'
+import { useUpdateBookMutation, useGetBooksByUserIdQuery, useGetByBookIdQuery } from '../../redux/services/bookApi'
+import { useLazyGetBookByIdQuery } from '../../redux/services/googleBookApi'
+
 
 
 type SelectedBookScreenNavigationProps = StackNavigationProp<BookNavigatorParamList, 'SelectedBookScreen'>
@@ -31,7 +34,11 @@ function SelectedBookScreen({ navigation, route }: Props) {
         slicedDescription = "";
     }
 
-    
+
+    //Update bookStatus
+    const [update] = useUpdateBookMutation();
+    const [updateProps, setUpdateProps] = useState<{ userId: number, bookId: string, bookStatus: string, title: string, thumbnail: string | undefined }>
+    ({ userId: 0, bookId: "", bookStatus: "", title: "", thumbnail: ""})
 
     const dispatch = useDispatch()
 
@@ -87,9 +94,19 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
 
             <View style={styles.centerContainer}>
-         
+                
+            
                 <Pressable style={styles.blackPressableReading} onPress={() => {
-                    console.log("Coming soon")
+
+                    updateProps.userId = session.id;
+                    updateProps.bookId = bookId;
+                    updateProps.title = title;
+                    updateProps.thumbnail= thumbnail;
+                    updateProps.bookStatus = "CurrentlyReading";
+                    console.log(updateProps);
+
+                    update(updateProps);
+                  
                 }}>
                     <Text style={{color: 'white', fontFamily: 'sans-serif'}}> Currently reading </Text>
                     <Ionicons name={'chevron-down'} size={18} color={'white'} />
@@ -109,7 +126,6 @@ function SelectedBookScreen({ navigation, route }: Props) {
                     navigation.navigate('SelectedBookMoreScreen', {
                         
                         title: title,
-                        
                         description: description,
                         
                         })
