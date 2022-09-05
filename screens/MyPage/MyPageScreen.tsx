@@ -6,7 +6,7 @@ import { useGetUserByIdQuery, User } from '../../redux/services/userApi'
 import { useGetStatusUpdatesByUserQuery, StatusUpdate } from '../../redux/services/statusUpdateApi'
 import { lte } from 'lodash'
 import {GoogleBook, useGetBookByIdQuery, useLazyGetBookByIdQuery} from '../../redux/services/googleBookApi'
-import Navigation from '../../containers/Navigation'
+import Navigation from '../../containers/MyPageNavigator'
 import { useGetBooksByUserIdQuery, Book } from '../../redux/services/bookApi'
 
 interface MyPageScreenProps {
@@ -26,11 +26,17 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({navigation}) => {
   const [allUserBooks, setAllUserBooks] = useState([] as Book[])
   
   const [wantToReadBooks, setWantToReadBooks] = useState([] as Book[])
-  const [wantToReadLoaded, setWantToReadLoaded] = useState(false)
+  const [wantToReadState, setWantToReadState] = useState("Loading...")
 
-  const [historyBooks] = useState([] as Book[])
+  const [historyBooks, setHistoryBooks] = useState([] as Book[])
+  const [historyState, setHistoryState] = useState("Loading...")
 
   const fetchedUserBooks = useGetBooksByUserIdQuery(session.id)
+
+  useEffect(() => {
+    setWantToReadState("Loading...")
+    setHistoryState("Loading...")
+  }, [])
 
   useEffect(() => {
     if(fetchedUserBooks.data){
@@ -40,15 +46,27 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({navigation}) => {
   }, [fetchedUserBooks.data])
 
   useEffect(() => {
-    setWantToReadBooks(allUserBooks.filter(()=>true))
+    console.log("Filtering Books...")
+    setWantToReadBooks(allUserBooks.filter(book => book.status == "WantToRead"))
+    setHistoryBooks(allUserBooks.filter(book => book.status == "HasRead"))
   }, [allUserBooks])
 
   useEffect(() => {
-    setWantToReadLoaded(true)
+    console.log("Filtered WantToRead")
+    console.log("WantToRead:", wantToReadBooks)
+    setWantToReadState("No Books")
   }, [wantToReadBooks])
 
+<<<<<<< HEAD:screens/MyPage/MyPage.tsx
   //console.log("UserBooks:", allUserBooks)
   //console.log("WantToRead:", wantToReadBooks)
+=======
+  useEffect(() => {
+    console.log("Filtered History")
+    console.log("History:", historyBooks)
+    setHistoryState("No Books")
+  }, [historyBooks])
+>>>>>>> 30b81267d771f12f06df20accd8e380c91cb8a69:screens/MyPage/MyPageScreen.tsx
 
   useEffect(() => {
     if(statusUpdates.data){
@@ -125,46 +143,50 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({navigation}) => {
       
       <View style={{marginTop: 20}}>
         <Text style={styles.subHeading}>Want to read</Text>
-        {wantToReadLoaded ?
-          <>
-          {allUserBooks.length > 0 ?
-            <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={wantToReadBooks} renderItem={( ({item:book}) => (
-              <View style={{marginRight: 10}}>
+        {wantToReadBooks.length > 0 ?
+          <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={wantToReadBooks} style={{padding: 0, margin: 0, height: 65}} renderItem={( ({item:book}) =>
+            <View style={{margin: 0, padding: 0, marginRight: 10}}>
+              <Image
+                source={{ uri: book.thumbnail }}
+                defaultSource={{ uri: thumbDefault }}
+                style={{ width: 50, height: 65 }}
+              />
+            </View>
+          )}
+          />
+          :
+          <View style={{height: 65, paddingBottom: 20}}><Text>{wantToReadState}</Text></View>
+        }
+        <View style={{width: "100%", flex: 1, flexDirection: "row", justifyContent: "center"}}>
+          <Pressable style={styles.buttonGray} onPress={() => { 
+            if(wantToReadBooks.length > 0)
+              navigation.navigate('BookList', {books: wantToReadBooks, title: "Want to read"})
+            }}><Text style={{fontWeight: "bold"}}>Se alle</Text></Pressable>
+        </View>
+      </View>
+
+      <View style={{marginTop: 20}}>
+        <Text style={styles.subHeading}>My history</Text>
+          {historyBooks.length > 0 ?
+            <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={historyBooks} style={{padding: 0, margin: 0, height: 65}} renderItem={( ({item:book}) =>
+              <View style={{margin: 0, padding: 0, marginRight: 10}}>
                 <Image
                   source={{ uri: book.thumbnail }}
                   defaultSource={{ uri: thumbDefault }}
                   style={{ width: 50, height: 65 }}
                 />
               </View>
-            ) )}
+            )}
             />
             :
-            <View style={{paddingBottom: 20}}><Text>No Books</Text></View>
+            <View style={{height: 65, paddingBottom: 20}}><Text>{historyState}</Text></View>
           }
-          </>
-          :
-          <View style={{paddingBottom: 20}}><Text>Loading...</Text></View>
-        }
-        <View style={{width: "100%", flex: 1, flexDirection: "row", justifyContent: "center"}}>
-          <Pressable style={styles.buttonGray} onPress={() => {navigation.navigate('BookList', {books: wantToReadBooks})}}><Text style={{fontWeight: "bold"}}>Se alle</Text></Pressable>
-        </View>
-      </View>
-
-      <View style={{marginTop: 20}}>
-        <Text style={styles.subHeading}>My history</Text>
-        {historyBooks.length > 0 ?
-          <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={historyBooks} renderItem={( ({item}) => (
-            <View style={{marginRight: 10}}>
-              <Text style={{width: 75, height: 100, backgroundColor: "#DDD"}}></Text>
-            </View>
-          ) )}
-          />
-          :
-          <View style={{paddingBottom: 20}}><Text>No Books</Text></View>
-        }
 
         <View style={{width: "100%", flex: 1, flexDirection: "row", justifyContent: "center"}}>
-          <Pressable style={styles.buttonGray}  onPress={() => {navigation.navigate('BookList', {books: historyBooks})}}><Text style={{fontWeight: "bold"}}>Se alle</Text></Pressable>
+          <Pressable style={styles.buttonGray}  onPress={() => {
+            if(historyBooks.length > 0)
+              navigation.navigate('BookList', {books: historyBooks, title: "My history"})
+          }}><Text style={{fontWeight: "bold"}}>Se alle</Text></Pressable>
         </View>
       </View>
     </View>
