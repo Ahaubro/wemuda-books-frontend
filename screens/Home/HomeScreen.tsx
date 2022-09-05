@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View, Pressable } from 'react-native'
+import { StyleSheet, Text, View, Pressable, FlatList, Image } from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import Entypo from '@expo/vector-icons/Entypo'
 import { StatusBar } from 'expo-status-bar'
 import { FONTS } from '../../utils/fontUtils'
 import i18n from 'i18n-js'
-import { useGetBooksQuery, Book, useGetBookByIdQuery, useDeleteBookMutation, useAddBookMutation, useUpdateBookMutation } from "../../redux/services/bookApi"
+import { useGetBooksQuery, Book, useGetBooksByUserIdQuery, useDeleteBookMutation, useAddBookMutation, useUpdateBookMutation } from "../../redux/services/bookApi"
 import { useGetUserByIdQuery } from "../../redux/services/userApi"
 import { useSelector } from "react-redux"
 import { RootState } from '../../redux/store'
@@ -21,7 +21,18 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   const [streak, setStreak] = useState("?");
   const [minutes, setMinutes] = useState("?");
 
-  const statusUpdates = useGetStatusUpdatesByUserQuery(session.id)
+  const statusUpdates = useGetStatusUpdatesByUserQuery(session.id);
+
+  //Arex igang med currentlyReadning
+  const userBooks = useGetBooksByUserIdQuery(session.id)
+  const userBooksArr = userBooks.data?.books
+  let currentlyReadingBook: string | undefined = ""
+  
+  userBooksArr?.forEach( (book) => {
+    if(book.bookStatus == "CurrentlyReading") {
+      currentlyReadingBook = book.thumbnail
+    }
+  })
 
   useEffect(() => {
     if (statusUpdates.data) {
@@ -59,13 +70,31 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   return (
     <View>
 
-      {session.token &&
+      {session.token && userBooks.data?.books &&
+
         <View style={{ flex: 1, alignItems: "center", marginTop: 50, width: "100%", paddingHorizontal: 10 }}>
+
+          
           <View style={{ flex: 1, alignItems: "center", paddingBottom: 30 }}>
             <Text style={{ fontWeight: "bold", marginBottom: 10 }}>Currently reading</Text>
-            <Text style={{ width: 150, height: 200, backgroundColor: "#DDD" }}></Text>
+            
+
+            {currentlyReadingBook ?
+                  <Image
+                    source={{ uri: currentlyReadingBook }}
+                    style={{ width: 100, height: 150, borderRadius: 3 }}
+                  />
+                  :
+                  <div style={{ width: 50, height: 65, backgroundColor: "#ccc", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    No image
+                  </div>
+                }
+
+
             <Pressable style={{ ...styles.buttonGray, marginTop: 25 }}><Text style={{ fontWeight: "bold" }}>Update progress</Text></Pressable>
           </View>
+
+          
 
           <View style={{borderBottomColor: "#AAA", borderBottomWidth: 2, width: "100%", paddingBottom: 10}}>
             <Text style={{color: "#AAA"}}>Reading Challenge</Text>
@@ -81,7 +110,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
               <Text style={{color: "#AAA"}}>Minutes read</Text>
               <Text style={{fontSize: 20}}><Text style={{fontWeight: "bold"}}>{minutes}</Text> minutes</Text>
             </View>
-            <View></View>
+            
           </View>
 
         </View>
