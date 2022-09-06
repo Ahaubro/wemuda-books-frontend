@@ -60,9 +60,8 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
       setSavedBookIds(arr);
     }
   }, [])
-  //console.log(fetchedBooks.data?.items[0].volumeInfo)
 
-
+  
   //Function that slice authors
   const getAuthors = (authors: string[]) => {
     if (!authors) return "No Authors" 
