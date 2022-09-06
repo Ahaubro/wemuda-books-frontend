@@ -40,7 +40,7 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
 
   //Fetched books useState
   const [books, setBooks] = useState<GoogleBook[]>([]);
-  const fetchedBooks = useGetBooksQuery({ query: bookSearch }, { refetchOnMountOrArgChange: false, skip: bookSearch.length === 0 })
+  const fetchedBooks = useGetBooksQuery({ query: bookSearch }, { refetchOnMountOrArgChange: true, skip: bookSearch.length === 0 })
   const { data, error } = fetchedBooks;
 
 
