@@ -95,11 +95,13 @@ export const bookApi = createApi({
       invalidatesTags: ["Books"]
     }),
 
+    //Get books by userId
     getBooksByUserId: builder.query<{ books: Book[] }, number>({
       query: userId => `/book/${userId}`,
-      providesTags: ["Books"]
+      providesTags: ["Books"],
     }),
 
+    //Edit book status
     editStatus: builder.mutation<
       {statusText: string},
       {userId: number, bookId: string, bookStatus: string}
@@ -107,7 +109,6 @@ export const bookApi = createApi({
       query: body => ({url: '/book', method: 'PATCH', body}),
       invalidatesTags: ["Books"]
     })
-
   }),
 })
 

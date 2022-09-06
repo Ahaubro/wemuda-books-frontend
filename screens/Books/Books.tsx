@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, ActivityIndicator, TextInput, Image, FlatList, 
 import { useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
 import { GoogleBook, useGetBooksQuery } from "../../redux/services/googleBookApi"
-import { useAddBookMutation } from '../../redux/services/bookApi'
+import { Book, useAddBookMutation, useGetBooksByUserIdQuery } from '../../redux/services/bookApi'
 import {  } from '@react-navigation/native'
 import _ from 'lodash';
 import Ionicons from '@expo/vector-icons/Ionicons'
@@ -41,18 +41,25 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
   //Fetched books useState
   const [books, setBooks] = useState<GoogleBook[]>([]);
   const fetchedBooks = useGetBooksQuery({ query: bookSearch }, { refetchOnMountOrArgChange: true, skip: bookSearch.length === 0 })
+  
+  
+  //For updating wantToRead
+  const fetchedUserBooks = useGetBooksByUserIdQuery(session.id, { refetchOnMountOrArgChange: true });
+  const [savedBookIds, setSavedBookIds] = useState<string[]>([]);
+
   const { data, error } = fetchedBooks;
-
-
-  // Default thumbnail
-  const thumbDefault: any = 'https://books.google.com/books/content?id=qc8qvXhpLA0C&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api'
-
+  
 
   //Use effect fetched books
   useEffect(() => {
     setBooks(fetchedBooks.data?.books ?? [])
-  }, [])
-  //console.log(fetchedBooks.data?.items[0].volumeInfo)
+
+    if(fetchedUserBooks.data) {
+      let arr = fetchedUserBooks.data.books.map(item => item.bookId)
+      console.log(arr)
+      setSavedBookIds(arr);
+    }
+  }, [fetchedUserBooks.data])
 
 
   //Function that slice authors
@@ -130,7 +137,6 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
                 {item.volumeInfo.imageLinks ?
                   <Image
                     source={{ uri: item.volumeInfo.imageLinks.thumbnail }}
-                    defaultSource={{ uri: thumbDefault }}
                     style={{ width: 50, height: 65, borderRadius: 3 }}
                   />
                   :
@@ -157,21 +163,20 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
                       addBookAtributes.averageRating = item.volumeInfo.averageRating;
                       addBookAtributes.ratingCount = item.volumeInfo.ratingsCount
                       addBookAtributes.bookStatus = "WantToRead"
-
-                      console.log(addBookAtributes)
                       addBook(addBookAtributes);
 
                     }}>
                       <Text style={{ fontWeight: 'bold', fontSize: 10 }}>
-                        Want to read <Ionicons name={'chevron-down'} size={20} color={'black'} />
+                        {savedBookIds.filter(elm => elm === item.id).length === 1 ? 
+                          <>On my list <Ionicons name={'checkmark-sharp'} size={20} color={'green'} /> </>
+                          : 
+                          <>Want to read <Ionicons name={'chevron-down'} size={20} color={'black'} /> </>
+                        }
                       </Text>
                     </Pressable>
                   </View>
                 )}
-
-
               </View>
-
             </TouchableOpacity>
 
           )} />
