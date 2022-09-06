@@ -121,51 +121,28 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({navigation}) => {
   // console.log(books)
   
   return (
-    <View style={{margin: 20, marginTop: 50}}>
-      <View style={{marginBottom: 20}}>
-        <Text style={styles.heading}>{user.data?.firstName} {user.data?.lastName}</Text>
-      </View>
+    <View style={{backgroundColor: "white", height: "100%"}}>
+      <View style={{margin: 20, marginTop: 50}}>
+        <View style={{marginBottom: 20}}>
+          <Text style={styles.heading}>{user.data?.firstName} {user.data?.lastName}</Text>
+        </View>
 
-      <View style={{ borderBottomColor: "#AAA", borderBottomWidth: 2, paddingBottom: 20, flex: 1, flexDirection: "row", justifyContent: "space-between", width: "100%", alignItems: "stretch" }}>
-        <View>
-          <Text style={{color: "#AAA"}}>Reading streak</Text>
-          <Text style={{fontSize: 20}}><Text style={{fontWeight: "bold"}}>{streak}</Text> days</Text>
+        <View style={{ borderBottomColor: "#AAA", borderBottomWidth: 2, paddingBottom: 20, flex: 1, flexDirection: "row", justifyContent: "space-between", width: "100%", alignItems: "stretch" }}>
+          <View>
+            <Text style={{color: "#AAA"}}>Reading streak</Text>
+            <Text style={{fontSize: 20}}><Text style={{fontWeight: "bold"}}>{streak}</Text> days</Text>
+          </View>
+          <View>
+            <Text style={{color: "#AAA"}}>Minutes read</Text>
+            <Text style={{fontSize: 20}}><Text style={{fontWeight: "bold"}}>{minutes}</Text> minutes</Text>
+          </View>
+          <View></View>
         </View>
-        <View>
-          <Text style={{color: "#AAA"}}>Minutes read</Text>
-          <Text style={{fontSize: 20}}><Text style={{fontWeight: "bold"}}>{minutes}</Text> minutes</Text>
-        </View>
-        <View></View>
-      </View>
-      
-      <View style={{marginTop: 20}}>
-        <Text style={styles.subHeading}>Want to read</Text>
-        {wantToReadBooks.length > 0 ?
-          <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={wantToReadBooks} style={{padding: 0, margin: 0, height: 65}} renderItem={( ({item:book}) =>
-            <View style={{margin: 0, padding: 0, marginRight: 10}}>
-              <Image
-                source={{ uri: book.thumbnail }}
-                defaultSource={{ uri: thumbDefault }}
-                style={{ width: 50, height: 65 }}
-              />
-            </View>
-          )}
-          />
-          :
-          <View style={{height: 65, paddingBottom: 20}}><Text>{wantToReadState}</Text></View>
-        }
-        <View style={{width: "100%", flex: 1, flexDirection: "row", justifyContent: "center"}}>
-          <Pressable style={styles.buttonGray} onPress={() => { 
-            if(wantToReadBooks.length > 0)
-              navigation.navigate('BookList', {books: wantToReadBooks, title: "Want to read"})
-            }}><Text style={{fontWeight: "bold"}}>Se alle</Text></Pressable>
-        </View>
-      </View>
-
-      <View style={{marginTop: 20}}>
-        <Text style={styles.subHeading}>My history</Text>
-          {historyBooks.length > 0 ?
-            <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={historyBooks} style={{padding: 0, margin: 0, height: 65}} renderItem={( ({item:book}) =>
+        
+        <View style={{marginTop: 20}}>
+          <Text style={styles.subHeading}>Want to read</Text>
+          {wantToReadBooks.length > 0 ?
+            <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={wantToReadBooks} style={{padding: 0, margin: 0, height: 65}} renderItem={( ({item:book}) =>
               <View style={{margin: 0, padding: 0, marginRight: 10}}>
                 <Image
                   source={{ uri: book.thumbnail }}
@@ -176,14 +153,39 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({navigation}) => {
             )}
             />
             :
-            <View style={{height: 65, paddingBottom: 20}}><Text>{historyState}</Text></View>
+            <View style={{height: 65, paddingBottom: 20}}><Text>{wantToReadState}</Text></View>
           }
+          <View style={{width: "100%", flex: 1, flexDirection: "row", justifyContent: "center"}}>
+            <Pressable style={styles.buttonGray} onPress={() => { 
+              if(wantToReadBooks.length > 0)
+                navigation.navigate('BookList', {books: wantToReadBooks, title: "Want to read"})
+              }}><Text style={{fontWeight: "bold"}}>Se alle</Text></Pressable>
+          </View>
+        </View>
 
-        <View style={{width: "100%", flex: 1, flexDirection: "row", justifyContent: "center"}}>
-          <Pressable style={styles.buttonGray}  onPress={() => {
-            if(historyBooks.length > 0)
-              navigation.navigate('BookList', {books: historyBooks, title: "My history"})
-          }}><Text style={{fontWeight: "bold"}}>Se alle</Text></Pressable>
+        <View style={{marginTop: 20}}>
+          <Text style={styles.subHeading}>My history</Text>
+            {historyBooks.length > 0 ?
+              <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={historyBooks} style={{padding: 0, margin: 0, height: 65}} renderItem={( ({item:book}) =>
+                <View style={{margin: 0, padding: 0, marginRight: 10}}>
+                  <Image
+                    source={{ uri: book.thumbnail }}
+                    defaultSource={{ uri: thumbDefault }}
+                    style={{ width: 50, height: 65 }}
+                  />
+                </View>
+              )}
+              />
+              :
+              <View style={{height: 65, paddingBottom: 20}}><Text>{historyState}</Text></View>
+            }
+
+          <View style={{width: "100%", flex: 1, flexDirection: "row", justifyContent: "center"}}>
+            <Pressable style={styles.buttonGray}  onPress={() => {
+              if(historyBooks.length > 0)
+                navigation.navigate('BookList', {books: historyBooks, title: "My history"})
+            }}><Text style={{fontWeight: "bold"}}>Se alle</Text></Pressable>
+          </View>
         </View>
       </View>
     </View>

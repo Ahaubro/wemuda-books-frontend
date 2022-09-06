@@ -72,24 +72,24 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   }, [statusUpdates.data])
 
   return (
-    <View>
+    <View style={{backgroundColor: "white", height: "100%"}}>
 
       {session.token && userBooks.data?.books &&
 
-        <View style={{ flex: 1, alignItems: "center", marginTop: 50, width: "100%", paddingHorizontal: 10 }}>
+        <View style={{ flex: 1, alignItems: "center", marginTop: 40, width: "100%", paddingHorizontal: 10 }}>
 
           
           <View style={{ flex: 1, alignItems: "center", paddingBottom: 30 }}>
-            <Text style={{ fontWeight: "bold", marginBottom: 10 }}>Currently reading</Text>
+            <Text style={{ marginBottom: 10, fontSize: 14, fontWeight: "700", }}>Currently reading</Text>
             
 
             {currentlyReadingBookThumbnail ?
                   <Image
                     source={{ uri: currentlyReadingBookThumbnail }}
-                    style={{ width: 100, height: 150, borderRadius: 3 }}
+                    style={{ width: 130, height: 180, borderRadius: 5 }}
                   />
                   :
-                  <div style={{ width: 100, height: 150, backgroundColor: "#ccc", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                  <div style={{ width: 130, height: 180, backgroundColor: "#ccc", display: "flex", justifyContent: "center", alignItems: "center" }}>
                     
                   </div>
                 }
@@ -100,18 +100,16 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
                 bookId: currentlyReadingBookId,
                 userId: session.id
               }))}>
-              <Text style={{ fontWeight: "bold" }}>Update progress</Text>
+              <Text style={{ fontWeight: "bold", fontSize: 12 }}>Update progress</Text>
             </Pressable>
           </View>
 
           
-
           <View style={{borderBottomColor: "#AAA", borderBottomWidth: 2, width: "100%", paddingBottom: 10}}>
-            <Text style={{color: "#AAA"}}>Reading Challenge</Text>
+            <Text style={{color: "#AAA"}}>Reading challenge</Text>
             <Text style={{fontWeight: "bold"}}><Text style={{fontSize: 20}}>?/?</Text> books read</Text>
           </View>
-
-          <View style={{ marginTop: 10, flexDirection: "row", justifyContent: "space-between", width: "100%" }}>
+          <View style={{ marginTop: 10, flexDirection: "row", justifyContent: "space-between", width: "100%", paddingBottom: 100 }}>
             <View>
               <Text style={{color: "#AAA"}}>Reading streak</Text>
               <Text style={{fontSize: 20}}><Text style={{fontWeight: "bold"}}>{streak}</Text> days</Text>
@@ -120,11 +118,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
               <Text style={{color: "#AAA"}}>Minutes read</Text>
               <Text style={{fontSize: 20}}><Text style={{fontWeight: "bold"}}>{minutes}</Text> minutes</Text>
             </View>
-
             <View></View>
-            
           </View>
-
         </View>
       }
 
