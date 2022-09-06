@@ -10,6 +10,7 @@ import { useGetUserByIdQuery } from "../../redux/services/userApi"
 import { useSelector } from "react-redux"
 import { RootState } from '../../redux/store'
 import { useGetStatusUpdatesByUserQuery, StatusUpdate } from '../../redux/services/statusUpdateApi'
+import { configureScope } from '@sentry/react-native'
 
 interface HomeScreenProps {
   navigation: any
@@ -24,6 +25,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   const [minutes, setMinutes] = useState("?");
 
   const statusUpdates = useGetStatusUpdatesByUserQuery(session.id);
+
+  const [booksRead, setBooksRead] = useState("?")
 
   //Arex igang med currentlyReadning
   const userBooks = useGetBooksByUserIdQuery(session.id, {refetchOnMountOrArgChange: true})
@@ -70,6 +73,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
 
     }
   }, [statusUpdates.data])
+
+  useEffect(() => {
+    const historyBooks = userBooks.data?.books.filter(book => book.bookStatus == "History")
+    const text = String(historyBooks?.length)
+    console.log(historyBooks, text)
+    setBooksRead(text)
+  }, [userBooks.data])
 
   return (
     <View style={{backgroundColor: "white", height: "100%"}}>
