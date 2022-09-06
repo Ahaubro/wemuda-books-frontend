@@ -1,10 +1,11 @@
-import React, { } from 'react'
+import React, { useState } from 'react'
 import {View, Pressable, Image, Text, StyleSheet, TextInput} from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { HomeNavigatorParamList } from '../../types/NavigationTypes'
 import { RouteProp } from '@react-navigation/native'
 import {useEditStatusMutation, useGetBooksByUserIdQuery, Book} from '../../redux/services/bookApi'
+import {useAddStatusUpdateMutation} from '../../redux/services/statusUpdateApi'
 
 
 type UpdateStatusScreenNavigationProps = StackNavigationProp<HomeNavigatorParamList, "UpdateStatus">
@@ -22,7 +23,13 @@ const UpdateStatusScreen: React.FC<HomeScreenProps> = ({navigation, route}) => {
     const userBooks = useGetBooksByUserIdQuery(userId)
     const currentlyReadingBook : Book | undefined = userBooks.data?.books.find(book => book.bookId == bookId)
 
-    const [editBookStatus] = useEditStatusMutation();
+    const [editBookStatus] = useEditStatusMutation()
+
+    const [addStatusUpdate] = useAddStatusUpdateMutation()
+
+    const [minutesRead, setMinutesRead] = useState(0)
+
+    const [message, setMessage] = useState("")
 
     return <>
         <View style={{margin: 20}}>
@@ -45,13 +52,36 @@ const UpdateStatusScreen: React.FC<HomeScreenProps> = ({navigation, route}) => {
                         No image
                     </div>
                 }
+                <View style={{paddingBottom: 10, borderBottomColor: "#AAA", borderBottomWidth: 2, width: "100%", alignItems: "center", marginBottom: 10}}>
+                    <Pressable style={{ ...styles.buttonGray, marginTop: 25 }} onPress={(() => {
+                        editBookStatus({userId, bookId, bookStatus: "History"})
+                        navigation.navigate("Home")
+                    })}>
+                        <Text style={{ fontWeight: "bold" }}>Finished Book</Text>
+                    </Pressable>
+                </View>
+                
+                <Text>Enter how many minutes you have read in the book this time:</Text>
+
+                <TextInput keyboardType="number-pad" placeholder="Enter minutes" placeholderTextColor={"#AAA"} onChangeText={(minutes) => {
+                    setMinutesRead(Number(minutes))
+                }} style={styles.textInput}></TextInput>
 
                 <Pressable style={{ ...styles.buttonGray, marginTop: 25 }} onPress={(() => {
-                    editBookStatus({userId, bookId, bookStatus: "History"})
-                    navigation.navigate("Home")
+                    console.log(minutesRead)
+                    if(minutesRead != NaN){
+                        if(minutesRead > 0){
+                            addStatusUpdate({userId, minutesAdded: minutesRead})
+                            navigation.navigate("Home")
+                        }else
+                            setMessage("You must enter a number higher than 0!")
+                    }else
+                        setMessage("You must enter a number!")
                 })}>
-                    <Text style={{ fontWeight: "bold" }}>Done</Text>
+                    <Text style={{ fontWeight: "bold" }}>Update Minutes</Text>
                 </Pressable>
+
+                <Text style={{color: "#F00"}}>{message}</Text>
 
             </View>
         </View>
@@ -72,6 +102,17 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         paddingVertical: 10,
         height: "fit-content"
+    },
+    textInput: {
+        borderWidth: 1,
+        borderStyle: "solid",
+        borderColor: "gray",
+        borderRadius: 10,
+        paddingHorizontal: 8,
+        paddingVertical: 8, 
+        fontSize: 15,
+        marginLeft: 5,
+        marginRight: 5
     }
 })
 

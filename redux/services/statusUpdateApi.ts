@@ -25,14 +25,24 @@ export type StatusUpdate = {
 export const statusUpdateApi = createApi({
     reducerPath: 'statusUpdateApi',
     baseQuery,
+    tagTypes: ["Statuses"],
     endpoints: builder => ({
         getStatusUpdatesByUser: builder.query<
             {statusUpdates: StatusUpdate[]},
             number
         >({
-            query: userId => `/statusupdate/${userId}`
+            query: userId => `/statusupdate/${userId}`,
+            providesTags: ["Statuses"]
+        }),
+
+        addStatusUpdate: builder.mutation<
+            {statusText: string},
+            {userId: number, minutesAdded: number}
+        >({
+            query: body => ({url: `/statusupdate/${body.userId}`, method: "POST", body: {minutesAdded: body.minutesAdded}}),
+            invalidatesTags: ["Statuses"]
         })
     })
 })
 
-export const { useGetStatusUpdatesByUserQuery } = statusUpdateApi
+export const { useGetStatusUpdatesByUserQuery, useAddStatusUpdateMutation } = statusUpdateApi
