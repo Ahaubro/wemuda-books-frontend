@@ -46,7 +46,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
         <View style={{ backgroundColor: 'white', height: '100%' }}>
 
             <Pressable style={{ padding: 20 }} onPress={() => {
-                navigation.navigate('Books')
+                navigation.pop();
             }}>
                 <Ionicons name={'chevron-back'} size={25} color={'black'} />
             </Pressable>

@@ -41,6 +41,15 @@ export type MyPageNavigatorParamList = {
         title: string,
         books: Book[]
     }
+    SelectedBookScreen: { 
+        bookId: string,
+        title: string,
+        description: string,
+        author: string,
+        thumbnail?: string, 
+        averageRating: number,
+        ratingsCount: number,
+    }
 }
 
 export type HomeNavigatorParamList = {
