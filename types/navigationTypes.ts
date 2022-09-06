@@ -42,3 +42,11 @@ export type MyPageNavigatorParamList = {
         books: Book[]
     }
 }
+
+export type HomeNavigatorParamList = {
+    Home: undefined
+    UpdateStatus: {
+        bookId: string,
+        userId: number
+    }
+}

@@ -7,7 +7,7 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { RouteProp } from '@react-navigation/native'
 import { BookNavigatorParamList } from '../../types/NavigationTypes'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { useUpdateBookMutation, useGetBooksByUserIdQuery, useGetByBookIdQuery } from '../../redux/services/bookApi'
+import { useEditStatusMutation } from '../../redux/services/bookApi'
 import { useLazyGetBookByIdQuery } from '../../redux/services/googleBookApi'
 
 
@@ -36,9 +36,9 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
 
     //Update bookStatus
-    const [update] = useUpdateBookMutation();
-    const [updateProps, setUpdateProps] = useState<{ userId: number, bookId: string, bookStatus: string, title: string, thumbnail: string | undefined }>
-    ({ userId: 0, bookId: "", bookStatus: "", title: "", thumbnail: ""})
+    const [editBookStatus] = useEditStatusMutation();
+    // const [updateProps, setUpdateProps] = useState<{ userId: number, bookId: string, bookStatus: string, title: string, thumbnail: string | undefined }>
+    // ({ userId: 0, bookId: "", bookStatus: "", title: "", thumbnail: ""})
 
     const dispatch = useDispatch()
 
@@ -97,16 +97,8 @@ function SelectedBookScreen({ navigation, route }: Props) {
                 
             
                 <Pressable style={styles.blackPressableReading} onPress={() => {
-
-                    updateProps.userId = session.id;
-                    updateProps.bookId = bookId;
-                    updateProps.title = title;
-                    updateProps.thumbnail= thumbnail;
-                    updateProps.bookStatus = "CurrentlyReading";
-                    console.log(updateProps);
-
-                    update(updateProps);
-                  
+                    if(session.id != 0)
+                        editBookStatus({userId: session.id, bookId, bookStatus: "CurrentlyReading"});
                 }}>
                     <Text style={{color: 'white', fontFamily: 'sans-serif'}}> Currently reading </Text>
                     <Ionicons name={'chevron-down'} size={18} color={'white'} />

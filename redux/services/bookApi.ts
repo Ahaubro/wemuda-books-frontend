@@ -103,4 +103,4 @@ export const bookApi = createApi({
 })
 
 
-export const { useGetBooksQuery, useAddBookMutation, useDeleteBookMutation, useUpdateBookMutation, useGetBooksByUserIdQuery, useGetByBookIdQuery } = bookApi
+export const { useGetBooksQuery, useAddBookMutation, useDeleteBookMutation, useUpdateBookMutation, useGetBooksByUserIdQuery, useGetByBookIdQuery, useEditStatusMutation} = bookApi

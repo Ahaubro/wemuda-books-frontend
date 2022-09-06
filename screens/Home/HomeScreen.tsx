@@ -5,15 +5,17 @@ import Entypo from '@expo/vector-icons/Entypo'
 import { StatusBar } from 'expo-status-bar'
 import { FONTS } from '../../utils/fontUtils'
 import i18n from 'i18n-js'
-import { useGetBooksQuery, Book, useGetBooksByUserIdQuery, useDeleteBookMutation, useAddBookMutation, useUpdateBookMutation } from "../../redux/services/bookApi"
+import { useGetBooksByUserIdQuery } from "../../redux/services/bookApi"
 import { useGetUserByIdQuery } from "../../redux/services/userApi"
 import { useSelector } from "react-redux"
 import { RootState } from '../../redux/store'
 import { useGetStatusUpdatesByUserQuery, StatusUpdate } from '../../redux/services/statusUpdateApi'
 
-interface HomeScreenProps { }
+interface HomeScreenProps {
+  navigation: any
+}
 
-const HomeScreen: React.FC<HomeScreenProps> = () => {
+const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   const session = useSelector((state: RootState) => state.session)
 
   const user = useGetUserByIdQuery(session.id)
@@ -24,13 +26,15 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   const statusUpdates = useGetStatusUpdatesByUserQuery(session.id);
 
   //Arex igang med currentlyReadning
-  const userBooks = useGetBooksByUserIdQuery(session.id)
+  const userBooks = useGetBooksByUserIdQuery(session.id, {refetchOnMountOrArgChange: true})
   const userBooksArr = userBooks.data?.books
-  let currentlyReadingBook: string | undefined = ""
+  let currentlyReadingBookThumbnail: string | undefined = ""
+  let currentlyReadingBookId: string | undefined = ""
   
   userBooksArr?.forEach( (book) => {
     if(book.bookStatus == "CurrentlyReading") {
-      currentlyReadingBook = book.thumbnail
+      currentlyReadingBookThumbnail = book.thumbnail
+      currentlyReadingBookId = book.bookId
     }
   })
 
@@ -79,9 +83,9 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
             <Text style={{ fontWeight: "bold", marginBottom: 10 }}>Currently reading</Text>
             
 
-            {currentlyReadingBook ?
+            {currentlyReadingBookThumbnail ?
                   <Image
-                    source={{ uri: currentlyReadingBook }}
+                    source={{ uri: currentlyReadingBookThumbnail }}
                     style={{ width: 100, height: 150, borderRadius: 3 }}
                   />
                   :
@@ -91,7 +95,13 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
                 }
 
 
-            <Pressable style={{ ...styles.buttonGray, marginTop: 25 }}><Text style={{ fontWeight: "bold" }}>Update progress</Text></Pressable>
+            <Pressable style={{ ...styles.buttonGray, marginTop: 25 }} onPress={(()=>navigation.navigate('UpdateStatus', {
+                thumbnail: currentlyReadingBookThumbnail,
+                bookId: currentlyReadingBookId,
+                userId: session.id
+              }))}>
+              <Text style={{ fontWeight: "bold" }}>Update progress</Text>
+            </Pressable>
           </View>
 
           

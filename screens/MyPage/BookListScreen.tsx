@@ -17,7 +17,7 @@ type Props = {
 function BookListScreen({ navigation, route }: Props){
     const session = useSelector((state: RootState) => state.session)
 
-    const {books} = route.params
+    const {books, title} = route.params
 
     const thumbDefault = 'https://books.google.com/books/content?id=qc8qvXhpLA0C&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api'
 
@@ -29,7 +29,7 @@ function BookListScreen({ navigation, route }: Props){
                 <Ionicons name={'chevron-back'} size={25} color={'black'} />
             </Pressable>
 
-            <Text style={styles.subHeading}>Want to read</Text>
+            <Text style={styles.subHeading}>{title}</Text>
 
             <FlatList style={{flex: 1, flexWrap: "wrap", width: "100%"}} numColumns={5} showsHorizontalScrollIndicator={false} data={books} renderItem={( ({item:book}) => (
                 <View style={{marginRight: 10, marginBottom: 10}}>
