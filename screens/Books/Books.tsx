@@ -30,7 +30,7 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
   //Add book in progress
   const [addBook] = useAddBookMutation();
   const [addBookAtributes, setAddBookAtributes] = useState<{
-    userId: number, bookId: string, title: string, thumbnail: string, authors: string[],
+    userId: number, bookId: string, title: string, thumbnail: string | undefined, authors: string[],
     description: string, averageRating: number, ratingCount: number, bookStatus: string
   }>({
     userId: 0, bookId: "", title: "", thumbnail: "", authors: [], description: "",
@@ -49,7 +49,7 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
 
   const { data, error } = fetchedBooks;
   
-
+ 
   //Use effect fetched books
   useEffect(() => {
     setBooks(fetchedBooks.data?.books ?? [])
@@ -83,7 +83,6 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
           source={{ uri: item.volumeInfo.imageLinks.thumbnail }}
           style={{ width: 50, height: 65 }}
         />
-
         <Text>{item.volumeInfo.title}</Text>
       </View>
     )
@@ -159,11 +158,12 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
                       addBookAtributes.title = item.volumeInfo.title;
                       addBookAtributes.authors = item.volumeInfo.authors;
                       addBookAtributes.description = item.volumeInfo.description;
-                      addBookAtributes.thumbnail = item.volumeInfo.imageLinks.thumbnail;
+                      addBookAtributes.thumbnail = item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.thumbnail : undefined,
                       addBookAtributes.averageRating = item.volumeInfo.averageRating;
                       addBookAtributes.ratingCount = item.volumeInfo.ratingsCount
                       addBookAtributes.bookStatus = "WantToRead"
-                      addBook(addBookAtributes);
+                      addBook(addBookAtributes);       
+                          
 
                     }}>
                       <Text style={{ fontWeight: 'bold', fontSize: 10 }}>
