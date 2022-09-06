@@ -12,6 +12,7 @@ import LoginScreen from '../screens/Login/LoginScreen'
 import { TabNavigationParamList } from '../types/NavigationTypes'
 import BookNavigator from './BookNavigator'
 import MyPageNavigator from './MyPageNavigator'
+import HomeNavigator from './HomeNavigator'
 
 interface NavigationProps {}
 
@@ -47,7 +48,7 @@ const Navigation: React.FC<NavigationProps> = () => {
       >
         {session.token && session.token != "guest" &&
           <>
-            <Tab.Screen name="Home" component={HomeScreen} />
+            <Tab.Screen name="Home" component={HomeNavigator} options={{title: "Home"}} />
             <Tab.Screen name="BooksNavigator" component={BookNavigator} options={{title: 'Search'}} />
             <Tab.Screen name="MyPage" component={MyPageNavigator} options={{title: 'Profile'}} />
           </>
