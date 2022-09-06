@@ -97,9 +97,8 @@ export const bookApi = createApi({
 
     getBooksByUserId: builder.query<{ books: Book[] }, number>({
       query: userId => `/book/${userId}`,
-      providesTags: ["Books"]
+      providesTags: ["Books"],
     }),
-
   }),
 })
 

@@ -46,22 +46,22 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({navigation}) => {
   }, [fetchedUserBooks.data])
 
   useEffect(() => {
-    console.log("Filtering Books...")
+    //console.log("Filtering Books...")
     setWantToReadBooks(allUserBooks.filter(book => book.bookStatus == "WantToRead"))
     setHistoryBooks(allUserBooks.filter(book => book.bookStatus == "History"))
   }, [allUserBooks])
 
   useEffect(() => {
-    console.log("Filtered WantToRead")
-    console.log("WantToRead:", wantToReadBooks)
+    //console.log("Filtered WantToRead")
+    //console.log("WantToRead:", wantToReadBooks)
     setWantToReadState("No Books")
   }, [wantToReadBooks])
 
   //console.log("UserBooks:", allUserBooks)
   //console.log("WantToRead:", wantToReadBooks)
   useEffect(() => {
-    console.log("Filtered History")
-    console.log("History:", historyBooks)
+    //console.log("Filtered History")
+    //console.log("History:", historyBooks)
     setHistoryState("No Books")
   }, [historyBooks])
 
