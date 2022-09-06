@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RouteProp } from '@react-navigation/native'
 import { MyPageNavigatorParamList } from '../../types/navigationTypes'
-import { Pressable, StyleSheet, Text, View, FlatList, Image } from 'react-native'
+import { Pressable, StyleSheet, Text, View, FlatList, Image, TouchableOpacity } from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons'
 
 type BookListScreenNavigationProps = StackNavigationProp<MyPageNavigatorParamList, 'BookList'>
@@ -32,13 +32,26 @@ function BookListScreen({ navigation, route }: Props){
             <Text style={styles.subHeading}>{title}</Text>
 
             <FlatList style={{flex: 1, flexWrap: "wrap", width: "100%"}} numColumns={5} showsHorizontalScrollIndicator={false} data={books} renderItem={( ({item:book}) => (
-                <View style={{marginRight: 10, marginBottom: 10}}>
-                    <Image
-                        source={{ uri: book.thumbnail }}
-                        defaultSource={{ uri: thumbDefault }}
-                        style={{ width: 50, height: 65 }}
-                    />
-                </View>
+                <View style={{ margin: 0, padding: 0, marginRight: 10 }}>
+                <TouchableOpacity onPress={() => {
+                  navigation.navigate('SelectedBookScreen', {
+                    bookId: book.bookId,
+                    title: book.title,
+                    description: book.description,
+                    thumbnail: book.thumbnail,
+                    author: book.author,
+                    averageRating: book.averageRating,
+                    ratingsCount: book.ratingsCount
+                  })
+                }}>
+
+                  <Image
+                    source={{ uri: book.thumbnail }}
+                    defaultSource={{ uri: thumbDefault }}
+                    style={{ width: 70, height: 100, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 3 }}
+                  />
+                </TouchableOpacity>
+              </View>
             ) )} />
         </View>
     </>)
