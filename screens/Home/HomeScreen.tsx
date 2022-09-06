@@ -120,6 +120,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
               <Text style={{color: "#AAA"}}>Minutes read</Text>
               <Text style={{fontSize: 20}}><Text style={{fontWeight: "bold"}}>{minutes}</Text> minutes</Text>
             </View>
+
+            <View></View>
             
           </View>
 
