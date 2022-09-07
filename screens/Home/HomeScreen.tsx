@@ -146,12 +146,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                 }
               </TouchableOpacity>
             </View>
-
-
-
-
-
-
+            
 
             <Pressable style={{ ...styles.buttonGray, marginTop: 25 }} onPress={(() => navigation.navigate('UpdateStatus', {
               thumbnail: currentlyReadingBook.thumbnail,
