@@ -32,7 +32,7 @@ function BookListScreen({ navigation, route }: Props) {
       <Text style={styles.subHeading}>{title}</Text>
 
       <View style={{ flexDirection: "row", justifyContent: "center" }}>
-        <FlatList style={{ flex: 1, flexWrap: "wrap" }} numColumns={3} showsHorizontalScrollIndicator={false} data={books} renderItem={(({ item: book }) => (
+        <FlatList style={{ flex: 1, flexWrap: "wrap" }} numColumns={4} showsHorizontalScrollIndicator={false} data={books} renderItem={(({ item: book }) => (
           <View style={{ paddingVertical: 6, marginRight: 5, marginLeft: 5 }}>
             <TouchableOpacity onPress={() => {
               navigation.navigate('SelectedBookScreen', {
@@ -49,7 +49,7 @@ function BookListScreen({ navigation, route }: Props) {
               <Image
                 source={{ uri: book.thumbnail }}
                 defaultSource={{ uri: thumbDefault }}
-                style={{ width: 70, height: 100, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 3 }}
+                style={{ width: 60, height: 110, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 3 }}
               />
             </TouchableOpacity>
           </View>

@@ -162,7 +162,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
                   <Image
                     source={{ uri: book.thumbnail }}
                     defaultSource={{ uri: thumbDefault }}
-                    style={{ width: 60, height: 125, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 3 }}
+                    style={{ width: 60, height: 110, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 3 }}
                   />
 
                 </TouchableOpacity>
@@ -173,7 +173,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
             :
             <View style={{ height: 65, paddingBottom: 20 }}><Text>{wantToReadState}</Text></View>
           }
-          <View style={{ width: "100%", flex: 1, flexDirection: "row", justifyContent: "center", padding: 13 }}>
+          <View style={{ width: "100%", flex: 1, flexDirection: "row", justifyContent: "center", marginTop: 15}}>
             <Pressable style={styles.buttonGray} onPress={() => {
               if (wantToReadBooks.length > 0)
                 navigation.navigate('BookList', { books: wantToReadBooks, title: "Want to read" })
@@ -211,7 +211,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
             <View style={{ height: 65, paddingBottom: 20 }}><Text>{historyState}</Text></View>
           }
 
-          <View style={{ width: "100%", flex: 1, flexDirection: "row", justifyContent: "center", padding: 13 }}>
+          <View style={{ width: "100%", flex: 1, flexDirection: "row", justifyContent: "center", marginTop: 15 }}>
             <Pressable style={styles.buttonGray} onPress={() => {
               if (historyBooks.length > 0)
                 navigation.navigate('BookList', { books: historyBooks, title: "My history" })
