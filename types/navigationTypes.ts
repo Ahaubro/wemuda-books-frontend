@@ -29,7 +29,7 @@ type Book = {
     bookId: string,
     title: string,
     description: string,
-    authors: string,
+    author: string,
     thumbnail?: string, 
     averageRating: number,
     ratingsCount: number
@@ -45,7 +45,7 @@ export type MyPageNavigatorParamList = {
         bookId: string,
         title: string,
         description: string,
-        author: string,
+        authors: string,
         thumbnail?: string, 
         averageRating: number,
         ratingsCount: number,
