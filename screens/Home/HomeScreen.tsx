@@ -36,7 +36,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   let currentlyReadingBook: Book = {
     bookId: "",
     title: "",
-    author: "",
+    authors: "",
     description: "",
     bookStatus: "",
     thumbnail: "",
@@ -49,7 +49,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       currentlyReadingBook = {
         bookId: book.bookId,
         title: book.title,
-        author: book.author,
+        authors: book.authors,
         description: book.description,
         bookStatus: book.bookStatus,
         thumbnail: book.thumbnail,

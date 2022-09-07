@@ -30,10 +30,10 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
   //Add book in progress
   const [addBook] = useAddBookMutation();
   const [addBookAtributes, setAddBookAtributes] = useState<{
-    userId: number, bookId: string, title: string, thumbnail: string | undefined, authors: string[],
+    userId: number, bookId: string, title: string, thumbnail: string | undefined, author: string,
     description: string, averageRating: number, ratingCount: number, bookStatus: string
   }>({
-    userId: 0, bookId: "", title: "", thumbnail: "", authors: [], description: "",
+    userId: 0, bookId: "", title: "", thumbnail: "", author: "", description: "",
     averageRating: 0, ratingCount: 0, bookStatus: ""
   })
 
@@ -56,17 +56,25 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
 
     if(fetchedUserBooks.data) {
       let arr = fetchedUserBooks.data.books.map(item => item.bookId)
-      console.log(arr)
       setSavedBookIds(arr);
     }
   }, [fetchedUserBooks.data])
 
 
   //Function that slice authors
+  let slicedAuthorString: string = ""
+
   const getAuthors = (authors: string[]) => {
-    if (!authors) return "No Authors" 
-    else if (authors.length === 1) return authors[0]
-    else return `${authors[0]} and ${authors.length} others.`
+    if (!authors) {
+      slicedAuthorString = "No Authors" 
+      return slicedAuthorString
+    } else if (authors.length === 1) {
+      slicedAuthorString = authors[0]
+      return slicedAuthorString
+    } else {
+      slicedAuthorString = `${authors[0]} and ${authors.length} others.`
+      return slicedAuthorString
+    } 
   }
 
 
@@ -156,14 +164,14 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
                       addBookAtributes.userId = session.id;
                       addBookAtributes.bookId = item.id;
                       addBookAtributes.title = item.volumeInfo.title;
-                      addBookAtributes.authors = item.volumeInfo.authors;
+                      addBookAtributes.author = slicedAuthorString;
                       addBookAtributes.description = item.volumeInfo.description;
                       addBookAtributes.thumbnail = item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.thumbnail : undefined,
                       addBookAtributes.averageRating = item.volumeInfo.averageRating;
                       addBookAtributes.ratingCount = item.volumeInfo.ratingsCount
                       addBookAtributes.bookStatus = "WantToRead"
-                      addBook(addBookAtributes);       
-                          
+                      console.log(addBookAtributes)
+                      addBook(addBookAtributes);
 
                     }}>
                       <Text style={{ fontWeight: 'bold', fontSize: 10 }}>
