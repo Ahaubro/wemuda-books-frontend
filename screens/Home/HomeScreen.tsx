@@ -108,7 +108,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           <View style={{ flex: 1, alignItems: "center", paddingBottom: 30 }}>
             <Text style={{ marginBottom: 10, fontSize: 14, fontWeight: "700", }}>Currently reading</Text>
 
-            <View style={{ margin: 0, padding: 0, marginRight: 10 }}>
+            <View>
               <TouchableOpacity onPress={() => {
                 navigation.navigate('SelectedBookScreen', {
                   bookId: currentlyReadingBook.bookId,
@@ -153,17 +153,18 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             <Text style={{color: "#AAA"}}>Reading Challenge</Text>
             <Text style={{fontWeight: "bold"}}><Text style={{fontSize: 20}}>{user.data?.booksRead}/{user.data?.booksGoal ?? 0}</Text> books read</Text>
           </View>
+
           <View style={{ marginTop: 10, flexDirection: "row", justifyContent: "space-between", width: "100%", paddingBottom: 100 }}>
             <View>
               <Text style={{ color: "#AAA" }}>Reading streak</Text>
-              <Text style={{ fontSize: 20 }}><Text style={{ fontWeight: "bold" }}>{streak}</Text> days</Text>
+                <Text style={{ fontWeight: "bold", fontSize: 20 }}>{streak} <Text style={{ fontSize: 14, fontWeight: "bold" }}> days </Text></Text>
             </View>
             <View>
               <Text style={{ color: "#AAA" }}>Minutes read</Text>
-              <Text style={{ fontSize: 20 }}><Text style={{ fontWeight: "bold" }}>{minutes}</Text> minutes</Text>
+              <Text style={{ fontWeight: "bold", fontSize: 20 }}>{minutes} <Text style={{ fontSize: 14, fontWeight: "bold" }}> minutes </Text></Text>
             </View>
             <View></View>
-          </View>
+          </View>   
         </View>
       }
 
@@ -208,14 +209,15 @@ const styles = StyleSheet.create({
     fontWeight: 700,
     fontFamily: "sans-serif",
     textAlign: "center",
-    backgroundColor: "#DDD",
-    borderRadius: 15,
+    backgroundColor: "#d3d3d3",
+    borderRadius: 18,
     width: "fit-content",
     marginBottom: 10,
     marginTop: 0,
     paddingHorizontal: 15,
-    paddingVertical: 10,
-    height: "fit-content"
+    paddingVertical: 8,
+    height: "fit-content",
+    opacity: 0.9
   }
 })
 

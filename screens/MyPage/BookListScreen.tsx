@@ -10,59 +10,61 @@ type BookListScreenNavigationProps = StackNavigationProp<MyPageNavigatorParamLis
 type BookLstScreenRouteProps = RouteProp<MyPageNavigatorParamList, 'BookList'>
 
 type Props = {
-    navigation: BookListScreenNavigationProps
-    route: BookLstScreenRouteProps
+  navigation: BookListScreenNavigationProps
+  route: BookLstScreenRouteProps
 }
 
-function BookListScreen({ navigation, route }: Props){
-    const session = useSelector((state: RootState) => state.session)
+function BookListScreen({ navigation, route }: Props) {
+  const session = useSelector((state: RootState) => state.session)
 
-    const {books, title} = route.params
+  const { books, title } = route.params
 
-    const thumbDefault = 'https://books.google.com/books/content?id=qc8qvXhpLA0C&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api'
+  const thumbDefault = 'https://books.google.com/books/content?id=qc8qvXhpLA0C&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api'
 
-    return (<>
-        <View style={{margin: 20}}>
-            <Pressable onPress={() => {
-                navigation.navigate('MyPage')
+  return (<>
+    <View style={{ margin: 20 }}>
+      <Pressable onPress={() => {
+        navigation.navigate('MyPage')
+      }}>
+        <Ionicons name={'chevron-back'} size={25} color={'black'} />
+      </Pressable>
+
+      <Text style={styles.subHeading}>{title}</Text>
+
+      <View style={{ flexDirection: "row", justifyContent: "center" }}>
+        <FlatList style={{ flex: 1, flexWrap: "wrap" }} numColumns={3} showsHorizontalScrollIndicator={false} data={books} renderItem={(({ item: book }) => (
+          <View style={{ paddingVertical: 6, marginRight: 5, marginLeft: 5 }}>
+            <TouchableOpacity onPress={() => {
+              navigation.navigate('SelectedBookScreen', {
+                bookId: book.bookId,
+                title: book.title,
+                description: book.description,
+                thumbnail: book.thumbnail,
+                author: book.author,
+                averageRating: book.averageRating,
+                ratingsCount: book.ratingsCount
+              })
             }}>
-                <Ionicons name={'chevron-back'} size={25} color={'black'} />
-            </Pressable>
 
-            <Text style={styles.subHeading}>{title}</Text>
-
-            <FlatList style={{flex: 1, flexWrap: "wrap", width: "100%"}} numColumns={5} showsHorizontalScrollIndicator={false} data={books} renderItem={( ({item:book}) => (
-                <View style={{ margin: 0, padding: 0, marginRight: 10 }}>
-                <TouchableOpacity onPress={() => {
-                  navigation.navigate('SelectedBookScreen', {
-                    bookId: book.bookId,
-                    title: book.title,
-                    description: book.description,
-                    thumbnail: book.thumbnail,
-                    author: book.author,
-                    averageRating: book.averageRating,
-                    ratingsCount: book.ratingsCount
-                  })
-                }}>
-
-                  <Image
-                    source={{ uri: book.thumbnail }}
-                    defaultSource={{ uri: thumbDefault }}
-                    style={{ width: 70, height: 100, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 3 }}
-                  />
-                </TouchableOpacity>
-              </View>
-            ) )} />
-        </View>
-    </>)
+              <Image
+                source={{ uri: book.thumbnail }}
+                defaultSource={{ uri: thumbDefault }}
+                style={{ width: 70, height: 100, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 3 }}
+              />
+            </TouchableOpacity>
+          </View>
+        ))} />
+      </View>
+    </View>
+  </>)
 }
 
 const styles = StyleSheet.create({
-    subHeading: {
-        fontSize: 15,
-        fontWeight: "bold",
-        marginBottom: 10
-    }
+  subHeading: {
+    fontSize: 15,
+    fontWeight: "bold",
+    marginBottom: 10
+  }
 })
 
 export default BookListScreen

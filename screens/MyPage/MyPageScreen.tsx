@@ -159,7 +159,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
                   <Image
                     source={{ uri: book.thumbnail }}
                     defaultSource={{ uri: thumbDefault }}
-                    style={{ width: 70, height: 115, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 3 }}
+                    style={{ width: 70, height: 135, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 3 }}
                   />
 
                 </TouchableOpacity>
@@ -198,7 +198,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
                   <Image
                     source={{ uri: book.thumbnail }}
                     defaultSource={{ uri: thumbDefault }}
-                    style={{ width: 70, height: 115, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 3 }}
+                    style={{ width: 70, height: 135, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 3 }}
                   />
                 </TouchableOpacity>
               </View>
