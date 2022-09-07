@@ -209,14 +209,15 @@ const styles = StyleSheet.create({
     fontWeight: 700,
     fontFamily: "sans-serif",
     textAlign: "center",
-    backgroundColor: "#DDD",
-    borderRadius: 15,
+    backgroundColor: "#d3d3d3",
+    borderRadius: 18,
     width: "fit-content",
     marginBottom: 10,
     marginTop: 0,
     paddingHorizontal: 15,
-    paddingVertical: 10,
-    height: "fit-content"
+    paddingVertical: 8,
+    height: "fit-content",
+    opacity: 0.9
   }
 })
 

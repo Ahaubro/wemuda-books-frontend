@@ -13,6 +13,7 @@ import { TabNavigationParamList } from '../types/NavigationTypes'
 import BookNavigator from './BookNavigator'
 import MyPageNavigator from './MyPageNavigator'
 import HomeNavigator from './HomeNavigator'
+import { Colors } from 'react-native/Libraries/NewAppScreen'
 
 interface NavigationProps {}
 
@@ -27,6 +28,8 @@ const Navigation: React.FC<NavigationProps> = () => {
       <Tab.Navigator
         screenOptions={({ route }) => ({
           headerShown: false,
+          tabBarActiveTintColor: "black",
+          tabBarStyle:{marginTop: 12, marginBottom: 12},
           tabBarIcon: ({ focused, color, size }) => {
             let iconName
 
@@ -42,7 +45,7 @@ const Navigation: React.FC<NavigationProps> = () => {
               iconName = focused ? 'key-sharp': 'key-outline'
             }
 
-            return <Ionicons name={iconName as any} size={size} color={color} />
+            return <Ionicons name={iconName as any} size={22} color={color} />
           },
         })}
       >
