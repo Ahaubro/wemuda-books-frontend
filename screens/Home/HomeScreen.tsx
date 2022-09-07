@@ -19,7 +19,7 @@ interface HomeScreenProps {
 const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   const session = useSelector((state: RootState) => state.session)
 
-  const user = useGetUserByIdQuery(session.id)
+  const user = useGetUserByIdQuery(session.id, {refetchOnMountOrArgChange: true})
 
   const [streak, setStreak] = useState("?");
   const [minutes, setMinutes] = useState("?");
@@ -114,11 +114,9 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
             </Pressable>
           </View>
 
-          
-
           <View style={{borderBottomColor: "#AAA", borderBottomWidth: 2, width: "100%", paddingBottom: 10}}>
             <Text style={{color: "#AAA"}}>Reading Challenge</Text>
-            <Text style={{fontWeight: "bold"}}><Text style={{fontSize: 20}}>{booksRead}/?</Text> books read</Text>
+            <Text style={{fontWeight: "bold"}}><Text style={{fontSize: 20}}>{booksRead}/{user.data?.booksGoal ?? 0}</Text> books read</Text>
           </View>
 
           <View style={{ marginTop: 10, flexDirection: "row", justifyContent: "space-between", width: "100%" }}>
