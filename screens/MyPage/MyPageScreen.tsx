@@ -159,7 +159,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
                   <Image
                     source={{ uri: book.thumbnail }}
                     defaultSource={{ uri: thumbDefault }}
-                    style={{ width: 70, height: 100, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 3 }}
+                    style={{ width: 70, height: 115, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 3 }}
                   />
 
                 </TouchableOpacity>
@@ -170,7 +170,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
             :
             <View style={{ height: 65, paddingBottom: 20 }}><Text>{wantToReadState}</Text></View>
           }
-          <View style={{ width: "100%", flex: 1, flexDirection: "row", justifyContent: "center", padding: 10 }}>
+          <View style={{ width: "100%", flex: 1, flexDirection: "row", justifyContent: "center", padding: 13 }}>
             <Pressable style={styles.buttonGray} onPress={() => {
               if (wantToReadBooks.length > 0)
                 navigation.navigate('BookList', { books: wantToReadBooks, title: "Want to read" })
@@ -198,7 +198,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
                   <Image
                     source={{ uri: book.thumbnail }}
                     defaultSource={{ uri: thumbDefault }}
-                    style={{ width: 70, height: 100, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 3 }}
+                    style={{ width: 70, height: 115, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 3 }}
                   />
                 </TouchableOpacity>
               </View>
@@ -208,7 +208,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
             <View style={{ height: 65, paddingBottom: 20 }}><Text>{historyState}</Text></View>
           }
 
-          <View style={{ width: "100%", flex: 1, flexDirection: "row", justifyContent: "center", padding: 10 }}>
+          <View style={{ width: "100%", flex: 1, flexDirection: "row", justifyContent: "center", padding: 13 }}>
             <Pressable style={styles.buttonGray} onPress={() => {
               if (historyBooks.length > 0)
                 navigation.navigate('BookList', { books: historyBooks, title: "My history" })
@@ -227,7 +227,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   heading: {
-    fontSize: 30,
+    fontSize: 22,
+    padding: 3,
+    fontWeight: "bold",
   },
   subHeading: {
     fontSize: 12,

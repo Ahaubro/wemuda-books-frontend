@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View, Pressable, FlatList, Image } from 'react-native'
+import { StyleSheet, Text, View, Pressable, FlatList, Image, TouchableOpacity } from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import Entypo from '@expo/vector-icons/Entypo'
 import { StatusBar } from 'expo-status-bar'
 import { FONTS } from '../../utils/fontUtils'
 import i18n from 'i18n-js'
-import { useGetBooksByUserIdQuery } from "../../redux/services/bookApi"
+import { Book, useGetBooksByUserIdQuery } from "../../redux/services/bookApi"
 import { useGetUserByIdQuery } from "../../redux/services/userApi"
 import { useSelector } from "react-redux"
 import { RootState } from '../../redux/store'
@@ -16,7 +16,7 @@ interface HomeScreenProps {
   navigation: any
 }
 
-const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
+const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const session = useSelector((state: RootState) => state.session)
 
   const user = useGetUserByIdQuery(session.id)
@@ -29,15 +29,33 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   const [booksRead, setBooksRead] = useState("?")
 
   //Arex igang med currentlyReadning
-  const userBooks = useGetBooksByUserIdQuery(session.id, {refetchOnMountOrArgChange: true})
+  const userBooks = useGetBooksByUserIdQuery(session.id, { refetchOnMountOrArgChange: true })
   const userBooksArr = userBooks.data?.books
-  let currentlyReadingBookThumbnail: string | undefined = ""
-  let currentlyReadingBookId: string | undefined = ""
-  
-  userBooksArr?.forEach( (book) => {
-    if(book.bookStatus == "CurrentlyReading") {
-      currentlyReadingBookThumbnail = book.thumbnail
-      currentlyReadingBookId = book.bookId
+  //let currentlyReadingBookThumbnail: string | undefined = ""
+  //let currentlyReadingBookId: string | undefined = ""
+  let currentlyReadingBook: Book = {
+    bookId: "",
+    title: "",
+    author: "",
+    description: "",
+    bookStatus: "",
+    thumbnail: "",
+    averageRating: 0,
+    ratingsCount: 0
+  }
+
+  userBooksArr?.forEach((book) => {
+    if (book.bookStatus == "CurrentlyReading") {
+      currentlyReadingBook = {
+        bookId: book.bookId,
+        title: book.title,
+        author: book.author,
+        description: book.description,
+        bookStatus: book.bookStatus,
+        thumbnail: book.thumbnail,
+        averageRating: book.averageRating,
+        ratingsCount: book.ratingsCount
+      }
     }
   })
 
@@ -58,8 +76,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
 
       let streakCounter = 0
 
-      do{
-        if(updatesInDay.length > 0)
+      do {
+        if (updatesInDay.length > 0)
           streakCounter++;
         dayEnd = dayBeginning
         dayBeginning = new Date(new Date(dayBeginning).setDate(dayBeginning.getDate() - 1))
@@ -82,51 +100,68 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   }, [userBooks.data])
 
   return (
-    <View style={{backgroundColor: "white", height: "100%"}}>
+    <View style={{ backgroundColor: "white", height: "100%" }}>
 
       {session.token && userBooks.data?.books &&
 
         <View style={{ flex: 1, alignItems: "center", marginTop: 40, width: "100%", paddingHorizontal: 10 }}>
-
-          
           <View style={{ flex: 1, alignItems: "center", paddingBottom: 30 }}>
             <Text style={{ marginBottom: 10, fontSize: 14, fontWeight: "700", }}>Currently reading</Text>
-            
 
-            {currentlyReadingBookThumbnail ?
+            <View style={{ margin: 0, padding: 0, marginRight: 10 }}>
+              <TouchableOpacity onPress={() => {
+                navigation.navigate('SelectedBookScreen', {
+                  bookId: currentlyReadingBook.bookId,
+                  title: currentlyReadingBook.title,
+                  //authors: getAuthors(book.authors),
+                  description: currentlyReadingBook.description,
+                  thumbnail: currentlyReadingBook.thumbnail ? currentlyReadingBook.thumbnail : undefined,
+                  averageRating: currentlyReadingBook.averageRating,
+                  ratingsCount: currentlyReadingBook.ratingsCount,
+                })
+              }}>
+
+                {currentlyReadingBook.thumbnail ?
                   <Image
-                    source={{ uri: currentlyReadingBookThumbnail }}
-                    style={{ width: 130, height: 180, borderRadius: 5 }}
+                    source={{ uri: currentlyReadingBook.thumbnail }}
+                    style={{ width: 130, height: 180, borderRadius: 5, borderWidth: 0.5, borderColor: "#d3d3d3" }}
                   />
                   :
                   <div style={{ width: 130, height: 180, backgroundColor: "#ccc", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    
+
                   </div>
                 }
+              </TouchableOpacity>
+            </View>
 
 
-            <Pressable style={{ ...styles.buttonGray, marginTop: 25 }} onPress={(()=>navigation.navigate('UpdateStatus', {
-                thumbnail: currentlyReadingBookThumbnail,
-                bookId: currentlyReadingBookId,
-                userId: session.id
-              }))}>
+
+
+
+
+
+            <Pressable style={{ ...styles.buttonGray, marginTop: 25 }} onPress={(() => navigation.navigate('UpdateStatus', {
+              thumbnail: currentlyReadingBook.thumbnail,
+              bookId: currentlyReadingBook.bookId,
+              userId: session.id
+            }))}>
               <Text style={{ fontWeight: "bold", fontSize: 12 }}>Update progress</Text>
             </Pressable>
           </View>
 
-          
-          <View style={{borderBottomColor: "#AAA", borderBottomWidth: 2, width: "100%", paddingBottom: 10}}>
-            <Text style={{color: "#AAA"}}>Reading challenge</Text>
-            <Text style={{fontWeight: "bold"}}><Text style={{fontSize: 20}}>{booksRead}/?</Text> books read</Text>
+
+          <View style={{ borderBottomColor: "#AAA", borderBottomWidth: 2, width: "100%", paddingBottom: 10 }}>
+            <Text style={{ color: "#AAA" }}>Reading challenge</Text>
+            <Text style={{ fontWeight: "bold" }}><Text style={{ fontSize: 20 }}>{booksRead}/?</Text> books read</Text>
           </View>
           <View style={{ marginTop: 10, flexDirection: "row", justifyContent: "space-between", width: "100%", paddingBottom: 100 }}>
             <View>
-              <Text style={{color: "#AAA"}}>Reading streak</Text>
-              <Text style={{fontSize: 20}}><Text style={{fontWeight: "bold"}}>{streak}</Text> days</Text>
+              <Text style={{ color: "#AAA" }}>Reading streak</Text>
+              <Text style={{ fontSize: 20 }}><Text style={{ fontWeight: "bold" }}>{streak}</Text> days</Text>
             </View>
             <View>
-              <Text style={{color: "#AAA"}}>Minutes read</Text>
-              <Text style={{fontSize: 20}}><Text style={{fontWeight: "bold"}}>{minutes}</Text> minutes</Text>
+              <Text style={{ color: "#AAA" }}>Minutes read</Text>
+              <Text style={{ fontSize: 20 }}><Text style={{ fontWeight: "bold" }}>{minutes}</Text> minutes</Text>
             </View>
             <View></View>
           </View>

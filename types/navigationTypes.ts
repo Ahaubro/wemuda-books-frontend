@@ -58,4 +58,13 @@ export type HomeNavigatorParamList = {
         bookId: string,
         userId: number
     }
+    SelectedBookScreen: { 
+        bookId: string,
+        title: string,
+        description: string,
+        author: string,
+        thumbnail?: string, 
+        averageRating: number,
+        ratingsCount: number,
+    }
 }
