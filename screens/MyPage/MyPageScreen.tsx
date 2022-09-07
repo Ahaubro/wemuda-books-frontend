@@ -150,12 +150,14 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
                   navigation.navigate('SelectedBookScreen', {
                     bookId: book.bookId,
                     title: book.title,
-                    //authors: getAuthors(book.authors),
+                    authors: book.author,
                     description: book.description,
                     thumbnail: book.thumbnail ? book.thumbnail : undefined,
                     averageRating: book.averageRating,
                     ratingsCount: book.ratingsCount,
+                    
                   })
+                  console.log("HERHER", book.author)
                 }}>
 
                   <Image
@@ -189,7 +191,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
                   navigation.navigate('SelectedBookScreen', {
                     bookId: book.bookId,
                     title: book.title,
-                    //authors: getAuthors(book.authors),
+                    authors: book.author,
                     description: book.description,
                     thumbnail: book.thumbnail ? book.thumbnail : undefined,
                     averageRating: book.averageRating,

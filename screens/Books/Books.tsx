@@ -164,7 +164,7 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
                       addBookAtributes.userId = session.id;
                       addBookAtributes.bookId = item.id;
                       addBookAtributes.title = item.volumeInfo.title;
-                      addBookAtributes.author = slicedAuthorString;
+                      addBookAtributes.author = getAuthors(item.volumeInfo.authors);
                       addBookAtributes.description = item.volumeInfo.description;
                       addBookAtributes.thumbnail = item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.thumbnail : undefined,
                       addBookAtributes.averageRating = item.volumeInfo.averageRating;

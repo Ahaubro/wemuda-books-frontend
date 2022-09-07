@@ -36,7 +36,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   let currentlyReadingBook: Book = {
     bookId: "",
     title: "",
-    authors: "",
+    author: "",
     description: "",
     bookStatus: "",
     thumbnail: "",
@@ -49,7 +49,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       currentlyReadingBook = {
         bookId: book.bookId,
         title: book.title,
-        authors: book.authors,
+        author: book.author,
         description: book.description,
         bookStatus: book.bookStatus,
         thumbnail: book.thumbnail,
@@ -126,7 +126,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                 navigation.navigate('SelectedBookScreen', {
                   bookId: currentlyReadingBook.bookId,
                   title: currentlyReadingBook.title,
-                  //authors: getAuthors(book.authors),
+                  authors: currentlyReadingBook.author,
                   description: currentlyReadingBook.description,
                   thumbnail: currentlyReadingBook.thumbnail ? currentlyReadingBook.thumbnail : undefined,
                   averageRating: currentlyReadingBook.averageRating,
