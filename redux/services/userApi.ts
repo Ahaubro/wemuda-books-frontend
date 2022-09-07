@@ -4,6 +4,7 @@ import { UserInterfaceIdiom } from 'expo-constants'
 import { StringNullableChain } from 'lodash'
 import { API_URL } from '../../constants'
 import { RootState } from '../store'
+import { useGetBookByIdQuery } from './googleBookApi'
 
 const baseQuery = fetchBaseQuery({
   baseUrl: 'https://localhost:7066/',
@@ -22,11 +23,13 @@ export type User = {
   firstName: string
   lastName: string
   username: string
+  booksGoal: number
 }
 
 export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery,
+  tagTypes: ["User"],
   endpoints: builder => ({
 
     //Get all users
@@ -64,6 +67,7 @@ export const userApi = createApi({
       number
     >({
       query: id => `/user/${id}`,
+      providesTags: ["User"]
     }),
 
     //Change password
@@ -78,9 +82,16 @@ export const userApi = createApi({
       })
     }),
 
+    setBooksGoal: builder.mutation<
+      {statusText: string},
+      {booksGoal: number, userId: number}
+    >({
+      query: body => ({url: `/user/setBooksGoal/${body.userId}`, method: "PATCH", body: {booksGoal: body.booksGoal} }),
+      invalidatesTags: ["User"]
+    })
 
   })
 })
 
 
-export const { /*useGetUsersQuery,*/ useGetUserByIdQuery, useSignupMutation, useLoginMutation, useChangePasswordMutation } = userApi
+export const { /*useGetUsersQuery,*/ useGetUserByIdQuery, useSignupMutation, useLoginMutation, useChangePasswordMutation, useSetBooksGoalMutation } = userApi

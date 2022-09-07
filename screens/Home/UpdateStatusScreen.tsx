@@ -6,7 +6,7 @@ import { HomeNavigatorParamList } from '../../types/NavigationTypes'
 import { RouteProp } from '@react-navigation/native'
 import {useEditStatusMutation, useGetBooksByUserIdQuery, Book} from '../../redux/services/bookApi'
 import {useAddStatusUpdateMutation} from '../../redux/services/statusUpdateApi'
-
+import {useSetBooksGoalMutation} from '../../redux/services/userApi'
 
 type UpdateStatusScreenNavigationProps = StackNavigationProp<HomeNavigatorParamList, "UpdateStatus">
 type UpdateStatisScreenRouteProps = RouteProp<HomeNavigatorParamList, "UpdateStatus">
@@ -27,7 +27,11 @@ const UpdateStatusScreen: React.FC<HomeScreenProps> = ({navigation, route}) => {
 
     const [addStatusUpdate] = useAddStatusUpdateMutation()
 
+    const [updateBooksGoal] = useSetBooksGoalMutation()
+
     const [minutesRead, setMinutesRead] = useState(0)
+
+    const [booksGoal, setBooksGoal] = useState(0)
 
     const [message, setMessage] = useState("")
 
@@ -63,23 +67,47 @@ const UpdateStatusScreen: React.FC<HomeScreenProps> = ({navigation, route}) => {
                 
                 <Text>Enter how many minutes you have read in the book this time:</Text>
 
-                <TextInput keyboardType="number-pad" placeholder="Enter minutes" placeholderTextColor={"#AAA"} onChangeText={(minutes) => {
-                    setMinutesRead(Number(minutes))
-                }} style={styles.textInput}></TextInput>
+                <View style={{flexDirection: 'row', marginBottom: 20, marginTop: 10}}>
+                    <TextInput keyboardType="number-pad" placeholder="Enter minutes" placeholderTextColor={"#AAA"} onChangeText={(minutes) => {
+                        setMinutesRead(Number(minutes))
+                    }} style={styles.textInput}></TextInput>
 
-                <Pressable style={{ ...styles.buttonGray, marginTop: 25 }} onPress={(() => {
-                    console.log(minutesRead)
-                    if(minutesRead != NaN){
-                        if(minutesRead > 0){
-                            addStatusUpdate({userId, minutesAdded: minutesRead})
-                            navigation.navigate("Home")
+                    <Pressable style={{ ...styles.buttonGray, marginTop: 25 }} onPress={(() => {
+                        console.log(minutesRead)
+                        if(minutesRead != NaN){
+                            if(minutesRead > 0){
+                                addStatusUpdate({userId, minutesAdded: minutesRead})
+                                navigation.navigate("Home")
+                            }else
+                                setMessage("You must enter a number higher than 0!")
                         }else
-                            setMessage("You must enter a number higher than 0!")
-                    }else
-                        setMessage("You must enter a number!")
-                })}>
-                    <Text style={{ fontWeight: "bold" }}>Update Minutes</Text>
-                </Pressable>
+                            setMessage("You must enter a number!")
+                    })}>
+                        <Text style={{ fontWeight: "bold" }}>Register Minutes</Text>
+                    </Pressable>
+                </View>
+
+                <Text>Enter your goal for how many books you want to read:</Text>
+
+                <View style={{flexDirection: 'row', marginBottom: 20, marginTop: 10}}>
+                    <TextInput keyboardType="number-pad" placeholder="Enter book count" placeholderTextColor={"#AAA"} onChangeText={(books) => {
+                        setBooksGoal(Number(books))
+                    }} style={styles.textInput}></TextInput>
+
+                    <Pressable style={{ ...styles.buttonGray, marginTop: 25 }} onPress={(() => {
+                        console.log(booksGoal)
+                        if(booksGoal != NaN){
+                            if(booksGoal > 0){
+                                updateBooksGoal({userId, booksGoal: booksGoal})
+                                navigation.navigate("Home")
+                            }else
+                                setMessage("You must enter a number higher than 0!")
+                        }else
+                            setMessage("You must enter a number!")
+                    })}>
+                        <Text style={{ fontWeight: "bold" }}>Update Goal</Text>
+                    </Pressable>
+                </View>
 
                 <Text style={{color: "#F00"}}>{message}</Text>
 
@@ -97,8 +125,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#DDD",
         borderRadius: 15,
         width: "fit-content",
-        marginBottom: 10,
-        marginTop: 0,
         paddingHorizontal: 15,
         paddingVertical: 10,
         height: "fit-content"
@@ -112,7 +138,8 @@ const styles = StyleSheet.create({
         paddingVertical: 8, 
         fontSize: 15,
         marginLeft: 5,
-        marginRight: 5
+        marginRight: 5,
+        width: 150
     }
 })
 
