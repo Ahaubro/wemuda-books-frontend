@@ -6,7 +6,7 @@ import { HomeNavigatorParamList } from '../../types/NavigationTypes'
 import { RouteProp } from '@react-navigation/native'
 import {useEditStatusMutation, useGetBooksByUserIdQuery, Book} from '../../redux/services/bookApi'
 import {useAddStatusUpdateMutation} from '../../redux/services/statusUpdateApi'
-import {useSetBooksGoalMutation} from '../../redux/services/userApi'
+import {useSetBooksGoalMutation, useResetBooksReadMutation} from '../../redux/services/userApi'
 
 type UpdateStatusScreenNavigationProps = StackNavigationProp<HomeNavigatorParamList, "UpdateStatus">
 type UpdateStatisScreenRouteProps = RouteProp<HomeNavigatorParamList, "UpdateStatus">
@@ -29,14 +29,20 @@ const UpdateStatusScreen: React.FC<HomeScreenProps> = ({navigation, route}) => {
 
     const [updateBooksGoal] = useSetBooksGoalMutation()
 
+    const [resetBooksRead] = useResetBooksReadMutation()
+
+    const [finishedBook, setFinishedBook] = useState(false)
+
     const [minutesRead, setMinutesRead] = useState(0)
 
     const [booksGoal, setBooksGoal] = useState(0)
 
+    const [resetProgress, setResetProgress] = useState(false)
+
     const [message, setMessage] = useState("")
 
     return <>
-        <View style={{margin: 20}}>
+        <View style={{margin: 20, overflow: "scroll"}}>
 
             <Pressable onPress={() => { navigation.navigate('Home') }}>
                 <Ionicons name={'chevron-back'} size={25} color={'black'} />
@@ -56,60 +62,72 @@ const UpdateStatusScreen: React.FC<HomeScreenProps> = ({navigation, route}) => {
                         No image
                     </div>
                 }
-                <View style={{paddingBottom: 10, borderBottomColor: "#AAA", borderBottomWidth: 2, width: "100%", alignItems: "center", marginBottom: 10}}>
-                    <Pressable style={{ ...styles.buttonGray, marginTop: 25 }} onPress={(() => {
-                        editBookStatus({userId, bookId, bookStatus: "History"})
-                        navigation.navigate("Home")
-                    })}>
-                        <Text style={{ fontWeight: "bold" }}>Finished Book</Text>
-                    </Pressable>
-                </View>
+                <Pressable style={{ ...styles.buttonGray, marginTop: 25, flex: 1, flexDirection: 'row' }} onPress={(() => {
+                    setFinishedBook(!finishedBook)
+                })}>
+                    <Text style={{ fontWeight: "bold" }}>Finished Book</Text>
+                    {finishedBook ?
+                        <Ionicons name={'checkmark-sharp'} size={20} color={'green'} /> :
+                        <Ionicons name={'close-sharp'} size={20} color={'red'} />
+                    }
+                </Pressable>
                 
-                <Text>Enter how many minutes you have read in the book this time:</Text>
+                <View style={{marginBottom: 20, marginTop: 10}}>
+                    <Text style={{ fontWeight: "bold" }}>Minutes read:</Text>
 
-                <View style={{flexDirection: 'row', marginBottom: 20, marginTop: 10}}>
                     <TextInput keyboardType="number-pad" placeholder="Enter minutes" placeholderTextColor={"#AAA"} onChangeText={(minutes) => {
                         setMinutesRead(Number(minutes))
                     }} style={styles.textInput}></TextInput>
-
-                    <Pressable style={{ ...styles.buttonGray, marginTop: 25 }} onPress={(() => {
-                        console.log(minutesRead)
-                        if(minutesRead != NaN){
-                            if(minutesRead > 0){
-                                addStatusUpdate({userId, minutesAdded: minutesRead})
-                                navigation.navigate("Home")
-                            }else
-                                setMessage("You must enter a number higher than 0!")
-                        }else
-                            setMessage("You must enter a number!")
-                    })}>
-                        <Text style={{ fontWeight: "bold" }}>Register Minutes</Text>
-                    </Pressable>
                 </View>
 
-                <Text>Enter your goal for how many books you want to read:</Text>
+                
 
-                <View style={{flexDirection: 'row', marginBottom: 20, marginTop: 10}}>
+                <View style={{marginBottom: 20, marginTop: 10}}>
+                    <Text style={{ fontWeight: "bold" }}>Reading goal:</Text>
+                    
                     <TextInput keyboardType="number-pad" placeholder="Enter book count" placeholderTextColor={"#AAA"} onChangeText={(books) => {
                         setBooksGoal(Number(books))
                     }} style={styles.textInput}></TextInput>
-
-                    <Pressable style={{ ...styles.buttonGray, marginTop: 25 }} onPress={(() => {
-                        console.log(booksGoal)
-                        if(booksGoal != NaN){
-                            if(booksGoal > 0){
-                                updateBooksGoal({userId, booksGoal: booksGoal})
-                                navigation.navigate("Home")
-                            }else
-                                setMessage("You must enter a number higher than 0!")
-                        }else
-                            setMessage("You must enter a number!")
-                    })}>
-                        <Text style={{ fontWeight: "bold" }}>Update Goal</Text>
-                    </Pressable>
                 </View>
 
+                <Pressable style={{ ...styles.buttonGray, marginTop: 10, flex: 1, flexDirection: 'row' }} onPress={(() => {
+                    setResetProgress(!resetProgress)
+                })}><Text style={{ fontWeight: "bold" }}>Reset Progress</Text>
+                    {resetProgress ?
+                        <Ionicons name={'checkmark-sharp'} size={20} color={'green'} /> :
+                        <Ionicons name={'close-sharp'} size={20} color={'red'} />
+                    }
+                </Pressable>
+
                 <Text style={{color: "#F00"}}>{message}</Text>
+
+                <Pressable style={{ ...styles.buttonGray, marginTop: 25 }} onPress={(() => {
+                    if(finishedBook)
+                        editBookStatus({userId, bookId, bookStatus: "History"})
+
+                    if(resetProgress)
+                        resetBooksRead(userId)
+                    
+                    setMessage("")
+
+                    if(minutesRead != NaN){
+                        if(minutesRead > 0)
+                            addStatusUpdate({userId, minutesAdded: minutesRead})
+                    }else
+                        setMessage("Minutes read must be a number!")
+                    
+                    
+                    if(booksGoal != NaN){
+                        if(booksGoal > 0)
+                            updateBooksGoal({userId, booksGoal: booksGoal})
+                    }else
+                        setMessage((message.length > 0 ? message + "\n" : "") +  + "Books goal must be a number!")
+                    
+                    if(minutesRead != NaN && booksGoal != NaN)
+                        navigation.navigate("Home")
+                })}>
+                    <Text style={{ fontWeight: "bold" }}>Save</Text>
+                </Pressable>
 
             </View>
         </View>
@@ -138,8 +156,7 @@ const styles = StyleSheet.create({
         paddingVertical: 8, 
         fontSize: 15,
         marginLeft: 5,
-        marginRight: 5,
-        width: 150
+        marginRight: 5
     }
 })
 

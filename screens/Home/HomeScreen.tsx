@@ -26,7 +26,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
   const statusUpdates = useGetStatusUpdatesByUserQuery(session.id);
 
-  const [booksRead, setBooksRead] = useState("?")
+  //const [booksRead, setBooksRead] = useState("?")
 
   //Arex igang med currentlyReadning
   const userBooks = useGetBooksByUserIdQuery(session.id, { refetchOnMountOrArgChange: true })
@@ -58,6 +58,15 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       }
     }
   })
+
+  console.log("Rerender")
+
+  // useEffect(() => {
+  //   const unsubscribe = navigation.addListener('focus', () => {
+  //     user.refetch()
+  //   })
+  //   return unsubscribe
+  // }, [navigation])
 
   useEffect(() => {
     if (statusUpdates.data) {
@@ -92,11 +101,15 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     }
   }, [statusUpdates.data])
 
+  // useEffect(() => {
+  //   const historyBooks = userBooks.data?.books.filter(book => book.bookStatus == "History")
+  //   const text = String(historyBooks?.length)
+  //   console.log(historyBooks, text)
+  //   setBooksRead(text)
+  // }, [userBooks.data])
+
   useEffect(() => {
-    const historyBooks = userBooks.data?.books.filter(book => book.bookStatus == "History")
-    const text = String(historyBooks?.length)
-    //console.log(historyBooks, text)
-    setBooksRead(text)
+      user.refetch()
   }, [userBooks.data])
 
   return (
@@ -151,7 +164,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
           <View style={{borderBottomColor: "#AAA", borderBottomWidth: 2, width: "100%", paddingBottom: 10}}>
             <Text style={{color: "#AAA"}}>Reading Challenge</Text>
-            <Text style={{fontWeight: "bold"}}><Text style={{fontSize: 20}}>{booksRead}/{user.data?.booksGoal ?? 0}</Text> books read</Text>
+            <Text style={{fontWeight: "bold"}}><Text style={{fontSize: 20}}>{user.data?.booksRead}/{user.data?.booksGoal ?? 0}</Text> books read</Text>
           </View>
 
           <View style={{ marginTop: 10, flexDirection: "row", justifyContent: "space-between", width: "100%", paddingBottom: 100 }}>

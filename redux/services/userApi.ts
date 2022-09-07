@@ -23,6 +23,7 @@ export type User = {
   firstName: string
   lastName: string
   username: string
+  booksRead: number
   booksGoal: number
 }
 
@@ -88,10 +89,18 @@ export const userApi = createApi({
     >({
       query: body => ({url: `/user/setBooksGoal/${body.userId}`, method: "PATCH", body: {booksGoal: body.booksGoal} }),
       invalidatesTags: ["User"]
+    }),
+
+    resetBooksRead: builder.mutation<
+      {statusText: string},
+      number
+    >({
+      query: userId => ({url: `/user/resetBooksRead/${userId}`, method: "PATCH", body: {} }),
+      invalidatesTags: ["User"]
     })
 
   })
 })
 
 
-export const { /*useGetUsersQuery,*/ useGetUserByIdQuery, useSignupMutation, useLoginMutation, useChangePasswordMutation, useSetBooksGoalMutation } = userApi
+export const { /*useGetUsersQuery,*/ useGetUserByIdQuery, useSignupMutation, useLoginMutation, useChangePasswordMutation, useSetBooksGoalMutation, useResetBooksReadMutation } = userApi
