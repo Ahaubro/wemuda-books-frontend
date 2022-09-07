@@ -42,66 +42,67 @@ const UpdateStatusScreen: React.FC<HomeScreenProps> = ({navigation, route}) => {
     const [message, setMessage] = useState("")
 
     return <>
-        <View style={{margin: 20, overflow: "scroll"}}>
+        <View style={{margin: 20}}>
 
             <Pressable onPress={() => { navigation.navigate('Home') }}>
                 <Ionicons name={'chevron-back'} size={25} color={'black'} />
             </Pressable>
 
-            <View style={{flex: 1, alignItems: "center"}}>
+            <View style={{flex: 1, alignItems: "center", marginTop: 5}}>
 
-                <Text style={{ fontWeight: "bold", marginBottom: 10 }}>Currently reading</Text>
+                <Text style={{ fontWeight: "700", fontSize: 12 }}>Currently reading</Text>
 
-                {currentlyReadingBook?.thumbnail ?
-                    <Image
-                        source={{ uri: currentlyReadingBook.thumbnail }}
-                        style={{ width: 100, height: 150, borderRadius: 3 }}
-                    />
-                    :
-                    <div style={{ width: 50, height: 65, backgroundColor: "#ccc", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                        No image
-                    </div>
-                }
-                <Pressable style={{ ...styles.buttonGray, marginTop: 25, flex: 1, flexDirection: 'row' }} onPress={(() => {
+                <View style={{ marginTop: 10 }}>
+                    {currentlyReadingBook?.thumbnail ?
+                        <Image
+                            source={{ uri: currentlyReadingBook.thumbnail }}
+                            style={{ width: 100, height: 150, borderRadius: 3 }}
+                        />
+                        :
+                        <div style={{ width: 50, height: 65, backgroundColor: "#ccc", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                            No image
+                        </div>
+                    }
+                </View>
+
+                <Pressable style={{ ...styles.buttonGray, marginTop: 20, flex: 1, flexDirection: 'row' }} onPress={(() => {
                     setFinishedBook(!finishedBook)
                 })}>
-                    <Text style={{ fontWeight: "bold" }}>Finished Book</Text>
+                    <Text style={{ fontWeight: "500", fontSize: 12 }}>Finish Book</Text>
                     {finishedBook ?
-                        <Ionicons name={'checkmark-sharp'} size={20} color={'green'} /> :
-                        <Ionicons name={'close-sharp'} size={20} color={'red'} />
+                        <Ionicons name={'checkmark-sharp'} size={15} color={'green'} /> :
+                        <Ionicons name={'close-sharp'} size={15} color={'red'} />
                     }
                 </Pressable>
                 
-                <View style={{marginBottom: 20, marginTop: 10}}>
-                    <Text style={{ fontWeight: "bold" }}>Minutes read:</Text>
+                <View style={{marginTop: 15}}>
+                    <Text style={{ fontWeight: "700", fontSize: 12 }}>Minutes read:</Text>
 
                     <TextInput keyboardType="number-pad" placeholder="Enter minutes" placeholderTextColor={"#AAA"} onChangeText={(minutes) => {
                         setMinutesRead(Number(minutes))
                     }} style={styles.textInput}></TextInput>
                 </View>
 
-                
-
-                <View style={{marginBottom: 20, marginTop: 10}}>
-                    <Text style={{ fontWeight: "bold" }}>Reading goal:</Text>
+                <View style={{marginTop: 15}}>
+                    <Text style={{ fontWeight: "700", fontSize: 12 }}>Reading goal:</Text>
                     
                     <TextInput keyboardType="number-pad" placeholder="Enter book count" placeholderTextColor={"#AAA"} onChangeText={(books) => {
                         setBooksGoal(Number(books))
                     }} style={styles.textInput}></TextInput>
                 </View>
 
-                <Pressable style={{ ...styles.buttonGray, marginTop: 10, flex: 1, flexDirection: 'row' }} onPress={(() => {
+                <Pressable style={{ ...styles.buttonGray, marginTop: 15, flex: 1, flexDirection: 'row' }} onPress={(() => {
                     setResetProgress(!resetProgress)
-                })}><Text style={{ fontWeight: "bold" }}>Reset Progress</Text>
+                })}><Text style={{ fontWeight: "500", fontSize: 12 }}>Reset Progress</Text>
                     {resetProgress ?
-                        <Ionicons name={'checkmark-sharp'} size={20} color={'green'} /> :
-                        <Ionicons name={'close-sharp'} size={20} color={'red'} />
+                        <Ionicons name={'checkmark-sharp'} size={15} color={'green'} /> :
+                        <Ionicons name={'close-sharp'} size={15} color={'red'} />
                     }
                 </Pressable>
 
                 <Text style={{color: "#F00"}}>{message}</Text>
 
-                <Pressable style={{ ...styles.buttonGray, marginTop: 25 }} onPress={(() => {
+                <Pressable style={{ ...styles.buttonGray, marginTop: 15 }} onPress={(() => {
                     if(finishedBook)
                         editBookStatus({userId, bookId, bookStatus: "History"})
 
@@ -126,7 +127,7 @@ const UpdateStatusScreen: React.FC<HomeScreenProps> = ({navigation, route}) => {
                     if(minutesRead != NaN && booksGoal != NaN)
                         navigation.navigate("Home")
                 })}>
-                    <Text style={{ fontWeight: "bold" }}>Save</Text>
+                    <Text style={{ fontWeight: "500", fontSize: 12 }}>Save</Text>
                 </Pressable>
 
             </View>
@@ -141,7 +142,7 @@ const styles = StyleSheet.create({
         fontFamily: "sans-serif",
         textAlign: "center",
         backgroundColor: "#DDD",
-        borderRadius: 15,
+        borderRadius: 18,
         width: "fit-content",
         paddingHorizontal: 15,
         paddingVertical: 10,
@@ -151,12 +152,14 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderStyle: "solid",
         borderColor: "gray",
-        borderRadius: 10,
-        paddingHorizontal: 8,
-        paddingVertical: 8, 
-        fontSize: 15,
+        borderRadius: 8,
+        paddingHorizontal: 15,
+        paddingVertical: 10, 
+        fontSize: 12,
         marginLeft: 5,
-        marginRight: 5
+        marginRight: 5,
+        opacity: 0.9,
+        marginTop: 5
     }
 })
 
