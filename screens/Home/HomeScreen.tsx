@@ -19,7 +19,7 @@ interface HomeScreenProps {
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const session = useSelector((state: RootState) => state.session)
 
-  const user = useGetUserByIdQuery(session.id, {refetchOnMountOrArgChange: true})
+  const user = useGetUserByIdQuery(session.id, { refetchOnMountOrArgChange: true })
 
   const [streak, setStreak] = useState("?");
   const [minutes, setMinutes] = useState("?");
@@ -107,7 +107,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   // }, [userBooks.data])
 
   useEffect(() => {
-      user.refetch()
+    user.refetch()
   }, [userBooks.data])
 
   return (
@@ -155,22 +155,29 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             </Pressable>
           </View>
 
-          <View style={{borderBottomColor: "#AAA", borderBottomWidth: 2, width: "100%", paddingBottom: 10}}>
-            <Text style={{color: "#AAA"}}>Reading Challenge</Text>
-            <Text style={{fontWeight: "bold"}}><Text style={{fontSize: 20}}>{user.data?.booksRead}/{user.data?.booksGoal ?? 0}</Text> books read</Text>
-          </View>
+          {user.data?.booksGoal ?
+            <View style={{ borderBottomColor: "#AAA", borderBottomWidth: 2, width: "100%", paddingBottom: 10 }}>
+              <Text style={{ color: "#AAA" }}>Reading Challenge</Text>
+              <Text style={{ fontWeight: "bold" }}><Text style={{ fontSize: 20 }}>{user.data?.booksRead}/{user.data?.booksGoal ?? 0}</Text> books read</Text>
+            </View>
+            :
+
+            <View style={{ borderBottomColor: "#AAA", borderBottomWidth: 2, width: "100%", paddingBottom: 10 }}>
+              <Text style={{fontSize: 14}}> Set a challenge today!</Text>
+            </View>
+          }
 
           <View style={{ marginTop: 10, flexDirection: "row", justifyContent: "space-between", width: "100%", paddingBottom: 100 }}>
             <View>
               <Text style={{ color: "#AAA" }}>Reading streak</Text>
-                <Text style={{ fontWeight: "bold", fontSize: 20 }}>{streak} <Text style={{ fontSize: 14, fontWeight: "bold" }}> days </Text></Text>
+              <Text style={{ fontWeight: "bold", fontSize: 20 }}>{streak} <Text style={{ fontSize: 14, fontWeight: "bold" }}> days </Text></Text>
             </View>
             <View>
               <Text style={{ color: "#AAA" }}>Minutes read</Text>
               <Text style={{ fontWeight: "bold", fontSize: 20 }}>{minutes} <Text style={{ fontSize: 14, fontWeight: "bold" }}> minutes </Text></Text>
             </View>
             <View></View>
-          </View>   
+          </View>
         </View>
       }
 
