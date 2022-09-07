@@ -59,8 +59,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     }
   })
 
-  console.log("Rerender")
-
   // useEffect(() => {
   //   const unsubscribe = navigation.addListener('focus', () => {
   //     user.refetch()
@@ -126,7 +124,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                 navigation.navigate('SelectedBookScreen', {
                   bookId: currentlyReadingBook.bookId,
                   title: currentlyReadingBook.title,
-                  //authors: getAuthors(book.authors),
+                  authors: currentlyReadingBook.author,
                   description: currentlyReadingBook.description,
                   thumbnail: currentlyReadingBook.thumbnail ? currentlyReadingBook.thumbnail : undefined,
                   averageRating: currentlyReadingBook.averageRating,

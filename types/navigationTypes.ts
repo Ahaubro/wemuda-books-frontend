@@ -2,8 +2,8 @@
 export type TabNavigationParamList = {
     BooksNavigator:undefined
     Settings: undefined
-    MyPage: undefined
-    Home: undefined
+    MyPageNavigator: undefined
+    HomeNavigator: undefined
     Login: undefined
 }
 
@@ -13,7 +13,7 @@ export type BookNavigatorParamList = {
         bookId: string,
         title: string,
         description: string,
-        author: string,
+        authors: string,
         thumbnail?: string, 
         averageRating: number,
         ratingsCount: number,
@@ -45,7 +45,7 @@ export type MyPageNavigatorParamList = {
         bookId: string,
         title: string,
         description: string,
-        author: string,
+        authors: string,
         thumbnail?: string, 
         averageRating: number,
         ratingsCount: number,

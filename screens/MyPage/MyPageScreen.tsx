@@ -130,11 +130,13 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
         <View style={{ borderBottomColor: "#AAA", borderBottomWidth: 2, paddingBottom: 20, flex: 1, flexDirection: "row", justifyContent: "space-between", width: "100%", alignItems: "stretch" }}>
           <View>
             <Text style={{ color: "#AAA" }}>Reading streak</Text>
-            <Text style={{ fontSize: 20 }}><Text style={{ fontWeight: "bold" }}>{streak}</Text> days</Text>
+            <Text style={{ fontWeight: "bold", fontSize: 20 }}>{streak} <Text style={{ fontSize: 14, fontWeight: "bold" }}> days </Text></Text>
+
           </View>
           <View>
             <Text style={{ color: "#AAA" }}>Minutes read</Text>
-            <Text style={{ fontSize: 20 }}><Text style={{ fontWeight: "bold" }}>{minutes}</Text> minutes</Text>
+            <Text style={{ fontWeight: "bold", fontSize: 20 }}>{minutes} <Text style={{ fontSize: 14, fontWeight: "bold" }}> minutes </Text></Text>
+
           </View>
           <View></View>
         </View>
@@ -148,18 +150,19 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
                   navigation.navigate('SelectedBookScreen', {
                     bookId: book.bookId,
                     title: book.title,
-                    //authors: getAuthors(book.authors),
+                    authors: book.author,
                     description: book.description,
                     thumbnail: book.thumbnail ? book.thumbnail : undefined,
                     averageRating: book.averageRating,
                     ratingsCount: book.ratingsCount,
+                    
                   })
                 }}>
 
                   <Image
                     source={{ uri: book.thumbnail }}
                     defaultSource={{ uri: thumbDefault }}
-                    style={{ width: 70, height: 135, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 3 }}
+                    style={{ width: 60, height: 125, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 3 }}
                   />
 
                 </TouchableOpacity>
@@ -187,7 +190,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
                   navigation.navigate('SelectedBookScreen', {
                     bookId: book.bookId,
                     title: book.title,
-                    //authors: getAuthors(book.authors),
+                    authors: book.author,
                     description: book.description,
                     thumbnail: book.thumbnail ? book.thumbnail : undefined,
                     averageRating: book.averageRating,
@@ -198,7 +201,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
                   <Image
                     source={{ uri: book.thumbnail }}
                     defaultSource={{ uri: thumbDefault }}
-                    style={{ width: 70, height: 135, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 3 }}
+                    style={{ width: 60, height: 125, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 3 }}
                   />
                 </TouchableOpacity>
               </View>

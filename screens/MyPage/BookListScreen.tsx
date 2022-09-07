@@ -40,7 +40,7 @@ function BookListScreen({ navigation, route }: Props) {
                 title: book.title,
                 description: book.description,
                 thumbnail: book.thumbnail,
-                author: book.author,
+                authors: book.author,
                 averageRating: book.averageRating,
                 ratingsCount: book.ratingsCount
               })

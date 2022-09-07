@@ -24,7 +24,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
     const session = useSelector((state: RootState) => state.session)
 
     // Destructuring fra navigation.navigate (Books.tsx linje 75 - 81)
-    const { bookId, title, author, description, thumbnail, averageRating, ratingsCount } = route.params
+    const { bookId, title, authors, description, thumbnail, averageRating, ratingsCount } = route.params
 
     // Slice description (Check if undefined)
     let slicedDescription;
@@ -87,7 +87,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
             <View>
                 <Text style={styles.title}>{title}</Text>
-                 <Text style={styles.auhtors}>{author}</Text> 
+                 <Text style={styles.auhtors}>{authors}</Text> 
             </View>
 
             <Text>{'\n'}</Text>
@@ -100,8 +100,8 @@ function SelectedBookScreen({ navigation, route }: Props) {
                     if(session.id != 0)
                         editBookStatus({userId: session.id, bookId, bookStatus: "CurrentlyReading"});
                 }}>
-                    <Text style={{color: 'white', fontFamily: 'sans-serif'}}> Currently reading </Text>
-                    <Ionicons name={'chevron-down'} size={18} color={'white'} />
+                    <Text style={{color: 'white', fontFamily: 'sans-serif',  fontSize: 12, opacity: 0.9}}> Currently reading </Text>
+                    <Ionicons name={'chevron-down'} size={13} color={'white'} />
                 </Pressable>
                
             </View>
@@ -122,7 +122,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
                         
                         })
                 }}>
-                    <Text style={{color: 'white', fontFamily: 'sans-serif'}}>See more</Text>
+                    <Text style={{color: 'white', fontFamily: 'sans-serif', fontSize: 12, opacity: 0.9}}>See more</Text>
                 </Pressable>
             </View>
 
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     auhtors: {
         fontSize: 15,
         textAlign: 'center',
-        fontFamily: '100',
+        fontWeight: '500',
         color: '#d3d3d3',
     },
     imageView: {
@@ -159,9 +159,9 @@ const styles = StyleSheet.create({
         width: 'fit-content',
         color: 'white',
         textAlign: 'center',
-        fontWeight: 100,
-        fontSize: 12,
-        padding: 8,
+        fontWeight: "100",
+        paddingHorizontal: 10,
+        paddingVertical: 10,
         fontFamily: "sans-serif",
     },
     blackPressableReading: {
@@ -169,9 +169,9 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         color: 'white',
         textAlign: 'center',
-        fontWeight: 100,
-        fontSize: 12,
-        padding: 6,
+        fontWeight: "200",
+        paddingHorizontal: 10,
+        paddingVertical: 10,
         flexDirection: 'row',
         justifyContent: 'center',
         alignContent: 'center',
