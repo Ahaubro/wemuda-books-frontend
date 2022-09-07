@@ -59,6 +59,15 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     }
   })
 
+  console.log("Rerender")
+
+  // useEffect(() => {
+  //   const unsubscribe = navigation.addListener('focus', () => {
+  //     user.refetch()
+  //   })
+  //   return unsubscribe
+  // }, [navigation])
+
   useEffect(() => {
     if (statusUpdates.data) {
       const totalMinutes = statusUpdates.data.statusUpdates.reduce((prev, next: StatusUpdate) => prev + next.minutesRead, 0)
@@ -98,6 +107,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   //   console.log(historyBooks, text)
   //   setBooksRead(text)
   // }, [userBooks.data])
+
+  useEffect(() => {
+      user.refetch()
+  }, [userBooks.data])
 
   return (
     <View style={{ backgroundColor: "white", height: "100%" }}>
