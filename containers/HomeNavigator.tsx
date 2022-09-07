@@ -1,23 +1,23 @@
 import React from 'react'
 import {
-  createStackNavigator,
+    createStackNavigator,
 } from '@react-navigation/stack'
 
 import HomeScreen from "../screens/Home/HomeScreen"
 import UpdateStatusScreen from "../screens/Home/UpdateStatusScreen"
 import SelectedBookScreen from '../screens/Books/SelectedBookScreen'
 
-import {HomeNavigatorParamList} from "../types/navigationTypes"
+import { HomeNavigatorParamList } from "../types/navigationTypes"
 
 const Stack = createStackNavigator<HomeNavigatorParamList>()
 
-export default function HomeNavigator(){
+export default function HomeNavigator() {
     return (
         <Stack.Navigator
-            initialRouteName = 'Home'
+            initialRouteName='Home'
             screenOptions={{ headerShown: false }}
         >
-            <Stack.Screen name="Home" component={HomeScreen}/>
+            <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="UpdateStatus" component={UpdateStatusScreen} />
             <Stack.Screen name="SelectedBookScreen" component={SelectedBookScreen} />
         </Stack.Navigator>

@@ -59,8 +59,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     }
   })
 
-  console.log("Rerender")
-
   // useEffect(() => {
   //   const unsubscribe = navigation.addListener('focus', () => {
   //     user.refetch()

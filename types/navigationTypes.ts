@@ -2,8 +2,8 @@
 export type TabNavigationParamList = {
     BooksNavigator:undefined
     Settings: undefined
-    MyPage: undefined
-    Home: undefined
+    MyPageNavigator: undefined
+    HomeNavigator: undefined
     Login: undefined
 }
 

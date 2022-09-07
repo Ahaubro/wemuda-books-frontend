@@ -157,7 +157,6 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
                     ratingsCount: book.ratingsCount,
                     
                   })
-                  console.log("HERHER", book.author)
                 }}>
 
                   <Image

@@ -33,11 +33,11 @@ const Navigation: React.FC<NavigationProps> = () => {
           tabBarIcon: ({ focused, color, size }) => {
             let iconName
 
-            if (route.name === 'Home') {
+            if (route.name === 'HomeNavigator') {
               iconName = focused ? 'book': 'book-outline'
             } else if (route.name === 'Settings') {
               iconName = focused ? 'ios-list' : 'ios-list-outline'
-            } else if(route.name === 'MyPage') {
+            } else if(route.name === 'MyPageNavigator') {
               iconName = focused ? 'person': 'person-outline'
             } else if(route.name === 'BooksNavigator') {
               iconName = focused ? 'search': 'search-outline'
@@ -51,9 +51,9 @@ const Navigation: React.FC<NavigationProps> = () => {
       >
         {session.token && session.token != "guest" &&
           <>
-            <Tab.Screen name="Home" component={HomeNavigator} options={{title: "Home"}} />
+            <Tab.Screen name="HomeNavigator" component={HomeNavigator} options={{title: "Home"}} />
             <Tab.Screen name="BooksNavigator" component={BookNavigator} options={{title: 'Search'}} />
-            <Tab.Screen name="MyPage" component={MyPageNavigator} options={{title: 'Profile'}} />
+            <Tab.Screen name="MyPageNavigator" component={MyPageNavigator} options={{title: 'Profile'}} />
           </>
         }
 

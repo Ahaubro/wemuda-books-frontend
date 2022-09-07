@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
 import { GoogleBook, useGetBooksQuery } from "../../redux/services/googleBookApi"
 import { Book, useAddBookMutation, useGetBooksByUserIdQuery } from '../../redux/services/bookApi'
-import {  } from '@react-navigation/native'
+import { } from '@react-navigation/native'
 import _ from 'lodash';
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { StackNavigationProp } from '@react-navigation/stack'
@@ -41,20 +41,20 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
   //Fetched books useState
   const [books, setBooks] = useState<GoogleBook[]>([]);
   const fetchedBooks = useGetBooksQuery({ query: bookSearch }, { refetchOnMountOrArgChange: true, skip: bookSearch.length === 0 })
-  
-  
+
+
   //For updating wantToRead
   const fetchedUserBooks = useGetBooksByUserIdQuery(session.id, { refetchOnMountOrArgChange: true });
   const [savedBookIds, setSavedBookIds] = useState<string[]>([]);
 
   const { data, error } = fetchedBooks;
-  
- 
+
+
   //Use effect fetched books
   useEffect(() => {
     setBooks(fetchedBooks.data?.books ?? [])
 
-    if(fetchedUserBooks.data) {
+    if (fetchedUserBooks.data) {
       let arr = fetchedUserBooks.data.books.map(item => item.bookId)
       setSavedBookIds(arr);
     }
@@ -66,7 +66,7 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
 
   const getAuthors = (authors: string[]) => {
     if (!authors) {
-      slicedAuthorString = "No Authors" 
+      slicedAuthorString = "No Authors"
       return slicedAuthorString
     } else if (authors.length === 1) {
       slicedAuthorString = authors[0]
@@ -74,7 +74,7 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
     } else {
       slicedAuthorString = `${authors[0]} and ${authors.length} others.`
       return slicedAuthorString
-    } 
+    }
   }
 
 
@@ -102,7 +102,6 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
       <Text style={styles.text}> {'\n'} Search </Text>
 
       <View style={styles.inputContainer}>
-
         {<Ionicons name={'search'} size={20} color={'black'} />}
         <TextInput
           style={styles.input}
@@ -119,7 +118,6 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
           }}
           placeholder={"Enter book name or author to search"}
         />
-
         <Text>{'\n'}</Text>
       </View>
 
@@ -167,7 +165,7 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
                       addBookAtributes.author = getAuthors(item.volumeInfo.authors);
                       addBookAtributes.description = item.volumeInfo.description;
                       addBookAtributes.thumbnail = item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.thumbnail : undefined,
-                      addBookAtributes.averageRating = item.volumeInfo.averageRating;
+                        addBookAtributes.averageRating = item.volumeInfo.averageRating;
                       addBookAtributes.ratingCount = item.volumeInfo.ratingsCount
                       addBookAtributes.bookStatus = "WantToRead"
                       console.log(addBookAtributes)
@@ -175,9 +173,9 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
 
                     }}>
                       <Text style={{ fontWeight: 'bold', fontSize: 10 }}>
-                        {savedBookIds.filter(elm => elm === item.id).length === 1 ? 
+                        {savedBookIds.filter(elm => elm === item.id).length === 1 ?
                           <>On my list <Ionicons name={'checkmark-sharp'} size={20} color={'green'} /> </>
-                          : 
+                          :
                           <>Want to read <Ionicons name={'chevron-down'} size={20} color={'black'} /> </>
                         }
                       </Text>
