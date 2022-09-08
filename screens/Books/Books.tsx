@@ -98,11 +98,11 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
 
 
   return (
-    <View style={{ backgroundColor: 'white', height: '100%' }}>
+    <View>
       <Text style={styles.text}> {'\n'} Search </Text>
 
       <View style={styles.inputContainer}>
-        {<Ionicons name={'search'} size={20} color={'black'} />}
+        {<Ionicons name={'search'} size={20} color={'grey'} />}
         <TextInput
           style={styles.input}
           onChangeText={_.throttle((text) => {
@@ -237,18 +237,18 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     borderWidth: 1,
-    backgroundColor: '#d3d3d3',
+    backgroundColor: 'rgb(242,242,242)',
     padding: 8,
     paddingBottom: 10,
     margin: 0,
     borderRadius: 20,
     height: 40,
-    opacity: 0.5,
     borderBottomWidth: 1,
     marginRight: 10,
     marginLeft: 10,
     border: 'none',
     outline: 'none',
+    opacity: 0.8
 
   }
 

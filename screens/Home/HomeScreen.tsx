@@ -111,73 +111,101 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   }, [userBooks.data])
 
   return (
-    <View style={{ backgroundColor: "white", height: "100%" }}>
+    <View style={styles.container}>
 
       {session.token && userBooks.data?.books &&
 
-        <View style={{ flex: 1, alignItems: "center", marginTop: 40, width: "100%", paddingHorizontal: 10 }}>
-          <View style={{ flex: 1, alignItems: "center", paddingBottom: 30 }}>
-            <Text style={{ marginBottom: 10, fontSize: 14, fontWeight: "700", }}>Currently reading</Text>
+        <View>
 
-            <View>
-              <TouchableOpacity onPress={() => {
-                navigation.navigate('SelectedBookScreen', {
-                  bookId: currentlyReadingBook.bookId,
-                  title: currentlyReadingBook.title,
-                  authors: currentlyReadingBook.author,
-                  description: currentlyReadingBook.description,
-                  thumbnail: currentlyReadingBook.thumbnail ? currentlyReadingBook.thumbnail : undefined,
-                  averageRating: currentlyReadingBook.averageRating,
-                  ratingsCount: currentlyReadingBook.ratingsCount,
-                })
-              }}>
+          <View style={styles.currentlyReadingImage}>
+            <Text style={{ paddingVertical: 15, textAlign: 'center', fontWeight: '400' }}>Currently reading</Text>
+            <TouchableOpacity onPress={() => {
+              navigation.navigate('SelectedBookScreen', {
+                bookId: currentlyReadingBook.bookId,
+                title: currentlyReadingBook.title,
+                authors: currentlyReadingBook.author,
+                description: currentlyReadingBook.description,
+                thumbnail: currentlyReadingBook.thumbnail ? currentlyReadingBook.thumbnail : undefined,
+                averageRating: currentlyReadingBook.averageRating,
+                ratingsCount: currentlyReadingBook.ratingsCount,
+              })
+            }}>
 
-                {currentlyReadingBook.thumbnail ?
-                  <Image
-                    source={{ uri: currentlyReadingBook.thumbnail }}
-                    style={{ width: 130, height: 180, borderRadius: 5, borderWidth: 0.5, borderColor: "#d3d3d3" }}
-                  />
-                  :
-                  <div style={{ width: 130, height: 180, backgroundColor: "#ccc", display: "flex", justifyContent: "center", alignItems: "center" }}>
+              {currentlyReadingBook.thumbnail ?
+                <Image
+                  source={{ uri: currentlyReadingBook.thumbnail }}
+                  style={{ width: 210, height: 300, borderRadius: 5 }}
+                />
+                :
+                <div style={{ width: 210, height: 300, backgroundColor: "rgb(242,242,242)", display: "flex", justifyContent: "center", alignItems: "center" }}>
 
-                  </div>
-                }
-              </TouchableOpacity>
-            </View>
-            
+                </div>
+              }
+            </TouchableOpacity>
 
-            <Pressable style={{ ...styles.buttonGray, marginTop: 25 }} onPress={(() => navigation.navigate('UpdateStatus', {
+          </View>
+
+
+
+
+          <View style={{ marginTop: 70, paddingVertical: 10 }}>
+
+            <Pressable style={styles.buttonGray} onPress={(() => navigation.navigate('UpdateStatus', {
               thumbnail: currentlyReadingBook.thumbnail,
               bookId: currentlyReadingBook.bookId,
               userId: session.id
             }))}>
-              <Text style={{ fontWeight: "bold", fontSize: 12 }}>Update progress</Text>
+              <Text style={{ fontWeight: "600", fontSize: 14 }}>Update reading progress</Text>
             </Pressable>
           </View>
 
+
           {user.data?.booksGoal ?
-            <View style={{ borderBottomColor: "#AAA", borderBottomWidth: 2, width: "100%", paddingBottom: 10 }}>
-              <Text style={{ color: "#AAA" }}>Reading Challenge</Text>
-              <Text style={{ fontWeight: "bold" }}><Text style={{ fontSize: 20 }}>{user.data?.booksRead}/{user.data?.booksGoal ?? 0}</Text> books read</Text>
+
+            <View style={styles.homeInfoOuter}>
+              
+              <Text style={styles.readingChallengeText}>Reading challenge</Text>
+
+              <View style={styles.editNBooksRead}>
+
+                <View style={{ marginRight: 25, marginTop: -10 }}>
+                  <Pressable style={{backgroundColor: "white", borderRadius: 15, paddingHorizontal: 10, paddingVertical: 8}} onPress={ () => {
+                    console.log("Coming soon")
+                  }}>
+                    <Text style={{fontSize: 12, fontWeight: '700'}}>Edit goal</Text>
+                  </Pressable>
+                </View>
+
+                <Text style={{ fontSize: 22, fontWeight: 'bold', padding: 2 }}> {user.data?.booksRead}/{user.data?.booksGoal ?? 0} <Text style={{ fontSize: 16, fontWeight: "bold" }}> books read </Text> </Text>
+
+              </View>
+            
             </View>
+
             :
 
             <View style={{ borderBottomColor: "#AAA", borderBottomWidth: 2, width: "100%", paddingBottom: 10 }}>
-              <Text style={{fontSize: 14}}> Set a challenge today!</Text>
+              <Text style={{ fontSize: 14 }}> No curent challenge</Text>
             </View>
           }
 
-          <View style={{ marginTop: 10, flexDirection: "row", justifyContent: "space-between", width: "100%", paddingBottom: 100 }}>
-            <View>
+          <View style={{ marginTop: 10, flexDirection: "row", width: '100%'}}>
+
+            <View style={styles.streakAndMinutes}>
               <Text style={{ color: "#AAA" }}>Reading streak</Text>
-              <Text style={{ fontWeight: "bold", fontSize: 20 }}>{streak} <Text style={{ fontSize: 14, fontWeight: "bold" }}> days </Text></Text>
+              <Text style={{ fontWeight: "bold", fontSize: 22 }}>{streak} <Text style={{ fontSize: 14, fontWeight: "600" }}> days </Text></Text>
             </View>
-            <View>
+
+            <View style={{width: '2%'}}></View>
+
+
+            <View style={styles.streakAndMinutes}>
               <Text style={{ color: "#AAA" }}>Minutes read</Text>
-              <Text style={{ fontWeight: "bold", fontSize: 20 }}>{minutes} <Text style={{ fontSize: 14, fontWeight: "bold" }}> minutes </Text></Text>
+              <Text style={{ fontWeight: "bold", fontSize: 22 }}>{minutes} <Text style={{ fontSize: 14, fontWeight: "600" }}> minutes </Text></Text>
             </View>
-            <View></View>
+
           </View>
+
         </View>
       }
 
@@ -190,10 +218,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#ffffff',
-    paddingHorizontal: 10,
-    paddingTop: 10
+    margin: 12
   },
   heading: {
     fontFamily: FONTS.bold,
@@ -206,32 +231,45 @@ const styles = StyleSheet.create({
     fontSize: 35,
     textAlign: 'center',
   },
-  bookBox: {
-    backgroundColor: "#ccc",
-    height: 30,
-    padding: 30,
-    marginBottom: 10,
-    borderRadius: 10,
-    width: "100%",
-    flexDirection: 'row',
-    alignItems: "center",
-    justifyContent: "space-between"
-  },
   buttonGray: {
     fontSize: 12,
     fontWeight: 700,
     fontFamily: "sans-serif",
     textAlign: "center",
-    backgroundColor: "#d3d3d3",
-    borderRadius: 18,
-    width: "fit-content",
-    marginBottom: 10,
-    marginTop: 0,
+    backgroundColor: "rgb(247,247,250)",
+    borderRadius: 10,
+    color: "black",
+    paddingVertical: 15,
+  },
+  currentlyReadingImage: {
+    flex: 1,
+    alignItems: "center",
+    marginTop: 40,
+  },
+  streakAndMinutes:{
+    backgroundColor: "rgb(247,247,250)", 
+    borderRadius: 10,  
+    width: '49%', 
+    paddingVertical: 15,
     paddingHorizontal: 15,
-    paddingVertical: 8,
-    height: "fit-content",
-    opacity: 0.9
+  },
+  homeInfoOuter:{
+    backgroundColor: "rgb(247,247,250)",
+    borderRadius: 10, 
+    height: 90,
+  },
+  readingChallengeText:{
+    color: "#ccc", 
+    fontSize: 16, 
+    marginTop: 12, 
+    marginLeft: 5, 
+    padding: 2,
+  },
+  editNBooksRead:{
+    flexDirection: 'row-reverse', 
+    justifyContent: 'space-between'
   }
+
 })
 
 export default HomeScreen
