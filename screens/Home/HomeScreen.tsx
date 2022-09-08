@@ -134,10 +134,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               {currentlyReadingBook.thumbnail ?
                 <Image
                   source={{ uri: currentlyReadingBook.thumbnail }}
-                  style={{ width: 210, height: 300, borderRadius: 5 }}
+                  style={{ width: 180, height: 300, borderRadius: 5 }}
                 />
                 :
-                <div style={{ width: 210, height: 300, backgroundColor: "rgb(242,242,242)", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <div style={{ width: 180, height: 280, backgroundColor: "rgb(242,242,242)", display: "flex", justifyContent: "center", alignItems: "center" }}>
                   
                   <View style={{flexDirection: 'column',  width: '70%'}}>
                   
@@ -195,9 +195,12 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               <View style={styles.editNBooksRead}>
 
                 <View style={{ marginRight: 25, marginTop: -10 }}>
-                  <Pressable style={{backgroundColor: "white", borderRadius: 15, paddingHorizontal: 10, paddingVertical: 8}} onPress={ () => {
-                    console.log("Coming soon")
-                  }}>
+                  <Pressable style={{backgroundColor: "white", borderRadius: 15, paddingHorizontal: 10, paddingVertical: 8}} 
+                  onPress={ () => navigation.navigate('UpdateGoalScreen', {
+                    thumbnail: currentlyReadingBook.thumbnail,
+                    bookId: currentlyReadingBook.bookId,
+                    userId: session.id
+                  })}>
                     <Text style={{fontSize: 12, fontWeight: '700'}}>Edit goal</Text>
                   </Pressable>
                 </View>

@@ -100,11 +100,11 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
   return (
     <View>
 
-            <Pressable style={{ padding: 20 }} onPress={() => {
-                navigation.pop();
-            }}>
-                <Ionicons name={'chevron-back'} size={25} color={'black'} />
-            </Pressable>
+      <Pressable style={{ padding: 20 }} onPress={() => {
+        navigation.pop();
+      }}>
+        <Ionicons name={'chevron-back'} size={25} color={'black'} />
+      </Pressable>
 
       <Text style={styles.text}> {'\n'} Search </Text>
 

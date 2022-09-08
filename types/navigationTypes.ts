@@ -58,6 +58,10 @@ export type HomeNavigatorParamList = {
         bookId: string,
         userId: number
     }
+    UpdateGoalScreen: {
+        bookId: string,
+        userId: number
+    }
     SelectedBookScreen: { 
         bookId: string,
         title: string,

@@ -8,15 +8,17 @@ import {useEditStatusMutation, useGetBooksByUserIdQuery, Book} from '../../redux
 import {useAddStatusUpdateMutation} from '../../redux/services/statusUpdateApi'
 import {useSetBooksGoalMutation, useResetBooksReadMutation} from '../../redux/services/userApi'
 
-type UpdateStatusScreenNavigationProps = StackNavigationProp<HomeNavigatorParamList, "UpdateStatus">
-type UpdateStatisScreenRouteProps = RouteProp<HomeNavigatorParamList, "UpdateStatus">
 
-interface HomeScreenProps {
-    navigation: UpdateStatusScreenNavigationProps,
-    route: UpdateStatisScreenRouteProps
+type UpdateGoalScreenNavigationProps = StackNavigationProp<HomeNavigatorParamList, "UpdateGoalScreen">
+type UpdateGoalScreenRouteProps = RouteProp<HomeNavigatorParamList, "UpdateGoalScreen">
+
+interface UpdateGoalScreenProps {
+    navigation: UpdateGoalScreenNavigationProps,
+    route: UpdateGoalScreenRouteProps
 }
 
-const UpdateStatusScreen: React.FC<HomeScreenProps> = ({navigation, route}) => {
+
+const UpdateGoalScreen: React.FC<UpdateGoalScreenProps> = ({navigation, route}) => {
 
     const {bookId, userId} = route.params
 
@@ -50,38 +52,57 @@ const UpdateStatusScreen: React.FC<HomeScreenProps> = ({navigation, route}) => {
 
             <View style={{flex: 1, alignItems: "center", marginTop: 5}}>
 
-                <Text style={{ fontWeight: "700", fontSize: 12 }}>Currently reading</Text>
+                    {/* HERFRA SKAL PÅ EN NY SIDE */}
 
-                <View style={{ marginTop: 10 }}>
-                    {currentlyReadingBook?.thumbnail ?
-                        <Image
-                            source={{ uri: currentlyReadingBook.thumbnail }}
-                            style={{ width: 100, height: 150, borderRadius: 3 }}
-                        />
-                        :
-                        <div style={{ width: 50, height: 65, backgroundColor: "#ccc", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                            No image
-                        </div>
-                    }
+
+
+
+                <View style={{marginTop: 15}}>
+                    <Text style={{ fontWeight: "700", fontSize: 12 }}>Reading goal:</Text>
+                    
+                    <TextInput keyboardType="number-pad" placeholder="Enter book count" placeholderTextColor={"#AAA"} onChangeText={(books) => {
+                        setBooksGoal(Number(books))
+                    }} style={styles.textInput}></TextInput>
                 </View>
 
-                <Pressable style={{ ...styles.buttonGray, marginTop: 20, flex: 1, flexDirection: 'row' }} onPress={(() => {
-                    setFinishedBook(!finishedBook)
-                })}>
-                    <Text style={{ fontWeight: "500", fontSize: 12 }}>Finish Book</Text>
-                    {finishedBook ?
+                <Pressable style={{ ...styles.buttonGray, marginTop: 15, flex: 1, flexDirection: 'row' }} onPress={(() => {
+                    setResetProgress(!resetProgress)
+                })}><Text style={{ fontWeight: "500", fontSize: 12 }}>Reset Progress</Text>
+                    {resetProgress ?
                         <Ionicons name={'checkmark-sharp'} size={15} color={'green'} /> :
                         <Ionicons name={'close-sharp'} size={15} color={'red'} />
                     }
                 </Pressable>
-                
-                <View style={{marginTop: 15}}>
-                    <Text style={{ fontWeight: "700", fontSize: 12 }}>Minutes read:</Text>
 
-                    <TextInput keyboardType="number-pad" placeholder="Enter minutes" placeholderTextColor={"#AAA"} onChangeText={(minutes) => {
-                        setMinutesRead(Number(minutes))
-                    }} style={styles.textInput}></TextInput>
-                </View>
+                <Text style={{color: "#F00"}}>{message}</Text>
+
+                <Pressable style={{ ...styles.buttonGray, marginTop: 15 }} onPress={(() => {
+                    if(finishedBook)
+                        editBookStatus({userId, bookId, bookStatus: "History"})
+
+                    if(resetProgress)
+                        resetBooksRead(userId)
+                    
+                    setMessage("")
+
+                    if(minutesRead != NaN){
+                        if(minutesRead > 0)
+                            addStatusUpdate({userId, minutesAdded: minutesRead})
+                    }else
+                        setMessage("Minutes read must be a number!")
+                    
+                    
+                    if(booksGoal != NaN){
+                        if(booksGoal > 0)
+                            updateBooksGoal({userId, booksGoal: booksGoal})
+                    }else
+                        setMessage((message.length > 0 ? message + "\n" : "") +  + "Books goal must be a number!")
+                    
+                    if(minutesRead != NaN && booksGoal != NaN)
+                        navigation.navigate("Home")
+                })}>
+                    <Text style={{ fontWeight: "500", fontSize: 12 }}>Save</Text>
+                </Pressable>
 
             </View>
         </View>
@@ -116,4 +137,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default UpdateStatusScreen
+export default UpdateGoalScreen
