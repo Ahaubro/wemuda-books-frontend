@@ -67,4 +67,5 @@ export type HomeNavigatorParamList = {
         averageRating: number,
         ratingsCount: number,
     }
+    BookScreen: undefined
 }

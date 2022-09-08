@@ -145,7 +145,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                     
                     <Pressable style={{backgroundColor: "white", borderRadius: 15, paddingHorizontal: 10, paddingVertical: 8}} 
                     onPress={ () => {
-                      console.log("Coming soon")
+                      navigation.navigate("BookScreen")
                     }}>
                       <Text style={{textAlign: 'center', fontWeight: '700'}}>Find a book</Text>
                     </Pressable>
@@ -182,8 +182,15 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           {user.data?.booksGoal ?
 
             <View style={styles.homeInfoOuter}>
-              
-              <Text style={styles.readingChallengeText}>Reading challenge</Text>
+
+              {user.data?.booksRead == user.data?.booksGoal ?
+
+                <Text style={{fontSize: 16, marginTop: 12, marginLeft: 5, padding: 2 }}>Reading challenge completed!! 🎉🎉 </Text>
+              :
+
+                <Text style={styles.readingChallengeText}>Reading challenge </Text>
+
+              }
 
               <View style={styles.editNBooksRead}>
 

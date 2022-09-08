@@ -38,7 +38,7 @@ const Navigation: React.FC<NavigationProps> = () => {
         screenOptions={({ route }) => ({
           headerShown: false,
           tabBarActiveTintColor: "black",
-          tabBarStyle:{marginTop: 12, marginBottom: 12},
+          tabBarStyle:{},
           tabBarIcon: ({ focused, color, size }) => {
             let iconName
 
@@ -54,7 +54,7 @@ const Navigation: React.FC<NavigationProps> = () => {
               iconName = focused ? 'key-sharp': 'key-outline'
             }
 
-            return <Ionicons name={iconName as any} size={22} color={color} />
+            return <Ionicons name={iconName as any} size={30} color={color} />
           },
         })}
       >
