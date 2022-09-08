@@ -1,4 +1,4 @@
-import { NavigationContainer } from '@react-navigation/native'
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native'
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import HomeScreen from '../screens/Home/HomeScreen'
@@ -23,8 +23,17 @@ const Navigation: React.FC<NavigationProps> = () => {
 
   const session = useSelector((state: RootState) => state.session)
 
+  const myTheme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      primary: 'rgb(255, 45, 85)',
+      background:'white'
+    },
+  };
+
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={myTheme}>
       <Tab.Navigator
         screenOptions={({ route }) => ({
           headerShown: false,
