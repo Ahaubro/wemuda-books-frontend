@@ -138,7 +138,19 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                 />
                 :
                 <div style={{ width: 210, height: 300, backgroundColor: "rgb(242,242,242)", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                  
+                  <View style={{flexDirection: 'column',  width: '70%'}}>
+                  
+                    <Text style={{textAlign: 'center', paddingVertical: 20, fontWeight: '700', marginTop: -35}}> You are currently not reading a book </Text>
+                    
+                    <Pressable style={{backgroundColor: "white", borderRadius: 15, paddingHorizontal: 10, paddingVertical: 8}} 
+                    onPress={ () => {
+                      console.log("Coming soon")
+                    }}>
+                      <Text style={{textAlign: 'center', fontWeight: '700'}}>Find a book</Text>
+                    </Pressable>
 
+                  </View>
                 </div>
               }
             </TouchableOpacity>
@@ -150,6 +162,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
           <View style={{ marginTop: 70, paddingVertical: 10 }}>
 
+            {currentlyReadingBook.thumbnail ?
+
             <Pressable style={styles.buttonGray} onPress={(() => navigation.navigate('UpdateStatus', {
               thumbnail: currentlyReadingBook.thumbnail,
               bookId: currentlyReadingBook.bookId,
@@ -157,7 +171,12 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             }))}>
               <Text style={{ fontWeight: "600", fontSize: 14 }}>Update reading progress</Text>
             </Pressable>
+
+            :
+              <Text></Text>
+            }
           </View>
+          
 
 
           {user.data?.booksGoal ?
