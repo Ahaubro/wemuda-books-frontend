@@ -40,7 +40,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
                     <Pressable style={styles.buttonBlack} onPress={() => {
                         setScreen("signup")
                     }}>
-                        <Text style={{ color: 'white', fontFamily: 'sans-serif' }}>Kom i gang</Text>
+                        <Text style={{ color: 'white', fontFamily: 'sans-serif' }}>Get started</Text>
                     </Pressable>
                 </View>
 
@@ -56,7 +56,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
                     <Pressable style={{}} onPress={() => {
                         dispatch(startSession({id: 0, token: "guest"}))
                     }}>
-                        <Text style={{ color: 'black', fontFamily: 'sans-serif', fontWeight:'bold', textAlign:'center', fontSize: 12}}>Fortsæt uden login</Text>
+                        <Text style={{ color: 'black', fontFamily: 'sans-serif', fontWeight:'bold', textAlign:'center', fontSize: 12}}>Continue without login</Text>
                     </Pressable>
                 </View>
             </View>
@@ -100,13 +100,13 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
                                 })
                             }
                         }}>
-                            <Text style={{ color: 'white', fontFamily: 'sans-serif' }}>Log ind</Text>
+                            <Text style={{ color: 'white', fontFamily: 'sans-serif' }}>Log in</Text>
                         </Pressable>
                     </View>
 
                     <View style={{ marginVertical: 5 }}>
                         <Pressable style={styles.buttonWhite} onPress={() => { setScreen("forgot password") }}>
-                            <Text style={{ fontWeight: 'bold' }}><Text style={{ fontWeight: "bold" }}>Glemt kodeord</Text></Text>
+                            <Text style={{ fontWeight: 'bold' }}><Text style={{ fontWeight: "bold" }}>Forgot password</Text></Text>
                         </Pressable>
                     </View>
                 </View>
@@ -125,7 +125,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
                 </View>
 
                 <View>
-                    <Text style={styles.heading}>Kom i gang</Text>
+                    <Text style={styles.heading}>Get started</Text>
                 </View>
 
                 <View style={{ flexDirection: 'column', justifyContent: 'center', alignContent: 'center', }}>
@@ -138,14 +138,14 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
 
                     {/* <View style={{ marginVertical: 5 }}>
                         <Text style={styles.label}>Efternavn:</Text>
-                        <TextInput placeholder="Indtast efternavn" placeholderTextColor={"#AAAAAA"} onChangeText={lastname => {
+                        <TextInput placeholder="Enter last name" placeholderTextColor={"#AAAAAA"} onChangeText={lastname => {
                             setSignupInputs({ ...signupInputs, lastname })
                         }} style={styles.textInput}></TextInput>
                     </View> */}
 
                     {/* <View style={{ marginVertical: 5 }}>
                         <Text style={styles.label}>Brugernavn:</Text>
-                        <TextInput placeholder="Indtast brugernavn" placeholderTextColor={"#AAAAAA"} onChangeText={username => {
+                        <TextInput placeholder="Enter username" placeholderTextColor={"#AAAAAA"} onChangeText={username => {
                             setSignupInputs({ ...signupInputs, username })
                         }} style={styles.textInput}></TextInput>
                     </View> */}
@@ -201,7 +201,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
 
 
                 <View style={{ }}>
-                    <Text style={styles.heading}>Glemt kodeord</Text>
+                    <Text style={styles.heading}>Forgot password</Text>
                 </View>
 
                 <View style={{ flexDirection: "column", justifyContent: 'center', alignContent: 'center' }}>
