@@ -140,7 +140,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                 <div style={{ width: 200, height: 280, backgroundColor: "rgb(242,242,242)", display: "flex", justifyContent: "center", alignItems: "center" }}>
                   
                   <View style={{flexDirection: 'column',  width: '70%'}}>
-                  
                     <Text style={{textAlign: 'center', paddingVertical: 20, fontWeight: '700', marginTop: -35}}> You are currently not reading a book </Text>
                     
                     <Pressable style={{backgroundColor: "white", borderRadius: 15, paddingHorizontal: 10, paddingVertical: 8}} 
@@ -149,7 +148,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                     }}>
                       <Text style={{textAlign: 'center', fontWeight: '700'}}>Find a book</Text>
                     </Pressable>
-
                   </View>
                 </div>
               }

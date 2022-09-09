@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Pressable, Image, Text, StyleSheet, TextInput } from 'react-native'
+import { View, Pressable, Image, Text, StyleSheet, TextInput, ActivityIndicator } from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { HomeNavigatorParamList } from '../../types/NavigationTypes'
@@ -7,6 +7,7 @@ import { RouteProp } from '@react-navigation/native'
 import { useEditStatusMutation, useGetBooksByUserIdQuery, Book } from '../../redux/services/bookApi'
 import { useAddStatusUpdateMutation } from '../../redux/services/statusUpdateApi'
 import { useSetBooksGoalMutation, useResetBooksReadMutation } from '../../redux/services/userApi'
+
 
 type UpdateStatusScreenNavigationProps = StackNavigationProp<HomeNavigatorParamList, "UpdateStatus">
 type UpdateStatisScreenRouteProps = RouteProp<HomeNavigatorParamList, "UpdateStatus">
@@ -23,7 +24,7 @@ const UpdateStatusScreen: React.FC<HomeScreenProps> = ({ navigation, route }) =>
     const userBooks = useGetBooksByUserIdQuery(userId)
     const currentlyReadingBook: Book | undefined = userBooks.data?.books.find(book => book.bookId == bookId)
 
-    const [editBookStatus] = useEditStatusMutation()
+    const [editBookStatus, { isLoading, isSuccess }] = useEditStatusMutation()
 
     const [addStatusUpdate] = useAddStatusUpdateMutation()
 
@@ -41,8 +42,15 @@ const UpdateStatusScreen: React.FC<HomeScreenProps> = ({ navigation, route }) =>
 
     const [message, setMessage] = useState("")
 
+
     return <>
-        <View style={styles.container}>
+        <View>
+
+            {isLoading &&
+                <View style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 99, justifyContent: 'center' }}>
+                    <ActivityIndicator style={{ marginTop: 40 }} size="large" />
+                </View>
+            }
 
             <Pressable style={styles.backArrowPos} onPress={() => { navigation.navigate('Home') }}>
                 <Ionicons name={'chevron-back'} size={25} color={'black'} />
@@ -62,54 +70,32 @@ const UpdateStatusScreen: React.FC<HomeScreenProps> = ({ navigation, route }) =>
 
             <Text style={{ color: "#F00" }}>{message}</Text>
 
+
             <View style={{ paddingVertical: 4 }}>
-
                 <Pressable style={{ ...styles.buttonBlack, marginTop: 10 }} onPress={(() => {
-                    if (finishedBook)
-                        editBookStatus({ userId, bookId, bookStatus: "History" })
-                        
-                    if (resetProgress)
-                        resetBooksRead(userId)
-
-                    setMessage("")
-
                     if (minutesRead != NaN) {
                         if (minutesRead > 0)
                             addStatusUpdate({ userId, minutesAdded: minutesRead })
                     } else
                         setMessage("Minutes read must be a number!")
 
-                    if (booksGoal != NaN) {
-                        if (booksGoal > 0)
-                            updateBooksGoal({ userId, booksGoal: booksGoal })
-                    } else
-                        setMessage((message.length > 0 ? message + "\n" : "") + + "Books goal must be a number!")
-
-                    if (minutesRead != NaN && booksGoal != NaN)
+                    if (minutesRead != NaN)
                         navigation.navigate("Home")
                 })}>
                     <Text style={styles.btnText}>Update progress</Text>
                 </Pressable>
-
             </View>
 
 
             <View style={{ paddingVertical: 4 }}>
-                <Pressable style={{ ...styles.buttonBlack, flexDirection: 'row', justifyContent: 'center' }} onPress={(() => {
-                    setFinishedBook(!finishedBook)
+                <Pressable style={{ ...styles.buttonGrey, flexDirection: 'row', justifyContent: 'center' }} onPress={(() => {
+                    editBookStatus({ userId, bookId, bookStatus: "History" }).unwrap().then(res => {
+                        navigation.pop()
+                    })
                 })}>
-                    <Text style={styles.btnText}>Finish Book</Text>
-                    {finishedBook ?
-                        <Ionicons style={{ marginLeft: 5 }} name={'checkmark-sharp'} size={15} color={'green'} /> :
-                        <Ionicons style={{ marginLeft: 5 }} name={'close-sharp'} size={15} color={'red'} />
-                    }
+                    <Text style={styles.btnTextBlack}>Finish Book</Text>
                 </Pressable>
             </View>
-
-
-
-
-
         </View>
     </>
 }
@@ -141,7 +127,8 @@ const styles = StyleSheet.create({
         paddingVertical: 5
     },
     container: {
-        margin: 12,
+        flex: 1,
+        padding: 12,
     },
     header: {
         fontWeight: "700",
@@ -157,7 +144,19 @@ const styles = StyleSheet.create({
         fontWeight: "600",
         fontSize: 14,
         color: "white"
-    }
+    },
+    btnTextBlack: {
+        fontWeight: "600",
+        fontSize: 14,
+        color: "black"
+    },
+    buttonGrey: {
+        fontFamily: "sans-serif",
+        textAlign: "center",
+        backgroundColor: "rgb(247,247,250)",
+        borderRadius: 10,
+        paddingVertical: 15,
+    },
 })
 
 export default UpdateStatusScreen

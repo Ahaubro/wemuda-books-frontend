@@ -62,50 +62,36 @@ const UpdateGoalScreen: React.FC<UpdateGoalScreenProps> = ({ navigation, route }
                 }} style={styles.textInput}></TextInput>
             </View>
 
+
             <Text style={{ color: "#F00" }}>{message}</Text>
 
 
             <View style={{ paddingVertical: 4 }}>
-                <Pressable style={{ ...styles.buttonBlack, flexDirection: 'row', justifyContent: 'center',  marginTop: 10  }} onPress={(() => {
-                    setResetProgress(!resetProgress)
-                })}>
-                    <Text style={styles.btnText}>Reset Progress</Text>
-
-                    {resetProgress ?
-                        <Ionicons style={{ marginLeft: 5 }} name={'checkmark-sharp'} size={15} color={'green'} /> :
-                        <Ionicons style={{ marginLeft: 5 }} name={'close-sharp'} size={15} color={'red'} />
-                    }
-                </Pressable>
-            </View>
-
-
-            <View style={{ paddingVertical: 4 }}>
-                <Pressable style={{ ...styles.buttonBlack }} onPress={(() => {
-                    if (finishedBook)
-                        editBookStatus({ userId, bookId, bookStatus: "History" })
-
-                    if (resetProgress)
-                        resetBooksRead(userId)
-
-                    setMessage("")
-
-                    if (minutesRead != NaN) {
-                        if (minutesRead > 0)
-                            addStatusUpdate({ userId, minutesAdded: minutesRead })
-                    } else
-                        setMessage("Minutes read must be a number!")
-
-
+                <Pressable style={{ ...styles.buttonBlack, marginTop: 10 }} onPress={(() => {                                          
                     if (booksGoal != NaN) {
                         if (booksGoal > 0)
                             updateBooksGoal({ userId, booksGoal: booksGoal })
                     } else
                         setMessage((message.length > 0 ? message + "\n" : "") + + "Books goal must be a number!")
 
-                    if (minutesRead != NaN && booksGoal != NaN)
+                    if (booksGoal != NaN)
                         navigation.navigate("Home")
                 })}>
                     <Text style={styles.btnText}>Save</Text>
+                </Pressable>
+            </View>
+
+            <View style={{ paddingVertical: 4 }}>
+                <Pressable style={{ ...styles.buttonGrey, flexDirection: 'row', justifyContent: 'center'  }} onPress={(() => {
+                    resetBooksRead(userId)
+                    navigation.navigate("Home")
+                })}>
+                    <Text style={styles.btnTextBlack}>Reset Progress</Text>
+
+                    {/* {resetProgress ?
+                        <Ionicons style={{ marginLeft: 5 }} name={'checkmark-sharp'} size={15} color={'green'} /> :
+                        <Ionicons style={{ marginLeft: 5 }} name={'close-sharp'} size={15} color={'red'} />
+                    } */}
                 </Pressable>
             </View>
 
@@ -118,6 +104,13 @@ const styles = StyleSheet.create({
         fontFamily: "sans-serif",
         textAlign: "center",
         backgroundColor: "black",
+        borderRadius: 10,
+        paddingVertical: 15,
+    },
+    buttonGrey: {
+        fontFamily: "sans-serif",
+        textAlign: "center",
+        backgroundColor: "rgb(247,247,250)",
         borderRadius: 10,
         paddingVertical: 15,
     },
@@ -156,7 +149,13 @@ const styles = StyleSheet.create({
         fontWeight: "600",
         fontSize: 14,
         color: "white"
-    }
+    },
+    btnTextBlack: {
+        fontWeight: "600",
+        fontSize: 14,
+        color: "black"
+    },
+    
 })
 
 export default UpdateGoalScreen
