@@ -42,62 +42,32 @@ const UpdateStatusScreen: React.FC<HomeScreenProps> = ({ navigation, route }) =>
     const [message, setMessage] = useState("")
 
     return <>
-        <View style={{ margin: 20 }}>
+        <View style={styles.container}>
 
-            <Pressable onPress={() => { navigation.navigate('Home') }}>
+            <Pressable style={styles.backArrowPos} onPress={() => { navigation.navigate('Home') }}>
                 <Ionicons name={'chevron-back'} size={25} color={'black'} />
             </Pressable>
 
-            <View style={{ flex: 1, alignItems: "center", marginTop: 5 }}>
+            <Text style={styles.header}>Update reading progress</Text>
 
-                <Text style={{ fontWeight: "700", fontSize: 12 }}>Currently reading</Text>
 
-                <View style={{ marginTop: 10 }}>
-                    {currentlyReadingBook?.thumbnail ?
-                        <Image
-                            source={{ uri: currentlyReadingBook.thumbnail }}
-                            style={{ width: 100, height: 150, borderRadius: 3 }}
-                        />
-                        :
-                        <div style={{ width: 50, height: 65, backgroundColor: "#ccc", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                            No image
-                        </div>
-                    }
-                </View>
+            <View>
+                <Text style={styles.subHeader}>Enter the amount of minutes you have read since last time.</Text>
 
-                <Pressable style={{ ...styles.buttonGray, marginTop: 20, flex: 1, flexDirection: 'row' }} onPress={(() => {
-                    setFinishedBook(!finishedBook)
-                })}>
-                    <Text style={{ fontWeight: "500", fontSize: 12 }}>Finish Book</Text>
-                    {finishedBook ?
-                        <Ionicons name={'checkmark-sharp'} size={15} color={'green'} /> :
-                        <Ionicons name={'close-sharp'} size={15} color={'red'} />
-                    }
-                </Pressable>
+                <TextInput keyboardType="number-pad" placeholder="Enter minutes" placeholderTextColor={"#AAA"} onChangeText={(minutes) => {
+                    setMinutesRead(Number(minutes))
+                }} style={styles.textInput}></TextInput>
+            </View>
 
-                <View style={{ marginTop: 15 }}>
-                    <Text style={{ fontWeight: "700", fontSize: 12 }}>Minutes read:</Text>
 
-                    <TextInput keyboardType="number-pad" placeholder="Enter minutes" placeholderTextColor={"#AAA"} onChangeText={(minutes) => {
-                        setMinutesRead(Number(minutes))
-                    }} style={styles.textInput}></TextInput>
-                </View>
+            <Text style={{ color: "#F00" }}>{message}</Text>
 
-                <Pressable style={{ ...styles.buttonGray, marginTop: 15, flex: 1, flexDirection: 'row' }} onPress={(() => {
-                    setResetProgress(!resetProgress)
-                })}><Text style={{ fontWeight: "500", fontSize: 12 }}>Reset Progress</Text>
-                    {resetProgress ?
-                        <Ionicons name={'checkmark-sharp'} size={15} color={'green'} /> :
-                        <Ionicons name={'close-sharp'} size={15} color={'red'} />
-                    }
-                </Pressable>
+            <View style={{ paddingVertical: 4 }}>
 
-                <Text style={{ color: "#F00" }}>{message}</Text>
-
-                <Pressable style={{ ...styles.buttonGray, marginTop: 15 }} onPress={(() => {
+                <Pressable style={{ ...styles.buttonBlack, marginTop: 10 }} onPress={(() => {
                     if (finishedBook)
                         editBookStatus({ userId, bookId, bookStatus: "History" })
-
+                        
                     if (resetProgress)
                         resetBooksRead(userId)
 
@@ -109,7 +79,6 @@ const UpdateStatusScreen: React.FC<HomeScreenProps> = ({ navigation, route }) =>
                     } else
                         setMessage("Minutes read must be a number!")
 
-
                     if (booksGoal != NaN) {
                         if (booksGoal > 0)
                             updateBooksGoal({ userId, booksGoal: booksGoal })
@@ -119,26 +88,39 @@ const UpdateStatusScreen: React.FC<HomeScreenProps> = ({ navigation, route }) =>
                     if (minutesRead != NaN && booksGoal != NaN)
                         navigation.navigate("Home")
                 })}>
-                    <Text style={{ fontWeight: "500", fontSize: 12 }}>Save</Text>
+                    <Text style={styles.btnText}>Update progress</Text>
                 </Pressable>
 
             </View>
+
+
+            <View style={{ paddingVertical: 4 }}>
+                <Pressable style={{ ...styles.buttonBlack, flexDirection: 'row', justifyContent: 'center' }} onPress={(() => {
+                    setFinishedBook(!finishedBook)
+                })}>
+                    <Text style={styles.btnText}>Finish Book</Text>
+                    {finishedBook ?
+                        <Ionicons style={{ marginLeft: 5 }} name={'checkmark-sharp'} size={15} color={'green'} /> :
+                        <Ionicons style={{ marginLeft: 5 }} name={'close-sharp'} size={15} color={'red'} />
+                    }
+                </Pressable>
+            </View>
+
+
+
+
+
         </View>
     </>
 }
 
 const styles = StyleSheet.create({
-    buttonGray: {
-        fontSize: 12,
-        fontWeight: 700,
+    buttonBlack: {
         fontFamily: "sans-serif",
         textAlign: "center",
-        backgroundColor: "#DDD",
-        borderRadius: 18,
-        width: "fit-content",
-        paddingHorizontal: 15,
-        paddingVertical: 10,
-        height: "fit-content"
+        backgroundColor: "black",
+        borderRadius: 10,
+        paddingVertical: 15,
     },
     textInput: {
         borderWidth: 1,
@@ -146,12 +128,35 @@ const styles = StyleSheet.create({
         borderColor: "gray",
         borderRadius: 8,
         paddingHorizontal: 15,
-        paddingVertical: 10,
+        paddingVertical: 15,
         fontSize: 12,
-        marginLeft: 5,
-        marginRight: 5,
         opacity: 0.9,
+    },
+    backArrowPos: {
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignContent: 'flex-start',
+        marginTop: 50,
+        marginLeft: -6,
+        paddingVertical: 5
+    },
+    container: {
+        margin: 12,
+    },
+    header: {
+        fontWeight: "700",
+        fontSize: 24,
         marginTop: 5
+    },
+    subHeader: {
+        fontWeight: "500",
+        fontSize: 12,
+        paddingVertical: 15
+    },
+    btnText: {
+        fontWeight: "600",
+        fontSize: 14,
+        color: "white"
     }
 })
 

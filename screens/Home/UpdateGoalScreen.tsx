@@ -44,39 +44,43 @@ const UpdateGoalScreen: React.FC<UpdateGoalScreenProps> = ({ navigation, route }
     const [message, setMessage] = useState("")
 
     return <>
-        <View style={{ margin: 20 }}>
+        <View style={styles.container}>
 
-            <Pressable onPress={() => { navigation.navigate('Home') }}>
+            <Pressable style={styles.backArrowPos} onPress={() => { navigation.navigate('Home') }}>
                 <Ionicons name={'chevron-back'} size={25} color={'black'} />
             </Pressable>
 
-            <View style={{ flex: 1, alignItems: "center", marginTop: 5 }}>
 
-                {/* HERFRA SKAL PÅ EN NY SIDE */}
-
+            <Text style={styles.header}>Edit goal</Text>
 
 
+            <View>
+                <Text style={styles.subHeader}>Enter the amount of books you want to read</Text>
 
-                <View style={{ marginTop: 15 }}>
-                    <Text style={{ fontWeight: "700", fontSize: 12 }}>Reading goal:</Text>
+                <TextInput keyboardType="number-pad" placeholder="Enter book count" placeholderTextColor={"#AAA"} onChangeText={(books) => {
+                    setBooksGoal(Number(books))
+                }} style={styles.textInput}></TextInput>
+            </View>
 
-                    <TextInput keyboardType="number-pad" placeholder="Enter book count" placeholderTextColor={"#AAA"} onChangeText={(books) => {
-                        setBooksGoal(Number(books))
-                    }} style={styles.textInput}></TextInput>
-                </View>
+            <Text style={{ color: "#F00" }}>{message}</Text>
 
-                <Pressable style={{ ...styles.buttonGray, marginTop: 15, flex: 1, flexDirection: 'row' }} onPress={(() => {
+
+            <View style={{ paddingVertical: 4 }}>
+                <Pressable style={{ ...styles.buttonBlack, flexDirection: 'row', justifyContent: 'center',  marginTop: 10  }} onPress={(() => {
                     setResetProgress(!resetProgress)
-                })}><Text style={{ fontWeight: "500", fontSize: 12 }}>Reset Progress</Text>
+                })}>
+                    <Text style={styles.btnText}>Reset Progress</Text>
+
                     {resetProgress ?
-                        <Ionicons name={'checkmark-sharp'} size={15} color={'green'} /> :
-                        <Ionicons name={'close-sharp'} size={15} color={'red'} />
+                        <Ionicons style={{ marginLeft: 5 }} name={'checkmark-sharp'} size={15} color={'green'} /> :
+                        <Ionicons style={{ marginLeft: 5 }} name={'close-sharp'} size={15} color={'red'} />
                     }
                 </Pressable>
+            </View>
 
-                <Text style={{ color: "#F00" }}>{message}</Text>
 
-                <Pressable style={{ ...styles.buttonGray, marginTop: 15 }} onPress={(() => {
+            <View style={{ paddingVertical: 4 }}>
+                <Pressable style={{ ...styles.buttonBlack }} onPress={(() => {
                     if (finishedBook)
                         editBookStatus({ userId, bookId, bookStatus: "History" })
 
@@ -101,26 +105,21 @@ const UpdateGoalScreen: React.FC<UpdateGoalScreenProps> = ({ navigation, route }
                     if (minutesRead != NaN && booksGoal != NaN)
                         navigation.navigate("Home")
                 })}>
-                    <Text style={{ fontWeight: "500", fontSize: 12 }}>Save</Text>
+                    <Text style={styles.btnText}>Save</Text>
                 </Pressable>
-
             </View>
+
         </View>
     </>
 }
 
 const styles = StyleSheet.create({
-    buttonGray: {
-        fontSize: 12,
-        fontWeight: 700,
+    buttonBlack: {
         fontFamily: "sans-serif",
         textAlign: "center",
-        backgroundColor: "#DDD",
-        borderRadius: 18,
-        width: "fit-content",
-        paddingHorizontal: 15,
-        paddingVertical: 10,
-        height: "fit-content"
+        backgroundColor: "black",
+        borderRadius: 10,
+        paddingVertical: 15,
     },
     textInput: {
         borderWidth: 1,
@@ -128,12 +127,35 @@ const styles = StyleSheet.create({
         borderColor: "gray",
         borderRadius: 8,
         paddingHorizontal: 15,
-        paddingVertical: 10,
+        paddingVertical: 15,
         fontSize: 12,
-        marginLeft: 5,
-        marginRight: 5,
         opacity: 0.9,
+    },
+    backArrowPos: {
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignContent: 'flex-start',
+        marginTop: 50,
+        marginLeft: -6,
+        paddingVertical: 5
+    },
+    container: {
+        margin: 12,
+    },
+    header: {
+        fontWeight: "700",
+        fontSize: 24,
         marginTop: 5
+    },
+    subHeader: {
+        fontWeight: "500",
+        fontSize: 12,
+        paddingVertical: 15
+    },
+    btnText: {
+        fontWeight: "600",
+        fontSize: 14,
+        color: "white"
     }
 })
 

@@ -134,10 +134,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               {currentlyReadingBook.thumbnail ?
                 <Image
                   source={{ uri: currentlyReadingBook.thumbnail }}
-                  style={{ width: 180, height: 300, borderRadius: 5 }}
+                  style={{ width: 200, height: 280, borderRadius: 5 }}
                 />
                 :
-                <div style={{ width: 180, height: 280, backgroundColor: "rgb(242,242,242)", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <div style={{ width: 200, height: 280, backgroundColor: "rgb(242,242,242)", display: "flex", justifyContent: "center", alignItems: "center" }}>
                   
                   <View style={{flexDirection: 'column',  width: '70%'}}>
                   
