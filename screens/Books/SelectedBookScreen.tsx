@@ -30,7 +30,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
     // Slice description (Check if undefined)
     let slicedDescription;
     if (description != undefined) {
-        slicedDescription = description.substring(0, 150)
+        slicedDescription = description.substring(0, 70)
     } else {
         slicedDescription = "";
     }
@@ -56,7 +56,16 @@ function SelectedBookScreen({ navigation, route }: Props) {
     //For updating wantToRead
     const fetchedUserBooks = useGetBooksByUserIdQuery(session.id, { refetchOnMountOrArgChange: true });
     const [savedBookIds, setSavedBookIds] = useState<string[]>([]);
-    
+
+
+    //Use effect fetched books
+    useEffect(() => {
+        if (fetchedUserBooks.data) {
+            let arr = fetchedUserBooks.data.books.map(item => item.bookId)
+            setSavedBookIds(arr);
+        }
+    }, [fetchedUserBooks.data])
+
 
     const dispatch = useDispatch()
 
@@ -75,10 +84,10 @@ function SelectedBookScreen({ navigation, route }: Props) {
                 {thumbnail ?
                     <Image
                         source={{ uri: thumbnail }}
-                        style={{ width: 110, height: 150, borderRadius: 5 }}
+                        style={{ width: 140, height: 200, borderRadius: 5 }}
                     />
                     :
-                    <div style={{ width: 110, height: 150, backgroundColor: "#ccc", display: "flex", justifyContent: "center", alignItems: "center", borderRadius: 5 }}>
+                    <div style={{ width: 140, height: 200, backgroundColor: "#ccc", display: "flex", justifyContent: "center", alignItems: "center", borderRadius: 5 }}>
                         No image
                     </div>
                 }
@@ -88,91 +97,118 @@ function SelectedBookScreen({ navigation, route }: Props) {
             <View style={{ flexDirection: 'row', justifyContent: 'center', alignContent: 'center', padding: 5 }}>
 
                 {averageRating ?
-
                     <Text>
-                        <Ionicons style={{ color: '#d3d3d3', opacity: 0.95, marginTop: 3 }} name={'star-sharp'} size={13} color={'grey'} />
-                        <Text style={{ color: '#d3d3d3', opacity: 0.95 }}> {averageRating} </Text>
-                        <Text style={{ color: '#d3d3d3', opacity: 0.95, marginLeft: 6, marginRight: 4, }}> - </Text>
-                        <Text style={{ color: '#d3d3d3', opacity: 0.95 }}> {ratingsCount} votes </Text>
+                        <Text style={{ color: '#d3d3d3', opacity: 0.95, fontSize: 16 }}>
+                            <Ionicons style={{ color: '#d3d3d3', opacity: 0.95, paddingHorizontal: 5 }} name={'star-sharp'} size={18} color={'grey'} />
+                            {averageRating}
+                        </Text>
+                        <Text style={{ color: '#d3d3d3', opacity: 0.95, marginLeft: 6, marginRight: 4, fontSize: 16 }}> - </Text>
+                        <Text style={{ color: '#d3d3d3', opacity: 0.95, fontSize: 16 }}> {ratingsCount} votes </Text>
                     </Text>
-
                     :
-                    <Text style={{ color: '#d3d3d3', opacity: 0.95 }}>No votes yet</Text>
-
+                    <Text style={{ color: '#d3d3d3', opacity: 0.95, fontSize: 16 }}>No votes yet</Text>
                 }
-
             </View>
 
-            <Text>{'\n'}</Text>
-
-            <View>
+            <View style={{ marginBottom: 15, marginTop: 15 }}>
                 <Text style={styles.title}>{title}</Text>
                 <Text style={styles.auhtors}>{authors}</Text>
             </View>
 
-            <Text>{'\n'}</Text>
-
 
             <View style={styles.centerContainer}>
-                <Pressable style={styles.blackPressableReading} onPress={() => {
-                    if (session.id != 0)
-                        editBookStatus({ userId: session.id, bookId, bookStatus: "CurrentlyReading" });
-                }}>
-                    <Text style={{ color: 'white', fontFamily: 'sans-serif', fontSize: 12, opacity: 0.9 }}> Currently reading </Text>
-                    <Ionicons name={'chevron-down'} size={13} color={'white'} />
-                </Pressable>
-
-
                 {session.id && (
-                    <View style={{ marginRight: -40 }}>
-                        <Pressable style={styles.blackPressableReading} onPress={() => {
-                            addBookAtributes.userId = session.id;
-                            addBookAtributes.bookId = bookId;
-                            addBookAtributes.title = title;
-                            addBookAtributes.author = authors;
-                            addBookAtributes.description = description;
-                            addBookAtributes.thumbnail = thumbnail ? thumbnail : undefined,
+                    <View style={{ width: "42%" }}>
+                        {savedBookIds.filter(elm => elm === bookId).length === 1 ?
+                            <Pressable style={styles.onMyListBtn} onPress={() => {
+                                addBookAtributes.userId = session.id;
+                                addBookAtributes.bookId = bookId;
+                                addBookAtributes.title = title;
+                                addBookAtributes.author = authors;
+                                addBookAtributes.description = description;
+                                addBookAtributes.thumbnail = thumbnail ? thumbnail : undefined;
                                 addBookAtributes.averageRating = averageRating;
-                            addBookAtributes.ratingCount = ratingsCount
-                            addBookAtributes.bookStatus = "WantToRead"
-                            console.log(addBookAtributes)
-                            addBook(addBookAtributes);
+                                addBookAtributes.ratingCount = ratingsCount
+                                addBookAtributes.bookStatus = "WantToRead"
+                                console.log(addBookAtributes)
+                                addBook(addBookAtributes);
+    
+                            }}>
+                                <Text style={{ fontWeight: '700', fontSize: 12, color: "white" }}> <Ionicons style={{  }} name={'checkmark-sharp'} size={16} color={'white'} /> On reading list</Text>
+                            </Pressable>
 
-                        }}>
-                            {/* <Text style={{ fontWeight: 'bold', fontSize: 10 }}>
-                        {savedBookIds.filter(elm => elm === item.id).length === 1 ?
-                          <>On my list <Ionicons name={'checkmark-sharp'} size={20} color={'green'} /> </>
-                          :
-                          <>Want to read <Ionicons name={'chevron-down'} size={20} color={'black'} /> </>
+                            :
+
+                            <Pressable style={styles.selectedBookBtn} onPress={() => {
+                                addBookAtributes.userId = session.id;
+                                addBookAtributes.bookId = bookId;
+                                addBookAtributes.title = title;
+                                addBookAtributes.author = authors;
+                                addBookAtributes.description = description;
+                                addBookAtributes.thumbnail = thumbnail ? thumbnail : undefined;
+                                addBookAtributes.averageRating = averageRating;
+                                addBookAtributes.ratingCount = ratingsCount
+                                addBookAtributes.bookStatus = "WantToRead"
+                                console.log(addBookAtributes)
+                                addBook(addBookAtributes);
+    
+                            }}>
+                                <Text style={{ fontWeight: '700', fontSize: 12 }}>Add to reading list</Text>
+                            </Pressable>
                         }
-                      </Text> */}
-
-                            <Text style={{ color: 'white', fontFamily: 'sans-serif', fontSize: 12, opacity: 0.9 }}>Want to read</Text>
-
-                        </Pressable>
                     </View>
                 )}
+
+                <View style={{ width: "2%" }}></View>
+
+                <View style={{ width: "42%" }}>
+                    <Pressable style={styles.selectedBookBtn} onPress={() => {
+                        if (session.id != 0)
+                            editBookStatus({ userId: session.id, bookId, bookStatus: "CurrentlyReading" });
+                    }}>
+                        <Text style={{ fontWeight: '700', fontSize: 12 }}> Set as currently reading </Text>
+                    </Pressable>
+                </View>
             </View>
 
-            <Text>{'\n'}</Text>
-            <Text>{'\n'}</Text>
+
+            <View style={styles.descriptionContainer}>
+                <Text style={{ fontWeight: 'bold', fontSize: 14, paddingVertical: 15 }}>Description </Text>
+                <Text style={{ color: 'grey', fontFamily: 'sans-serif', fontSize: 14, lineHeight: 25 }}>
+                    {slicedDescription}...
+
+                    <Pressable onPress={() => {
+                        navigation.navigate('SelectedBookMoreScreen', {
+
+                            title: title,
+                            description: description,
+
+                        })
+                    }}>
+                        <Text style={{ color: 'black', fontFamily: 'sans-serif', fontSize: 14, fontWeight: "bold" }}> See more</Text>
+                    </Pressable>
+                </Text>
+
+            </View>
 
 
-            <Text style={{ fontWeight: 'bold', fontSize: 14, textAlign: 'center', padding: 5 }}>Description </Text>
-            <Text style={{ textAlign: 'center', padding: 5, marginRight: 5, marginLeft: 5, color: 'grey', fontFamily: 'sans-serif', fontSize: 12 }}>{slicedDescription}...</Text>
+            <Text style={styles.reviewHeader}>Reviews</Text>
 
-            <View style={styles.centerContainer}>
-                <Pressable style={styles.blackPressableSeemore} onPress={() => {
-                    navigation.navigate('SelectedBookMoreScreen', {
 
-                        title: title,
-                        description: description,
+            <View style={styles.reviewContainer}>
+                <Text style={{ fontWeight: 'bold', fontSize: 14, paddingVertical: 15 }}>Review title</Text>
+                <Text style={{ color: 'grey', fontFamily: 'sans-serif', fontSize: 14 }}>Review text</Text>
+            </View>
 
-                    })
+            <View style={{ marginTop: 10 }}>
+                <Pressable style={styles.selectedBookBtn} onPress={() => {
+                    console.log("Coming soon")
                 }}>
-                    <Text style={{ color: 'white', fontFamily: 'sans-serif', fontSize: 12, opacity: 0.9 }}>See more</Text>
+                    <Text style={{ fontWeight: '700', fontSize: 12 }}> <Ionicons name={'pencil-outline'} size={18} color={'black'} style={{ paddingHorizontal: 10 }} /> Write a review </Text>
                 </Pressable>
             </View>
+
+
 
 
         </DefaultView>
@@ -187,14 +223,15 @@ const styles = StyleSheet.create({
         paddingTop: 10,
     },
     title: {
-        fontSize: 20,
+        fontSize: 22,
         textAlign: 'center',
         fontWeight: 'bold',
+        paddingVertical: 5
     },
     auhtors: {
-        fontSize: 15,
+        fontSize: 16,
         textAlign: 'center',
-        fontWeight: '500',
+        fontWeight: '400',
         color: '#d3d3d3',
     },
     imageView: {
@@ -212,23 +249,63 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         fontFamily: "sans-serif",
     },
-    blackPressableReading: {
-        backgroundColor: 'black',
-        borderRadius: 20,
-        color: 'white',
-        textAlign: 'center',
-        fontWeight: "200",
-        paddingHorizontal: 10,
-        paddingVertical: 10,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignContent: 'center',
-        fontFamily: "sans-serif",
-    },
     centerContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
         alignContent: 'center',
+        width: "100%"
+    },
+    selectedBookBtn: {
+        fontSize: 12,
+        fontWeight: 700,
+        fontFamily: "sans-serif",
+        textAlign: "center",
+        backgroundColor: "rgb(247,247,250)",
+        borderRadius: 15,
+        color: "black",
+        paddingVertical: 10,
+        height: 40
+    },
+    descriptionContainer: {
+        backgroundColor: "rgb(247,247,250)",
+        borderRadius: 15,
+        height: 110,
+        paddingHorizontal: 10,
+        marginTop: 35,
+    },
+    reviewHeader: {
+        marginTop: 20,
+        fontWeight: "bold",
+        fontSize: 16,
+    },
+    reviewContainer: {
+        backgroundColor: "rgb(247,247,250)",
+        borderRadius: 15,
+        height: 110,
+        paddingHorizontal: 10,
+        marginTop: 15,
+    },
+    reviewBtn: {
+        fontSize: 12,
+        fontWeight: 700,
+        fontFamily: "sans-serif",
+        textAlign: "center",
+        backgroundColor: "rgb(247,247,250)",
+        borderRadius: 15,
+        color: "black",
+        paddingVertical: 10,
+        height: 40,
+    },
+    onMyListBtn:{
+        fontSize: 12,
+        fontWeight: 700,
+        fontFamily: "sans-serif",
+        textAlign: "center",
+        backgroundColor: "black",
+        borderRadius: 15,
+        color: "White",
+        paddingVertical: 10,
+        height: 40
     }
 })
 

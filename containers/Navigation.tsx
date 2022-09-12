@@ -49,7 +49,7 @@ const Navigation: React.FC<NavigationProps> = () => {
             } else if(route.name === 'MyPageNavigator') {
               iconName = focused ? 'person': 'person'
             } else if(route.name === 'BooksNavigator') {
-              iconName = focused ? 'search': 'search-outline'
+              iconName = focused ? 'search': 'search-sharp'
             } else if(route.name === 'Login') {
               iconName = focused ? 'key-sharp': 'key-outline'
             }
