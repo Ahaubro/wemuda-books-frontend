@@ -106,47 +106,33 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
   const thumbDefault = 'https://books.google.com/books/content?id=qc8qvXhpLA0C&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api'
 
 
-  // const [bookIds] = useState(["QCF9AHclv_4C", "WZKHswEACAAJ", "9PuctAEACAAJ", "hoDePAAACAAJ", "ZSfqxgKbrWMC"])
-
-  // const [getBook] = useLazyGetBookByIdQuery()
-
-  // useEffect(() => {
-  //   bookIds.forEach(id => {
-  //     getBook({ id }).unwrap().then((data) => {
-  //       console.log(id, data)
-  //       books.push(data?.book)
-  //     })
-  //   })
-  // }, [bookIds])
-
-  // console.log(books)
-
   return (
     <DeafultView>
-      <View style={{ margin: 20, marginTop: 50 }}>
-        <View style={{ marginBottom: 20 }}>
-          <Text style={styles.heading}>{user.data?.firstName} {user.data?.lastName}</Text>
+      
+        <View style={styles.headerContainer}>
+          <Text style={styles.heading}>{user.data?.firstName} {user.data?.lastName} </Text>
         </View>
 
-        <View style={{ borderBottomColor: "#AAA", borderBottomWidth: 2, paddingBottom: 20, flex: 1, flexDirection: "row", justifyContent: "space-between", width: "100%", alignItems: "stretch" }}>
-          <View>
-            <Text style={{ color: "#AAA" }}>Reading streak</Text>
-            <Text style={{ fontWeight: "bold", fontSize: 20 }}>{streak} <Text style={{ fontSize: 14, fontWeight: "bold" }}> days </Text></Text>
 
+        <View style={styles.streakAndMinutesContainer}>
+          <View>
+            <Text style={{ color: "#AAA", paddingVertical: 5 }}>Reading streak</Text>
+            <Text style={{ fontWeight: "700", fontSize: 22 }}>{streak} <Text style={{ fontSize: 14, fontWeight: "700" }}> days </Text></Text>
           </View>
-          <View>
-            <Text style={{ color: "#AAA" }}>Minutes read</Text>
-            <Text style={{ fontWeight: "bold", fontSize: 20 }}>{minutes} <Text style={{ fontSize: 14, fontWeight: "bold" }}> minutes </Text></Text>
 
+          <View>
+            <Text style={{ color: "#AAA", paddingVertical: 5 }}>Minutes read</Text>
+            <Text style={{ fontWeight: "700", fontSize: 22 }}>{minutes} <Text style={{ fontSize: 14, fontWeight: "700" }}> minutes </Text></Text>
           </View>
           <View></View>
         </View>
 
-        <View style={{ marginTop: 20 }}>
+
+        <View style={styles.wantToReadContainer}>
           <Text style={styles.subHeading}>Want to read</Text>
           {wantToReadBooks.length > 0 ?
-            <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={wantToReadBooks} style={{ padding: 0, margin: 0, height: 65 }} renderItem={(({ item: book }) =>
-              <View style={{ margin: 0, padding: 0, marginRight: 10 }}>
+            <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={wantToReadBooks} renderItem={(({ item: book }) =>
+              <View style={{paddingHorizontal: 5}}>
                 <TouchableOpacity onPress={() => {
                   navigation.navigate('SelectedBookScreen', {
                     bookId: book.bookId,
@@ -163,7 +149,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
                   <Image
                     source={{ uri: book.thumbnail }}
                     defaultSource={{ uri: thumbDefault }}
-                    style={{ width: 60, height: 110, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 3 }}
+                    style={{ width: 90, height: 130, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 3 }}
                   />
 
                 </TouchableOpacity>
@@ -172,21 +158,24 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
             )}
             />
             :
-            <View style={{ height: 65, paddingBottom: 20 }}><Text>{wantToReadState}</Text></View>
+
+            <View style={{ height: 70, paddingBottom: 20 }}><Text>{wantToReadState}</Text></View>
           }
-          <View style={{ width: "100%", flex: 1, flexDirection: "row", justifyContent: "center", marginTop: 15}}>
+          <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 10}}>
             <Pressable style={styles.buttonGray} onPress={() => {
               if (wantToReadBooks.length > 0)
                 navigation.navigate('BookList', { books: wantToReadBooks, title: "Want to read" })
-            }}><Text style={{ fontSize: 12, fontWeight: "500" }}>See more</Text></Pressable>
+            }}><Text style={{ fontSize: 12, fontWeight: "500" }}>See all</Text></Pressable>
           </View>
         </View>
 
-        <View style={{ marginTop: 20 }}>
+
+
+        <View style={styles.wantToReadContainer}>
           <Text style={styles.subHeading}>My history</Text>
           {historyBooks.length > 0 ?
-            <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={historyBooks} style={{ padding: 0, margin: 0, height: 65 }} renderItem={(({ item: book }) =>
-              <View style={{ margin: 0, padding: 0, marginRight: 10 }}>
+            <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={historyBooks} renderItem={(({ item: book }) =>
+              <View style={{paddingHorizontal: 5}}>
                 <TouchableOpacity onPress={() => {
                   navigation.navigate('SelectedBookScreen', {
                     bookId: book.bookId,
@@ -202,24 +191,25 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
                   <Image
                     source={{ uri: book.thumbnail }}
                     defaultSource={{ uri: thumbDefault }}
-                    style={{ width: 60, height: 125, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 3 }}
+                    style={{ width: 90, height: 130, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 3 }}
                   />
                 </TouchableOpacity>
               </View>
             )}
             />
             :
+
             <View style={{ height: 65, paddingBottom: 20 }}><Text>{historyState}</Text></View>
           }
 
-          <View style={{ width: "100%", flex: 1, flexDirection: "row", justifyContent: "center", marginTop: 15 }}>
+          <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 10 }}>
             <Pressable style={styles.buttonGray} onPress={() => {
               if (historyBooks.length > 0)
                 navigation.navigate('BookList', { books: historyBooks, title: "My history" })
-            }}><Text style={{ fontSize: 12, fontWeight: "500" }}>See more</Text></Pressable>
+            }}><Text style={{ fontSize: 12, fontWeight: "500" }}>See all</Text></Pressable>
           </View>
         </View>
-      </View>
+      
     </DeafultView >
   )
 }
@@ -232,8 +222,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontSize: 22,
-    padding: 3,
-    fontWeight: "bold",
+    fontWeight: "700",
   },
   subHeading: {
     fontSize: 12,
@@ -246,14 +235,31 @@ const styles = StyleSheet.create({
   buttonGray: {
     fontFamily: "sans-serif",
     textAlign: "center",
-    backgroundColor: "#DDD",
+    fontWeight: "600",
+    backgroundColor: "rgb(242,242,242)",
     borderRadius: 15,
-    width: "fit-content",
+    width: 80,
     marginBottom: 10,
     marginTop: 0,
-    paddingHorizontal: 7,
-    paddingVertical: 7,
+    paddingHorizontal: 8,
+    paddingVertical: 8,
     height: "fit-content"
+  },
+  headerContainer:{
+    paddingTop: 60,
+    paddingVertical: 25
+  },
+  streakAndMinutesContainer:{
+    borderBottomColor: "rgb(242,242,242)", 
+    borderBottomWidth: 0.5, 
+    flexDirection: "row", 
+    justifyContent: "space-between", 
+    width: "100%", 
+    alignItems: "stretch", 
+    paddingBottom: 15 
+  },
+  wantToReadContainer:{
+    paddingTop: 30
   }
 })
 

@@ -191,20 +191,25 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
             </View>
 
-
-            <Text style={styles.reviewHeader}>Reviews</Text>
-
+            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={styles.reviewHeader}>Reviews</Text>
+                <Pressable style={{ marginTop: 20 }} onPress={ () => {
+                    console.log("Coming soon")
+                }}>
+                    <Text style={{color: "#ccc", fontWeight: '700'}}>See all</Text>
+                </Pressable>
+            </View>
 
             <View style={styles.reviewContainer}>
                 <Text style={{ fontWeight: 'bold', fontSize: 14, paddingVertical: 15 }}>Review title</Text>
                 <Text style={{ color: 'grey', fontFamily: 'sans-serif', fontSize: 14 }}>Review text</Text>
             </View>
 
-            <View style={{ marginTop: 10 }}>
+            <View style={{ marginTop: 15 }}>
                 <Pressable style={styles.selectedBookBtn} onPress={() => {
                     console.log("Coming soon")
                 }}>
-                    <Text style={{ fontWeight: '700', fontSize: 12 }}> <Ionicons name={'pencil-outline'} size={18} color={'black'} style={{ paddingHorizontal: 10 }} /> Write a review </Text>
+                    <Text style={{ fontWeight: '700', fontSize: 16 }}> <Ionicons name={'pencil-outline'} size={20} color={'black'} style={{ paddingHorizontal: 5 }} /> Write a review </Text>
                 </Pressable>
             </View>
 
