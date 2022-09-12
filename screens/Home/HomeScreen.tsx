@@ -11,6 +11,7 @@ import { useSelector } from "react-redux"
 import { RootState } from '../../redux/store'
 import { useGetStatusUpdatesByUserQuery, StatusUpdate } from '../../redux/services/statusUpdateApi'
 import { configureScope } from '@sentry/react-native'
+import DefaultView from "../../components/DefaultView"
 
 interface HomeScreenProps {
   navigation: any
@@ -111,7 +112,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   }, [userBooks.data])
 
   return (
-    <View style={styles.container}>
+    <DefaultView>
 
       {session.token && userBooks.data?.books &&
 
@@ -237,7 +238,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       }
 
       <StatusBar style="dark" />
-    </View>
+    </DefaultView>
   )
 }
 

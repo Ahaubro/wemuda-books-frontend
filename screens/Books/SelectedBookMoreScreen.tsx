@@ -7,6 +7,8 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { RouteProp } from '@react-navigation/native'
 import { BookNavigatorParamList } from '../../types/NavigationTypes'
 import Ionicons from '@expo/vector-icons/Ionicons'
+import DefaultView from "../../components/DefaultView"
+import BackArrowContainer from "../../components/BackArrowContainer"
 
 
 type SelectedBookScreenMoreNavigationProps = StackNavigationProp<BookNavigatorParamList, 'SelectedBookMoreScreen'>
@@ -26,29 +28,29 @@ function SelectedBookScreen({ navigation, route }: Props) {
     const dispatch = useDispatch()
 
     return (
-        <View style={{backgroundColor: 'white', height: '100%'}}>
+        <DefaultView>
 
-            <Pressable style={{ padding: 20 }} onPress={() => {
-                navigation.pop()
-               
-            }}>
-                <Ionicons name={'chevron-back'} size={25} color={'black'} />
-            </Pressable>
+            <BackArrowContainer>
+                <Pressable onPress={() => {
+                    navigation.pop()
+                
+                }}>
+                    <Ionicons name={'chevron-back'} size={25} color={'black'} />
+                </Pressable>
+            </BackArrowContainer>
 
-            <View style={styles.container}>
 
-                <View style={{marginLeft: 15, marginRight: 15}}>
-                    <Text style={styles.title}>{title}</Text>
-                </View>
-
-                <View style={styles.descriptionContainer}>
-                    <Text style={styles.descriptionHeader}>Full description </Text>
-                    <Text style={styles.description}>{description}</Text>
-                </View>
-            
+            <View style={{marginLeft: 15, marginRight: 15}}>
+                <Text style={styles.title}>{title}</Text>
             </View>
 
-        </View>
+
+            <View style={styles.descriptionContainer}>
+                <Text style={styles.descriptionHeader}>Full description </Text>
+                <Text style={styles.description}>{description}</Text>
+            </View>                    
+
+        </DefaultView>
     )
 }
 

@@ -5,6 +5,8 @@ import { RouteProp } from '@react-navigation/native'
 import { MyPageNavigatorParamList } from '../../types/navigationTypes'
 import { Pressable, StyleSheet, Text, View, FlatList, Image, TouchableOpacity } from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons'
+import DeafultView from "../../components/DefaultView"
+
 
 type BookListScreenNavigationProps = StackNavigationProp<MyPageNavigatorParamList, 'BookList'>
 type BookLstScreenRouteProps = RouteProp<MyPageNavigatorParamList, 'BookList'>
@@ -22,7 +24,7 @@ function BookListScreen({ navigation, route }: Props) {
   const thumbDefault = 'https://books.google.com/books/content?id=qc8qvXhpLA0C&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api'
 
   return (<>
-    <View style={{ margin: 20 }}>
+    <DeafultView>
       <Pressable onPress={() => {
         navigation.navigate('MyPage')
       }}>
@@ -55,7 +57,7 @@ function BookListScreen({ navigation, route }: Props) {
           </View>
         ))} />
       </View>
-    </View>
+    </DeafultView>
   </>)
 }
 

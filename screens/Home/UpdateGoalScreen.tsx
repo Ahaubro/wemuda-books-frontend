@@ -7,6 +7,8 @@ import { RouteProp } from '@react-navigation/native'
 import { useEditStatusMutation, useGetBooksByUserIdQuery, Book } from '../../redux/services/bookApi'
 import { useAddStatusUpdateMutation } from '../../redux/services/statusUpdateApi'
 import { useSetBooksGoalMutation, useResetBooksReadMutation } from '../../redux/services/userApi'
+import DefaultView from "../../components/DefaultView"
+
 
 
 type UpdateGoalScreenNavigationProps = StackNavigationProp<HomeNavigatorParamList, "UpdateGoalScreen">
@@ -44,7 +46,7 @@ const UpdateGoalScreen: React.FC<UpdateGoalScreenProps> = ({ navigation, route }
     const [message, setMessage] = useState("")
 
     return <>
-        <View style={styles.container}>
+        <DefaultView>
 
             <Pressable style={styles.backArrowPos} onPress={() => { navigation.navigate('Home') }}>
                 <Ionicons name={'chevron-back'} size={25} color={'black'} />
@@ -52,8 +54,6 @@ const UpdateGoalScreen: React.FC<UpdateGoalScreenProps> = ({ navigation, route }
 
 
             <Text style={styles.header}>Edit goal</Text>
-
-
             <View>
                 <Text style={styles.subHeader}>Enter the amount of books you want to read</Text>
 
@@ -95,7 +95,7 @@ const UpdateGoalScreen: React.FC<UpdateGoalScreenProps> = ({ navigation, route }
                 </Pressable>
             </View>
 
-        </View>
+        </DefaultView>
     </>
 }
 
@@ -121,7 +121,8 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         paddingHorizontal: 15,
         paddingVertical: 15,
-        fontSize: 12,
+        fontSize: 14,
+        fontWeight: "700",
         opacity: 0.9,
     },
     backArrowPos: {
@@ -137,8 +138,8 @@ const styles = StyleSheet.create({
     },
     header: {
         fontWeight: "700",
-        fontSize: 24,
-        marginTop: 5
+        fontSize: 26,
+        marginTop: 5,
     },
     subHeader: {
         fontWeight: "500",

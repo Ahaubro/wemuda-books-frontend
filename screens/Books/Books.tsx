@@ -10,7 +10,8 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RouteProp } from '@react-navigation/native'
 import { BookNavigatorParamList } from '../../types/NavigationTypes'
-
+import DefaultView from "../../components/DefaultView"
+import BackArrowContainer from "../../components/BackArrowContainer"
 
 
 //SelectedBook in progress
@@ -28,14 +29,14 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
 
 
   //Add book in progress
-  const [addBook] = useAddBookMutation();
-  const [addBookAtributes, setAddBookAtributes] = useState<{
-    userId: number, bookId: string, title: string, thumbnail: string | undefined, author: string,
-    description: string, averageRating: number, ratingCount: number, bookStatus: string
-  }>({
-    userId: 0, bookId: "", title: "", thumbnail: "", author: "", description: "",
-    averageRating: 0, ratingCount: 0, bookStatus: ""
-  })
+  // const [addBook] = useAddBookMutation();
+  // const [addBookAtributes, setAddBookAtributes] = useState<{
+  //   userId: number, bookId: string, title: string, thumbnail: string | undefined, author: string,
+  //   description: string, averageRating: number, ratingCount: number, bookStatus: string
+  // }>({
+  //   userId: 0, bookId: "", title: "", thumbnail: "", author: "", description: "",
+  //   averageRating: 0, ratingCount: 0, bookStatus: ""
+  // })
 
 
   //Fetched books useState
@@ -98,13 +99,16 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
 
 
   return (
-    <View>
+    <DefaultView>
 
-      <Pressable style={styles.backArrowPos} onPress={() => {
-        navigation.pop();
-      }}>
-        <Ionicons name={'chevron-back'} size={25} color={'black'} />
-      </Pressable>
+      <BackArrowContainer>
+        <Pressable onPress={() => {
+          navigation.pop();
+        }}>
+          <Ionicons name={'chevron-back'} size={25} color={'black'} />
+        </Pressable>
+      </BackArrowContainer>
+
 
       <Text style={styles.text}> Search </Text>
 
@@ -125,7 +129,6 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
           }}
           placeholder={"Enter book name or author to search"}
         />
-        <Text>{'\n'}</Text>
       </View>
 
 
@@ -163,7 +166,7 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
                   <Text style={{ fontSize: 11, marginTop: 3, marginLeft: -2 }}> {getAuthors(item.volumeInfo.authors)} </Text>
                 </View>
 
-                {session.id && (
+                {/* {session.id && (
                   <View style={{ marginRight: -40 }}>
                     <Pressable style={{}} onPress={() => {
                       addBookAtributes.userId = session.id;
@@ -172,7 +175,7 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
                       addBookAtributes.author = getAuthors(item.volumeInfo.authors);
                       addBookAtributes.description = item.volumeInfo.description;
                       addBookAtributes.thumbnail = item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.thumbnail : undefined,
-                        addBookAtributes.averageRating = item.volumeInfo.averageRating;
+                      addBookAtributes.averageRating = item.volumeInfo.averageRating;
                       addBookAtributes.ratingCount = item.volumeInfo.ratingsCount
                       addBookAtributes.bookStatus = "WantToRead"
                       console.log(addBookAtributes)
@@ -188,14 +191,16 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
                       </Text>
                     </Pressable>
                   </View>
-                )}
+                )} */}
+
+
               </View>
             </TouchableOpacity>
 
           )} />
         </View>
       }
-    </View>
+    </DefaultView>
   )
 }
 
@@ -204,8 +209,8 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: 'black',
     textAlign: 'left',
-    padding: 15,
     fontWeight: 'bold',
+    paddingVertical: 10,
   },
   welcome_text: {
     fontSize: 20,
@@ -228,8 +233,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     height: 30,
     padding: 40,
-    marginBottom: 10,
-    marginLeft: -15,
     borderRadius: 10,
     width: "100%",
     flexDirection: 'row',
@@ -247,24 +250,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgb(242,242,242)',
     padding: 8,
     paddingBottom: 10,
-    margin: 0,
     borderRadius: 20,
     height: 40,
     borderBottomWidth: 1,
-    marginRight: 10,
-    marginLeft: 10,
     border: 'none',
     outline: 'none',
     opacity: 0.8
   },
-  backArrowPos: {
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignContent: 'flex-start',
-    marginTop: 50,
-    marginLeft: -6,
-    paddingVertical: 5
-},
 
 })
 

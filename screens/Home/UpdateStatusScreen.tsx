@@ -7,6 +7,7 @@ import { RouteProp } from '@react-navigation/native'
 import { useEditStatusMutation, useGetBooksByUserIdQuery, Book } from '../../redux/services/bookApi'
 import { useAddStatusUpdateMutation } from '../../redux/services/statusUpdateApi'
 import { useSetBooksGoalMutation, useResetBooksReadMutation } from '../../redux/services/userApi'
+import DefaultView from "../../components/DefaultView"
 
 
 type UpdateStatusScreenNavigationProps = StackNavigationProp<HomeNavigatorParamList, "UpdateStatus">
@@ -44,7 +45,7 @@ const UpdateStatusScreen: React.FC<HomeScreenProps> = ({ navigation, route }) =>
 
 
     return <>
-        <View>
+        <DefaultView>
 
             {isLoading &&
                 <View style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 99, justifyContent: 'center' }}>
@@ -96,7 +97,7 @@ const UpdateStatusScreen: React.FC<HomeScreenProps> = ({ navigation, route }) =>
                     <Text style={styles.btnTextBlack}>Finish Book</Text>
                 </Pressable>
             </View>
-        </View>
+        </DefaultView>
     </>
 }
 
@@ -115,7 +116,8 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         paddingHorizontal: 15,
         paddingVertical: 15,
-        fontSize: 12,
+        fontSize: 14,
+        fontWeight: "700",
         opacity: 0.9,
     },
     backArrowPos: {
@@ -132,7 +134,7 @@ const styles = StyleSheet.create({
     },
     header: {
         fontWeight: "700",
-        fontSize: 24,
+        fontSize: 26,
         marginTop: 5
     },
     subHeader: {

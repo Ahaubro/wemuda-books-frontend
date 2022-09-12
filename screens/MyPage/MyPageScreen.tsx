@@ -8,6 +8,7 @@ import { lte } from 'lodash'
 import { GoogleBook, useGetBookByIdQuery, useLazyGetBookByIdQuery } from '../../redux/services/googleBookApi'
 import Navigation from '../../containers/MyPageNavigator'
 import { useGetBooksByUserIdQuery, Book } from '../../redux/services/bookApi'
+import DeafultView from "../../components/DefaultView"
 
 interface MyPageScreenProps {
   navigation: any
@@ -121,7 +122,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
   // console.log(books)
 
   return (
-    <View style={{ backgroundColor: "white", height: "100%" }}>
+    <DeafultView>
       <View style={{ margin: 20, marginTop: 50 }}>
         <View style={{ marginBottom: 20 }}>
           <Text style={styles.heading}>{user.data?.firstName} {user.data?.lastName}</Text>
@@ -219,7 +220,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
           </View>
         </View>
       </View>
-    </View >
+    </DeafultView >
   )
 }
 
