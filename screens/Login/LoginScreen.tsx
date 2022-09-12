@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: 'black',
     textAlign: 'left',
-    fontWeight: 'bold',
+    fontWeight: '600',
     paddingVertical: 10,   
     },
     label: {

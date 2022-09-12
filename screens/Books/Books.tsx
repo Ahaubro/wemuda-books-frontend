@@ -113,7 +113,7 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
       <Text style={styles.text}> Search </Text>
 
       <View style={styles.inputContainer}>
-        {<Ionicons name={'search'} size={20} color={'grey'} />}
+        {<Ionicons style={{paddingHorizontal: 15}} name={'search'} size={20} color={'grey'} />}
         <TextInput
           style={styles.input}
           onChangeText={_.throttle((text) => {
@@ -130,11 +130,12 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
           placeholder={"Enter book name or author to search"}
         />
       </View>
+      <View style={{paddingVertical: 8}}></View>
 
 
       {(fetchedBooks.data?.items && fetchedBooks.data.items) &&
-        <View style={{ flex: 1, width: "100%" }}>
-          <FlatList keyExtractor={(item) => item.volumeInfo.title} data={fetchedBooks.data.items || []} renderItem={({ item, index }) => (
+        <View style={{flex: 1}}>
+          <FlatList showsHorizontalScrollIndicator={true} keyExtractor={(item) => item.volumeInfo.title} data={fetchedBooks.data.items || []} renderItem={({ item, index }) => (
 
             <TouchableOpacity onPress={() => {
               navigation.navigate('SelectedBookScreen', {
@@ -152,16 +153,16 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
                 {item.volumeInfo.imageLinks ?
                   <Image
                     source={{ uri: item.volumeInfo.imageLinks.thumbnail }}
-                    style={{ width: 50, height: 65, borderRadius: 3 }}
+                    style={{ width: 60, height: 80, borderRadius: 3 }}
                   />
                   :
-                  <div style={{ width: 50, height: 65, backgroundColor: "#ccc", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                  <div style={{ width: 60, height: 80, backgroundColor: "#ccc", display: "flex", justifyContent: "center", alignItems: "center" }}>
                     No image
                   </div>
                 }
 
 
-                <View style={{ flexDirection: 'column', width: '60%', padding: 15 }}>
+                <View style={styles.titleAndAuthorContainer}>
                   <Text style={{ fontSize: 11, fontWeight: 'bold' }}>{sliceTitle(item.volumeInfo.title)}{'\n'}</Text>
                   <Text style={{ fontSize: 11, marginTop: 3, marginLeft: -2 }}> {getAuthors(item.volumeInfo.authors)} </Text>
                 </View>
@@ -209,17 +210,13 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: 'black',
     textAlign: 'left',
-    fontWeight: 'bold',
+    fontWeight: '600',
     paddingVertical: 10,
   },
   welcome_text: {
     fontSize: 20,
     width: 150,
     color: 'black',
-  },
-  books: {
-    flex: 1,
-    width: "100%"
   },
   label: {
     fontSize: 20,
@@ -231,13 +228,11 @@ const styles = StyleSheet.create({
   },
   booksContatiner: {
     backgroundColor: "white",
-    height: 30,
-    padding: 40,
-    borderRadius: 10,
-    width: "100%",
+    paddingVertical: 8 ,
     flexDirection: 'row',
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
+    marginLeft: -40
   },
   wantToRead: {
     fontSize: 12,
@@ -248,15 +243,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 1,
     backgroundColor: 'rgb(242,242,242)',
-    padding: 8,
-    paddingBottom: 10,
-    borderRadius: 20,
-    height: 40,
+    borderRadius: 25,
+    height: 50,
     borderBottomWidth: 1,
     border: 'none',
     outline: 'none',
-    opacity: 0.8
+    opacity: 0.8,
   },
+  titleAndAuthorContainer:{
+    flexDirection: 'column', 
+    width: '60%', 
+    marginLeft: -60,
+  }
 
 })
 
