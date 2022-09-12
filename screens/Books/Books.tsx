@@ -163,8 +163,8 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
 
 
                 <View style={styles.titleAndAuthorContainer}>
-                  <Text style={{ fontSize: 11, fontWeight: 'bold' }}>{sliceTitle(item.volumeInfo.title)}{'\n'}</Text>
-                  <Text style={{ fontSize: 11, marginTop: 3, marginLeft: -2 }}> {getAuthors(item.volumeInfo.authors)} </Text>
+                  <Text style={{ fontSize: 14, fontWeight: 'bold' }}>{sliceTitle(item.volumeInfo.title)}{'\n'}</Text>
+                  <Text style={{ fontSize: 12, marginTop: 3, marginLeft: -2, color: "#ccc" }}> By {getAuthors(item.volumeInfo.authors)} </Text>
                 </View>
 
                 {/* {session.id && (
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: 'black',
     textAlign: 'left',
-    fontWeight: '600',
+    fontWeight: '700',
     paddingVertical: 10,
   },
   welcome_text: {
@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
   titleAndAuthorContainer:{
     flexDirection: 'column', 
     width: '60%', 
-    marginLeft: -60,
+    marginLeft: -65,
   }
 
 })
