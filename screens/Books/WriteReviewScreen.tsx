@@ -63,7 +63,9 @@ function WriteReviewScreen({ navigation, route }: Props) {
                     ratingCount={5}
                     imageSize={40}
                     onFinishRating={( n: number ) => { addReviewAtributes.rating = n }}
-                    
+                    jumpValue={1.0}
+                    startingValue={3}
+                    style={{}}
                 />
             </View>
 
@@ -127,6 +129,7 @@ const styles = StyleSheet.create({
     starRating:{
         paddingHorizontal: 25,
         paddingVertical: 35,
+        
     },
     input: {
         flex: 1,
