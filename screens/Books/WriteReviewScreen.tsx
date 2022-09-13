@@ -85,6 +85,7 @@ function WriteReviewScreen({ navigation, route }: Props) {
             <Pressable style={styles.saveReview} onPress={() => {
                 console.log(addReviewAtributes)
                 addReview(addReviewAtributes)
+                navigation.pop();
             }}>
 
                 <Text style={{ color: 'white' }}>Save review</Text>

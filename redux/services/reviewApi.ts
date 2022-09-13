@@ -26,7 +26,7 @@ export type Review = {
 export const reviewApi = createApi({
   reducerPath: 'reviewApi',
   baseQuery,
-  //tagTypes: ["Reviews"],
+  tagTypes: ["Reviews"],
   endpoints: builder => ({
 
     //Get all reviews
@@ -37,6 +37,7 @@ export const reviewApi = createApi({
     //Get all reviews by bookId
     getReviewsByBookId: builder.query<{ reviews: Review[] }, string>({
       query: bookId => `/review/${bookId}`,
+      providesTags: ["Reviews"]
     }),
     
     //Create review
@@ -54,7 +55,7 @@ export const reviewApi = createApi({
       method: 'POST',
       body
     }),
-
+    invalidatesTags: ["Reviews"]
     }),
   }),
 })
