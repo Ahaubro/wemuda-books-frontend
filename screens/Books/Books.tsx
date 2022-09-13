@@ -112,6 +112,7 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
 
       <Text style={styles.text}> Search </Text>
 
+
       <View style={styles.inputContainer}>
         {<Ionicons style={{paddingHorizontal: 15}} name={'search'} size={20} color={'grey'} />}
         <TextInput
@@ -165,37 +166,9 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
                 <View style={styles.titleAndAuthorContainer}>
                   <Text style={{ fontSize: 14, fontWeight: 'bold' }}>{sliceTitle(item.volumeInfo.title)}{'\n'}</Text>
                   <Text style={{ fontSize: 12, marginTop: 3, marginLeft: -2, color: "#ccc" }}> By {getAuthors(item.volumeInfo.authors)} </Text>
-                </View>
-
-                {/* {session.id && (
-                  <View style={{ marginRight: -40 }}>
-                    <Pressable style={{}} onPress={() => {
-                      addBookAtributes.userId = session.id;
-                      addBookAtributes.bookId = item.id;
-                      addBookAtributes.title = item.volumeInfo.title;
-                      addBookAtributes.author = getAuthors(item.volumeInfo.authors);
-                      addBookAtributes.description = item.volumeInfo.description;
-                      addBookAtributes.thumbnail = item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.thumbnail : undefined,
-                      addBookAtributes.averageRating = item.volumeInfo.averageRating;
-                      addBookAtributes.ratingCount = item.volumeInfo.ratingsCount
-                      addBookAtributes.bookStatus = "WantToRead"
-                      console.log(addBookAtributes)
-                      addBook(addBookAtributes);
-
-                    }}>
-                      <Text style={{ fontWeight: 'bold', fontSize: 10 }}>
-                        {savedBookIds.filter(elm => elm === item.id).length === 1 ?
-                          <>On my list <Ionicons name={'checkmark-sharp'} size={20} color={'green'} /> </>
-                          :
-                          <>Want to read <Ionicons name={'chevron-down'} size={20} color={'black'} /> </>
-                        }
-                      </Text>
-                    </Pressable>
-                  </View>
-                )} */}
-
-
+                </View>   
               </View>
+              
             </TouchableOpacity>
 
           )} />

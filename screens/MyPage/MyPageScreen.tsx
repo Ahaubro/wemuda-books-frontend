@@ -209,7 +209,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
             }}><Text style={{ fontSize: 12, fontWeight: "500" }}>See all</Text></Pressable>
           </View>
         </View>
-      
+
     </DeafultView >
   )
 }
