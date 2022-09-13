@@ -97,7 +97,6 @@ function SelectedBookScreen({ navigation, route }: Props) {
     //Reviews
     const [reviews, setReviews] = useState<Review[]>([]);
     const fetchedReviews = useGetReviewsByBookIdQuery(bookId);
-    console.log(fetchedReviews.data)
 
 
     //Use effect fetched books
@@ -112,7 +111,6 @@ function SelectedBookScreen({ navigation, route }: Props) {
     useEffect(() => {
         if (fetchedReviews.data) {
             let reviewArr = fetchedReviews.data.reviews
-            console.log("Arr", reviewArr)
         }
     }, [fetchedReviews.data])
 
@@ -298,7 +296,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
             <View style={styles.reviewContainer}>
 
                 {/* AREX IGANG HER */}
-                
+
                 <FlatList showsHorizontalScrollIndicator={true} keyExtractor={(item) => item.content} data={fetchedReviews.data?.reviews || []} renderItem={({ item, index }) => (
 
                     <TouchableOpacity onPress={() => {

@@ -9,7 +9,9 @@ import DefaultView from "../../components/DefaultView"
 import { RouteProp } from '@react-navigation/native'
 import { BookNavigatorParamList } from '../../types/NavigationTypes'
 import { StackNavigationProp } from '@react-navigation/stack'
-import { useAddReviewMutation  } from "../../redux/services/reviewApi"
+import { useAddReviewMutation } from "../../redux/services/reviewApi"
+import { Rating, AirbnbRating } from "react-native-ratings"
+
 
 
 type SelectedBookScreenMoreNavigationProps = StackNavigationProp<BookNavigatorParamList, 'WriteReviewScreen'>
@@ -20,12 +22,12 @@ type Props = {
     route: SelectedBookScreenMoreRouteProps
 }
 
-function WriteReviewScreen({ navigation, route }: Props){
+function WriteReviewScreen({ navigation, route }: Props) {
     const session = useSelector((state: RootState) => state.session)
 
     const dispatch = useDispatch()
 
-     {/* AREX IGANG HER */}
+    {/* AREX IGANG HER */ }
 
     // Destructuring fra navigation.navigate (Books.tsx linje 75 - 81)
     const { bookId, userId } = route.params
@@ -38,8 +40,6 @@ function WriteReviewScreen({ navigation, route }: Props){
     }>({
         content: "", rating: 0, bookId: bookId, userId: userId
     })
-
-
 
 
     return (
@@ -55,22 +55,34 @@ function WriteReviewScreen({ navigation, route }: Props){
 
             <Text style={styles.header}>Write a review</Text>
 
-            
+
             {/* INDSÆT STJERNER HER */}
+            <View style={styles.starRating}>
+                <Rating
+                    type='star'
+                    ratingCount={5}
+                    imageSize={40}
+                    onFinishRating={( n: number ) => { addReviewAtributes.rating = n }}
+                />
+            </View>
 
 
-            <TextInput style={styles.inputContainer} placeholder='How was the book?' onChangeText={ (content) => {
+            <TextInput style={styles.inputContainer} placeholder='How was the book?' onChangeText={(content) => {
                 addReviewAtributes.content = content
             }}>
 
             </TextInput>
 
-            <Pressable style={styles.saveReview} onPress={ () => {
+
+            <View style={{ marginTop: 15 }}></View>
+
+
+            <Pressable style={styles.saveReview} onPress={() => {
                 console.log(addReviewAtributes)
                 addReview(addReviewAtributes)
             }}>
 
-                <Text style={{color: 'white'}}>Save review</Text>
+                <Text style={{ color: 'white' }}>Save review</Text>
 
             </Pressable>
 
@@ -80,12 +92,12 @@ function WriteReviewScreen({ navigation, route }: Props){
 }
 
 const styles = StyleSheet.create({
-    header:{
+    header: {
         fontSize: 25,
         fontWeight: "700",
         paddingVertical: 15
     },
-    saveReview:{
+    saveReview: {
         fontSize: 12,
         fontWeight: 700,
         fontFamily: "sans-serif",
@@ -108,7 +120,11 @@ const styles = StyleSheet.create({
         border: 'none',
         outline: 'none',
         opacity: 0.8,
-      },
+    },
+    starRating:{
+        paddingHorizontal: 25,
+        paddingVertical: 35,
+    }
 })
 
 export default WriteReviewScreen
