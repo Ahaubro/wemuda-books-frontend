@@ -28,17 +28,6 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
   const [bookSearch, setBookSearch] = useState('')
 
 
-  //Add book in progress
-  // const [addBook] = useAddBookMutation();
-  // const [addBookAtributes, setAddBookAtributes] = useState<{
-  //   userId: number, bookId: string, title: string, thumbnail: string | undefined, author: string,
-  //   description: string, averageRating: number, ratingCount: number, bookStatus: string
-  // }>({
-  //   userId: 0, bookId: "", title: "", thumbnail: "", author: "", description: "",
-  //   averageRating: 0, ratingCount: 0, bookStatus: ""
-  // })
-
-
   //Fetched books useState
   const [books, setBooks] = useState<GoogleBook[]>([]);
   const fetchedBooks = useGetBooksQuery({ query: bookSearch }, { refetchOnMountOrArgChange: true, skip: bookSearch.length === 0 })

@@ -23,6 +23,10 @@ export type BookNavigatorParamList = {
         description: string,
     }
     BookScreen: undefined
+    WriteReviewScreen: {
+        bookId: string,
+        userId: number
+    }
 }
 
 type Book = {
@@ -50,6 +54,10 @@ export type MyPageNavigatorParamList = {
         averageRating: number,
         ratingsCount: number,
     }
+    WriteReviewScreen: {
+        bookId: string,
+        userId: number
+    }
 }
 
 export type HomeNavigatorParamList = {
@@ -72,4 +80,8 @@ export type HomeNavigatorParamList = {
         ratingsCount: number,
     }
     BookScreen: undefined
+    WriteReviewScreen: {
+        bookId: string,
+        userId: number
+    }
 }

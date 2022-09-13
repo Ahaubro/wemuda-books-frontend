@@ -6,6 +6,7 @@ import { rtkQueryErrorLogger } from './rtkQueryErrorLogger'
 import { googleBookApi } from './services/googleBookApi'
 import { userApi } from './services/userApi'
 import { statusUpdateApi } from './services/statusUpdateApi'
+import { reviewApi } from './services/reviewApi'
 
 const store = configureStore({
   reducer: {
@@ -13,10 +14,11 @@ const store = configureStore({
     [bookApi.reducerPath]: bookApi.reducer,
     [googleBookApi.reducerPath]: googleBookApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
-    [statusUpdateApi.reducerPath]: statusUpdateApi.reducer
+    [statusUpdateApi.reducerPath]: statusUpdateApi.reducer,
+    [reviewApi.reducerPath]: reviewApi.reducer,
   },
   middleware: getDefaultMiddleware =>
-    getDefaultMiddleware().concat([bookApi.middleware, googleBookApi.middleware, userApi.middleware, statusUpdateApi.middleware, rtkQueryErrorLogger]),
+    getDefaultMiddleware().concat([bookApi.middleware, reviewApi.middleware, googleBookApi.middleware, userApi.middleware, statusUpdateApi.middleware, rtkQueryErrorLogger]),
 })
 // optional, but required for refetchOnFocus/refetchOnReconnect behaviors
 // see `setupListeners` docs - takes an optional callback as the 2nd arg for customization

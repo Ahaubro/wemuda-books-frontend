@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, StyleSheet, Image, Pressable } from 'react-native'
+import { Text, View, StyleSheet, Image, Pressable, TouchableOpacity, FlatList } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../redux/store'
 import { endSession } from '../../redux/slices/sessionSlice'
@@ -11,6 +11,7 @@ import { useEditStatusMutation, useAddBookMutation, useGetBooksByUserIdQuery, Bo
 import { useLazyGetBookByIdQuery } from '../../redux/services/googleBookApi'
 import DefaultView from "../../components/DefaultView"
 import BackArrowContainer from "../../components/BackArrowContainer"
+import { Review, useGetReviewsQuery, useGetReviewsByBookIdQuery } from "../../redux/services/reviewApi"
 
 
 type SelectedBookScreenNavigationProps = StackNavigationProp<BookNavigatorParamList, 'SelectedBookScreen'>
@@ -93,6 +94,12 @@ function SelectedBookScreen({ navigation, route }: Props) {
     })
 
 
+    //Reviews
+    const [reviews, setReviews] = useState<Review[]>([]);
+    const fetchedReviews = useGetReviewsByBookIdQuery(bookId);
+    console.log(fetchedReviews.data)
+
+
     //Use effect fetched books
     useEffect(() => {
         if (fetchedUserBooks.data) {
@@ -101,6 +108,13 @@ function SelectedBookScreen({ navigation, route }: Props) {
         }
     }, [fetchedUserBooks.data])
 
+
+    useEffect(() => {
+        if (fetchedReviews.data) {
+            let reviewArr = fetchedReviews.data.reviews
+            console.log("Arr", reviewArr)
+        }
+    }, [fetchedReviews.data])
 
 
     const dispatch = useDispatch()
@@ -151,102 +165,105 @@ function SelectedBookScreen({ navigation, route }: Props) {
                 <Text style={styles.auhtors}>{authors}</Text>
             </View>
 
+
+            {/* HISTORY */}
+
             <View>
 
-                { !isHistory ? 
+                {!isHistory ?
 
-                <View style={styles.centerContainer}>
-                    {session.id && (
+                    <View style={styles.centerContainer}>
+                        {session.id && (
+                            <View style={{ width: "42%" }}>
+                                {savedBookIds.filter(elm => elm === bookId).length === 1 ?
+                                    <Pressable style={styles.onMyListBtn} onPress={() => {
+                                        addBookAtributes.userId = session.id;
+                                        addBookAtributes.bookId = bookId;
+                                        addBookAtributes.title = title;
+                                        addBookAtributes.author = authors;
+                                        addBookAtributes.description = description;
+                                        addBookAtributes.thumbnail = thumbnail ? thumbnail : undefined;
+                                        addBookAtributes.averageRating = averageRating;
+                                        addBookAtributes.ratingCount = ratingsCount
+                                        addBookAtributes.bookStatus = "WantToRead"
+                                        console.log(addBookAtributes)
+                                        addBook(addBookAtributes);
+
+                                    }}>
+                                        <Text style={{ fontWeight: '700', fontSize: 12, color: "white" }}>
+                                            <Ionicons style={{}} name={'checkmark-sharp'} size={16} color={'white'} />
+                                            On reading list
+                                        </Text>
+                                    </Pressable>
+                                    :
+                                    <Pressable style={styles.selectedBookBtn} onPress={() => {
+                                        addBookAtributes.userId = session.id;
+                                        addBookAtributes.bookId = bookId;
+                                        addBookAtributes.title = title;
+                                        addBookAtributes.author = authors;
+                                        addBookAtributes.description = description;
+                                        addBookAtributes.thumbnail = thumbnail ? thumbnail : undefined;
+                                        addBookAtributes.averageRating = averageRating;
+                                        addBookAtributes.ratingCount = ratingsCount
+                                        addBookAtributes.bookStatus = "WantToRead"
+                                        console.log(addBookAtributes)
+                                        addBook(addBookAtributes);
+
+                                    }}>
+                                        <Text style={{ fontWeight: '700', fontSize: 12 }}>Add to reading list</Text>
+                                    </Pressable>
+                                }
+                            </View>
+                        )}
+
+                        <View style={{ width: "2%" }}></View>
+
+                        {/* CURRENTLYREADING */}
+
                         <View style={{ width: "42%" }}>
-                            {savedBookIds.filter(elm => elm === bookId).length === 1 ?
+
+                            {isCurrentlyReading ?
+
                                 <Pressable style={styles.onMyListBtn} onPress={() => {
-                                    addBookAtributes.userId = session.id;
-                                    addBookAtributes.bookId = bookId;
-                                    addBookAtributes.title = title;
-                                    addBookAtributes.author = authors;
-                                    addBookAtributes.description = description;
-                                    addBookAtributes.thumbnail = thumbnail ? thumbnail : undefined;
-                                    addBookAtributes.averageRating = averageRating;
-                                    addBookAtributes.ratingCount = ratingsCount
-                                    addBookAtributes.bookStatus = "WantToRead"
-                                    console.log(addBookAtributes)
-                                    addBook(addBookAtributes);
-
+                                    if (session.id != 0)
+                                        editBookStatus({ userId: session.id, bookId, bookStatus: "WantToRead" });
                                 }}>
-                                    <Text style={{ fontWeight: '700', fontSize: 12, color: "white" }}>
+
+                                    <Text style={{ fontWeight: '700', fontSize: 12, color: 'white' }}>
+                                        Currently reading
                                         <Ionicons style={{}} name={'checkmark-sharp'} size={16} color={'white'} />
-                                        On reading list
                                     </Text>
+
                                 </Pressable>
+
                                 :
+
                                 <Pressable style={styles.selectedBookBtn} onPress={() => {
-                                    addBookAtributes.userId = session.id;
-                                    addBookAtributes.bookId = bookId;
-                                    addBookAtributes.title = title;
-                                    addBookAtributes.author = authors;
-                                    addBookAtributes.description = description;
-                                    addBookAtributes.thumbnail = thumbnail ? thumbnail : undefined;
-                                    addBookAtributes.averageRating = averageRating;
-                                    addBookAtributes.ratingCount = ratingsCount
-                                    addBookAtributes.bookStatus = "WantToRead"
-                                    console.log(addBookAtributes)
-                                    addBook(addBookAtributes);
-
+                                    if (session.id != 0)
+                                        editBookStatus({ userId: session.id, bookId, bookStatus: "CurrentlyReading" });
                                 }}>
-                                    <Text style={{ fontWeight: '700', fontSize: 12 }}>Add to reading list</Text>
+
+                                    <Text style={{ fontWeight: '700', fontSize: 12 }}> Set as currently reading </Text>
+
                                 </Pressable>
+
                             }
+
                         </View>
-                    )}
-
-                    <View style={{ width: "2%" }}></View>
-
-                    <View style={{ width: "42%" }}>
-
-                        {isCurrentlyReading ?
-
-                            <Pressable style={styles.onMyListBtn} onPress={()=> {
-                                if (session.id != 0)
-                                    editBookStatus({ userId: session.id, bookId, bookStatus: "WantToRead" });
-                            }}>
-
-                                <Text style={{ fontWeight: '700', fontSize: 12, color: 'white' }}>
-                                    Currently reading 
-                                    <Ionicons style={{}} name={'checkmark-sharp'} size={16} color={'white'} />
-                                </Text>
-
-                            </Pressable>
-
-                            :
-
-                            <Pressable style={styles.selectedBookBtn} onPress={() => {
-                                if (session.id != 0)
-                                    editBookStatus({ userId: session.id, bookId, bookStatus: "CurrentlyReading" });
-                            }}>
-
-                            <Text style={{ fontWeight: '700', fontSize: 12 }}> Set as currently reading </Text>
-
-                            </Pressable>
-
-                        }
-
                     </View>
-                </View>
 
-                :
+                    :
 
-                <Pressable style={styles.onMyListBtn}>
-                    <Text style={{ fontWeight: '700', fontSize: 12, color: 'white' }}>
-                        You already read this book
-                        <Ionicons style={{}} name={'checkmark-sharp'} size={16} color={'white'} />
+                    <Pressable style={styles.onMyListBtn}>
+                        <Text style={{ fontWeight: '700', fontSize: 12, color: 'white' }}>
+                            You already read this book
+                            <Ionicons style={{}} name={'checkmark-sharp'} size={16} color={'white'} />
                         </Text>
-                </Pressable>
+                    </Pressable>
 
                 }
 
             </View>
-
-
 
 
             <View style={styles.descriptionContainer}>
@@ -265,8 +282,8 @@ function SelectedBookScreen({ navigation, route }: Props) {
                         <Text style={{ color: 'black', fontFamily: 'sans-serif', fontSize: 14, fontWeight: "bold" }}> See more</Text>
                     </Pressable>
                 </Text>
-
             </View>
+
 
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text style={styles.reviewHeader}>Reviews</Text>
@@ -277,20 +294,37 @@ function SelectedBookScreen({ navigation, route }: Props) {
                 </Pressable>
             </View>
 
+
             <View style={styles.reviewContainer}>
-                <Text style={{ fontWeight: 'bold', fontSize: 14, paddingVertical: 15 }}>Review title</Text>
-                <Text style={{ color: 'grey', fontFamily: 'sans-serif', fontSize: 14 }}>Review text</Text>
+
+                {/* AREX IGANG HER */}
+                
+                <FlatList showsHorizontalScrollIndicator={true} keyExtractor={(item) => item.content} data={fetchedReviews.data?.reviews || []} renderItem={({ item, index }) => (
+
+                    <TouchableOpacity onPress={() => {
+                        console.log("Coming soon")
+                    }}>
+
+                        <Text style={{ fontWeight: 'bold', fontSize: 14, paddingVertical: 15 }}>Review rating - {item.rating}</Text>
+                        <Text style={{ color: 'grey', fontFamily: 'sans-serif', fontSize: 14 }}>{item.content}</Text>
+
+                    </TouchableOpacity>
+
+                )} />
+
             </View>
+
 
             <View style={{ marginTop: 15 }}>
                 <Pressable style={styles.selectedBookBtn} onPress={() => {
-                    console.log("Coming soon")
+                    navigation.navigate("WriteReviewScreen", {
+                        bookId: bookId,
+                        userId: session.id
+                    })
                 }}>
                     <Text style={{ fontWeight: '700', fontSize: 16 }}> <Ionicons name={'pencil-outline'} size={20} color={'black'} style={{ paddingHorizontal: 5 }} /> Write a review </Text>
                 </Pressable>
             </View>
-
-
 
 
         </DefaultView>

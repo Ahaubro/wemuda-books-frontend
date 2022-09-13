@@ -5,6 +5,7 @@ import {
 import BooksScreen from '../screens/Books/Books'
 import SelectedBookScreen from "../screens/Books/SelectedBookScreen"
 import SelectedBookMoreScreen from '../screens/Books/SelectedBookMoreScreen'
+import WriteReviewScreen from '../screens/Books/WriteReviewScreen'
 
 import { BookNavigatorParamList } from '../types/NavigationTypes'
 
@@ -19,6 +20,8 @@ export default function BookNavigator() {
       <Stack.Screen name="Books" component={BooksScreen} />
       <Stack.Screen name="SelectedBookScreen" component={SelectedBookScreen} />
       <Stack.Screen name="SelectedBookMoreScreen" component={SelectedBookMoreScreen} />
+      <Stack.Screen name="WriteReviewScreen" component={WriteReviewScreen} />
+
 
     </Stack.Navigator>
   )
