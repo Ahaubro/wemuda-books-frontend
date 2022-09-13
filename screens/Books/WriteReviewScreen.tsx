@@ -63,18 +63,21 @@ function WriteReviewScreen({ navigation, route }: Props) {
                     ratingCount={5}
                     imageSize={40}
                     onFinishRating={( n: number ) => { addReviewAtributes.rating = n }}
+                    
                 />
             </View>
 
 
-            <TextInput style={styles.inputContainer} placeholder='How was the book?' onChangeText={(content) => {
-                addReviewAtributes.content = content
-            }}>
+            <View style={styles.inputContainer}>
+                <TextInput style={styles.input} multiline={true} placeholder='How was the book?'placeholderTextColor={'grey'} onChangeText={(content) => {
+                    addReviewAtributes.content = content
+                }}>
 
-            </TextInput>
+                </TextInput>
+            </View>
 
 
-            <View style={{ marginTop: 15 }}></View>
+            <View style={{ marginTop: 20 }}></View>
 
 
             <Pressable style={styles.saveReview} onPress={() => {
@@ -113,9 +116,9 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
         borderWidth: 1,
-        backgroundColor: 'rgb(242,242,242)',
+        backgroundColor: 'rgb(247,247,247)',
         borderRadius: 15,
-        minHeight: 100,
+        height: 150,
         borderBottomWidth: 1,
         border: 'none',
         outline: 'none',
@@ -124,7 +127,14 @@ const styles = StyleSheet.create({
     starRating:{
         paddingHorizontal: 25,
         paddingVertical: 35,
-    }
+    },
+    input: {
+        flex: 1,
+        outline: 'none',
+        paddingHorizontal: 20,
+        height: 130,
+        marginTop: 20
+      },
 })
 
 export default WriteReviewScreen
