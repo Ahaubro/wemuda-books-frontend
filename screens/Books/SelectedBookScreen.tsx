@@ -25,6 +25,7 @@ type Props = {
 
 function SelectedBookScreen({ navigation, route }: Props) {
     const session = useSelector((state: RootState) => state.session)
+    const dispatch = useDispatch()
 
 
     // Destructuring fra navigation.navigate (Books.tsx linje 75 - 81)
@@ -75,6 +76,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
         bookStatus: ""
     }
 
+    //Saving currentbook 
     userBooksArr?.forEach((book) => {
         if (book.bookId === bookId) {
             currentBook.bookId = book.bookId,
@@ -130,12 +132,11 @@ function SelectedBookScreen({ navigation, route }: Props) {
     useEffect(() => {
         if (fetchedReviews.data) {
             setReviews(fetchedReviews.data.reviews)
-            console.log(reviews)
         }
+
     }, [fetchedReviews.data])
 
 
-    const dispatch = useDispatch()
 
     return (
         <DefaultView>
@@ -305,13 +306,22 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text style={styles.reviewHeader}>Reviews</Text>
-                <Pressable style={{ marginTop: 20 }} onPress={() => {
-                    navigation.navigate('AllReviewsScreen', {
-                        bookId: bookId
-                    })
-                }}>
-                    <Text style={{ color: "#ccc", fontWeight: '700' }}>See all</Text>
-                </Pressable>
+                <View>
+                    {reviews.length > 0 ?
+                    <Pressable style={{ marginTop: 20 }} onPress={() => {
+                        navigation.navigate('AllReviewsScreen', {
+                            bookId: bookId
+                        })
+                    }}>
+                        <Text style={{ color: "#ccc", fontWeight: '700' }}>See all</Text>
+                    </Pressable>
+
+                    :
+
+                    <Text></Text>
+
+                    }
+                </View>
             </View>
 
 
@@ -349,7 +359,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
                     :
 
                     <View style={[styles.reviewContainer, {justifyContent:'center'}]}>
-                        <Text style={{textAlign: 'center'}}>This book has 0 reviews, be the first one!</Text>
+                        <Text style={{textAlign: 'center', color: "#ccc", fontSize: 16, fontWeight: '400'}}>This book has 0 reviews, be the first one!</Text>
                     </View>
 
                 }
@@ -428,10 +438,10 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         height: 110,
         paddingHorizontal: 20,
-        marginTop: 35,
+        marginTop: 25,
     },
     reviewHeader: {
-        marginTop: 20,
+        marginTop: 15,
         fontWeight: "bold",
         fontSize: 16,
     },
