@@ -100,6 +100,22 @@ function SelectedBookScreen({ navigation, route }: Props) {
     const fetchedReviews = useGetReviewsByBookIdQuery(bookId);
 
 
+    //SLice review content function for display
+    let slicedContentString = ""
+    const getContent = (content: string) => {
+        if (!content) {
+          slicedContentString = "No content.."
+          return slicedContentString
+        } else if (content.length > 80) {
+            slicedContentString = content.substring(0,85) + " ..."
+          return slicedContentString
+        } else {
+            slicedContentString = content
+          return slicedContentString
+        }
+      }
+
+
     //Use effect fetched books
     useEffect(() => {
         if (fetchedUserBooks.data) {
@@ -303,7 +319,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
                         <View style={{paddingRight:10}}>
                             <View style={styles.reviewContainer}>
-                                <View style={{width: 370}}> 
+                                <View style={{width: 350}}> 
                                     <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 15}}>
                                         <Text style={{fontWeight: 'bold'}}>Title</Text>
                                         <Rating
@@ -317,7 +333,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
                                             readonly={true}
                                         />
                                     </View>
-                                    <Text style={{ color: 'grey', fontFamily: 'sans-serif', fontSize: 14, width: 350}}>{item.content}</Text>
+                                    <Text style={{ color: 'grey', fontFamily: 'sans-serif', fontSize: 14, width: 350}}>{getContent(item.content)}</Text>
                                 </View>
                             </View>
                         </View>
@@ -397,7 +413,7 @@ const styles = StyleSheet.create({
         backgroundColor: "rgb(247,247,250)",
         borderRadius: 15,
         height: 110,
-        paddingHorizontal: 10,
+        paddingHorizontal: 20,
         marginTop: 35,
     },
     reviewHeader: {
@@ -409,7 +425,7 @@ const styles = StyleSheet.create({
         backgroundColor: "rgb(247,247,250)",
         borderRadius: 15,
         height: 110,
-        paddingHorizontal: 10,
+        paddingHorizontal: 20,
         marginTop: 15,
     },
     reviewBtn: {
