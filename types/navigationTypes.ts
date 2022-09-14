@@ -27,6 +27,7 @@ export type BookNavigatorParamList = {
         bookId: string,
         userId: number
     }
+    AllReviewsScreen: undefined
 }
 
 type Book = {
@@ -58,6 +59,8 @@ export type MyPageNavigatorParamList = {
         bookId: string,
         userId: number
     }
+    AllReviewsScreen: undefined
+
 }
 
 export type HomeNavigatorParamList = {
@@ -84,4 +87,6 @@ export type HomeNavigatorParamList = {
         bookId: string,
         userId: number
     }
+    AllReviewsScreen: undefined
+
 }

@@ -107,7 +107,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
           slicedContentString = "No content.."
           return slicedContentString
         } else if (content.length > 80) {
-            slicedContentString = content.substring(0,85) + " ..."
+            slicedContentString = content.substring(0,90) + " ..."
           return slicedContentString
         } else {
             slicedContentString = content
@@ -303,7 +303,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text style={styles.reviewHeader}>Reviews</Text>
                 <Pressable style={{ marginTop: 20 }} onPress={() => {
-                    console.log("Coming soon")
+                    navigation.navigate('AllReviewsScreen')
                 }}>
                     <Text style={{ color: "#ccc", fontWeight: '700' }}>See all</Text>
                 </Pressable>
