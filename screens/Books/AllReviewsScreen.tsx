@@ -59,7 +59,7 @@ function AllReviewsScreen({ navigation, route }: Props) {
             </View>
 
 
-            <View>
+            <View style={{flex: 1}}>
                 <FlatList
                     contentContainerStyle={{}}
                     showsHorizontalScrollIndicator={true}
@@ -80,7 +80,9 @@ function AllReviewsScreen({ navigation, route }: Props) {
                                             ratingContainerStyle={{backgroundColor: 'rgb(247,247,250)', flexDirection: 'row', justifyContent:'space-between', width: '100%' }}
                                         />
                                     </View>
-                                    <Text style={{ color: 'grey', fontFamily: 'sans-serif', fontSize: 14, width: 350 }}>{item.content}</Text>
+                                    <View style={{height: 65, overflow: 'scroll'}}>
+                                        <Text style={{ color: 'grey', fontFamily: 'sans-serif', fontSize: 14, width: 350 }}>{item.content}</Text>
+                                    </View>
                                 </View>
                             </View>
                         </View>
@@ -98,7 +100,7 @@ const styles = StyleSheet.create({
     reviewContainer: {
         backgroundColor: "rgb(247,247,250)",
         borderRadius: 15,
-        height: 110,
+        height: 140,
         paddingHorizontal: 20,
         marginTop: 15,
     },

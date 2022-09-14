@@ -73,7 +73,7 @@ function WriteReviewScreen({ navigation, route }: Props) {
                     reviews={['Terrible', 'Okay', 'Good', 'Great book', 'Love this book']}
                     reviewSize={0}
                     count={5}
-                    size={40}
+                    size={35}
                     defaultRating={3}
                     onFinishRating={( n: number ) => { 
                         addReviewAtributes.rating = n
@@ -114,8 +114,11 @@ function WriteReviewScreen({ navigation, route }: Props) {
 const styles = StyleSheet.create({
     header: {
         fontSize: 25,
-        fontWeight: "700",
-        paddingVertical: 15
+        color: 'black',
+        textAlign: 'left',
+        fontWeight: '700',
+        paddingTop: 5,
+        paddingBottom: 15
     },
     saveReview: {
         fontSize: 12,

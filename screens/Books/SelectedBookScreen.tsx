@@ -106,16 +106,16 @@ function SelectedBookScreen({ navigation, route }: Props) {
     let slicedContentString = ""
     const getContent = (content: string) => {
         if (!content) {
-          slicedContentString = "No content.."
-          return slicedContentString
+            slicedContentString = "No content.."
+            return slicedContentString
         } else if (content.length > 80) {
-            slicedContentString = content.substring(0,90) + " ..."
-          return slicedContentString
+            slicedContentString = content.substring(0, 90) + " ..."
+            return slicedContentString
         } else {
             slicedContentString = content
-          return slicedContentString
+            return slicedContentString
         }
-      }
+    }
 
 
     //Use effect fetched books
@@ -129,7 +129,8 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
     useEffect(() => {
         if (fetchedReviews.data) {
-            let reviewArr = fetchedReviews.data.reviews
+            setReviews(fetchedReviews.data.reviews)
+            console.log(reviews)
         }
     }, [fetchedReviews.data])
 
@@ -314,34 +315,45 @@ function SelectedBookScreen({ navigation, route }: Props) {
             </View>
 
 
-            <View> 
-                <FlatList
-                    contentContainerStyle={{}} 
-                    showsHorizontalScrollIndicator={true}
-                    horizontal={true}
-                    keyExtractor={(item) => item.content} data={fetchedReviews.data?.reviews || []} renderItem={({ item, index }) => (
 
-                        <View style={{paddingRight:10}}>
-                            <View style={styles.reviewContainer}>
-                            <View style={{ width: 350 }}>
-                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: -10, paddingVertical: 10}}>
-                                        <AirbnbRating
-                                            reviews={['Terrible', 'Okay', 'Good', 'Great book', 'Love this book']}
-                                            reviewSize={14}
-                                            reviewColor={'black'}                                          
-                                            size={20}
-                                            defaultRating={item.rating}
-                                            isDisabled={true}
-                                            starContainerStyle={{paddingLeft: 60}}
-                                            ratingContainerStyle={{backgroundColor: 'rgb(247,247,250)', flexDirection: 'row', justifyContent:'space-between', width: '100%' }}
-                                        />
+
+            <View>
+                {reviews.length > 0 ?
+                    <FlatList
+                        contentContainerStyle={{}}
+                        showsHorizontalScrollIndicator={false}
+                        horizontal={true}
+                        keyExtractor={(item) => item.content} data={fetchedReviews.data?.reviews || []} renderItem={({ item, index }) => (
+                            <View style={{ paddingRight: 10 }}>
+                                <View style={styles.reviewContainer}>
+                                    <View style={{ width: 350 }}>
+                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: -10, paddingVertical: 10 }}>
+                                            <AirbnbRating
+                                                reviews={['Terrible', 'Okay', 'Good', 'Great book', 'Love this book']}
+                                                reviewSize={14}
+                                                reviewColor={'black'}
+                                                size={20}
+                                                defaultRating={item.rating}
+                                                isDisabled={true}
+                                                starContainerStyle={{ paddingLeft: 60 }}
+                                                ratingContainerStyle={{ backgroundColor: 'rgb(247,247,250)', flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}
+                                            />
+
+                                        </View>
+                                        <Text style={{ color: 'grey', fontFamily: 'sans-serif', fontSize: 14, width: 350 }}>{getContent(item.content)}</Text>
                                     </View>
-                                    <Text style={{ color: 'grey', fontFamily: 'sans-serif', fontSize: 14, width: 350 }}>{item.content}</Text>
                                 </View>
                             </View>
-                        </View>
+                        )} />
 
-                    )} />
+                    :
+
+                    <View style={[styles.reviewContainer, {justifyContent:'center'}]}>
+                        <Text style={{textAlign: 'center'}}>This book has 0 reviews, be the first one!</Text>
+                    </View>
+
+                }
+
             </View>
 
 
@@ -352,7 +364,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
                         userId: session.id
                     })
                 }}>
-                    <Text style={{ fontWeight: '700', fontSize: 16 }}> <Ionicons name={'pencil-outline'} size={20} color={'black'} style={{ paddingHorizontal: 5 }} /> Write a review </Text>
+                    <Text style={{ fontWeight: '700', fontSize: 16 }}> <Ionicons name={'ios-create'} size={20} color={'black'} style={{ paddingHorizontal: 5 }} /> Write a review </Text>
                 </Pressable>
             </View>
 
@@ -408,8 +420,8 @@ const styles = StyleSheet.create({
         backgroundColor: "rgb(247,247,250)",
         borderRadius: 20,
         color: "black",
-        paddingVertical: 10,
-        height: 40
+        paddingTop: 15,
+        paddingBottom: 15,
     },
     descriptionContainer: {
         backgroundColor: "rgb(247,247,250)",
