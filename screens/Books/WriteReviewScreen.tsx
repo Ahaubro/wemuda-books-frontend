@@ -56,7 +56,6 @@ function WriteReviewScreen({ navigation, route }: Props) {
             <Text style={styles.header}>Write a review</Text>
 
 
-            {/* INDSÆT STJERNER HER */}
             <View style={styles.starRating}>
                 <Rating
                     type='star'

@@ -12,6 +12,7 @@ import { useLazyGetBookByIdQuery } from '../../redux/services/googleBookApi'
 import DefaultView from "../../components/DefaultView"
 import BackArrowContainer from "../../components/BackArrowContainer"
 import { Review, useGetReviewsQuery, useGetReviewsByBookIdQuery } from "../../redux/services/reviewApi"
+import { Rating, AirbnbRating } from "react-native-ratings"
 
 
 type SelectedBookScreenNavigationProps = StackNavigationProp<BookNavigatorParamList, 'SelectedBookScreen'>
@@ -293,22 +294,35 @@ function SelectedBookScreen({ navigation, route }: Props) {
             </View>
 
 
-            <View style={styles.reviewContainer}>
+            <View> 
+                <FlatList
+                    contentContainerStyle={{}} 
+                    showsHorizontalScrollIndicator={true}
+                    horizontal={true}
+                    keyExtractor={(item) => item.content} data={fetchedReviews.data?.reviews || []} renderItem={({ item, index }) => (
 
-                {/* AREX IGANG HER */}
+                        <View style={{paddingRight:10}}>
+                            <View style={styles.reviewContainer}>
+                                <View style={{width: 370}}> 
+                                    <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 15}}>
+                                        <Text style={{fontWeight: 'bold'}}>Title</Text>
+                                        <Rating
+                                            type='star'
+                                            tintColor='rgb(242,242,242)'
+                                            ratingCount={item.rating}
+                                            imageSize={20}
+                                            jumpValue={1.0}
+                                            startingValue={3}
+                                            style={{}}
+                                            readonly={true}
+                                        />
+                                    </View>
+                                    <Text style={{ color: 'grey', fontFamily: 'sans-serif', fontSize: 14, width: 350}}>{item.content}</Text>
+                                </View>
+                            </View>
+                        </View>
 
-                <FlatList showsHorizontalScrollIndicator={true} keyExtractor={(item) => item.content} data={fetchedReviews.data?.reviews || []} renderItem={({ item, index }) => (
-
-                    <TouchableOpacity onPress={() => {
-                        console.log("Coming soon")
-                    }}>
-
-                        <Text style={{ fontWeight: 'bold', fontSize: 14, paddingVertical: 15 }}>Review rating - {item.rating}</Text>
-                        <Text style={{ color: 'grey', fontFamily: 'sans-serif', fontSize: 14 }}>{item.content}</Text>
-
-                    </TouchableOpacity>
-
-                )} />
+                    )} />
 
             </View>
 
@@ -367,7 +381,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignContent: 'center',
-        width: "100%"
     },
     selectedBookBtn: {
         fontSize: 12,
