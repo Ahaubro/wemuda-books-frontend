@@ -26,8 +26,10 @@ type Props = {
 function SelectedBookScreen({ navigation, route }: Props) {
     const session = useSelector((state: RootState) => state.session)
 
+
     // Destructuring fra navigation.navigate (Books.tsx linje 75 - 81)
     const { bookId, title, authors, description, thumbnail, averageRating, ratingsCount } = route.params
+
 
     // Slice description (Check if undefined)
     let slicedDescription;
@@ -303,7 +305,9 @@ function SelectedBookScreen({ navigation, route }: Props) {
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text style={styles.reviewHeader}>Reviews</Text>
                 <Pressable style={{ marginTop: 20 }} onPress={() => {
-                    navigation.navigate('AllReviewsScreen')
+                    navigation.navigate('AllReviewsScreen', {
+                        bookId: bookId
+                    })
                 }}>
                     <Text style={{ color: "#ccc", fontWeight: '700' }}>See all</Text>
                 </Pressable>
@@ -319,27 +323,25 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
                         <View style={{paddingRight:10}}>
                             <View style={styles.reviewContainer}>
-                                <View style={{width: 350}}> 
-                                    <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 15}}>
-                                        <Text style={{fontWeight: 'bold'}}>Title</Text>
-                                        <Rating
-                                            type='star'
-                                            tintColor='rgb(242,242,242)'
-                                            ratingCount={item.rating}
-                                            imageSize={20}
-                                            jumpValue={1.0}
-                                            startingValue={3}
-                                            style={{}}
-                                            readonly={true}
+                            <View style={{ width: 350 }}>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: -10, paddingVertical: 10}}>
+                                        <AirbnbRating
+                                            reviews={['Terrible', 'Okay', 'Good', 'Great book', 'Love this book']}
+                                            reviewSize={14}
+                                            reviewColor={'black'}                                          
+                                            size={20}
+                                            defaultRating={item.rating}
+                                            isDisabled={true}
+                                            starContainerStyle={{paddingLeft: 60}}
+                                            ratingContainerStyle={{backgroundColor: 'rgb(247,247,250)', flexDirection: 'row', justifyContent:'space-between', width: '100%' }}
                                         />
                                     </View>
-                                    <Text style={{ color: 'grey', fontFamily: 'sans-serif', fontSize: 14, width: 350}}>{getContent(item.content)}</Text>
+                                    <Text style={{ color: 'grey', fontFamily: 'sans-serif', fontSize: 14, width: 350 }}>{item.content}</Text>
                                 </View>
                             </View>
                         </View>
 
                     )} />
-
             </View>
 
 

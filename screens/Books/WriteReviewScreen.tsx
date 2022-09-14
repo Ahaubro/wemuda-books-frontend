@@ -41,6 +41,8 @@ function WriteReviewScreen({ navigation, route }: Props) {
         content: "", rating: 0, bookId: bookId, userId: userId
     })
 
+    let reviewText
+
 
     return (
         <DefaultView>
@@ -57,7 +59,7 @@ function WriteReviewScreen({ navigation, route }: Props) {
 
 
             <View style={styles.starRating}>
-                <Rating
+                {/* <Rating
                     type='star'
                     ratingCount={5}
                     imageSize={40}
@@ -65,12 +67,25 @@ function WriteReviewScreen({ navigation, route }: Props) {
                     jumpValue={1.0}
                     startingValue={3}
                     style={{}}
+                /> */}
+
+                <AirbnbRating
+                    reviews={['Terrible', 'Okay', 'Good', 'Great book', 'Love this book']}
+                    reviewSize={0}
+                    count={5}
+                    size={40}
+                    defaultRating={3}
+                    onFinishRating={( n: number ) => { 
+                        addReviewAtributes.rating = n
+                        console.log(n) 
+                    }}
+
                 />
             </View>
 
 
             <View style={styles.inputContainer}>
-                <TextInput style={styles.input} multiline={true} placeholder='How was the book?'placeholderTextColor={'grey'} onChangeText={(content) => {
+                <TextInput style={styles.input} multiline={true} placeholder='How was the book?' placeholderTextColor={'grey'} onChangeText={(content) => {
                     addReviewAtributes.content = content
                 }}>
 
@@ -126,10 +141,10 @@ const styles = StyleSheet.create({
         outline: 'none',
         opacity: 0.8,
     },
-    starRating:{
+    starRating: {
         paddingHorizontal: 25,
         paddingVertical: 35,
-        
+
     },
     input: {
         flex: 1,
@@ -137,7 +152,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         height: 130,
         marginTop: 20
-      },
+    },
 })
 
 export default WriteReviewScreen
