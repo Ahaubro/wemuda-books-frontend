@@ -58,17 +58,7 @@ function WriteReviewScreen({ navigation, route }: Props) {
             <Text style={styles.header}>Write a review</Text>
 
 
-            <View style={styles.starRating}>
-                {/* <Rating
-                    type='star'
-                    ratingCount={5}
-                    imageSize={40}
-                    onFinishRating={( n: number ) => { addReviewAtributes.rating = n }}
-                    jumpValue={1.0}
-                    startingValue={3}
-                    style={{}}
-                /> */}
-
+            <View style={styles.starRating}>              
                 <AirbnbRating
                     reviews={['Terrible', 'Okay', 'Good', 'Great book', 'Love this book']}
                     reviewSize={0}
@@ -77,9 +67,7 @@ function WriteReviewScreen({ navigation, route }: Props) {
                     defaultRating={3}
                     onFinishRating={( n: number ) => { 
                         addReviewAtributes.rating = n
-                        console.log(n) 
                     }}
-
                 />
             </View>
 
@@ -97,7 +85,6 @@ function WriteReviewScreen({ navigation, route }: Props) {
 
 
             <Pressable style={styles.saveReview} onPress={() => {
-                console.log(addReviewAtributes)
                 addReview(addReviewAtributes)
                 navigation.pop();
             }}>
@@ -105,7 +92,6 @@ function WriteReviewScreen({ navigation, route }: Props) {
                 <Text style={{ color: 'white' }}>Save review</Text>
 
             </Pressable>
-
 
         </DefaultView>
     )

@@ -35,13 +35,13 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 
                     <View style={{ flexDirection: 'column', justifyContent: 'center', alignContent: 'center', marginVertical: 250 }}>
 
-                        <Text style={{ fontSize: 25, fontWeight: 'bold', fontFamily: 'sans-serif', textAlign: 'center', paddingBottom: 80 }}>Velkommen</Text>
+                        <Text style={ styles.welcomeText }>Welcome</Text>
 
 
                         <Pressable style={styles.buttonBlack} onPress={() => {
                             setScreen("signup")
                         }}>
-                            <Text style={{ color: 'white', fontFamily: 'sans-serif' }}>Get started</Text>
+                            <Text style={styles.btnWhiteText}>Get started</Text>
                         </Pressable>
 
 
@@ -50,15 +50,15 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                             <Pressable style={styles.welcomeLoginPressable} onPress={() => {
                                 setScreen("login")
                             }}>
-                                <Text style={{ color: 'black', fontFamily: 'sans-serif' }}>Log ind</Text>
+                                <Text style={styles.btnBlackText}>Log in</Text>
                             </Pressable>
                         </View>
 
-                        <View style={{ padding: 15 }}>
+                        <View style={{ paddingVertical: 25 }}>
                             <Pressable style={{}} onPress={() => {
                                 dispatch(startSession({ id: 0, token: "guest" }))
                             }}>
-                                <Text style={{ color: 'black', fontFamily: 'sans-serif', fontWeight: 'bold', textAlign: 'center', fontSize: 12 }}>Continue without login</Text>
+                                <Text style={styles.btnBlackText}>Continue without login</Text>
                             </Pressable>
                         </View>
                     </View>
@@ -77,7 +77,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                     </BackArrowContainer>
 
 
-                    <Text style={styles.heading}>Log ind</Text>
+                    <Text style={styles.heading}>Log in</Text>
 
 
                     <View style={{ flexDirection: "column" }}>
@@ -89,13 +89,13 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                         </View>
 
                         <View style={{ marginVertical: 5 }}>
-                            <Text style={styles.label}>Kodeord</Text>
-                            <TextInput placeholder="Indtast kodeord" placeholderTextColor={"#AAAAAA"} onChangeText={password => {
+                            <Text style={styles.label}>Password</Text>
+                            <TextInput placeholder="Insert password" placeholderTextColor={"#AAAAAA"} onChangeText={password => {
                                 setLoginInputs({ ...loginInputs, password })
                             }} secureTextEntry={true} style={styles.textInput}></TextInput>
                         </View>
 
-                        <View style={{ paddingVertical: 10 }}>
+                        <View style={{ paddingVertical: 5 }}>
                             <Pressable style={styles.buttonBlack} onPress={() => {
                                 if (loginInputs.username && loginInputs.password) {
                                     login({ ...loginInputs }).unwrap().then(res => {
@@ -104,13 +104,13 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                                     })
                                 }
                             }}>
-                                <Text style={{ color: 'white', fontFamily: 'sans-serif' }}>Log in</Text>
+                                <Text style={styles.btnWhiteText}>Log in</Text>
                             </Pressable>
                         </View>
 
-                        <View style={{ marginVertical: 5 }}>
+                        <View style={{  }}>
                             <Pressable style={styles.buttonWhite} onPress={() => { setScreen("forgot password") }}>
-                                <Text style={{ fontWeight: 'bold' }}><Text style={{ fontWeight: "bold" }}>Forgot password</Text></Text>
+                                <Text style={styles.btnBlackText}>Forgot password</Text>
                             </Pressable>
                         </View>
                     </View>
@@ -170,7 +170,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                                     })
                                 }
                             }}>
-                                <Text style={{ color: 'white', fontFamily: 'sans-serif' }}>Opret bruger</Text>
+                                <Text style={styles.btnWhiteText}>Opret bruger</Text>
                             </Pressable>
                         </View>
 
@@ -182,7 +182,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                 <DefaultView>
 
                     <BackArrowContainer>
-                        <Pressable style={{}} onPress={() => {
+                        <Pressable onPress={() => {
                             setScreen("login");
                         }}>
                             <Ionicons name={'chevron-back'} size={25} color={'black'} />
@@ -190,13 +190,13 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                     </BackArrowContainer>
 
 
-                    <View style={{}}>
+                    <View>
                         <Text style={styles.heading}>Forgot password</Text>
                     </View>
 
                     <View style={{ flexDirection: "column", justifyContent: 'center', alignContent: 'center' }}>
 
-                        <View style={{ flexDirection: "column" }}>
+                        <View style={{ flexDirection: "column", marginVertical: 5 }}>
                             <Text style={styles.label}>Email</Text>
                             <TextInput placeholder='eksempel@email.com' placeholderTextColor={"#AAAAAA"} onChangeText={email => {
                                 setForgotPasswordInputs({ ...forgotPasswordInputs, email })
@@ -213,7 +213,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                                     // })
                                 }
                             }}>
-                                <Text style={{ color: 'white' }}>Send</Text>
+                                <Text style={styles.btnWhiteText}>Send</Text>
                             </Pressable>
                         </View>
 
@@ -230,8 +230,8 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: 'black',
     textAlign: 'left',
-    fontWeight: '600',
-    paddingVertical: 10,   
+    fontWeight: '700',
+    paddingVertical: 15,   
     },
     label: {
         fontSize: 14,
@@ -279,6 +279,23 @@ const styles = StyleSheet.create({
         border: '1px solid black',
         paddingVertical: 15,
     },
+    btnWhiteText:{
+        color: 'white',
+        fontSize: 14,
+        textAlign: 'center',
+        fontWeight: '600'
+    },
+    btnBlackText:{
+        fontSize: 14,
+        textAlign: 'center',
+        fontWeight: '600'
+    },
+    welcomeText:{
+        fontSize: 30, 
+        fontWeight: '700', 
+        textAlign: 'center', 
+        paddingBottom: 80 
+    }
 })
 
 export default LoginScreen
