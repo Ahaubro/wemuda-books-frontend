@@ -58,7 +58,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                             <Pressable style={{}} onPress={() => {
                                 dispatch(startSession({ id: 0, token: "guest" }))
                             }}>
-                                <Text style={styles.btnBlackText}>Continue without login</Text>
+                                <Text style={[styles.btnBlackText, {fontWeight: 'bold'}]}>Continue without login</Text>
                             </Pressable>
                         </View>
                     </View>

@@ -172,13 +172,13 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
         <Pressable style={{paddingVertical: 15}} onPress={ () => {
           dispatch(endSession());
         }}>
-          <Text style={styles.btnBlackText}>Back to start</Text>
+          <Text style={[styles.btnBlackText, {fontWeight: 'bold'}]}>Back to start</Text>
         </Pressable>
 
       </View>
 
       :
-        <Text>Nope</Text>
+        <Text></Text>
 
       }
 
