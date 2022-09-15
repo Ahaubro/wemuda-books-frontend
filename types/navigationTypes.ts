@@ -30,6 +30,7 @@ export type BookNavigatorParamList = {
     AllReviewsScreen: {
         bookId: string
     }
+    LoginScreen: undefined
 }
 
 type Book = {

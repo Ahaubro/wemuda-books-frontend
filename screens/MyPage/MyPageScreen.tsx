@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Text, View, StyleSheet, Button, Pressable, FlatList, Image, TouchableOpacity } from 'react-native'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
 import { useGetUserByIdQuery, User } from '../../redux/services/userApi'
 import { useGetStatusUpdatesByUserQuery, StatusUpdate } from '../../redux/services/statusUpdateApi'
@@ -9,6 +9,7 @@ import { GoogleBook, useGetBookByIdQuery, useLazyGetBookByIdQuery } from '../../
 import Navigation from '../../containers/MyPageNavigator'
 import { useGetBooksByUserIdQuery, Book } from '../../redux/services/bookApi'
 import DeafultView from "../../components/DefaultView"
+import { endSession } from "../../redux/slices/sessionSlice"
 
 interface MyPageScreenProps {
   navigation: any
@@ -16,6 +17,7 @@ interface MyPageScreenProps {
 
 const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
   const session = useSelector((state: RootState) => state.session)
+  const dispatch = useDispatch()
 
   const user = useGetUserByIdQuery(session.id)
 
@@ -33,6 +35,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
   const [historyState, setHistoryState] = useState("Loading...")
 
   const fetchedUserBooks = useGetBooksByUserIdQuery(session.id, { refetchOnMountOrArgChange: true })
+
 
   useEffect(() => {
     setWantToReadState("Loading...")
@@ -210,6 +213,14 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
           </View>
         </View>
 
+        <View style={{paddingVertical: 15}}>
+          <Pressable style={styles.buttonBlack} onPress={ () => {
+              dispatch(endSession());
+          }}>
+            <Text style={styles.btnWhiteText}>Logout</Text>
+          </Pressable>
+        </View>
+
     </DeafultView >
   )
 }
@@ -267,7 +278,25 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: 'center',
     fontWeight: '600'
-},
+  },
+  buttonBlack: {
+    fontSize: 12,
+    fontWeight: 700,
+    fontFamily: "sans-serif",
+    textAlign: "center",
+    backgroundColor: "white",
+    borderRadius: 20,
+    color: "white",
+    marginTop: 5,
+    paddingVertical: 15,
+    border: '1px solid black',
+  },
+  btnWhiteText:{
+    fontSize: 18,
+    textAlign: 'center',
+    fontWeight: '600'
+  },
+
 })
 
 export default MyPageScreen

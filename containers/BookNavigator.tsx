@@ -7,6 +7,7 @@ import SelectedBookScreen from "../screens/Books/SelectedBookScreen"
 import SelectedBookMoreScreen from '../screens/Books/SelectedBookMoreScreen'
 import WriteReviewScreen from '../screens/Books/WriteReviewScreen'
 import AllReviewsScreen from '../screens/Books/AllReviewsScreen'
+import LoginScreen from '../screens/Login/LoginScreen'
 
 import { BookNavigatorParamList } from '../types/NavigationTypes'
 
@@ -23,8 +24,6 @@ export default function BookNavigator() {
       <Stack.Screen name="SelectedBookMoreScreen" component={SelectedBookMoreScreen} />
       <Stack.Screen name="WriteReviewScreen" component={WriteReviewScreen} />
       <Stack.Screen name="AllReviewsScreen" component={AllReviewsScreen} />
-
-
 
     </Stack.Navigator>
   )

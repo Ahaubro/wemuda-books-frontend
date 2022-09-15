@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Text, View, StyleSheet, ActivityIndicator, TextInput, Image, FlatList, Pressable, TouchableOpacity, NativeEventEmitter } from 'react-native'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
 import { GoogleBook, useGetBooksQuery } from "../../redux/services/googleBookApi"
 import { Book, useAddBookMutation, useGetBooksByUserIdQuery } from '../../redux/services/bookApi'
@@ -12,6 +12,8 @@ import { RouteProp } from '@react-navigation/native'
 import { BookNavigatorParamList } from '../../types/NavigationTypes'
 import DefaultView from "../../components/DefaultView"
 import BackArrowContainer from "../../components/BackArrowContainer"
+import { endSession } from '../../redux/slices/sessionSlice'
+import { statusUpdateApi } from '../../redux/services/statusUpdateApi'
 
 
 //SelectedBook in progress
@@ -22,6 +24,7 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
 
 
   const session = useSelector((state: RootState) => state.session)
+  const dispatch = useDispatch()
 
 
   //Booksearch useState
@@ -163,6 +166,22 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
           )} />
         </View>
       }
+
+      { session.token && session.token == "guest" ?
+      <View>
+        <Pressable style={{paddingVertical: 15}} onPress={ () => {
+          dispatch(endSession());
+        }}>
+          <Text style={styles.btnBlackText}>Back to start</Text>
+        </Pressable>
+
+      </View>
+
+      :
+        <Text>Nope</Text>
+
+      }
+
     </DefaultView>
   )
 }
@@ -220,6 +239,11 @@ const styles = StyleSheet.create({
   headerContainer:{
     paddingTop: 50,
   },
+  btnBlackText:{
+    fontSize: 14,
+    textAlign: 'center',
+    fontWeight: '600'
+},
 
 })
 
