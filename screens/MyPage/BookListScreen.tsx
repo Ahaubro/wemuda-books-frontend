@@ -6,6 +6,7 @@ import { MyPageNavigatorParamList } from '../../types/navigationTypes'
 import { Pressable, StyleSheet, Text, View, FlatList, Image, TouchableOpacity } from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import DeafultView from "../../components/DefaultView"
+import BackArrowContainer from "../../components/BackArrowContainer"
 
 
 type BookListScreenNavigationProps = StackNavigationProp<MyPageNavigatorParamList, 'BookList'>
@@ -25,17 +26,22 @@ function BookListScreen({ navigation, route }: Props) {
 
   return (<>
     <DeafultView>
-      <Pressable onPress={() => {
-        navigation.navigate('MyPage')
-      }}>
-        <Ionicons name={'chevron-back'} size={25} color={'black'} />
-      </Pressable>
 
-      <Text style={styles.subHeading}>{title}</Text>
+      <BackArrowContainer>
+        <Pressable onPress={() => {
+          navigation.navigate('MyPage')
+        }}>
+          <Ionicons name={'chevron-back'} size={25} color={'black'} />
+        </Pressable>
+      </BackArrowContainer>
 
-      <View style={{ flexDirection: "row", justifyContent: "center" }}>
+
+        <Text style={styles.subHeading}>{title}</Text>
+
+
+      <View style={{ flex: 1, flexDirection: "row", justifyContent: "center" }}>
         <FlatList style={{ flex: 1, flexWrap: "wrap" }} numColumns={4} showsHorizontalScrollIndicator={false} data={books} renderItem={(({ item: book }) => (
-          <View style={{ paddingVertical: 6, marginRight: 5, marginLeft: 5 }}>
+          <View style={{  paddingHorizontal: 4, paddingVertical: 4 }}>
             <TouchableOpacity onPress={() => {
               navigation.navigate('SelectedBookScreen', {
                 bookId: book.bookId,
@@ -51,7 +57,7 @@ function BookListScreen({ navigation, route }: Props) {
               <Image
                 source={{ uri: book.thumbnail }}
                 defaultSource={{ uri: thumbDefault }}
-                style={{ width: 60, height: 110, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 3 }}
+                style={{width: 90, height: 130, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 3}}
               />
             </TouchableOpacity>
           </View>
@@ -63,9 +69,11 @@ function BookListScreen({ navigation, route }: Props) {
 
 const styles = StyleSheet.create({
   subHeading: {
-    fontSize: 15,
-    fontWeight: "bold",
-    marginBottom: 10
+    fontSize: 25,
+    fontWeight: "700",
+    textAlign: 'center',
+    paddingTop: 15,
+    paddingBottom: 20
   }
 })
 
