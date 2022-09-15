@@ -40,7 +40,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
             </BackArrowContainer>
 
 
-            <View style={{marginLeft: 15, marginRight: 15}}>
+            <View style={{}}>
                 <Text style={styles.title}>{title}</Text>
             </View>
 
@@ -61,23 +61,22 @@ const styles = StyleSheet.create({
         paddingTop: 15,
     },
     title: {
-        fontSize: 20,
+        fontSize: 25,
         textAlign: 'center',
-        fontWeight: 'bold',
-        padding: 10,
+        fontWeight: '700',
     },
     descriptionHeader: {
-        fontWeight: 'bold', 
-        fontSize: 14, 
+        fontWeight: '600', 
+        fontSize: 18, 
         textAlign: 'center', 
-        padding: 5
+        paddingVertical: 10,
     },
     description:{
         textAlign: 'justify', 
         padding: 5, 
         color: 'grey', 
         fontFamily: 'sans-serif', 
-        fontSize: 12,
+        fontSize: 14,
         hyphens: 'auto',
     },
     descriptionContainer:{
@@ -86,7 +85,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 10,
         overflowY: 'scroll',
-        height: 380,
+        maxHeight: 650,
         fontFamily: 'sans-serif', 
         padding: 8,
     }
