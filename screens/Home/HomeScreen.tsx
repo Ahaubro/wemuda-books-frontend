@@ -141,15 +141,15 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                 />
                 :
                 <div style={{ width: 200, height: 280, backgroundColor: "rgb(242,242,242)", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                  
-                  <View style={{flexDirection: 'column',  width: '70%'}}>
-                    <Text style={{textAlign: 'center', paddingVertical: 20, fontWeight: '700', marginTop: -35}}> You are currently not reading a book </Text>
-                    
-                    <Pressable style={{backgroundColor: "white", borderRadius: 15, paddingHorizontal: 10, paddingVertical: 8}} 
-                    onPress={ () => {
-                      navigation.navigate("BookScreen")
-                    }}>
-                      <Text style={{textAlign: 'center', fontWeight: '700'}}>Find a book</Text>
+
+                  <View style={{ flexDirection: 'column', width: '70%' }}>
+                    <Text style={{ textAlign: 'center', paddingVertical: 20, fontWeight: '700', marginTop: -35 }}> You are currently not reading a book </Text>
+
+                    <Pressable style={{ backgroundColor: "white", borderRadius: 15, paddingHorizontal: 10, paddingVertical: 8 }}
+                      onPress={() => {
+                        navigation.navigate("BookScreen")
+                      }}>
+                      <Text style={{ textAlign: 'center', fontWeight: '700' }}>Find a book</Text>
                     </Pressable>
                   </View>
                 </div>
@@ -165,19 +165,19 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
             {currentlyReadingBook.thumbnail ?
 
-            <Pressable style={styles.buttonGray} onPress={(() => navigation.navigate('UpdateStatus', {
-              thumbnail: currentlyReadingBook.thumbnail,
-              bookId: currentlyReadingBook.bookId,
-              userId: session.id
-            }))}>
-              <Text style={{ fontWeight: "600", fontSize: 14 }}>Update reading progress</Text>
-            </Pressable>
+              <Pressable style={styles.buttonGray} onPress={(() => navigation.navigate('UpdateStatus', {
+                thumbnail: currentlyReadingBook.thumbnail,
+                bookId: currentlyReadingBook.bookId,
+                userId: session.id
+              }))}>
+                <Text style={{ fontWeight: "600", fontSize: 14 }}>Update reading progress</Text>
+              </Pressable>
 
-            :
+              :
               <Text></Text>
             }
           </View>
-          
+
 
 
           {user.data?.booksGoal ?
@@ -186,8 +186,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
               {user.data?.booksRead == user.data?.booksGoal ?
 
-                <Text style={{fontSize: 16, marginTop: 12, marginLeft: 5, padding: 2 }}>Reading challenge completed!! 🎉🎉 </Text>
-              :
+                <Text style={{ fontSize: 16, marginTop: 12, marginLeft: 5, padding: 2 }}>Reading challenge completed!! 🎉🎉 </Text>
+                :
 
                 <Text style={styles.readingChallengeText}>Reading challenge </Text>
 
@@ -196,37 +196,46 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               <View style={styles.editNBooksRead}>
 
                 <View style={{ marginRight: 25, marginTop: -10 }}>
-                  <Pressable style={{backgroundColor: "white", borderRadius: 15, paddingHorizontal: 10, paddingVertical: 8}} 
-                  onPress={ () => navigation.navigate('UpdateGoalScreen', {
-                    thumbnail: currentlyReadingBook.thumbnail,
-                    bookId: currentlyReadingBook.bookId,
-                    userId: session.id
-                  })}>
-                    <Text style={{fontSize: 12, fontWeight: '700'}}>Edit goal</Text>
+                  <Pressable style={{ backgroundColor: "white", borderRadius: 15, paddingHorizontal: 10, paddingVertical: 8 }}
+                    onPress={() => navigation.navigate('UpdateGoalScreen', {
+                      thumbnail: currentlyReadingBook.thumbnail,
+                      bookId: currentlyReadingBook.bookId,
+                      userId: session.id
+                    })}>
+                    <Text style={{ fontSize: 12, fontWeight: '700' }}>Edit goal</Text>
                   </Pressable>
                 </View>
 
                 <Text style={{ fontSize: 22, fontWeight: 'bold', padding: 2 }}> {user.data?.booksRead}/{user.data?.booksGoal ?? 0} <Text style={{ fontSize: 16, fontWeight: "bold" }}> books read </Text> </Text>
 
               </View>
-            
+
             </View>
 
             :
 
             <View style={{ borderBottomColor: "#AAA", borderBottomWidth: 2, width: "100%", paddingBottom: 10 }}>
-              <Text style={{ fontSize: 14 }}> No curent challenge</Text>
+              <View style={{ marginRight: 25, marginTop: -10 }}>
+                <Pressable style={{ backgroundColor: "rgb(247,247,250)", borderRadius: 15, paddingHorizontal: 10, paddingVertical: 8 }}
+                  onPress={() => navigation.navigate('UpdateGoalScreen', {
+                    thumbnail: currentlyReadingBook.thumbnail,
+                    bookId: currentlyReadingBook.bookId,
+                    userId: session.id
+                  })}>
+                  <Text style={{ fontSize: 14 }}>Set challenge</Text>
+                </Pressable>
+              </View>
             </View>
           }
 
-          <View style={{ marginTop: 10, flexDirection: "row", width: '100%'}}>
+          <View style={{ marginTop: 10, flexDirection: "row", width: '100%' }}>
 
             <View style={styles.streakAndMinutes}>
               <Text style={{ color: "#AAA" }}>Reading streak</Text>
               <Text style={{ fontWeight: "bold", fontSize: 22 }}>{streak} <Text style={{ fontSize: 14, fontWeight: "600" }}> days </Text></Text>
             </View>
 
-            <View style={{width: '2%'}}></View>
+            <View style={{ width: '2%' }}></View>
 
 
             <View style={styles.streakAndMinutes}>
@@ -236,17 +245,25 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
           </View>
 
+          <View style={{ paddingTop: 40 }}>
+            <Pressable style={styles.buttonWhite} onPress={() => {
+              dispatch(endSession());
+            }}>
+              <Text style={styles.btnBlackText}>Logout</Text>
+            </Pressable>
+          </View>
+
         </View>
       }
 
-
+      {/* 
       <View style={{ paddingTop: 40  }}>
         <Pressable style={styles.buttonWhite} onPress={() => {
           dispatch(endSession());
         }}>
           <Text style={styles.btnBlackText}>Logout</Text>
         </Pressable>
-      </View>
+      </View> */}
 
       <StatusBar style="dark" />
     </DefaultView>
@@ -281,34 +298,34 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 40,
   },
-  streakAndMinutes:{
-    backgroundColor: "rgb(247,247,250)", 
-    borderRadius: 10,  
-    width: '49%', 
+  streakAndMinutes: {
+    backgroundColor: "rgb(247,247,250)",
+    borderRadius: 10,
+    width: '49%',
     paddingVertical: 15,
     paddingHorizontal: 15,
   },
-  homeInfoOuter:{
+  homeInfoOuter: {
     backgroundColor: "rgb(247,247,250)",
-    borderRadius: 10, 
+    borderRadius: 10,
     height: 90,
   },
-  readingChallengeText:{
-    color: "#ccc", 
-    fontSize: 16, 
-    marginTop: 12, 
-    marginLeft: 5, 
+  readingChallengeText: {
+    color: "#ccc",
+    fontSize: 16,
+    marginTop: 12,
+    marginLeft: 5,
     padding: 2,
   },
-  editNBooksRead:{
-    flexDirection: 'row-reverse', 
+  editNBooksRead: {
+    flexDirection: 'row-reverse',
     justifyContent: 'space-between'
   },
-  currentlyReadingHeader:{
-    paddingVertical: 15, 
-    textAlign: 'center', 
+  currentlyReadingHeader: {
+    paddingVertical: 15,
+    textAlign: 'center',
     fontWeight: '400',
-    fontSize: 14, 
+    fontSize: 14,
   },
   buttonWhite: {
     fontSize: 12,
