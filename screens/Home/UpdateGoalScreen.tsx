@@ -53,7 +53,7 @@ const UpdateGoalScreen: React.FC<UpdateGoalScreenProps> = ({ navigation, route }
             </Pressable>
 
 
-            <Text style={styles.header}>Edit goal</Text>
+            <Text style={styles.heading}>Edit goal</Text>
             <View>
                 <Text style={styles.subHeader}>Enter the amount of books you want to read</Text>
 
@@ -77,7 +77,7 @@ const UpdateGoalScreen: React.FC<UpdateGoalScreenProps> = ({ navigation, route }
                     if (booksGoal != NaN)
                         navigation.navigate("Home")
                 })}>
-                    <Text style={styles.btnText}>Save</Text>
+                    <Text style={styles.btnWhiteText}>Save</Text>
                 </Pressable>
             </View>
 
@@ -86,7 +86,7 @@ const UpdateGoalScreen: React.FC<UpdateGoalScreenProps> = ({ navigation, route }
                     resetBooksRead(userId)
                     navigation.navigate("Home")
                 })}>
-                    <Text style={styles.btnTextBlack}>Reset Progress</Text>
+                    <Text style={styles.btnBlackText}>Reset Progress</Text>
 
                     {/* {resetProgress ?
                         <Ionicons style={{ marginLeft: 5 }} name={'checkmark-sharp'} size={15} color={'green'} /> :
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         paddingVertical: 15,
         fontSize: 14,
-        fontWeight: "700",
+        fontWeight: "600",
         opacity: 0.9,
     },
     backArrowPos: {
@@ -136,25 +136,27 @@ const styles = StyleSheet.create({
     container: {
         margin: 12,
     },
-    header: {
-        fontWeight: "700",
-        fontSize: 26,
-        marginTop: 5,
+    heading: {
+        fontSize: 25,
+        textAlign: 'left',
+        fontWeight: '700',
+        paddingVertical: 15,   
     },
     subHeader: {
         fontWeight: "500",
         fontSize: 12,
         paddingVertical: 15
     },
-    btnText: {
-        fontWeight: "600",
+    btnWhiteText:{
+        color: 'white',
         fontSize: 14,
-        color: "white"
+        textAlign: 'center',
+        fontWeight: '600'
     },
-    btnTextBlack: {
-        fontWeight: "600",
+    btnBlackText:{
         fontSize: 14,
-        color: "black"
+        textAlign: 'center',
+        fontWeight: '600'
     },
     
 })

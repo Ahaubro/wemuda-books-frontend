@@ -227,11 +227,11 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     heading: {
-    fontSize: 25,
-    color: 'black',
-    textAlign: 'left',
-    fontWeight: '700',
-    paddingVertical: 15,   
+        fontSize: 25,
+        color: 'black',
+        textAlign: 'left',
+        fontWeight: '700',
+        paddingVertical: 15,   
     },
     label: {
         fontSize: 14,

@@ -99,7 +99,7 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
       </BackArrowContainer>
 
 
-      <Text style={styles.text}> Search </Text>
+      <Text style={styles.heading}>Search</Text>
 
 
       <View style={styles.inputContainer}>
@@ -168,13 +168,13 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
 }
 
 const styles = StyleSheet.create({
-  text: {
+  heading: {
     fontSize: 25,
     color: 'black',
     textAlign: 'left',
     fontWeight: '700',
-    paddingVertical: 10,
-  },
+    paddingVertical: 15,   
+},
   welcome_text: {
     fontSize: 20,
     width: 150,
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     borderWidth: 1,
-    backgroundColor: 'rgb(242,242,242)',
+    backgroundColor: "rgb(247,247,250)",
     borderRadius: 25,
     height: 50,
     borderBottomWidth: 1,

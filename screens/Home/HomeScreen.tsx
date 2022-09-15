@@ -119,7 +119,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         <View>
 
           <View style={styles.currentlyReadingImage}>
-            <Text style={{ paddingVertical: 15, textAlign: 'center', fontWeight: '400' }}>Currently reading</Text>
+            <Text style={styles.currentlyReadingHeader}>Currently reading</Text>
             <TouchableOpacity onPress={() => {
               navigation.navigate('SelectedBookScreen', {
                 bookId: currentlyReadingBook.bookId,
@@ -248,10 +248,6 @@ const styles = StyleSheet.create({
   container: {
     margin: 12
   },
-  heading: {
-    fontFamily: FONTS.bold,
-    fontSize: 40,
-  },
   text: {
     fontSize: 35,
   },
@@ -296,6 +292,12 @@ const styles = StyleSheet.create({
   editNBooksRead:{
     flexDirection: 'row-reverse', 
     justifyContent: 'space-between'
+  },
+  currentlyReadingHeader:{
+    paddingVertical: 15, 
+    textAlign: 'center', 
+    fontWeight: '400',
+    fontSize: 14, 
   }
 
 })

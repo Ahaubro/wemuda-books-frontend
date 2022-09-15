@@ -57,7 +57,7 @@ const UpdateStatusScreen: React.FC<HomeScreenProps> = ({ navigation, route }) =>
                 <Ionicons name={'chevron-back'} size={25} color={'black'} />
             </Pressable>
 
-            <Text style={styles.header}>Update reading progress</Text>
+            <Text style={styles.heading}>Update reading progress</Text>
 
 
             <View>
@@ -83,7 +83,7 @@ const UpdateStatusScreen: React.FC<HomeScreenProps> = ({ navigation, route }) =>
                     if (minutesRead != NaN)
                         navigation.navigate("Home")
                 })}>
-                    <Text style={styles.btnText}>Update progress</Text>
+                    <Text style={styles.btnWhiteText}>Update progress</Text>
                 </Pressable>
             </View>
 
@@ -94,7 +94,7 @@ const UpdateStatusScreen: React.FC<HomeScreenProps> = ({ navigation, route }) =>
                         navigation.pop()
                     })
                 })}>
-                    <Text style={styles.btnTextBlack}>Finish Book</Text>
+                    <Text style={styles.btnBlackText}>Finish Book</Text>
                 </Pressable>
             </View>
         </DefaultView>
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         paddingVertical: 15,
         fontSize: 14,
-        fontWeight: "700",
+        fontWeight: "600",
         opacity: 0.9,
     },
     backArrowPos: {
@@ -132,25 +132,27 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 12,
     },
-    header: {
-        fontWeight: "700",
-        fontSize: 26,
-        marginTop: 5
+    heading: {
+        fontSize: 25,
+        textAlign: 'left',
+        fontWeight: '700',
+        paddingVertical: 15,   
     },
     subHeader: {
         fontWeight: "500",
         fontSize: 12,
         paddingVertical: 15
     },
-    btnText: {
-        fontWeight: "600",
+    btnWhiteText:{
+        color: 'white',
         fontSize: 14,
-        color: "white"
+        textAlign: 'center',
+        fontWeight: '600'
     },
-    btnTextBlack: {
-        fontWeight: "600",
+    btnBlackText:{
         fontSize: 14,
-        color: "black"
+        textAlign: 'center',
+        fontWeight: '600'
     },
     buttonGrey: {
         fontFamily: "sans-serif",
