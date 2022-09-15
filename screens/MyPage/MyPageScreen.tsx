@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { Text, View, StyleSheet, Button, Pressable, FlatList, Image, TouchableOpacity } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { Text, View, StyleSheet, Button, Pressable, FlatList, Image, TouchableOpacity, ActivityIndicator } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
 import { useGetUserByIdQuery, User } from '../../redux/services/userApi'
@@ -44,33 +44,27 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
 
   useEffect(() => {
     if (fetchedUserBooks.data) {
-      //console.log("Fetched:", fetchedUserBooks.data.books)
       setAllUserBooks(fetchedUserBooks.data.books)
     }
   }, [fetchedUserBooks.data])
 
   useEffect(() => {
-    //console.log("Filtering Books...")
     setWantToReadBooks(allUserBooks.filter(book => book.bookStatus == "WantToRead"))
     setHistoryBooks(allUserBooks.filter(book => book.bookStatus == "History"))
   }, [allUserBooks])
 
   useEffect(() => {
-    //console.log("Filtered WantToRead")
-    //console.log("WantToRead:", wantToReadBooks)
     setWantToReadState("No Books")
   }, [wantToReadBooks])
 
-  //console.log("UserBooks:", allUserBooks)
-  //console.log("WantToRead:", wantToReadBooks)
+
   useEffect(() => {
-    //console.log("Filtered History")
-    //console.log("History:", historyBooks)
     setHistoryState("No Books")
   }, [historyBooks])
 
   useEffect(() => {
     if (statusUpdates.data) {
+
       //Count Minutes
       const totalMinutes = statusUpdates.data.statusUpdates.reduce((prev, next: StatusUpdate) => prev + next.minutesRead, 0)
       setMinutes(String(totalMinutes))
@@ -111,115 +105,109 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
 
   return (
     <DeafultView>
-      
-        <View style={styles.headerContainer}>
-          <Text style={styles.heading}>{user.data?.firstName} {user.data?.lastName} </Text>
+
+      <View style={styles.headerContainer}>
+        <Text style={styles.heading}>{user.data?.firstName} {user.data?.lastName} </Text>
+      </View>
+
+
+      <View style={styles.streakAndMinutesContainer}>
+        <View>
+          <Text style={{ color: "#AAA", paddingVertical: 5 }}>Reading streak</Text>
+          <Text style={{ fontWeight: "700", fontSize: 22 }}>{streak} <Text style={{ fontSize: 14, fontWeight: "700" }}> days </Text></Text>
         </View>
 
-
-        <View style={styles.streakAndMinutesContainer}>
-          <View>
-            <Text style={{ color: "#AAA", paddingVertical: 5 }}>Reading streak</Text>
-            <Text style={{ fontWeight: "700", fontSize: 22 }}>{streak} <Text style={{ fontSize: 14, fontWeight: "700" }}> days </Text></Text>
-          </View>
-
-          <View>
-            <Text style={{ color: "#AAA", paddingVertical: 5 }}>Minutes read</Text>
-            <Text style={{ fontWeight: "700", fontSize: 22 }}>{minutes} <Text style={{ fontSize: 14, fontWeight: "700" }}> minutes </Text></Text>
-          </View>
-          <View></View>
+        <View>
+          <Text style={{ color: "#AAA", paddingVertical: 5 }}>Minutes read</Text>
+          <Text style={{ fontWeight: "700", fontSize: 22 }}>{minutes} <Text style={{ fontSize: 14, fontWeight: "700" }}> minutes </Text></Text>
         </View>
+        <View></View>
+      </View>
 
 
-        <View style={styles.wantToReadContainer}>
-          <Text style={styles.subHeading}>Want to read</Text>
-          {wantToReadBooks.length > 0 ?
-            <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={wantToReadBooks} renderItem={(({ item: book }) =>
-              <View style={{paddingHorizontal: 4, paddingVertical: 8}}>
-                <TouchableOpacity onPress={() => {
-                  navigation.navigate('SelectedBookScreen', {
-                    bookId: book.bookId,
-                    title: book.title,
-                    authors: book.author,
-                    description: book.description,
-                    thumbnail: book.thumbnail ? book.thumbnail : undefined,
-                    averageRating: book.averageRating,
-                    ratingsCount: book.ratingsCount,
-                    
-                  })
-                }}>
+      <View style={styles.wantToReadContainer}>
+        <Text style={styles.subHeading}>Want to read</Text>
+        {wantToReadBooks.length > 0 ?
+          <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={wantToReadBooks} renderItem={(({ item: book }) =>
+            <View style={{ paddingHorizontal: 4, paddingVertical: 8 }}>
+              <TouchableOpacity onPress={() => {
+                navigation.navigate('SelectedBookScreen', {
+                  bookId: book.bookId,
+                  title: book.title,
+                  authors: book.author,
+                  description: book.description,
+                  thumbnail: book.thumbnail ? book.thumbnail : undefined,
+                  averageRating: book.averageRating,
+                  ratingsCount: book.ratingsCount,
 
-                  <Image
-                    source={{ uri: book.thumbnail }}
-                    defaultSource={{ uri: thumbDefault }}
-                    style={{ width: 90, height: 130, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 5 }}
-                  />
+                })
+              }}>
 
-                </TouchableOpacity>
-              </View>
+                
 
-            )}
-            />
-            :
+                <Image
+                  source={{ uri: book.thumbnail }}
+                  defaultSource={{ uri: thumbDefault }}
+                  style={{ width: 90, height: 130, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 5 }}
+                />
 
-            <View style={{ height: 70, paddingBottom: 20 }}><Text>{wantToReadState}</Text></View>
-          }
-          <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 10}}>
-            <Pressable style={styles.buttonGray} onPress={() => {
-              if (wantToReadBooks.length > 0)
-                navigation.navigate('BookList', { books: wantToReadBooks, title: "Want to read" })
-            }}><Text style={styles.btnBlackText}>See all</Text></Pressable>
-          </View>
+              </TouchableOpacity>
+            </View>
+
+          )}
+          />
+          :
+
+          <View style={{ height: 70, paddingBottom: 20 }}><Text>{wantToReadState}</Text></View>
+        }
+        <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 10 }}>
+          <Pressable style={styles.buttonGray} onPress={() => {
+            if (wantToReadBooks.length > 0)
+              navigation.navigate('BookList', { books: wantToReadBooks, title: "Want to read" })
+          }}><Text style={styles.btnBlackText}>See all</Text></Pressable>
         </View>
+      </View>
 
 
 
-        <View style={styles.wantToReadContainer}>
-          <Text style={styles.subHeading}>My history</Text>
-          {historyBooks.length > 0 ?
-            <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={historyBooks} renderItem={(({ item: book }) =>
-              <View style={{paddingHorizontal: 4, paddingVertical: 8}}>
-                <TouchableOpacity onPress={() => {
-                  navigation.navigate('SelectedBookScreen', {
-                    bookId: book.bookId,
-                    title: book.title,
-                    authors: book.author,
-                    description: book.description,
-                    thumbnail: book.thumbnail ? book.thumbnail : undefined,
-                    averageRating: book.averageRating,
-                    ratingsCount: book.ratingsCount,
-                  })
-                }}>
+      <View style={styles.wantToReadContainer}>
+        <Text style={styles.subHeading}>My history</Text>
+        {historyBooks.length > 0 ?
+          <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={historyBooks} renderItem={(({ item: book }) =>
+            <View style={{ paddingHorizontal: 4, paddingVertical: 8 }}>
+              <TouchableOpacity onPress={() => {
+                navigation.navigate('SelectedBookScreen', {
+                  bookId: book.bookId,
+                  title: book.title,
+                  authors: book.author,
+                  description: book.description,
+                  thumbnail: book.thumbnail ? book.thumbnail : undefined,
+                  averageRating: book.averageRating,
+                  ratingsCount: book.ratingsCount,
+                })
+              }}>
 
-                  <Image
-                    source={{ uri: book.thumbnail }}
-                    defaultSource={{ uri: thumbDefault }}
-                    style={{ width: 90, height: 130, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 5 }}
-                  />
-                </TouchableOpacity>
-              </View>
-            )}
-            />
-            :
+                <Image
+                  source={{ uri: book.thumbnail }}
+                  defaultSource={{ uri: thumbDefault }}
+                  style={{ width: 90, height: 130, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 5 }}
+                />
+              </TouchableOpacity>
+            </View>
+          )}
+          />
+          :
 
-            <View style={{ height: 65, paddingBottom: 20 }}><Text>{historyState}</Text></View>
-          }
+          <View style={{ height: 65, paddingBottom: 20 }}><Text>{historyState}</Text></View>
+        }
 
-          <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 10 }}>
-            <Pressable style={styles.buttonGray} onPress={() => {
-              if (historyBooks.length > 0)
-                navigation.navigate('BookList', { books: historyBooks, title: "My history" })
-            }}><Text style={styles.btnBlackText}>See all</Text></Pressable>
-          </View>
+        <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 10 }}>
+          <Pressable style={styles.buttonGray} onPress={() => {
+            if (historyBooks.length > 0)
+              navigation.navigate('BookList', { books: historyBooks, title: "My history" })
+          }}><Text style={styles.btnBlackText}>See all</Text></Pressable>
         </View>
-
-        <View style={{paddingVertical: 15}}>
-          <Pressable style={styles.buttonBlack} onPress={ () => {
-              dispatch(endSession());
-          }}>
-            <Text style={styles.btnWhiteText}>Logout</Text>
-          </Pressable>
-        </View>
+      </View>
 
     </DeafultView >
   )
@@ -236,8 +224,8 @@ const styles = StyleSheet.create({
     color: 'black',
     textAlign: 'left',
     fontWeight: '700',
-    paddingVertical: 15,   
-},
+    paddingVertical: 15,
+  },
   subHeading: {
     fontSize: 12,
     fontWeight: "bold",
@@ -259,39 +247,27 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     height: "fit-content"
   },
-  headerContainer:{
+  headerContainer: {
     paddingTop: 50,
   },
-  streakAndMinutesContainer:{
-    borderBottomColor: "rgb(247,247,250)", 
-    borderBottomWidth: 2, 
-    flexDirection: "row", 
-    justifyContent: "space-between", 
-    width: "100%", 
-    alignItems: "stretch", 
-    paddingBottom: 15 
+  streakAndMinutesContainer: {
+    borderBottomColor: "rgb(247,247,250)",
+    borderBottomWidth: 2,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    alignItems: "stretch",
+    paddingBottom: 15
   },
-  wantToReadContainer:{
+  wantToReadContainer: {
     paddingTop: 40
   },
-  btnBlackText:{
+  btnBlackText: {
     fontSize: 14,
     textAlign: 'center',
     fontWeight: '600'
   },
-  buttonBlack: {
-    fontSize: 12,
-    fontWeight: 700,
-    fontFamily: "sans-serif",
-    textAlign: "center",
-    backgroundColor: "white",
-    borderRadius: 20,
-    color: "white",
-    marginTop: 5,
-    paddingVertical: 15,
-    border: '1px solid black',
-  },
-  btnWhiteText:{
+  btnWhiteText: {
     fontSize: 18,
     textAlign: 'center',
     fontWeight: '600'

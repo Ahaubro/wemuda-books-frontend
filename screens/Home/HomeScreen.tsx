@@ -7,11 +7,12 @@ import { FONTS } from '../../utils/fontUtils'
 import i18n from 'i18n-js'
 import { Book, useGetBooksByUserIdQuery } from "../../redux/services/bookApi"
 import { useGetUserByIdQuery } from "../../redux/services/userApi"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { RootState } from '../../redux/store'
 import { useGetStatusUpdatesByUserQuery, StatusUpdate } from '../../redux/services/statusUpdateApi'
 import { configureScope } from '@sentry/react-native'
 import DefaultView from "../../components/DefaultView"
+import { endSession } from '../../redux/slices/sessionSlice'
 
 interface HomeScreenProps {
   navigation: any
@@ -19,6 +20,7 @@ interface HomeScreenProps {
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const session = useSelector((state: RootState) => state.session)
+  const dispatch = useDispatch()
 
   const user = useGetUserByIdQuery(session.id, { refetchOnMountOrArgChange: true })
 
@@ -237,6 +239,15 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         </View>
       }
 
+
+      <View style={{ paddingTop: 40  }}>
+        <Pressable style={styles.buttonWhite} onPress={() => {
+          dispatch(endSession());
+        }}>
+          <Text style={styles.btnBlackText}>Logout</Text>
+        </Pressable>
+      </View>
+
       <StatusBar style="dark" />
     </DefaultView>
   )
@@ -298,8 +309,27 @@ const styles = StyleSheet.create({
     textAlign: 'center', 
     fontWeight: '400',
     fontSize: 14, 
-  }
+  },
+  buttonWhite: {
+    fontSize: 12,
+    fontWeight: 700,
+    fontFamily: "sans-serif",
+    textAlign: "center",
+    backgroundColor: "white",
+    borderRadius: 20,
+    color: "white",
+    marginTop: 5,
+    paddingVertical: 15,
+    border: '1px solid black',
+  },
+  btnBlackText: {
+    fontSize: 14,
+    textAlign: 'center',
+    fontWeight: '600'
+  },
 
 })
 
 export default HomeScreen
+
+

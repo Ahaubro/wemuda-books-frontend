@@ -229,7 +229,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
                                         addBook(addBookAtributes);
 
                                     }}>
-                                        <Text style={{ fontWeight: '700', fontSize: 12 }}>Add to reading list</Text>
+                                        <Text style={styles.btnBlackText}>Add to reading list</Text>
                                     </Pressable>
                                 }
                             </View>
@@ -262,7 +262,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
                                         editBookStatus({ userId: session.id, bookId, bookStatus: "CurrentlyReading" });
                                 }}>
 
-                                    <Text style={{ fontWeight: '700', fontSize: 12 }}> Set as currently reading </Text>
+                                    <Text style={styles.btnBlackText}> Set as currently reading </Text>
 
                                 </Pressable>
 
@@ -273,10 +273,10 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
                     :
 
-                    <Pressable style={styles.onMyListBtn}>
-                        <Text style={{ fontWeight: '700', fontSize: 12, color: 'white' }}>
+                    <Pressable style={styles.welcomeLoginPressable}>
+                        <Text style={styles.btnBlackText}>
                             You already read this book
-                            <Ionicons style={{}} name={'checkmark-sharp'} size={16} color={'white'} />
+                            <Ionicons style={{paddingHorizontal: 10}} name={'checkmark-sharp'} size={20} color={'green'} />
                         </Text>
                     </Pressable>
 
@@ -428,10 +428,10 @@ const styles = StyleSheet.create({
         fontFamily: "sans-serif",
         textAlign: "center",
         backgroundColor: "rgb(247,247,250)",
-        borderRadius: 20,
+        borderRadius: 15,
         color: "black",
-        paddingTop: 15,
-        paddingBottom: 15,
+        paddingVertical: 10,
+        height: 40
     },
     descriptionContainer: {
         backgroundColor: "rgb(247,247,250)",
@@ -473,7 +473,30 @@ const styles = StyleSheet.create({
         color: "White",
         paddingVertical: 10,
         height: 40
-    }
+    },
+    btnWhiteText:{
+        color: 'white',
+        fontSize: 14,
+        textAlign: 'center',
+        fontWeight: '600'
+    },
+    btnBlackText:{
+        fontSize: 14,
+        textAlign: 'center',
+        fontWeight: '600'
+    },
+    welcomeLoginPressable: {
+        fontSize: 12,
+        fontWeight: 700,
+        fontFamily: "sans-serif",
+        textAlign: "center",
+        backgroundColor: "none",
+        borderRadius: 10,
+        color: "black",
+        marginTop: 7,
+        border: '0.5px solid black',
+        paddingVertical: 15,
+    },
 })
 
 export default SelectedBookScreen
