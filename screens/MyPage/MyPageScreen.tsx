@@ -132,7 +132,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
           <Text style={styles.subHeading}>Want to read</Text>
           {wantToReadBooks.length > 0 ?
             <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={wantToReadBooks} renderItem={(({ item: book }) =>
-              <View style={{paddingHorizontal: 5}}>
+              <View style={{paddingHorizontal: 4, paddingVertical: 8}}>
                 <TouchableOpacity onPress={() => {
                   navigation.navigate('SelectedBookScreen', {
                     bookId: book.bookId,
@@ -165,7 +165,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
             <Pressable style={styles.buttonGray} onPress={() => {
               if (wantToReadBooks.length > 0)
                 navigation.navigate('BookList', { books: wantToReadBooks, title: "Want to read" })
-            }}><Text style={{ fontSize: 12, fontWeight: "500" }}>See all</Text></Pressable>
+            }}><Text style={styles.btnBlackText}>See all</Text></Pressable>
           </View>
         </View>
 
@@ -175,7 +175,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
           <Text style={styles.subHeading}>My history</Text>
           {historyBooks.length > 0 ?
             <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={historyBooks} renderItem={(({ item: book }) =>
-              <View style={{paddingHorizontal: 5}}>
+              <View style={{paddingHorizontal: 4, paddingVertical: 8}}>
                 <TouchableOpacity onPress={() => {
                   navigation.navigate('SelectedBookScreen', {
                     bookId: book.bookId,
@@ -206,7 +206,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
             <Pressable style={styles.buttonGray} onPress={() => {
               if (historyBooks.length > 0)
                 navigation.navigate('BookList', { books: historyBooks, title: "My history" })
-            }}><Text style={{ fontSize: 12, fontWeight: "500" }}>See all</Text></Pressable>
+            }}><Text style={styles.btnBlackText}>See all</Text></Pressable>
           </View>
         </View>
 
@@ -221,9 +221,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   heading: {
-    fontSize: 22,
-    fontWeight: "700",
-  },
+    fontSize: 25,
+    color: 'black',
+    textAlign: 'left',
+    fontWeight: '700',
+    paddingVertical: 15,   
+},
   subHeading: {
     fontSize: 12,
     fontWeight: "bold",
@@ -236,9 +239,9 @@ const styles = StyleSheet.create({
     fontFamily: "sans-serif",
     textAlign: "center",
     fontWeight: "600",
-    backgroundColor: "rgb(242,242,242)",
-    borderRadius: 15,
-    width: 80,
+    backgroundColor: "rgb(247,247,250)",
+    borderRadius: 20,
+    width: 75,
     marginBottom: 10,
     marginTop: 0,
     paddingHorizontal: 8,
@@ -246,12 +249,11 @@ const styles = StyleSheet.create({
     height: "fit-content"
   },
   headerContainer:{
-    paddingTop: 60,
-    paddingVertical: 25
+    paddingTop: 50,
   },
   streakAndMinutesContainer:{
-    borderBottomColor: "rgb(242,242,242)", 
-    borderBottomWidth: 0.5, 
+    borderBottomColor: "rgb(247,247,250)", 
+    borderBottomWidth: 2, 
     flexDirection: "row", 
     justifyContent: "space-between", 
     width: "100%", 
@@ -259,8 +261,13 @@ const styles = StyleSheet.create({
     paddingBottom: 15 
   },
   wantToReadContainer:{
-    paddingTop: 30
-  }
+    paddingTop: 40
+  },
+  btnBlackText:{
+    fontSize: 14,
+    textAlign: 'center',
+    fontWeight: '600'
+},
 })
 
 export default MyPageScreen

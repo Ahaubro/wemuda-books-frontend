@@ -90,17 +90,17 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
   return (
     <DefaultView>
 
-      <BackArrowContainer>
+      {/* <BackArrowContainer>
         <Pressable onPress={() => {
           navigation.pop();
         }}>
           <Ionicons name={'chevron-back'} size={25} color={'black'} />
         </Pressable>
-      </BackArrowContainer>
+      </BackArrowContainer> */}
 
-
-      <Text style={styles.heading}>Search</Text>
-
+      <View style={styles.headerContainer}>
+        <Text style={styles.heading}>Search</Text>
+      </View>
 
       <View style={styles.inputContainer}>
         {<Ionicons style={{paddingHorizontal: 15}} name={'search'} size={20} color={'grey'} />}
@@ -216,7 +216,10 @@ const styles = StyleSheet.create({
     flexDirection: 'column', 
     width: '60%', 
     marginLeft: -65,
-  }
+  },
+  headerContainer:{
+    paddingTop: 50,
+  },
 
 })
 
