@@ -5,6 +5,7 @@ export type TabNavigationParamList = {
     MyPageNavigator: undefined
     HomeNavigator: undefined
     Login: undefined
+    BooksScreen: undefined
 }
 
 export type BookNavigatorParamList = {

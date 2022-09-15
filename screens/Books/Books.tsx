@@ -93,14 +93,6 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
   return (
     <DefaultView>
 
-      {/* <BackArrowContainer>
-        <Pressable onPress={() => {
-          navigation.pop();
-        }}>
-          <Ionicons name={'chevron-back'} size={25} color={'black'} />
-        </Pressable>
-      </BackArrowContainer> */}
-
       <View style={styles.headerContainer}>
         <Text style={styles.heading}>Search</Text>
       </View>
@@ -127,7 +119,7 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
 
 
       {(fetchedBooks.data?.items && fetchedBooks.data.items) &&
-        <View style={{flex: 1}}>
+        <View style={{flex: 1, maxHeight: 600}}>
           <FlatList showsHorizontalScrollIndicator={true} keyExtractor={(item) => item.volumeInfo.title} data={fetchedBooks.data.items || []} renderItem={({ item, index }) => (
 
             <TouchableOpacity onPress={() => {
@@ -167,7 +159,7 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
         </View>
       }
 
-      { session.token && session.token == "guest" ?
+      { session.token && session.token == "guest" &&
       <View>
         <Pressable style={{paddingVertical: 15}} onPress={ () => {
           dispatch(endSession());
@@ -176,10 +168,6 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
         </Pressable>
 
       </View>
-
-      :
-        <Text></Text>
-
       }
 
     </DefaultView>
