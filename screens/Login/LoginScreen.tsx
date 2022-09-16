@@ -18,7 +18,8 @@ interface LoginScreenProps {
 const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 
     const [loginInputs, setLoginInputs] = useState<{ username: string, password: string }>({ username: "", password: "" })
-    const [signupInputs, setSignupInputs] = useState<{ firstname: string, lastname: string, username: string, email: string, password: string }>({ firstname: "", lastname: "", username: "", email: "", password: "" })
+    const [signupInputs, setSignupInputs] = useState<{ fullname: string, email: string, password: string }>({ fullname: "", email: "", password: "" })
+    const [password2, setPassword2] = useState<string>("");
     const [forgotPasswordInputs, setForgotPasswordInputs] = useState<{ email: string }>({ email: "" })
     const [screen, setScreen] = useState<string>("welcome")
 
@@ -135,8 +136,8 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                     <View style={{ flexDirection: 'column', justifyContent: 'center', alignContent: 'center', }}>
                         <View style={{ marginVertical: 5 }}>
                             <Text style={styles.label}>Fulde navn</Text>
-                            <TextInput style={styles.textInput} placeholder="Indtast dit fulde navn" placeholderTextColor={"#AAAAAA"} onChangeText={firstname => {
-                                setSignupInputs({ ...signupInputs, firstname })
+                            <TextInput style={styles.textInput} placeholder="Indtast dit fulde navn" placeholderTextColor={"#AAAAAA"} onChangeText={fullname => {
+                                setSignupInputs({ ...signupInputs, fullname })
                             }}></TextInput>
                         </View>
 
@@ -157,17 +158,18 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                         <View style={{ marginVertical: 5 }}>
                             <Text style={styles.label}>Bekræft kodeord</Text>
                             <TextInput placeholder="Bekræft kodeord" placeholderTextColor={"#AAAAAA"} onChangeText={password => {
-                                setSignupInputs({ ...signupInputs, password })
+                                setPassword2( password )
                             }} secureTextEntry={true} style={styles.textInput}></TextInput>
                         </View>
 
                         <View style={{ paddingVertical: 10 }}>
                             <Pressable style={styles.buttonBlack} onPress={() => {
-                                if (signupInputs.firstname && signupInputs.lastname && signupInputs.username && signupInputs.password) {
-                                    signup(signupInputs).unwrap().then(res => {
-                                        console.log("RESPONSE", res)
-                                        setScreen("login")
-                                    })
+                                if (signupInputs.fullname && signupInputs.email && signupInputs.password && password2) {
+                                    if(signupInputs.password == password2){
+                                        signup(signupInputs).unwrap().then(res => {
+                                            setScreen("login")
+                                        })
+                                    }
                                 }
                             }}>
                                 <Text style={styles.btnWhiteText}>Opret bruger</Text>
