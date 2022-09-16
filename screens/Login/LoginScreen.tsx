@@ -59,7 +59,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                             <Pressable style={{}} onPress={() => {
                                 dispatch(startSession({ id: 0, token: "guest" }))
                             }}>
-                                <Text style={[styles.btnBlackText, {fontWeight: 'bold'}]}>Continue without login</Text>
+                                <Text style={[styles.btnBlackText, {fontFamily: 'GraphikMedium'}]}>Continue without login</Text>
                             </Pressable>
                         </View>
                     </View>
@@ -233,13 +233,13 @@ const styles = StyleSheet.create({
         fontSize: 25,
         color: 'black',
         textAlign: 'left',
-        fontWeight: '700',
         paddingVertical: 15,   
+        fontFamily: "GraphikMedium",
     },
     label: {
         fontSize: 14,
-        fontWeight: "600",
         paddingVertical: 5,
+        fontFamily: "GraphikRegular",
     },
     textInput: {
         borderWidth: 1,
@@ -248,12 +248,13 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 14,
         fontSize: 15,
+        fontFamily: "GrpahikRegular"
 
     },
     buttonBlack: {
         fontSize: 12,
         fontWeight: 700,
-        fontFamily: "sans-serif",
+        fontFamily: "GraphikMedium",
         textAlign: "center",
         backgroundColor: "black",
         borderRadius: 10,
@@ -263,7 +264,6 @@ const styles = StyleSheet.create({
     },
     buttonWhite: {
         fontSize: 12,
-        fontWeight: 700,
         textAlign: "center",
         backgroundColor: "none",
         borderRadius: 10,
@@ -272,8 +272,7 @@ const styles = StyleSheet.create({
     },
     welcomeLoginPressable: {
         fontSize: 12,
-        fontWeight: 700,
-        fontFamily: "sans-serif",
+        fontFamily: "GraphikRegular",
         textAlign: "center",
         backgroundColor: "none",
         borderRadius: 10,
@@ -286,17 +285,18 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 14,
         textAlign: 'center',
-        fontWeight: '600'
+        fontFamily: "GraphikRegular",
     },
     btnBlackText:{
         fontSize: 14,
         textAlign: 'center',
-        fontWeight: '600'
+        fontFamily: "GraphikRegular",
     },
     welcomeText:{
         fontSize: 30, 
         textAlign: 'center', 
         paddingBottom: 80,
+        fontFamily: "GraphikMedium",
     }
 })
 
