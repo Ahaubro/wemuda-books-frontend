@@ -11,6 +11,7 @@ import i18n from 'i18n-js'
 import en from './lang/en.json'
 import da from './lang/da.json'
 import { ToastContainer } from "react-toastify"
+import { useFonts } from "expo-font"
 
 
 // Set the key-value pairs for the different languages you want to support.
@@ -32,6 +33,11 @@ if (process.env.NODE_ENV !== 'development') {
 }
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    'GraphikMedium': require('./fonts/fonts/GraphikMedium.otf'),
+    'GraphikRegular': require('./fonts/fonts/GraphikRegular.otf'),
+    'GraphikSemibold': require('./fonts/fonts/GraphikSemibold.otf')
+  })
   return (
     <Provider store={store}>
       <SafeAreaProvider>

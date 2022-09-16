@@ -519,7 +519,7 @@ const styles = StyleSheet.create({
     reviewHeader: {
         marginTop: 15,
         fontWeight: "bold",
-        fontSize: 16,
+        fontSize: 16, 
     },
     reviewContainer: {
         backgroundColor: "rgb(247,247,250)",

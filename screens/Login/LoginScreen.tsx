@@ -295,9 +295,8 @@ const styles = StyleSheet.create({
     },
     welcomeText:{
         fontSize: 30, 
-        fontWeight: '700', 
         textAlign: 'center', 
-        paddingBottom: 80 
+        paddingBottom: 80,
     }
 })
 
