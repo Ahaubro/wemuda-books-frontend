@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, StyleSheet, Image, Pressable, TouchableOpacity, FlatList } from 'react-native'
+import { Text, View, StyleSheet, Image, Pressable, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../redux/store'
 import { endSession } from '../../redux/slices/sessionSlice'
@@ -42,13 +42,13 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
 
     //Update bookStatus
-    const [editBookStatus] = useEditStatusMutation();
+    const [editBookStatus, { isSuccess }] = useEditStatusMutation();
     // const [updateProps, setUpdateProps] = useState<{ userId: number, bookId: string, bookStatus: string, title: string, thumbnail: string | undefined }>
     // ({ userId: 0, bookId: "", bookStatus: "", title: "", thumbnail: ""})
 
 
     //Add book (want to read for now)
-    const [addBook] = useAddBookMutation();
+    const [addBook, { isLoading }] = useAddBookMutation();
     const [addBookAtributes, setAddBookAtributes] = useState<{
         userId: number, bookId: string, title: string, thumbnail: string | undefined, author: string,
         description: string, averageRating: number, ratingCount: number, bookStatus: string
@@ -141,6 +141,14 @@ function SelectedBookScreen({ navigation, route }: Props) {
     return (
         <DefaultView>
 
+
+            {/* LOADING TEST
+            {isLoading &&
+                <View style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 99, justifyContent: 'center' }}>
+                    <ActivityIndicator style={{ marginTop: 40 }} size="large" />
+                </View>
+            } */}
+
             <BackArrowContainer>
                 <Pressable onPress={() => {
                     navigation.pop();
@@ -206,13 +214,28 @@ function SelectedBookScreen({ navigation, route }: Props) {
                                         addBookAtributes.ratingCount = ratingsCount
                                         addBookAtributes.bookStatus = "WantToRead"
                                         console.log(addBookAtributes)
-                                        addBook(addBookAtributes);
+                                        addBook(addBookAtributes).unwrap().then((res) => {
+                                            //Displays loading icon
+                                        });
 
                                     }}>
-                                        <Text style={{ fontWeight: '700', fontSize: 12, color: "white" }}>
-                                            <Ionicons style={{}} name={'checkmark-sharp'} size={16} color={'white'} />
-                                            On reading list
-                                        </Text>
+                                        <>
+                                            {isLoading ?
+                                                <View style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, backgroundColor: 'rgba(247,247,250,0.5)', zIndex: 99, justifyContent: 'center' }}>
+                                                    <ActivityIndicator style={{}} size="small" color={'#0000FF'} />
+                                                </View>
+
+
+                                                :
+
+                                                <Text style={{ fontWeight: '700', fontSize: 12, color: "white" }}>
+                                                    <Ionicons style={{}} name={'checkmark-sharp'} size={16} color={'white'} />
+                                                    On reading list
+                                                </Text>
+                                            }
+
+                                        </>
+
                                     </Pressable>
                                     :
                                     <Pressable style={styles.selectedBookBtn} onPress={() => {
@@ -226,10 +249,28 @@ function SelectedBookScreen({ navigation, route }: Props) {
                                         addBookAtributes.ratingCount = ratingsCount
                                         addBookAtributes.bookStatus = "WantToRead"
                                         console.log(addBookAtributes)
-                                        addBook(addBookAtributes);
+                                        addBook(addBookAtributes).unwrap().then((res) => {
+                                            //Displays loading icon
+                                        });
 
                                     }}>
-                                        <Text style={styles.btnBlackText}>Add to reading list</Text>
+
+                                        <>
+                                            {isLoading ?
+                                                <View style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, backgroundColor: 'rgba(247,247,250,0.5)', zIndex: 99, justifyContent: 'center' }}>
+                                                    <ActivityIndicator style={{}} size="small" color={'#0000FF'} />
+                                                </View>
+
+
+                                                :
+
+                                                <Text style={styles.btnBlackText}>
+                                                    <Ionicons style={{}} name={'checkmark-sharp'} size={16} color={'white'} />
+                                                    Add to reading list
+                                                </Text>
+                                            }
+
+                                        </>
                                     </Pressable>
                                 }
                             </View>
@@ -245,13 +286,27 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
                                 <Pressable style={styles.onMyListBtn} onPress={() => {
                                     if (session.id != 0)
-                                        editBookStatus({ userId: session.id, bookId, bookStatus: "WantToRead" });
+                                        editBookStatus({ userId: session.id, bookId, bookStatus: "WantToRead" }).unwrap().then(() => {
+                                            //Loading icon
+                                        });
                                 }}>
 
-                                    <Text style={{ fontWeight: '700', fontSize: 12, color: 'white' }}>
-                                        Currently reading
-                                        <Ionicons style={{}} name={'checkmark-sharp'} size={16} color={'white'} />
-                                    </Text>
+                                    <>
+                                        {isLoading ?
+                                            <View style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, backgroundColor: 'rgba(247,247,250,0.5)', zIndex: 99, justifyContent: 'center' }}>
+                                                <ActivityIndicator style={{}} size="small" color={'#0000FF'} />
+                                            </View>
+
+
+                                            :
+
+                                            <Text style={{ fontWeight: '700', fontSize: 12, color: 'white' }}>
+                                                Currently reading
+                                                <Ionicons style={{}} name={'checkmark-sharp'} size={16} color={'white'} />
+                                            </Text>
+                                        }
+
+                                    </>
 
                                 </Pressable>
 
@@ -261,6 +316,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
                                     if (session.id != 0)
                                         editBookStatus({ userId: session.id, bookId, bookStatus: "CurrentlyReading" });
                                 }}>
+
 
                                     <Text style={styles.btnBlackText}> Set as currently reading </Text>
 
@@ -276,7 +332,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
                     <Pressable style={styles.welcomeLoginPressable}>
                         <Text style={styles.btnBlackText}>
                             You already read this book
-                            <Ionicons style={{paddingHorizontal: 10}} name={'checkmark-sharp'} size={20} color={'green'} />
+                            <Ionicons style={{ paddingHorizontal: 10 }} name={'checkmark-sharp'} size={20} color={'green'} />
                         </Text>
                     </Pressable>
 
@@ -308,17 +364,17 @@ function SelectedBookScreen({ navigation, route }: Props) {
                 <Text style={styles.reviewHeader}>Reviews</Text>
                 <View>
                     {reviews.length > 0 ?
-                    <Pressable style={{ marginTop: 20 }} onPress={() => {
-                        navigation.navigate('AllReviewsScreen', {
-                            bookId: bookId
-                        })
-                    }}>
-                        <Text style={{ color: "#ccc", fontWeight: '700' }}>See all</Text>
-                    </Pressable>
+                        <Pressable style={{ marginTop: 20 }} onPress={() => {
+                            navigation.navigate('AllReviewsScreen', {
+                                bookId: bookId
+                            })
+                        }}>
+                            <Text style={{ color: "#ccc", fontWeight: '700' }}>See all</Text>
+                        </Pressable>
 
-                    :
+                        :
 
-                    <Text></Text>
+                        <Text></Text>
 
                     }
                 </View>
@@ -358,8 +414,8 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
                     :
 
-                    <View style={[styles.reviewContainer, {justifyContent:'center'}]}>
-                        <Text style={{textAlign: 'center', color: "#ccc", fontSize: 16, fontWeight: '400'}}>This book has 0 reviews, be the first one!</Text>
+                    <View style={[styles.reviewContainer, { justifyContent: 'center' }]}>
+                        <Text style={{ textAlign: 'center', color: "#ccc", fontSize: 16, fontWeight: '400' }}>This book has 0 reviews, be the first one!</Text>
                     </View>
 
                 }
@@ -474,13 +530,13 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         height: 40
     },
-    btnWhiteText:{
+    btnWhiteText: {
         color: 'white',
         fontSize: 14,
         textAlign: 'center',
         fontWeight: '600'
     },
-    btnBlackText:{
+    btnBlackText: {
         fontSize: 14,
         textAlign: 'center',
         fontWeight: '600'
