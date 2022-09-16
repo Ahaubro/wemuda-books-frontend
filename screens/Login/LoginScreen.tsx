@@ -17,7 +17,7 @@ interface LoginScreenProps {
 
 const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 
-    const [loginInputs, setLoginInputs] = useState<{ username: string, password: string }>({ username: "", password: "" })
+    const [loginInputs, setLoginInputs] = useState<{ email: string, password: string }>({ email: "", password: "" })
     const [signupInputs, setSignupInputs] = useState<{ fullname: string, email: string, password: string }>({ fullname: "", email: "", password: "" })
     const [password2, setPassword2] = useState<string>("");
     const [forgotPasswordInputs, setForgotPasswordInputs] = useState<{ email: string }>({ email: "" })
@@ -84,8 +84,8 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                     <View style={{ flexDirection: "column" }}>
                         <View style={{ marginVertical: 5 }}>
                             <Text style={styles.label}>Email</Text>
-                            <TextInput placeholder="eksempel@email.dk" placeholderTextColor={"#AAAAAA"} onChangeText={username => {
-                                setLoginInputs({ ...loginInputs, username })
+                            <TextInput placeholder="eksempel@email.dk" placeholderTextColor={"#AAAAAA"} onChangeText={email => {
+                                setLoginInputs({ ...loginInputs, email })
                             }} style={styles.textInput}></TextInput>
                         </View>
 
@@ -98,7 +98,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 
                         <View style={{ paddingVertical: 5 }}>
                             <Pressable style={styles.buttonBlack} onPress={() => {
-                                if (loginInputs.username && loginInputs.password) {
+                                if (loginInputs.email && loginInputs.password) {
                                     login({ ...loginInputs }).unwrap().then(res => {
                                         if (res.token)
                                             dispatch(startSession({ token: res.token, id: res.id }))

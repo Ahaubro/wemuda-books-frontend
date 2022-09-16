@@ -53,7 +53,7 @@ export const userApi = createApi({
     //Authenticate
     login: builder.mutation<
       {id: number, fullname: string, username: string, token: string},
-      {username: string, password: string}
+      {email: string, password: string}
     >({
       query: body => ({
         url: '/user/authenticate',
