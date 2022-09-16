@@ -55,8 +55,6 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
     //Update bookStatus
     const [editBookStatus , {isLoading: isLoadingStatus}] = useEditStatusMutation();
-    // const [updateProps, setUpdateProps] = useState<{ userId: number, bookId: string, bookStatus: string, title: string, thumbnail: string | undefined }>
-    // ({ userId: 0, bookId: "", bookStatus: "", title: "", thumbnail: ""})
 
 
     //For updating wantToRead
@@ -134,7 +132,6 @@ function SelectedBookScreen({ navigation, route }: Props) {
         if (fetchedReviews.data) {
             setReviews(fetchedReviews.data.reviews)
         }
-
     }, [fetchedReviews.data])
 
 
