@@ -215,14 +215,14 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             :
 
             <View style={{ borderBottomColor: "#AAA", borderBottomWidth: 2, width: "100%", paddingBottom: 10 }}>
-              <View style={{ marginRight: 25, marginTop: -10 }}>
-                <Pressable style={{ backgroundColor: "rgb(247,247,250)", borderRadius: 15, paddingHorizontal: 10, paddingVertical: 8 }}
+              <View style={{ marginTop: -10 }}>
+                <Pressable style={{ backgroundColor: "rgb(247,247,250)", borderRadius: 20, paddingHorizontal: 10, paddingVertical: 12 }}
                   onPress={() => navigation.navigate('UpdateGoalScreen', {
                     thumbnail: currentlyReadingBook.thumbnail,
                     bookId: currentlyReadingBook.bookId,
                     userId: session.id
                   })}>
-                  <Text style={{ fontSize: 14 }}>Set challenge</Text>
+                  <Text style={{ fontSize: 16, fontWeight: '600', textAlign: 'center'}}>Set a reading challenge</Text>
                 </Pressable>
               </View>
             </View>

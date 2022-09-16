@@ -20,8 +20,7 @@ const baseQuery = fetchBaseQuery({
 
 export type User = {
   id: number
-  firstName: string
-  lastName: string
+  fullName: string
   username: string
   booksRead: number
   booksGoal: number

@@ -107,7 +107,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
     <DeafultView>
 
       <View style={styles.headerContainer}>
-        <Text style={styles.heading}>{user.data?.firstName} {user.data?.lastName} </Text>
+        <Text style={styles.heading}>{user.data?.fullName}</Text>
       </View>
 
 
@@ -143,7 +143,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
                 })
               }}>
 
-                
+
 
                 <Image
                   source={{ uri: book.thumbnail }}
@@ -158,8 +158,17 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
           />
           :
 
-          <View style={{ height: 70, paddingBottom: 20 }}><Text>{wantToReadState}</Text></View>
+          <View style={{ flexDirection: 'row', justifyContent: 'center', paddingVertical: 20}}>
+            <Pressable style={[styles.buttonGray, { paddingHorizontal: 10, paddingVertical: 10, width: 250, border: '1px solid black'}]}
+              onPress={() => {
+                navigation.navigate("BookScreen")
+              }}>
+              <Text style={{ textAlign: 'center', fontWeight: '700' }}>Find books now</Text>
+            </Pressable>
+          </View>
         }
+
+
         <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 10 }}>
           <Pressable style={styles.buttonGray} onPress={() => {
             if (wantToReadBooks.length > 0)
@@ -198,7 +207,9 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
           />
           :
 
-          <View style={{ height: 65, paddingBottom: 20 }}><Text>{historyState}</Text></View>
+          <View style={{ justifyContent: 'center', paddingVertical: 20 }}>
+            <Text style={{textAlign: 'center', fontSize: 16, fontWeight: '600'}}>You have not finished any books yet</Text>
+            </View>
         }
 
         <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 10 }}>
