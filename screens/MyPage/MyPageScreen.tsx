@@ -159,7 +159,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
           :
 
           <View style={{ flexDirection: 'row', justifyContent: 'center', paddingVertical: 20}}>
-            <Pressable style={[styles.buttonGray, { paddingHorizontal: 10, paddingVertical: 10, width: 250, border: '1px solid black'}]}
+            <Pressable style={[styles.buttonGray, { paddingHorizontal: 10, paddingVertical: 10, width: 250, borderColor: '1px solid black'}]}
               onPress={() => {
                 navigation.navigate("BookScreen")
               }}>
@@ -168,6 +168,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
           </View>
         }
 
+        { wantToReadBooks.length > 0 &&
 
         <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 10 }}>
           <Pressable style={styles.buttonGray} onPress={() => {
@@ -175,6 +176,8 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
               navigation.navigate('BookList', { books: wantToReadBooks, title: "Want to read" })
           }}><Text style={styles.btnBlackText}>See all</Text></Pressable>
         </View>
+        }
+
       </View>
 
 
@@ -211,13 +214,16 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
             <Text style={{textAlign: 'center', fontSize: 16, fontWeight: '600'}}>You have not finished any books yet</Text>
             </View>
         }
-
+        
+        { historyBooks.length > 0 && 
         <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 10 }}>
           <Pressable style={styles.buttonGray} onPress={() => {
             if (historyBooks.length > 0)
               navigation.navigate('BookList', { books: historyBooks, title: "My history" })
           }}><Text style={styles.btnBlackText}>See all</Text></Pressable>
         </View>
+        }
+
       </View>
 
     </DeafultView >
