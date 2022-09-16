@@ -163,6 +163,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                         </View>
 
                         <View style={{ paddingVertical: 10 }}>
+                            
                             <Pressable style={styles.buttonBlack} onPress={() => {
                                 if (signupInputs.fullname && signupInputs.email && signupInputs.password && password2) {
                                     if(signupInputs.password == password2){
