@@ -15,7 +15,7 @@ import MyPageNavigator from './MyPageNavigator'
 import HomeNavigator from './HomeNavigator'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 
-interface NavigationProps {}
+interface NavigationProps { }
 
 const Tab = createBottomTabNavigator<TabNavigationParamList>()
 
@@ -28,7 +28,7 @@ const Navigation: React.FC<NavigationProps> = () => {
     colors: {
       ...DefaultTheme.colors,
       primary: 'rgb(255, 45, 85)',
-      background:'white'
+      background: 'white'
     },
   };
 
@@ -38,20 +38,20 @@ const Navigation: React.FC<NavigationProps> = () => {
         screenOptions={({ route }) => ({
           headerShown: false,
           tabBarActiveTintColor: "black",
-          tabBarStyle:{},
+          tabBarStyle: {},
           tabBarIcon: ({ focused, color, size }) => {
             let iconName
 
             if (route.name === 'HomeNavigator') {
-              iconName = focused ? 'book': 'book'
+              iconName = focused ? 'book' : 'book'
             } else if (route.name === 'Settings') {
               iconName = focused ? 'ios-list' : 'ios-list-outline'
-            } else if(route.name === 'MyPageNavigator') {
-              iconName = focused ? 'person': 'person'
-            } else if(route.name === 'BooksNavigator') {
-              iconName = focused ? 'search': 'search-sharp'
-            } else if(route.name === 'Login') {
-              iconName = focused ? 'key-sharp': 'key-outline'
+            } else if (route.name === 'MyPageNavigator') {
+              iconName = focused ? 'person' : 'person'
+            } else if (route.name === 'BooksNavigator') {
+              iconName = focused ? 'search' : 'search-sharp'
+            } else if (route.name === 'Login') {
+              iconName = focused ? 'key-sharp' : 'key-outline'
             }
 
             return <Ionicons name={iconName as any} size={30} color={color} />
@@ -60,25 +60,25 @@ const Navigation: React.FC<NavigationProps> = () => {
       >
         {session.token && session.token != "guest" &&
           <>
-            <Tab.Screen name="HomeNavigator" component={HomeNavigator} options={{title: "Home"}} />
-            <Tab.Screen name="BooksNavigator" component={BookNavigator} options={{title: 'Search'}} />
-            <Tab.Screen name="MyPageNavigator" component={MyPageNavigator} options={{title: 'Profile'}} />
+            <Tab.Screen name="HomeNavigator" component={HomeNavigator} options={{ title: "Home" }} />
+            <Tab.Screen name="BooksNavigator" component={BookNavigator} options={{ title: 'Search' }} />
+            <Tab.Screen name="MyPageNavigator" component={MyPageNavigator} options={{ title: 'Profile' }} />
           </>
         }
 
-        { session.token && session.token == "guest" &&
+        {session.token && session.token == "guest" &&
           <>
-            <Tab.Screen name="BooksScreen" component={BooksScreen} options={{title: 'Search', tabBarStyle: {display: 'none'}}} />
+            <Tab.Screen name="BooksNavigator" component={BookNavigator} options={{ title: 'Search', tabBarStyle: { display: 'none' } }} />
           </>
         }
 
 
-        {!session.token && 
+        {!session.token &&
           <>
-            <Tab.Screen name="Login" component={LoginScreen} options={{tabBarStyle: {display: 'none'}}}></Tab.Screen>
+            <Tab.Screen name="Login" component={LoginScreen} options={{ tabBarStyle: { display: 'none' } }}></Tab.Screen>
           </>
         }
-        
+
       </Tab.Navigator>
     </NavigationContainer>
   )

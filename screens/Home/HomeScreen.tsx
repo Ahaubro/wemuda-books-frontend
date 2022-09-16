@@ -165,6 +165,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
             {currentlyReadingBook.thumbnail ?
 
+            <>
+
               <Pressable style={styles.buttonGray} onPress={(() => navigation.navigate('UpdateStatus', {
                 thumbnail: currentlyReadingBook.thumbnail,
                 bookId: currentlyReadingBook.bookId,
@@ -172,11 +174,26 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               }))}>
                 <Text style={{ fontWeight: "600", fontSize: 14 }}>Update reading progress</Text>
               </Pressable>
+              
+
+              {/* <Pressable style={{ backgroundColor: "rgb(247,247,250)", borderRadius: 15, paddingHorizontal: 10, paddingVertical: 15 }}
+                  onPress={() => navigation.navigate('UpdateGoalScreen', {
+                    thumbnail: currentlyReadingBook.thumbnail,
+                    bookId: currentlyReadingBook.bookId,
+                    userId: session.id
+                  })}>
+                  <Text style={{ fontSize: 14, fontWeight: '600', textAlign: 'center'}}>Set a reading challenge</Text>
+                </Pressable> */}
+
+            </>
+              
 
               :
               <Text></Text>
             }
           </View>
+
+      
 
 
 
