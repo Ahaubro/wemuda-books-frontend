@@ -13,6 +13,7 @@ import DefaultView from "../../components/DefaultView"
 import BackArrowContainer from "../../components/BackArrowContainer"
 import { Review, useGetReviewsQuery, useGetReviewsByBookIdQuery } from "../../redux/services/reviewApi"
 import { Rating, AirbnbRating } from "react-native-ratings"
+import { chain } from 'lodash'
 
 
 type SelectedBookScreenNavigationProps = StackNavigationProp<BookNavigatorParamList, 'SelectedBookScreen'>
@@ -41,14 +42,8 @@ function SelectedBookScreen({ navigation, route }: Props) {
     }
 
 
-    //Update bookStatus
-    const [editBookStatus, { isSuccess }] = useEditStatusMutation();
-    // const [updateProps, setUpdateProps] = useState<{ userId: number, bookId: string, bookStatus: string, title: string, thumbnail: string | undefined }>
-    // ({ userId: 0, bookId: "", bookStatus: "", title: "", thumbnail: ""})
-
-
     //Add book (want to read for now)
-    const [addBook, { isLoading }] = useAddBookMutation();
+    const [addBook, { isLoading }] = useAddBookMutation({ fixedCacheKey: "myCacheKey" });
     const [addBookAtributes, setAddBookAtributes] = useState<{
         userId: number, bookId: string, title: string, thumbnail: string | undefined, author: string,
         description: string, averageRating: number, ratingCount: number, bookStatus: string
@@ -56,6 +51,12 @@ function SelectedBookScreen({ navigation, route }: Props) {
         userId: 0, bookId: "", title: "", thumbnail: "", author: "", description: "",
         averageRating: 0, ratingCount: 0, bookStatus: ""
     })
+
+
+    //Update bookStatus
+    const [editBookStatus , {isLoading: isLoadingStatus}] = useEditStatusMutation();
+    // const [updateProps, setUpdateProps] = useState<{ userId: number, bookId: string, bookStatus: string, title: string, thumbnail: string | undefined }>
+    // ({ userId: 0, bookId: "", bookStatus: "", title: "", thumbnail: ""})
 
 
     //For updating wantToRead
@@ -286,13 +287,16 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
                                 <Pressable style={styles.onMyListBtn} onPress={() => {
                                     if (session.id != 0)
-                                        editBookStatus({ userId: session.id, bookId, bookStatus: "WantToRead" }).unwrap().then(() => {
-                                            //Loading icon
+                                        editBookStatus({ userId: session.id, bookId, bookStatus: "WantToRead" }).unwrap().then( (res) => {
+                                            
                                         });
                                 }}>
 
+    
+
                                     <>
-                                        {isLoading ?
+                                        { isLoadingStatus ?
+
                                             <View style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, backgroundColor: 'rgba(247,247,250,0.5)', zIndex: 99, justifyContent: 'center' }}>
                                                 <ActivityIndicator style={{}} size="small" color={'#0000FF'} />
                                             </View>
@@ -314,11 +318,27 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
                                 <Pressable style={styles.selectedBookBtn} onPress={() => {
                                     if (session.id != 0)
-                                        editBookStatus({ userId: session.id, bookId, bookStatus: "CurrentlyReading" });
+                                        editBookStatus({ userId: session.id, bookId, bookStatus: "CurrentlyReading" }).unwrap().then( (res) => {
+
+                                        });
                                 }}>
 
+                                    <>
+                                        {isLoadingStatus ?
 
-                                    <Text style={styles.btnBlackText}> Set as currently reading </Text>
+                                            <View style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, backgroundColor: 'rgba(247,247,250,0.5)', zIndex: 99, justifyContent: 'center' }}>
+                                                <ActivityIndicator style={{}} size="small" color={'#0000FF'} />
+                                            </View>
+
+
+                                            :
+
+                                            <Text style={styles.btnBlackText}>
+                                                Set as currently reading
+                                            </Text>
+                                        }
+
+                                    </>
 
                                 </Pressable>
 
