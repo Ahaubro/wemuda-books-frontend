@@ -203,7 +203,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
               {user.data?.booksRead == user.data?.booksGoal ?
 
-                <Text style={{ fontSize: 16, marginTop: 12, marginLeft: 5, padding: 2 }}>Reading challenge completed!! 🎉🎉 </Text>
+                <Text style={{ fontSize: 16, marginTop: 12, marginLeft: 5, paddingHorizontal: 2, paddingVertical: 5 }}>Reading challenge completed!! 🎉🎉 </Text>
                 :
 
                 <Text style={styles.readingChallengeText}>Reading challenge </Text>
@@ -219,11 +219,11 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                       bookId: currentlyReadingBook.bookId,
                       userId: session.id
                     })}>
-                    <Text style={{ fontSize: 12, fontWeight: '700' }}>Edit goal</Text>
+                    <Text style={{ fontSize: 12, fontFamily: 'GraphikMedium'}}>Edit goal</Text>
                   </Pressable>
                 </View>
 
-                <Text style={{ fontSize: 22, fontWeight: 'bold', padding: 2 }}> {user.data?.booksRead}/{user.data?.booksGoal ?? 0} <Text style={{ fontSize: 16, fontWeight: "bold" }}> books read </Text> </Text>
+                <Text style={{ fontSize: 22, fontFamily: 'GraphikMedium', padding: 2 }}> {user.data?.booksRead}/{user.data?.booksGoal ?? 0} <Text style={{ fontSize: 16}}> books read </Text> </Text>
 
               </View>
 
@@ -239,7 +239,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                     bookId: currentlyReadingBook.bookId,
                     userId: session.id
                   })}>
-                  <Text style={{ fontSize: 14, fontWeight: '600', textAlign: 'center'}}>Set a reading challenge</Text>
+                  <Text style={{ fontSize: 14, fontWeight: '600', textAlign: 'center', fontFamily: "GraphikMedium"}}>Set a reading challenge</Text>
                 </Pressable>
               </View>
             </View>
@@ -248,16 +248,16 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           <View style={{ marginTop: 10, flexDirection: "row", width: '100%' }}>
 
             <View style={styles.streakAndMinutes}>
-              <Text style={{ color: "#AAA" }}>Reading streak</Text>
-              <Text style={{ fontWeight: "bold", fontSize: 22 }}>{streak} <Text style={{ fontSize: 14, fontWeight: "600" }}> days </Text></Text>
+              <Text style={{ color: "#AAA", fontFamily: 'GraphikRegular', paddingVertical: 3 }}>Reading streak</Text>
+              <Text style={{ fontSize: 22, fontFamily: 'GraphikMedium' }}>{streak} <Text style={{ fontSize: 14, fontWeight: "600", fontFamily: "GraphikRegular" }}> days </Text></Text>
             </View>
 
             <View style={{ width: '2%' }}></View>
 
 
             <View style={styles.streakAndMinutes}>
-              <Text style={{ color: "#AAA" }}>Minutes read</Text>
-              <Text style={{ fontWeight: "bold", fontSize: 22 }}>{minutes} <Text style={{ fontSize: 14, fontWeight: "600" }}> minutes </Text></Text>
+              <Text style={{ color: "#AAA",  fontFamily: 'GraphikRegular', paddingVertical: 3 }}>Minutes read</Text>
+              <Text style={{ fontSize: 22, fontFamily: 'GraphikMedium' }}>{minutes} <Text style={{ fontSize: 14, fontWeight: "600", fontFamily: "GraphikRegular" }}> minutes </Text></Text>
             </View>
 
           </View>
@@ -273,15 +273,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         </View>
       }
 
-      {/* 
-      <View style={{ paddingTop: 40  }}>
-        <Pressable style={styles.buttonWhite} onPress={() => {
-          dispatch(endSession());
-        }}>
-          <Text style={styles.btnBlackText}>Logout</Text>
-        </Pressable>
-      </View> */}
-
       <StatusBar style="dark" />
     </DefaultView>
   )
@@ -295,6 +286,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 35,
+    fontFamily: "GraphikMedium",
   },
   welcome_text: {
     fontSize: 35,
@@ -302,8 +294,7 @@ const styles = StyleSheet.create({
   },
   buttonGray: {
     fontSize: 12,
-    fontWeight: 700,
-    fontFamily: "sans-serif",
+    fontFamily: "GraphikMedium",
     textAlign: "center",
     backgroundColor: "rgb(247,247,250)",
     borderRadius: 15,
@@ -332,7 +323,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 12,
     marginLeft: 5,
-    padding: 2,
+    paddingHorizontal: 2,
+    paddingVertical: 5,
+    fontFamily: "GraphikRegular",
   },
   editNBooksRead: {
     flexDirection: 'row-reverse',
@@ -343,11 +336,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: '400',
     fontSize: 14,
+    fontFamily: "GraphikRegular",
   },
   buttonWhite: {
     fontSize: 12,
-    fontWeight: 700,
-    fontFamily: "sans-serif",
+    fontFamily: "GraphikMedium",
     textAlign: "center",
     backgroundColor: "white",
     borderRadius: 20,
@@ -359,7 +352,7 @@ const styles = StyleSheet.create({
   btnBlackText: {
     fontSize: 14,
     textAlign: 'center',
-    fontWeight: '600'
+    fontFamily: "GraphikMedium",
   },
 
 })

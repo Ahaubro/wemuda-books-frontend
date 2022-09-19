@@ -102,14 +102,13 @@ const styles = StyleSheet.create({
         fontSize: 25,
         color: 'black',
         textAlign: 'left',
-        fontWeight: '700',
         paddingTop: 5,
-        paddingBottom: 15
+        paddingBottom: 15,
+        fontFamily: 'GraphikMedium'
     },
     saveReview: {
         fontSize: 12,
-        fontWeight: 700,
-        fontFamily: "sans-serif",
+        fontFamily: "GraphikMedium",
         textAlign: "center",
         backgroundColor: "black",
         borderRadius: 15,
@@ -133,7 +132,6 @@ const styles = StyleSheet.create({
     starRating: {
         paddingHorizontal: 25,
         paddingVertical: 35,
-
     },
     input: {
         flex: 1,

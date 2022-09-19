@@ -70,7 +70,7 @@ function BookListScreen({ navigation, route }: Props) {
 const styles = StyleSheet.create({
   subHeading: {
     fontSize: 25,
-    fontWeight: "700",
+    fontFamily: 'GraphikMedium',
     textAlign: 'center',
     paddingTop: 15,
     paddingBottom: 20

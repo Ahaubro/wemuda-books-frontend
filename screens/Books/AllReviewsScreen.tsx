@@ -81,7 +81,7 @@ function AllReviewsScreen({ navigation, route }: Props) {
                                         />
                                     </View>
                                     <View style={{height: 65, overflow: 'scroll'}}>
-                                        <Text style={{ color: 'grey', fontFamily: 'sans-serif', fontSize: 14, width: 350 }}>{item.content}</Text>
+                                        <Text style={{ color: 'grey', fontFamily: 'GraphikRegular', fontSize: 14, width: 350}}>{item.content}</Text>
                                     </View>
                                 </View>
                             </View>
@@ -103,14 +103,15 @@ const styles = StyleSheet.create({
         height: 140,
         paddingHorizontal: 20,
         marginTop: 15,
+        fontFamily: 'GraphikRegular',
     },
     header: {
         fontSize: 25,
         color: 'black',
         textAlign: 'left',
-        fontWeight: '700',
         paddingTop: 5,
-        paddingBottom: 15
+        paddingBottom: 15,
+        fontFamily: 'GraphikMedium',
     },
 })
 

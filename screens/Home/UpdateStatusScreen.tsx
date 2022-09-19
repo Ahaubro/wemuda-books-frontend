@@ -103,7 +103,7 @@ const UpdateStatusScreen: React.FC<HomeScreenProps> = ({ navigation, route }) =>
 
 const styles = StyleSheet.create({
     buttonBlack: {
-        fontFamily: "sans-serif",
+        fontFamily: "GraphikMedium",
         textAlign: "center",
         backgroundColor: "black",
         borderRadius: 10,
@@ -117,8 +117,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         paddingVertical: 15,
         fontSize: 14,
-        fontWeight: "600",
         opacity: 0.9,
+        fontFamily: 'GraphikMedium'
     },
     backArrowPos: {
         flexDirection: 'column',
@@ -135,27 +135,27 @@ const styles = StyleSheet.create({
     heading: {
         fontSize: 25,
         textAlign: 'left',
-        fontWeight: '700',
         paddingVertical: 15,   
+        fontFamily: 'GraphikMedium'
     },
     subHeader: {
-        fontWeight: "500",
         fontSize: 12,
-        paddingVertical: 15
+        paddingVertical: 15,
+        fontFamily: 'GraphikMedium'
     },
     btnWhiteText:{
         color: 'white',
         fontSize: 14,
         textAlign: 'center',
-        fontWeight: '600'
+        fontFamily: 'GraphikMedium'
     },
     btnBlackText:{
         fontSize: 14,
         textAlign: 'center',
-        fontWeight: '600'
+        fontFamily: 'GraphikMedium'
     },
     buttonGrey: {
-        fontFamily: "sans-serif",
+        fontFamily: 'GraphikMedium',
         textAlign: "center",
         backgroundColor: "rgb(247,247,250)",
         borderRadius: 10,

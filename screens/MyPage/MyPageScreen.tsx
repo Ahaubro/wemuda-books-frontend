@@ -111,15 +111,15 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
       </View>
 
 
-      <View style={styles.streakAndMinutesContainer}>
+      <View style={[styles.streakAndMinutesContainer, {paddingTop: 15}]}>
         <View>
           <Text style={{ color: "#AAA", paddingVertical: 5 }}>Reading streak</Text>
-          <Text style={{ fontWeight: "700", fontSize: 22 }}>{streak} <Text style={{ fontSize: 14, fontWeight: "700" }}> days </Text></Text>
+          <Text style={{ fontFamily: 'GraphikMedium', fontSize: 22 }}>{streak} <Text style={{ fontSize: 14, fontFamily: 'GraphikMedium'}}> days </Text></Text>
         </View>
 
         <View>
           <Text style={{ color: "#AAA", paddingVertical: 5 }}>Minutes read</Text>
-          <Text style={{ fontWeight: "700", fontSize: 22 }}>{minutes} <Text style={{ fontSize: 14, fontWeight: "700" }}> minutes </Text></Text>
+          <Text style={{ fontFamily: 'GraphikMedium', fontSize: 22 }}>{minutes} <Text style={{ fontSize: 14, fontFamily: 'GraphikMedium'}}> minutes </Text></Text>
         </View>
         <View></View>
       </View>
@@ -211,7 +211,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
           :
 
           <View style={{ justifyContent: 'center', paddingVertical: 20 }}>
-            <Text style={{textAlign: 'center', fontSize: 16, fontWeight: '600'}}>You have not finished any books yet</Text>
+            <Text style={{textAlign: 'center', fontSize: 16, fontFamily: 'GraphikMedium'}}>You have not finished any books yet</Text>
             </View>
         }
         
@@ -225,8 +225,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
         }
 
       </View>
-
-    </DeafultView >
+    </DeafultView>
   )
 }
 
@@ -240,21 +239,20 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: 'black',
     textAlign: 'left',
-    fontWeight: '700',
+    fontFamily: 'GraphikMedium',
     paddingVertical: 15,
   },
   subHeading: {
     fontSize: 12,
-    fontWeight: "bold",
+    fontFamily: 'GraphikMedium',
     marginBottom: 5
   },
   text: {
     fontSize: 20,
   },
   buttonGray: {
-    fontFamily: "sans-serif",
+    fontFamily: 'GraphikMedium',
     textAlign: "center",
-    fontWeight: "600",
     backgroundColor: "rgb(247,247,250)",
     borderRadius: 20,
     width: 75,
@@ -282,12 +280,12 @@ const styles = StyleSheet.create({
   btnBlackText: {
     fontSize: 14,
     textAlign: 'center',
-    fontWeight: '600'
+    fontFamily: 'GraphikMedium'
   },
   btnWhiteText: {
     fontSize: 18,
     textAlign: 'center',
-    fontWeight: '600'
+    fontFamily: 'GraphikMedium'
   },
 
 })

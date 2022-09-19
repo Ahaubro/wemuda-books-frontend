@@ -196,7 +196,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
                             <View style={styles.centerContainer}>
                                 <>
                                     {session.id && (
-                                        <View style={{ width: "42%" }}>
+                                        <View style={{ width: "44%" }}>
                                             {savedBookIds.filter(elm => elm === bookId).length === 1 ?
                                                 <Pressable style={styles.onMyListBtn} onPress={() => {
                                                     addBookAtributes.userId = session.id;
@@ -223,7 +223,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
                                                             :
 
-                                                            <Text style={{ fontWeight: '700', fontSize: 12, color: "white" }}>
+                                                            <Text style={{ fontFamily: 'GraphikMedium', fontSize: 12, color: "white" }}>
                                                                 <Ionicons style={{}} name={'checkmark-sharp'} size={16} color={'white'} />
                                                                 On reading list
                                                             </Text>
@@ -259,8 +259,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
                                                             :
 
-                                                            <Text style={styles.btnBlackText}>
-                                                                <Ionicons style={{}} name={'checkmark-sharp'} size={16} color={'white'} />
+                                                            <Text style={[styles.btnBlackText, {paddingVertical: 3, paddingHorizontal: 3}]}>
                                                                 Add to reading list
                                                             </Text>
                                                         }
@@ -277,7 +276,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
                                 {/* CURRENTLYREADING */}
 
-                                <View style={{ width: "42%" }}>
+                                <View style={{ width: "44%" }}>
 
                                     {isCurrentlyReading ?
 
@@ -300,7 +299,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
                                                     :
 
-                                                    <Text style={{ fontWeight: '700', fontSize: 12, color: 'white' }}>
+                                                    <Text style={{ fontFamily: 'GraphikMedium', fontSize: 12, color: 'white' }}>
                                                         Currently reading
                                                         <Ionicons style={{}} name={'checkmark-sharp'} size={16} color={'white'} />
                                                     </Text>
@@ -329,7 +328,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
                                                     :
 
-                                                    <Text style={styles.btnBlackText}>
+                                                    <Text style={[styles.btnBlackText, {paddingVertical: 3, paddingHorizontal: 3}]}>
                                                         Set as currently reading
                                                     </Text>
                                                 }
@@ -362,8 +361,8 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
 
             <View style={styles.descriptionContainer}>
-                <Text style={{ fontWeight: 'bold', fontSize: 14, paddingVertical: 15 }}>Description </Text>
-                <Text style={{ color: 'grey', fontFamily: 'sans-serif', fontSize: 14, lineHeight: 25 }}>
+                <Text style={{ fontFamily: 'GraphikMedium', fontSize: 14, paddingVertical: 15 }}>Description </Text>
+                <Text style={{ color: 'grey', fontFamily: 'GraphikRegular', fontSize: 14, lineHeight: 25 }}>
                     {slicedDescription}...
 
                     <Pressable onPress={() => {
@@ -374,7 +373,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
                         })
                     }}>
-                        <Text style={{ color: 'black', fontFamily: 'sans-serif', fontSize: 14, fontWeight: "bold" }}> See more</Text>
+                        <Text style={{ color: 'black', fontFamily: 'GraphikMedium', fontSize: 14}}> See more</Text>
                     </Pressable>
                 </Text>
             </View>
@@ -389,7 +388,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
                                 bookId: bookId
                             })
                         }}>
-                            <Text style={{ color: "#ccc", fontWeight: '700' }}>See all</Text>
+                            <Text style={{ color: "#ccc", fontFamily: 'GraphikMedium' }}>See all</Text>
                         </Pressable>
 
                         :
@@ -426,7 +425,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
                                             />
 
                                         </View>
-                                        <Text style={{ color: 'grey', fontFamily: 'sans-serif', fontSize: 14, width: 350 }}>{getContent(item.content)}</Text>
+                                        <Text style={{ color: 'grey', fontFamily: 'GraphikRegular', fontSize: 14, width: 350 }}>{getContent(item.content)}</Text>
                                     </View>
                                 </View>
                             </View>
@@ -435,7 +434,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
                     :
 
                     <View style={[styles.reviewContainer, { justifyContent: 'center' }]}>
-                        <Text style={{ textAlign: 'center', color: "#ccc", fontSize: 16, fontWeight: '400' }}>This book has 0 reviews, be the first one!</Text>
+                        <Text style={{ textAlign: 'center', color: "#ccc", fontSize: 16, fontWeight: '400', fontFamily: 'GraphikRegular' }}>This book has 0 reviews, be the first one!</Text>
                     </View>
 
                 }
@@ -444,13 +443,13 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
 
             <View style={{ marginTop: 15 }}>
-                <Pressable style={styles.selectedBookBtn} onPress={() => {
+                <Pressable style={[styles.selectedBookBtn, {paddingVertical: 8}]} onPress={() => {
                     navigation.navigate("WriteReviewScreen", {
                         bookId: bookId,
                         userId: session.id
                     })
                 }}>
-                    <Text style={{ fontWeight: '700', fontSize: 16 }}> <Ionicons name={'ios-create'} size={20} color={'black'} style={{ paddingHorizontal: 5 }} /> Write a review </Text>
+                    <Text style={{ fontFamily: 'GraphikMedium', fontSize: 16 }}> <Ionicons name={'ios-create'} size={20} color={'black'} style={{ paddingHorizontal: 5 }} /> Write a review </Text>
                 </Pressable>
             </View>
 
@@ -491,7 +490,7 @@ const styles = StyleSheet.create({
         fontWeight: "100",
         paddingHorizontal: 10,
         paddingVertical: 10,
-        fontFamily: "sans-serif",
+        fontFamily: "GrpahikMedium",
     },
     centerContainer: {
         flexDirection: 'row',
@@ -500,8 +499,7 @@ const styles = StyleSheet.create({
     },
     selectedBookBtn: {
         fontSize: 12,
-        fontWeight: 700,
-        fontFamily: "sans-serif",
+        fontFamily: "GraphikMedium",
         textAlign: "center",
         backgroundColor: "rgb(247,247,250)",
         borderRadius: 15,
@@ -530,8 +528,7 @@ const styles = StyleSheet.create({
     },
     reviewBtn: {
         fontSize: 12,
-        fontWeight: 700,
-        fontFamily: "sans-serif",
+        fontFamily: "GraphikMedium",
         textAlign: "center",
         backgroundColor: "rgb(247,247,250)",
         borderRadius: 15,
@@ -541,8 +538,7 @@ const styles = StyleSheet.create({
     },
     onMyListBtn: {
         fontSize: 12,
-        fontWeight: 700,
-        fontFamily: "sans-serif",
+        fontFamily: "GraphikMedium",
         textAlign: "center",
         backgroundColor: "black",
         borderRadius: 15,
@@ -554,17 +550,16 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 14,
         textAlign: 'center',
-        fontWeight: '600'
+        fontFamily: "GraphikMedium",
     },
     btnBlackText: {
-        fontSize: 14,
+        fontSize: 12,
         textAlign: 'center',
-        fontWeight: '600'
+        fontFamily: "GraphikMedium",
     },
     welcomeLoginPressable: {
         fontSize: 12,
-        fontWeight: 700,
-        fontFamily: "sans-serif",
+        fontFamily: "GraphikMedium",
         textAlign: "center",
         backgroundColor: "none",
         borderRadius: 10,

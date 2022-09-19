@@ -111,7 +111,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 
                         <View style={{  }}>
                             <Pressable style={styles.buttonWhite} onPress={() => { setScreen("forgot password") }}>
-                                <Text style={styles.btnBlackText}>Forgot password</Text>
+                                <Text style={[styles.btnBlackText, {fontFamily: 'GraphikMedium'}]}>Forgot password</Text>
                             </Pressable>
                         </View>
                     </View>
@@ -231,7 +231,6 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 const styles = StyleSheet.create({
     heading: {
         fontSize: 25,
-        color: 'black',
         textAlign: 'left',
         paddingVertical: 15,   
         fontFamily: "GraphikMedium",
@@ -248,12 +247,10 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 14,
         fontSize: 15,
-        fontFamily: "GrpahikRegular"
-
+        fontFamily: "GraphikRegular"
     },
     buttonBlack: {
         fontSize: 12,
-        fontWeight: 700,
         fontFamily: "GraphikMedium",
         textAlign: "center",
         backgroundColor: "black",
@@ -272,7 +269,7 @@ const styles = StyleSheet.create({
     },
     welcomeLoginPressable: {
         fontSize: 12,
-        fontFamily: "GraphikRegular",
+        fontFamily: "GraphikMedium",
         textAlign: "center",
         backgroundColor: "none",
         borderRadius: 10,
@@ -285,12 +282,12 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 14,
         textAlign: 'center',
-        fontFamily: "GraphikRegular",
+        fontFamily: "GraphikMedium",
     },
     btnBlackText:{
         fontSize: 14,
         textAlign: 'center',
-        fontFamily: "GraphikRegular",
+        fontFamily: "GraphikMedium",
     },
     welcomeText:{
         fontSize: 30, 

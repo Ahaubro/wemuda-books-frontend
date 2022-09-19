@@ -141,15 +141,15 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
                     style={{ width: 60, height: 80, borderRadius: 3 }}
                   />
                   :
-                  <div style={{ width: 60, height: 80, backgroundColor: "#ccc", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                  <div style={{ width: 60, height: 80, backgroundColor: "#ccc", display: "flex", justifyContent: "center", alignItems: "center", fontFamily: 'GraphikRegular' }}>
                     No image
                   </div>
                 }
 
 
                 <View style={styles.titleAndAuthorContainer}>
-                  <Text style={{ fontSize: 14, fontWeight: 'bold' }}>{sliceTitle(item.volumeInfo.title)}{'\n'}</Text>
-                  <Text style={{ fontSize: 12, marginTop: 3, marginLeft: -2, color: "#ccc" }}> By {getAuthors(item.volumeInfo.authors)} </Text>
+                  <Text style={{ fontSize: 14, fontFamily: 'GraphikMedium'}}>{sliceTitle(item.volumeInfo.title)}{'\n'}</Text>
+                  <Text style={{ fontSize: 12, marginTop: 3, marginLeft: -2, color: "#ccc", fontFamily: 'GraphikRegular' }}> By {getAuthors(item.volumeInfo.authors)} </Text>
                 </View>   
               </View>
               
@@ -177,23 +177,25 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
 const styles = StyleSheet.create({
   heading: {
     fontSize: 25,
-    color: 'black',
     textAlign: 'left',
-    fontWeight: '700',
     paddingVertical: 15,   
+    fontFamily: 'GraphikMedium'
 },
   welcome_text: {
     fontSize: 20,
     width: 150,
     color: 'black',
+    fontFamily: 'GraphikMedium'
   },
   label: {
     fontSize: 20,
-    marginEnd: 20
+    marginEnd: 20,
+    fontFamily: 'GraphikRegular'
   },
   input: {
     flex: 1,
     outline: 'none',
+    fontFamily: 'GraphikRegular'
   },
   booksContatiner: {
     backgroundColor: "white",
@@ -230,7 +232,7 @@ const styles = StyleSheet.create({
   btnBlackText:{
     fontSize: 14,
     textAlign: 'center',
-    fontWeight: '600'
+    fontFamily: 'GraphikMedium'
 },
 
 })

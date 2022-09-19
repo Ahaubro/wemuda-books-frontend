@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         textAlign: 'center',
         fontWeight: '700',
+        fontFamily: 'GraphikMedium'
     },
     descriptionHeader: {
         fontWeight: '600', 
@@ -75,7 +76,6 @@ const styles = StyleSheet.create({
         textAlign: 'justify', 
         padding: 5, 
         color: 'grey', 
-        fontFamily: 'sans-serif', 
         fontSize: 14,
         hyphens: 'auto',
     },
@@ -86,7 +86,6 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         overflowY: 'scroll',
         maxHeight: 650,
-        fontFamily: 'sans-serif', 
         padding: 8,
     }
 })
