@@ -36,6 +36,11 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
 
   const fetchedUserBooks = useGetBooksByUserIdQuery(session.id, { refetchOnMountOrArgChange: true })
 
+  //Slice fullname
+  let userFullname= user.data?.fullName
+  let slicedNameArr = userFullname.split(" ")
+  let slicedUserName = slicedNameArr[0] + " " + slicedNameArr[1].substring(0,1)
+
 
   useEffect(() => {
     setWantToReadState("Loading...")
@@ -107,7 +112,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
     <DeafultView>
 
       <View style={styles.headerContainer}>
-        <Text style={styles.heading}>{user.data?.fullName}</Text>
+        <Text style={styles.heading}>{slicedUserName}</Text>
       </View>
 
 
