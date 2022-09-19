@@ -72,6 +72,7 @@ export type MyPageNavigatorParamList = {
     },
     BookScreen: undefined,
     SettingsScreen: undefined
+    ChangePasswordScreen: undefined
 
 }
 
