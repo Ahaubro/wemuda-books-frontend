@@ -9,7 +9,8 @@ import { GoogleBook, useGetBookByIdQuery, useLazyGetBookByIdQuery } from '../../
 import Navigation from '../../containers/MyPageNavigator'
 import { useGetBooksByUserIdQuery, Book } from '../../redux/services/bookApi'
 import DeafultView from "../../components/DefaultView"
-import { endSession } from "../../redux/slices/sessionSlice"
+import Ionicons from '@expo/vector-icons/Ionicons'
+
 
 interface MyPageScreenProps {
   navigation: any
@@ -116,6 +117,13 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
 
       <View style={styles.headerContainer}>
         <Text style={styles.heading}>{slicedUserName}</Text>
+
+        <Pressable style={{paddingVertical: 15}} onPress={ () => {
+          navigation.navigate("SettingsScreen")
+        }}>
+          <Ionicons name={'settings-sharp'} size={20} color={'black'} />
+        </Pressable>
+      
       </View>
 
 
@@ -189,7 +197,6 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
       </View>
 
 
-
       <View style={styles.wantToReadContainer}>
         <Text style={styles.subHeading}>My history</Text>
         {historyBooks.length > 0 ?
@@ -248,7 +255,7 @@ const styles = StyleSheet.create({
     color: 'black',
     textAlign: 'left',
     fontFamily: 'GraphikMedium',
-    paddingVertical: 15,
+    paddingVertical: 15
   },
   subHeading: {
     fontSize: 14,
@@ -267,11 +274,13 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: 0,
     paddingHorizontal: 8,
-    paddingVertical: 8,
+    paddingVertical: 12,
     height: "fit-content"
   },
   headerContainer: {
     paddingTop: 50,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   streakAndMinutesContainer: {
     borderBottomColor: "rgb(247,247,250)",
@@ -288,7 +297,7 @@ const styles = StyleSheet.create({
   btnBlackText: {
     fontSize: 14,
     textAlign: 'center',
-    fontFamily: 'GraphikMedium'
+    fontFamily: 'GraphikMedium',
   },
   btnWhiteText: {
     fontSize: 18,

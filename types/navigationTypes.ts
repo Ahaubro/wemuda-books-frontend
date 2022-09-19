@@ -70,7 +70,8 @@ export type MyPageNavigatorParamList = {
     AllReviewsScreen: {
         bookId: string
     },
-    BookScreen: undefined
+    BookScreen: undefined,
+    SettingsScreen: undefined
 
 }
 

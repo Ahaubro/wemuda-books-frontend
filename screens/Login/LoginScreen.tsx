@@ -10,10 +10,16 @@ import { enableAllPlugins } from 'immer'
 import BookNavigator from '../../containers/BookNavigator'
 import DefaultView from "../../components/DefaultView"
 import BackArrowContainer from "../../components/BackArrowContainer"
+import { SubmitHandler } from "react-hook-form"
 
 interface LoginScreenProps {
     navigation: any,
 }
+
+// type LoginFormData = {
+//     email: string,
+//     password: string
+// }
 
 const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 
@@ -27,6 +33,10 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
     const [login] = useLoginMutation();
     const [signup] = useSignupMutation();
     //const [changePassword] = useChangePasswordMutation();
+
+    // const onSubmit: SubmitHandler<LoginFormData> = async data => {
+
+    // }
 
     return (
         <View>
@@ -136,14 +146,14 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                     <View style={{ flexDirection: 'column', justifyContent: 'center', alignContent: 'center', }}>
                         <View style={{ marginVertical: 5 }}>
                             <Text style={styles.label}>Full name</Text>
-                            <TextInput style={styles.textInput} placeholder="Indtast dit fulde navn" placeholderTextColor={"#AAAAAA"} onChangeText={fullname => {
+                            <TextInput style={styles.textInput} placeholder="Enter full name" placeholderTextColor={"#AAAAAA"} onChangeText={fullname => {
                                 setSignupInputs({ ...signupInputs, fullname })
                             }}></TextInput>
                         </View>
 
                         <View style={{ marginVertical: 5 }}>
                             <Text style={styles.label}>Email</Text>
-                            <TextInput placeholder="Enter your email" placeholderTextColor={"#AAAAAA"} onChangeText={email => {
+                            <TextInput placeholder="Enter email" placeholderTextColor={"#AAAAAA"} onChangeText={email => {
                                 setSignupInputs({ ...signupInputs, email })
                             }} style={styles.textInput}></TextInput>
                         </View>
