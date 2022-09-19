@@ -345,12 +345,8 @@ function SelectedBookScreen({ navigation, route }: Props) {
                             :
 
                             <Pressable style={styles.welcomeLoginPressable}>
-                                <Text style={styles.btnBlackText}>
-                                    You already read this book
-                                    <Ionicons style={{ paddingHorizontal: 10 }} name={'checkmark-sharp'} size={20} color={'green'} />
-                                </Text>
+                                <Text style={[styles.btnBlackText, {marginLeft: 20}]}>You already read this book <Ionicons name={'checkmark-sharp'} size={20} color={'green'} style={{paddingHorizontal: 5}}/> </Text>
                             </Pressable>
-
                         }
 
                     </View>
@@ -376,7 +372,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
                         })
                     }}>
-                        <Text style={{ color: 'black', fontFamily: 'GraphikMedium', fontSize: 14}}> See more</Text>
+                        <Text style={{ color: 'black', fontFamily: 'GraphikSemibold', fontSize: 14}}> See more</Text>
                     </Pressable>
                 </Text>
 
@@ -577,7 +573,8 @@ const styles = StyleSheet.create({
         color: "black",
         marginTop: 7,
         border: '0.5px solid black',
-        paddingVertical: 15,
+        paddingVertical: 10,
+        paddingHorizontal: 3
     },
 })
 

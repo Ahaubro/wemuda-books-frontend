@@ -135,7 +135,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 
                     <View style={{ flexDirection: 'column', justifyContent: 'center', alignContent: 'center', }}>
                         <View style={{ marginVertical: 5 }}>
-                            <Text style={styles.label}>Fulde navn</Text>
+                            <Text style={styles.label}>Full name</Text>
                             <TextInput style={styles.textInput} placeholder="Indtast dit fulde navn" placeholderTextColor={"#AAAAAA"} onChangeText={fullname => {
                                 setSignupInputs({ ...signupInputs, fullname })
                             }}></TextInput>
@@ -143,21 +143,21 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 
                         <View style={{ marginVertical: 5 }}>
                             <Text style={styles.label}>Email</Text>
-                            <TextInput placeholder="Indtast din email" placeholderTextColor={"#AAAAAA"} onChangeText={email => {
+                            <TextInput placeholder="Enter your email" placeholderTextColor={"#AAAAAA"} onChangeText={email => {
                                 setSignupInputs({ ...signupInputs, email })
                             }} style={styles.textInput}></TextInput>
                         </View>
 
                         <View style={{ marginVertical: 5 }}>
-                            <Text style={styles.label}>Kodeord</Text>
-                            <TextInput placeholder="Indtast kodeord" placeholderTextColor={"#AAAAAA"} onChangeText={password => {
+                            <Text style={styles.label}>Password</Text>
+                            <TextInput placeholder="Enter password" placeholderTextColor={"#AAAAAA"} onChangeText={password => {
                                 setSignupInputs({ ...signupInputs, password })
                             }} secureTextEntry={true} style={styles.textInput}></TextInput>
                         </View>
 
                         <View style={{ marginVertical: 5 }}>
-                            <Text style={styles.label}>Bekræft kodeord</Text>
-                            <TextInput placeholder="Bekræft kodeord" placeholderTextColor={"#AAAAAA"} onChangeText={password => {
+                            <Text style={styles.label}>Confirm password</Text>
+                            <TextInput placeholder="Enter password again to confirm" placeholderTextColor={"#AAAAAA"} onChangeText={password => {
                                 setPassword2( password )
                             }} secureTextEntry={true} style={styles.textInput}></TextInput>
                         </View>
@@ -173,7 +173,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                                     }
                                 }
                             }}>
-                                <Text style={styles.btnWhiteText}>Opret bruger</Text>
+                                <Text style={styles.btnWhiteText}>Sign up now</Text>
                             </Pressable>
                         </View>
 

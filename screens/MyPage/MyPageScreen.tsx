@@ -171,7 +171,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
               onPress={() => {
                 navigation.navigate("BookScreen")
               }}>
-              <Text style={{ textAlign: 'center', fontWeight: '700' }}>Find books now</Text>
+              <Text style={{ textAlign: 'center', fontFamily: 'GraphikMedium', fontSize: 16 }}>Find books now</Text>
             </Pressable>
           </View>
         }
@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   subHeading: {
-    fontSize: 12,
+    fontSize: 14,
     fontFamily: 'GraphikMedium',
     marginBottom: 5
   },
