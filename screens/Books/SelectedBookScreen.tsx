@@ -362,6 +362,9 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
             <View style={styles.descriptionContainer}>
                 <Text style={{ fontFamily: 'GraphikMedium', fontSize: 14, paddingVertical: 15 }}>Description </Text>
+
+                <> 
+                { slicedDescription.length > 0 ? 
                 <Text style={{ color: 'grey', fontFamily: 'GraphikRegular', fontSize: 14, lineHeight: 25 }}>
                     {slicedDescription}...
 
@@ -376,6 +379,14 @@ function SelectedBookScreen({ navigation, route }: Props) {
                         <Text style={{ color: 'black', fontFamily: 'GraphikMedium', fontSize: 14}}> See more</Text>
                     </Pressable>
                 </Text>
+
+                :
+
+                <Text style={{ color: 'grey', fontFamily: 'GraphikRegular', fontSize: 14, lineHeight: 25 }}>There is no description for this book.</Text>
+
+                }
+                </>
+
             </View>
 
 
