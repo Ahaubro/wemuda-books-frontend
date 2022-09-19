@@ -159,8 +159,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           </View>
 
 
-
-
           <View style={{ marginTop: 70, paddingVertical: 10 }}>
 
             <>

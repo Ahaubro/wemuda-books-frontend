@@ -7,6 +7,7 @@ import SelectedBookScreen from '../screens/Books/SelectedBookScreen'
 import WriteReviewScreen from '../screens/Books/WriteReviewScreen'
 import AllReviewsScreen from '../screens/Books/AllReviewsScreen'
 import SelectedBookMoreScreen from "../screens/Books/SelectedBookMoreScreen"
+import BooksNavigator from "./BookNavigator"
 
 const Stack = createStackNavigator<MyPageNavigatorParamList>()
 
@@ -18,10 +19,11 @@ export default function MyPageNavigator() {
       >
         <Stack.Screen name="MyPage" component={MyPageScreen} />
         <Stack.Screen name="BookList" component={BookListScreen} />
-        <Stack.Screen name="SelectedBookScreen" component={SelectedBookScreen} />
+        {/* <Stack.Screen name="SelectedBookScreen" component={SelectedBookScreen} /> */}
         <Stack.Screen name="WriteReviewScreen" component={WriteReviewScreen} />
         <Stack.Screen name="AllReviewsScreen" component={AllReviewsScreen} />
-        <Stack.Screen name="SelectedBookMoreScreen" component={SelectedBookMoreScreen} />
+        {/* <Stack.Screen name="SelectedBookMoreScreen" component={SelectedBookMoreScreen} /> */}
+        <Stack.Screen name="BookScreen" component={BooksNavigator} /> 
       </Stack.Navigator>
     )
   }

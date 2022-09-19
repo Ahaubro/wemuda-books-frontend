@@ -219,7 +219,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
           :
 
           <View style={{ justifyContent: 'center', paddingVertical: 20 }}>
-            <Text style={{textAlign: 'center', fontSize: 16, fontFamily: 'GraphikMedium'}}>You have not finished any books yet</Text>
+            <Text style={{textAlign: 'center', fontSize: 16, fontFamily: 'GraphikMedium', lineHeight: 20}}>You have not finished any books yet. {'\n'} Find a book and start reading now!</Text>
             </View>
         }
         
