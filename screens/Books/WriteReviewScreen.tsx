@@ -41,8 +41,6 @@ function WriteReviewScreen({ navigation, route }: Props) {
         content: "", rating: 0, bookId: bookId, userId: userId
     })
 
-    let reviewText
-
 
     return (
         <DefaultView>
@@ -66,7 +64,7 @@ function WriteReviewScreen({ navigation, route }: Props) {
                     size={35}
                     defaultRating={3}
                     onFinishRating={( n: number ) => { 
-                        addReviewAtributes.rating = n
+                            addReviewAtributes.rating = n
                     }}
                 />
             </View>
@@ -85,6 +83,10 @@ function WriteReviewScreen({ navigation, route }: Props) {
 
 
             <Pressable style={styles.saveReview} onPress={() => {
+                //Setting dcefault value for rating if none is given
+                if(addReviewAtributes.rating == 0) {
+                    addReviewAtributes.rating = 3
+                }
                 addReview(addReviewAtributes)
                 navigation.pop();
             }}>
