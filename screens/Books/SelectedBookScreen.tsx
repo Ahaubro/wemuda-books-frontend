@@ -14,6 +14,7 @@ import BackArrowContainer from "../../components/BackArrowContainer"
 import { Review, useGetReviewsQuery, useGetReviewsByBookIdQuery } from "../../redux/services/reviewApi"
 import { Rating, AirbnbRating } from "react-native-ratings"
 import { chain } from 'lodash'
+import { FontAwesome } from '@expo/vector-icons';
 
 
 type SelectedBookScreenNavigationProps = StackNavigationProp<BookNavigatorParamList, 'SelectedBookScreen'>
@@ -138,9 +139,6 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
     return (
         <DefaultView>
-
-
-
             <BackArrowContainer>
                 <Pressable onPress={() => {
                     navigation.pop();
@@ -148,6 +146,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
                     <Ionicons name={'chevron-back'} size={25} color={'black'} />
                 </Pressable>
             </BackArrowContainer>
+
 
             <View style={styles.imageView}>
                 {thumbnail ?
@@ -185,170 +184,223 @@ function SelectedBookScreen({ navigation, route }: Props) {
             </View>
 
 
-            {/* HISTORY */}
-
             <>
                 {session.token && session.token != "guest" &&
                     <View>
 
-                        {!isHistory ?
+                        <View style={styles.centerContainer}>
+                            <>
+                                {session.id && (
+                                    <View style={{ width: "30%" }}>
+                                        {savedBookIds.filter(elm => elm === bookId).length === 1 ?
+                                            <Pressable style={styles.onMyListBtn} onPress={() => {
+                                                addBookAtributes.userId = session.id;
+                                                addBookAtributes.bookId = bookId;
+                                                addBookAtributes.title = title;
+                                                addBookAtributes.author = authors;
+                                                addBookAtributes.description = description;
+                                                addBookAtributes.thumbnail = thumbnail ? thumbnail : undefined;
+                                                addBookAtributes.averageRating = averageRating;
+                                                addBookAtributes.ratingCount = ratingsCount
+                                                addBookAtributes.bookStatus = "WantToRead"
+                                                console.log(addBookAtributes)
+                                                addBook(addBookAtributes).unwrap().then((res) => {
+                                                    //Displays loading icon
+                                                });
 
-                            <View style={styles.centerContainer}>
-                                <>
-                                    {session.id && (
-                                        <View style={{ width: "44%" }}>
-                                            {savedBookIds.filter(elm => elm === bookId).length === 1 ?
-                                                <Pressable style={styles.onMyListBtn} onPress={() => {
-                                                    addBookAtributes.userId = session.id;
-                                                    addBookAtributes.bookId = bookId;
-                                                    addBookAtributes.title = title;
-                                                    addBookAtributes.author = authors;
-                                                    addBookAtributes.description = description;
-                                                    addBookAtributes.thumbnail = thumbnail ? thumbnail : undefined;
-                                                    addBookAtributes.averageRating = averageRating;
-                                                    addBookAtributes.ratingCount = ratingsCount
-                                                    addBookAtributes.bookStatus = "WantToRead"
-                                                    console.log(addBookAtributes)
-                                                    addBook(addBookAtributes).unwrap().then((res) => {
-                                                        //Displays loading icon
-                                                    });
-
-                                                }}>
-                                                    <>
-                                                        {isLoading ?
-                                                            <View style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, backgroundColor: 'rgba(247,247,250,0.5)', zIndex: 99, justifyContent: 'center' }}>
-                                                                <ActivityIndicator style={{}} size="small" color={'#0000FF'} />
-                                                            </View>
+                                            }}>
+                                                <>
+                                                    {isLoading ?
+                                                        <View style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, backgroundColor: 'rgba(247,247,250,0.5)', zIndex: 99, justifyContent: 'center' }}>
+                                                            <ActivityIndicator style={{}} size="small" color={'#0000FF'} />
+                                                        </View>
 
 
-                                                            :
+                                                        :
 
-                                                            <Text style={{ fontFamily: 'GraphikMedium', fontSize: 12, color: "white" }}>
-                                                                <Ionicons style={{}} name={'checkmark-sharp'} size={16} color={'white'} />
-                                                                On reading list
-                                                            </Text>
-                                                        }
+                                                        <Text style={{ fontFamily: 'GraphikMedium', fontSize: 12, color: "white" }}>
+                                                            <Ionicons style={{}} name={'eye-outline'} size={20} color={'green'} />
+                                                            <Ionicons style={{}} name={'checkmark-sharp'} size={20} color={'green'} />
+                                                        </Text>
+                                                    }
+                                                </>
+                                            </Pressable>
 
-                                                    </>
+                                            :
 
-                                                </Pressable>
+                                            <Pressable style={styles.selectedBookBtn} onPress={() => {
+                                                addBookAtributes.userId = session.id;
+                                                addBookAtributes.bookId = bookId;
+                                                addBookAtributes.title = title;
+                                                addBookAtributes.author = authors;
+                                                addBookAtributes.description = description;
+                                                addBookAtributes.thumbnail = thumbnail ? thumbnail : undefined;
+                                                addBookAtributes.averageRating = averageRating;
+                                                addBookAtributes.ratingCount = ratingsCount
+                                                addBookAtributes.bookStatus = "WantToRead"
+                                                console.log(addBookAtributes)
+                                                addBook(addBookAtributes).unwrap().then((res) => {
+                                                    //Displays loading icon
+                                                });
+
+                                            }}>
+
+                                                <>
+                                                    {isLoading ?
+                                                        <View style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, backgroundColor: 'rgba(247,247,250,0.5)', zIndex: 99, justifyContent: 'center' }}>
+                                                            <ActivityIndicator style={{}} size="small" color={'#0000FF'} />
+                                                        </View>
+
+
+                                                        :
+
+                                                        <Text style={styles.btnBlackText}>
+                                                            <Ionicons style={{}} name={'eye-outline'} size={20} color={'black'} />
+                                                        </Text>
+                                                    }
+
+                                                </>
+                                            </Pressable>
+                                        }
+                                    </View>
+
+                                )}
+                            </>
+
+                            <View style={{ width: "2%" }}></View>
+
+                            {/* CURRENTLYREADING */}
+
+                            <View style={{ width: "30%" }}>
+
+                                {isCurrentlyReading ?
+
+                                    <Pressable style={styles.onMyListBtn} onPress={() => {
+                                        if (session.id != 0)
+                                            editBookStatus({ userId: session.id, bookId, bookStatus: "WantToRead" }).unwrap().then((res) => {
+
+                                            });
+                                    }}>
+
+
+
+                                        <>
+                                            {isLoadingStatus ?
+
+                                                <View style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, backgroundColor: 'rgba(247,247,250,0.5)', zIndex: 99, justifyContent: 'center' }}>
+                                                    <ActivityIndicator style={{}} size="small" color={'#0000FF'} />
+                                                </View>
+
+
                                                 :
-                                                <Pressable style={styles.selectedBookBtn} onPress={() => {
-                                                    addBookAtributes.userId = session.id;
-                                                    addBookAtributes.bookId = bookId;
-                                                    addBookAtributes.title = title;
-                                                    addBookAtributes.author = authors;
-                                                    addBookAtributes.description = description;
-                                                    addBookAtributes.thumbnail = thumbnail ? thumbnail : undefined;
-                                                    addBookAtributes.averageRating = averageRating;
-                                                    addBookAtributes.ratingCount = ratingsCount
-                                                    addBookAtributes.bookStatus = "WantToRead"
-                                                    console.log(addBookAtributes)
-                                                    addBook(addBookAtributes).unwrap().then((res) => {
-                                                        //Displays loading icon
-                                                    });
 
-                                                }}>
-
-                                                    <>
-                                                        {isLoading ?
-                                                            <View style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, backgroundColor: 'rgba(247,247,250,0.5)', zIndex: 99, justifyContent: 'center' }}>
-                                                                <ActivityIndicator style={{}} size="small" color={'#0000FF'} />
-                                                            </View>
-
-
-                                                            :
-
-                                                            <Text style={[styles.btnBlackText, {paddingVertical: 3, paddingHorizontal: 3}]}>
-                                                                Add to reading list
-                                                            </Text>
-                                                        }
-
-                                                    </>
-                                                </Pressable>
+                                                <Text style={{ fontFamily: 'GraphikMedium', fontSize: 12, color: 'white' }}>
+                                                    <Ionicons name="bookmark-sharp" size={20} color="green" />
+                                                    <Ionicons style={{}} name={'checkmark-sharp'} size={20} color={'green'} />
+                                                </Text>
                                             }
-                                        </View>
 
-                                    )}
-                                </>
+                                        </>
 
-                                <View style={{ width: "2%" }}></View>
+                                    </Pressable>
 
-                                {/* CURRENTLYREADING */}
+                                    :
 
-                                <View style={{ width: "44%" }}>
+                                    <Pressable style={styles.selectedBookBtn} onPress={() => {
+                                        if (session.id != 0)
+                                            editBookStatus({ userId: session.id, bookId, bookStatus: "CurrentlyReading" }).unwrap().then((res) => {
 
-                                    {isCurrentlyReading ?
+                                            });
+                                    }}>
 
-                                        <Pressable style={styles.onMyListBtn} onPress={() => {
-                                            if (session.id != 0)
-                                                editBookStatus({ userId: session.id, bookId, bookStatus: "WantToRead" }).unwrap().then((res) => {
+                                        <>
+                                            {isLoadingStatus ?
 
-                                                });
-                                        }}>
-
-
-
-                                            <>
-                                                {isLoadingStatus ?
-
-                                                    <View style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, backgroundColor: 'rgba(247,247,250,0.5)', zIndex: 99, justifyContent: 'center' }}>
-                                                        <ActivityIndicator style={{}} size="small" color={'#0000FF'} />
-                                                    </View>
+                                                <View style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, backgroundColor: 'rgba(247,247,250,0.5)', zIndex: 99, justifyContent: 'center' }}>
+                                                    <ActivityIndicator style={{}} size="small" color={'#0000FF'} />
+                                                </View>
 
 
-                                                    :
+                                                :
 
-                                                    <Text style={{ fontFamily: 'GraphikMedium', fontSize: 12, color: 'white' }}>
-                                                        Currently reading
-                                                        <Ionicons style={{}} name={'checkmark-sharp'} size={16} color={'white'} />
-                                                    </Text>
-                                                }
+                                                <Text style={styles.btnBlackText}>
+                                                    <Ionicons name="bookmark-sharp" size={20} color="black" />
+                                                </Text>
+                                            }
 
-                                            </>
+                                        </>
 
-                                        </Pressable>
+                                    </Pressable>
 
-                                        :
+                                }
 
-                                        <Pressable style={styles.selectedBookBtn} onPress={() => {
-                                            if (session.id != 0)
-                                                editBookStatus({ userId: session.id, bookId, bookStatus: "CurrentlyReading" }).unwrap().then((res) => {
-
-                                                });
-                                        }}>
-
-                                            <>
-                                                {isLoadingStatus ?
-
-                                                    <View style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, backgroundColor: 'rgba(247,247,250,0.5)', zIndex: 99, justifyContent: 'center' }}>
-                                                        <ActivityIndicator style={{}} size="small" color={'#0000FF'} />
-                                                    </View>
-
-
-                                                    :
-
-                                                    <Text style={[styles.btnBlackText, {paddingVertical: 3, paddingHorizontal: 3}]}>
-                                                        Set as currently reading
-                                                    </Text>
-                                                }
-
-                                            </>
-
-                                        </Pressable>
-
-                                    }
-
-                                </View>
                             </View>
 
-                            :
+                            <View style={{ width: "2%" }}></View>
 
-                            <Pressable style={styles.welcomeLoginPressable}>
-                                <Text style={[styles.btnBlackText, {marginLeft: 20}]}>You already read this book <Ionicons name={'checkmark-sharp'} size={20} color={'green'} style={{paddingHorizontal: 5}}/> </Text>
-                            </Pressable>
-                        }
+                            <View style={{ width: "30%" }}>
 
+                                {isHistory ?
+
+                                    <Pressable style={styles.onMyListBtn} onPress={() => {
+                                        if (session.id != 0)
+                                            editBookStatus({ userId: session.id, bookId, bookStatus: "WantToRead" }).unwrap().then((res) => {
+
+                                            });
+                                    }}>
+
+                                        <>
+                                            {isLoadingStatus ?
+
+                                                <View style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, backgroundColor: 'rgba(247,247,250,0.5)', zIndex: 99, justifyContent: 'center' }}>
+                                                    <ActivityIndicator style={{}} size="small" color={'#0000FF'} />
+                                                </View>
+
+
+                                                :
+
+                                                <Text style={{ fontFamily: 'GraphikMedium', fontSize: 12, color: 'white' }}>
+                                                    <FontAwesome name="history" size={20} color="black" />
+                                                    <Ionicons style={{}} name={'checkmark-sharp'} size={20} color={'green'} />
+                                                </Text>
+                                            }
+
+                                        </>
+
+                                    </Pressable>
+
+                                    :
+
+                                    <Pressable style={styles.selectedBookBtn} onPress={() => {
+                                        if (session.id != 0)
+                                            editBookStatus({ userId: session.id, bookId, bookStatus: "History" }).unwrap().then((res) => {
+
+                                            });
+                                    }}>
+
+                                        <>
+                                            {isLoadingStatus ?
+
+                                                <View style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, backgroundColor: 'rgba(247,247,250,0.5)', zIndex: 99, justifyContent: 'center' }}>
+                                                    <ActivityIndicator style={{}} size="small" color={'#0000FF'} />
+                                                </View>
+
+
+                                                :
+
+                                                <Text style={styles.btnBlackText}>
+                                                    <FontAwesome name="history" size={20} color="black" />
+                                                </Text>
+                                            }
+
+                                        </>
+
+                                    </Pressable>
+
+                                }
+
+                            </View>
+                        </View>
                     </View>
 
                 }
@@ -359,28 +411,28 @@ function SelectedBookScreen({ navigation, route }: Props) {
             <View style={styles.descriptionContainer}>
                 <Text style={{ fontFamily: 'GraphikMedium', fontSize: 14, paddingVertical: 15 }}>Description </Text>
 
-                <> 
-                { slicedDescription.length > 0 ? 
-                <Text style={{ color: 'grey', fontFamily: 'GraphikRegular', fontSize: 14, lineHeight: 25 }}>
-                    {slicedDescription}...
+                <>
+                    {slicedDescription.length > 0 ?
+                        <Text style={{ color: 'grey', fontFamily: 'GraphikRegular', fontSize: 14, lineHeight: 25 }}>
+                            {slicedDescription}...
 
-                    <Pressable onPress={() => {
-                        navigation.navigate('SelectedBookMoreScreen', {
+                            <Pressable onPress={() => {
+                                navigation.navigate('SelectedBookMoreScreen', {
 
-                            title: title,
-                            description: description,
+                                    title: title,
+                                    description: description,
 
-                        })
-                    }}>
-                        <Text style={{ color: 'black', fontFamily: 'GraphikSemibold', fontSize: 14}}> See more</Text>
-                    </Pressable>
-                </Text>
+                                })
+                            }}>
+                                <Text style={{ color: 'black', fontFamily: 'GraphikSemibold', fontSize: 14 }}> See more</Text>
+                            </Pressable>
+                        </Text>
 
-                :
+                        :
 
-                <Text style={{ color: 'grey', fontFamily: 'GraphikRegular', fontSize: 14, lineHeight: 25 }}>There is no description for this book.</Text>
+                        <Text style={{ color: 'grey', fontFamily: 'GraphikRegular', fontSize: 14, lineHeight: 25 }}>There is no description for this book.</Text>
 
-                }
+                    }
                 </>
 
             </View>
@@ -450,7 +502,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
 
             <View style={{ marginTop: 15 }}>
-                <Pressable style={[styles.selectedBookBtn, {paddingVertical: 8}]} onPress={() => {
+                <Pressable style={[styles.selectedBookBtn, { paddingVertical: 8 }]} onPress={() => {
                     navigation.navigate("WriteReviewScreen", {
                         bookId: bookId,
                         userId: session.id
@@ -524,7 +576,7 @@ const styles = StyleSheet.create({
     reviewHeader: {
         marginTop: 15,
         fontWeight: "bold",
-        fontSize: 16, 
+        fontSize: 16,
     },
     reviewContainer: {
         backgroundColor: "rgb(247,247,250)",
@@ -547,7 +599,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
         fontFamily: "GraphikMedium",
         textAlign: "center",
-        backgroundColor: "black",
+        backgroundColor: "#A9A9A9",
         borderRadius: 15,
         color: "White",
         paddingVertical: 10,
