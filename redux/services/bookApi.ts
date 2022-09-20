@@ -66,11 +66,16 @@ export const bookApi = createApi({
     }),
 
     //Delete book
-    deleteBook: builder.mutation<{ statusText: string },  number >({
-      query:  id  => ({
-        url: `/book/${id}`,
+    deleteBook: builder.mutation<
+    { statusText: string },  
+    {userId: number, bookId: string} 
+    >({
+      query:  body  => ({
+        url: `/book/${body.userId}/${body.bookId}`,
         method: 'DELETE',
+        body
       }),
+      invalidatesTags: ["Books"]
     }),
 
     //Update book

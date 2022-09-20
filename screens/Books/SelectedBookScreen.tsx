@@ -7,7 +7,7 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { RouteProp } from '@react-navigation/native'
 import { BookNavigatorParamList } from '../../types/NavigationTypes'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { useEditStatusMutation, useAddBookMutation, useGetBooksByUserIdQuery, Book } from '../../redux/services/bookApi'
+import { useEditStatusMutation, useAddBookMutation, useGetBooksByUserIdQuery, Book, useDeleteBookMutation } from '../../redux/services/bookApi'
 import { useLazyGetBookByIdQuery } from '../../redux/services/googleBookApi'
 import DefaultView from "../../components/DefaultView"
 import BackArrowContainer from "../../components/BackArrowContainer"
@@ -15,6 +15,7 @@ import { Review, useGetReviewsQuery, useGetReviewsByBookIdQuery } from "../../re
 import { Rating, AirbnbRating } from "react-native-ratings"
 import { chain } from 'lodash'
 import { FontAwesome } from '@expo/vector-icons';
+import { toCurrency } from 'i18n-js'
 
 
 type SelectedBookScreenNavigationProps = StackNavigationProp<BookNavigatorParamList, 'SelectedBookScreen'>
@@ -44,7 +45,11 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
 
     //Add book (want to read for now)
-    const [addBook, { isLoading }] = useAddBookMutation({ fixedCacheKey: "myCacheKey" });
+    const [addBookWant, { isLoading }] = useAddBookMutation();
+    const [addBookCur, { isLoading: isLoadingCur }] = useAddBookMutation();
+    const [addBookHis, { isLoading: isLoadingHis }] = useAddBookMutation();
+
+
     const [addBookAtributes, setAddBookAtributes] = useState<{
         userId: number, bookId: string, title: string, thumbnail: string | undefined, author: string,
         description: string, averageRating: number, ratingCount: number, bookStatus: string
@@ -125,6 +130,15 @@ function SelectedBookScreen({ navigation, route }: Props) {
     }
 
 
+    //Delete book
+    const [deleteBook, { isLoading: isDeleted }] = useDeleteBookMutation();
+    const [deleteBookAtributes, setDeleteBookAtributes] = useState<{
+        userId: number, bookId: string
+    }>({
+        userId: 0, bookId: ""
+    })
+
+
     //Use effect fetched books
     useEffect(() => {
         if (fetchedUserBooks.data) {
@@ -199,23 +213,15 @@ function SelectedBookScreen({ navigation, route }: Props) {
                                     <View style={{ width: "30%" }}>
                                         {isWantToRead ?
                                             <Pressable style={styles.onMyListBtn} onPress={() => {
-                                                addBookAtributes.userId = session.id;
-                                                addBookAtributes.bookId = bookId;
-                                                addBookAtributes.title = title;
-                                                addBookAtributes.author = authors;
-                                                addBookAtributes.description = description;
-                                                addBookAtributes.thumbnail = thumbnail ? thumbnail : undefined;
-                                                addBookAtributes.averageRating = averageRating;
-                                                addBookAtributes.ratingCount = ratingsCount
-                                                addBookAtributes.bookStatus = "WantToRead"
-                                                console.log(addBookAtributes)
-                                                addBook(addBookAtributes).unwrap().then((res) => {
-                                                    //Displays loading icon
+                                                deleteBookAtributes.bookId = currentBook.bookId
+                                                deleteBookAtributes.userId = session.id
+                                                deleteBook(deleteBookAtributes).unwrap().then( () => {
+                                                
                                                 });
 
                                             }}>
                                                 <>
-                                                    {isLoading ?
+                                                    {isDeleted && isWantToRead ?
                                                         <View style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, backgroundColor: 'rgba(247,247,250,0.5)', zIndex: 99, justifyContent: 'center' }}>
                                                             <ActivityIndicator style={{}} size="small" color={'#0000FF'} />
                                                         </View>
@@ -245,7 +251,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
                                                 addBookAtributes.bookStatus = "WantToRead"
                                                 console.log(addBookAtributes)
 
-                                                addBook(addBookAtributes).unwrap().then((res) => {
+                                                addBookWant(addBookAtributes).unwrap().then((res) => {
                                                     //Displays loading icon
                                                 });
 
@@ -282,16 +288,17 @@ function SelectedBookScreen({ navigation, route }: Props) {
                                 {isCurrentlyReading ?
 
                                     <Pressable style={styles.onMyListBtn} onPress={() => {
-                                        if (session.id != 0)
-                                            editBookStatus({ userId: session.id, bookId, bookStatus: "WantToRead" }).unwrap().then((res) => {
+                                        if (session.id != 0){
+                                            deleteBookAtributes.bookId = currentBook.bookId
+                                            deleteBookAtributes.userId = session.id
+                                            deleteBook(deleteBookAtributes).unwrap().then( () => {
 
                                             });
+                                        }
                                     }}>
 
-
-
                                         <>
-                                            {isLoadingStatus ?
+                                            {isDeleted && isCurrentlyReading ?
 
                                                 <View style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, backgroundColor: 'rgba(247,247,250,0.5)', zIndex: 99, justifyContent: 'center' }}>
                                                     <ActivityIndicator style={{}} size="small" color={'#0000FF'} />
@@ -313,14 +320,26 @@ function SelectedBookScreen({ navigation, route }: Props) {
                                     :
 
                                     <Pressable style={styles.selectedBookBtn} onPress={() => {
-                                        if (session.id != 0)
-                                            editBookStatus({ userId: session.id, bookId, bookStatus: "CurrentlyReading" }).unwrap().then((res) => {
+                                        if (session.id != 0){
+                                            addBookAtributes.userId = session.id;
+                                            addBookAtributes.bookId = bookId;
+                                            addBookAtributes.title = title;
+                                            addBookAtributes.author = authors;
+                                            addBookAtributes.description = description;
+                                            addBookAtributes.thumbnail = thumbnail ? thumbnail : undefined;
+                                            addBookAtributes.averageRating = averageRating;
+                                            addBookAtributes.ratingCount = ratingsCount
+                                            addBookAtributes.bookStatus = "CurrentlyReading"
+                                            console.log(addBookAtributes)
 
+                                            addBookCur(addBookAtributes).unwrap().then((res) => {
+                                                //Displays loading icon
                                             });
+                                        }
                                     }}>
 
                                         <>
-                                            {isLoadingStatus ?
+                                            {isLoadingCur ?
 
                                                 <View style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, backgroundColor: 'rgba(247,247,250,0.5)', zIndex: 99, justifyContent: 'center' }}>
                                                     <ActivityIndicator style={{}} size="small" color={'#0000FF'} />
@@ -349,14 +368,17 @@ function SelectedBookScreen({ navigation, route }: Props) {
                                 {isHistory ?
 
                                     <Pressable style={styles.onMyListBtn} onPress={() => {
-                                        if (session.id != 0)
-                                            editBookStatus({ userId: session.id, bookId, bookStatus: "WantToRead" }).unwrap().then((res) => {
-
+                                        if (session.id != 0){
+                                            deleteBookAtributes.bookId = currentBook.bookId
+                                            deleteBookAtributes.userId = session.id
+                                            deleteBook(deleteBookAtributes).unwrap().then( () => {
+                                                
                                             });
+                                        }
                                     }}>
 
                                         <>
-                                            {isLoadingStatus ?
+                                            {isDeleted && isHistory ?
 
                                                 <View style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, backgroundColor: 'rgba(247,247,250,0.5)', zIndex: 99, justifyContent: 'center' }}>
                                                     <ActivityIndicator style={{}} size="small" color={'#0000FF'} />
@@ -366,7 +388,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
                                                 :
 
                                                 <Text style={{ fontFamily: 'GraphikMedium', fontSize: 12, color: 'white' }}>
-                                                    <FontAwesome name="history" size={20} color="black" />
+                                                    <FontAwesome name="history" size={20} color="green" />
                                                     <Ionicons style={{}} name={'checkmark-sharp'} size={20} color={'green'} />
                                                 </Text>
                                             }
@@ -378,14 +400,26 @@ function SelectedBookScreen({ navigation, route }: Props) {
                                     :
 
                                     <Pressable style={styles.selectedBookBtn} onPress={() => {
-                                        if (session.id != 0)
-                                            editBookStatus({ userId: session.id, bookId, bookStatus: "History" }).unwrap().then((res) => {
+                                        if (session.id != 0){
+                                            addBookAtributes.userId = session.id;
+                                            addBookAtributes.bookId = bookId;
+                                            addBookAtributes.title = title;
+                                            addBookAtributes.author = authors;
+                                            addBookAtributes.description = description;
+                                            addBookAtributes.thumbnail = thumbnail ? thumbnail : undefined;
+                                            addBookAtributes.averageRating = averageRating;
+                                            addBookAtributes.ratingCount = ratingsCount
+                                            addBookAtributes.bookStatus = "History"
+                                            console.log(addBookAtributes)
 
+                                            addBookHis(addBookAtributes).unwrap().then((res) => {
+                                                //Displays loading icon
                                             });
+                                        }
                                     }}>
 
                                         <>
-                                            {isLoadingStatus ?
+                                            {isLoadingHis ?
 
                                                 <View style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, backgroundColor: 'rgba(247,247,250,0.5)', zIndex: 99, justifyContent: 'center' }}>
                                                     <ActivityIndicator style={{}} size="small" color={'#0000FF'} />
