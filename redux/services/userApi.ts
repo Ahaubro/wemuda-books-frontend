@@ -21,7 +21,7 @@ const baseQuery = fetchBaseQuery({
 export type User = {
   id: number
   fullName: string
-  username: string
+  email: string
   booksRead: number
   booksGoal: number
 }
@@ -73,7 +73,7 @@ export const userApi = createApi({
     //Change password
     changePassword: builder.mutation<
       {statusText: string},
-      {email: string}
+      {userId: number, newPassword: string, password: string}
     >({
       query: body => ({
         url: '/user/changePassword',

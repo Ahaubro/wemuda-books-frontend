@@ -23,6 +23,7 @@ function SettingsScreen({ navigation, route }: Props) {
   const session = useSelector((state: RootState) => state.session)
   const dispatch = useDispatch()
 
+
   return (
     <DefaultView>
 
