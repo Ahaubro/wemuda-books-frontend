@@ -64,6 +64,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
     const userBooksArr = fetchedUserBooks.data?.books
     let isCurrentlyReading: boolean = false
     let isHistory: boolean = false
+    let isWantToRead: boolean = false
 
     let currentBook: Book = {
         bookId: "",
@@ -94,6 +95,10 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
             if (currentBook.bookStatus === "History") {
                 isHistory = true
+            }
+
+            if (currentBook.bookStatus === "WantToRead") {
+                isWantToRead = true
             }
         }
     })
@@ -192,7 +197,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
                             <>
                                 {session.id && (
                                     <View style={{ width: "30%" }}>
-                                        {savedBookIds.filter(elm => elm === bookId).length === 1 ?
+                                        {isWantToRead ?
                                             <Pressable style={styles.onMyListBtn} onPress={() => {
                                                 addBookAtributes.userId = session.id;
                                                 addBookAtributes.bookId = bookId;
@@ -239,6 +244,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
                                                 addBookAtributes.ratingCount = ratingsCount
                                                 addBookAtributes.bookStatus = "WantToRead"
                                                 console.log(addBookAtributes)
+
                                                 addBook(addBookAtributes).unwrap().then((res) => {
                                                     //Displays loading icon
                                                 });
