@@ -13,9 +13,7 @@ import DefaultView from "../../components/DefaultView"
 import BackArrowContainer from "../../components/BackArrowContainer"
 import { Review, useGetReviewsQuery, useGetReviewsByBookIdQuery } from "../../redux/services/reviewApi"
 import { Rating, AirbnbRating } from "react-native-ratings"
-import { chain } from 'lodash'
 import { FontAwesome } from '@expo/vector-icons';
-import { toCurrency } from 'i18n-js'
 
 
 type SelectedBookScreenNavigationProps = StackNavigationProp<BookNavigatorParamList, 'SelectedBookScreen'>
