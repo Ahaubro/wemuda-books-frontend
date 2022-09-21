@@ -194,7 +194,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
         addBookAtributes.bookStatus = "CurrentlyReading"
         console.log(addBookAtributes)
 
-        addBookWant(addBookAtributes).unwrap().then((res) => {
+        addBookCur(addBookAtributes).unwrap().then((res) => {
             //Displays loading icon
         });
     }
@@ -212,7 +212,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
         addBookAtributes.bookStatus = "History"
         console.log(addBookAtributes)
 
-        addBookWant(addBookAtributes).unwrap().then((res) => {
+        addBookHis(addBookAtributes).unwrap().then((res) => {
             //Displays loading icon
         });
     }
@@ -270,7 +270,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
                     <View>
 
                         <View style={styles.centerContainer}>
-                            <SelectedBookButtons icon="eye" isLoading={(isDeleted && isHistory) || isLoadingCur} isSelected={isHistory}
+                            <SelectedBookButtons icon="eye" isLoading={(isDeleted && isHistory) || isLoadingHis} isSelected={isHistory}
                                 onPressSelected={() => {
                                     handleDelete();
                                 }}
