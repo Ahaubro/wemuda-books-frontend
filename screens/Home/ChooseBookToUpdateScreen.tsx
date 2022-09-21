@@ -46,7 +46,7 @@ const ChooseBookToUpdateScreen: React.FC<ChooseBookProps> = ({ navigation, route
                 </Pressable>
             </BackArrowContainer>
 
-            <Text style={styles.heading}>What book do you wish to update?</Text>
+            <Text style={styles.heading}>Choose which book to update</Text>
 
 
             <View style={{ flex: 1, maxWidth: 390, marginTop: 75 }}>
@@ -57,7 +57,7 @@ const ChooseBookToUpdateScreen: React.FC<ChooseBookProps> = ({ navigation, route
                     data={currentlyReadingBooks}
                     numColumns={1}
                     renderItem={(({ item: book, index: i }) =>
-                        <View style={{ paddingHorizontal: 10, paddingVertical: 8 }}>
+                        <View style={{ paddingHorizontal: 10, paddingVertical: 8}}>
                             <TouchableOpacity
                                 onPress={() => {
                                     navigation.navigate('UpdateStatus', {
@@ -82,7 +82,7 @@ const ChooseBookToUpdateScreen: React.FC<ChooseBookProps> = ({ navigation, route
 const styles = StyleSheet.create({
     heading: {
         fontSize: 25,
-        textAlign: 'center',
+        textAlign: 'left',
         paddingVertical: 15,   
         fontFamily: "GraphikMedium",
     },

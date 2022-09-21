@@ -26,7 +26,7 @@ export default function MyPageNavigator() {
         <Stack.Screen name="BookScreen" component={BooksNavigator} /> 
         <Stack.Screen name="SettingsScreen" component={SettingsScreen} /> 
         <Stack.Screen name="ChangePasswordScreen" component={ChangePasswordScreen} /> 
-
+        <Stack.Screen name="SelectedBookScreen" component={SelectedBookScreen} /> 
       </Stack.Navigator>
     )
   }

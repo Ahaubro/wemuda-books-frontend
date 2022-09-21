@@ -32,6 +32,7 @@ export type BookNavigatorParamList = {
         bookId: string
     }
     LoginScreen: undefined
+    MyPage: undefined
 }
 
 type Book = {
