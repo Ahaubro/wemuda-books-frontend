@@ -57,7 +57,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 
 
 
-                        <View>
+                        <View style={{paddingVertical: 10}}>
                             <Pressable style={styles.welcomeLoginPressable} onPress={() => {
                                 setScreen("login")
                             }}>
@@ -120,7 +120,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                         </View>
 
                         <View style={{  }}>
-                            <Pressable style={styles.buttonWhite} onPress={() => { setScreen("forgot password") }}>
+                            <Pressable style={styles.forgotPasswordBtn} onPress={() => { setScreen("forgot password") }}>
                                 <Text style={[styles.btnBlackText, {fontFamily: 'GraphikMedium'}]}>Forgot password</Text>
                             </Pressable>
                         </View>
@@ -266,10 +266,9 @@ const styles = StyleSheet.create({
         backgroundColor: "black",
         borderRadius: 10,
         color: "white",
-        marginTop: 5,
-        paddingVertical: 15,
+        paddingVertical: 20,
     },
-    buttonWhite: {
+    forgotPasswordBtn: {
         fontSize: 12,
         textAlign: "center",
         backgroundColor: "none",
@@ -284,9 +283,8 @@ const styles = StyleSheet.create({
         backgroundColor: "none",
         borderRadius: 10,
         color: "black",
-        marginTop: 7,
         border: '1px solid black',
-        paddingVertical: 15,
+        paddingVertical: 20,
     },
     btnWhiteText:{
         color: 'white',

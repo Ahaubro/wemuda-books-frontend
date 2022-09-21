@@ -14,6 +14,7 @@ import BackArrowContainer from "../../components/BackArrowContainer"
 import { Review, useGetReviewsQuery, useGetReviewsByBookIdQuery } from "../../redux/services/reviewApi"
 import { Rating, AirbnbRating } from "react-native-ratings"
 import { FontAwesome } from '@expo/vector-icons';
+import SelectedBookButtons from '../../components/SelectedBookButtons'
 
 
 type SelectedBookScreenNavigationProps = StackNavigationProp<BookNavigatorParamList, 'SelectedBookScreen'>
@@ -43,7 +44,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
 
     //Add book (want to read for now)
-    const [addBookWant, { isLoading }] = useAddBookMutation();
+    const [addBookWant, { isLoading: isLoadingWant }] = useAddBookMutation();
     const [addBookCur, { isLoading: isLoadingCur }] = useAddBookMutation();
     const [addBookHis, { isLoading: isLoadingHis }] = useAddBookMutation();
 
@@ -153,6 +154,69 @@ function SelectedBookScreen({ navigation, route }: Props) {
     }, [fetchedReviews.data])
 
 
+    //Handle deleteBook wanttoread function
+    function handleDelete() {
+        deleteBookAtributes.bookId = currentBook.bookId
+        deleteBookAtributes.userId = session.id
+        deleteBook(deleteBookAtributes).unwrap().then(() => {
+
+        });
+    }
+
+    //Handle wantToRead
+    function handleAddWantToRead() {
+        addBookAtributes.userId = session.id;
+        addBookAtributes.bookId = bookId;
+        addBookAtributes.title = title;
+        addBookAtributes.author = authors;
+        addBookAtributes.description = description;
+        addBookAtributes.thumbnail = thumbnail ? thumbnail : undefined;
+        addBookAtributes.averageRating = averageRating;
+        addBookAtributes.ratingCount = ratingsCount
+        addBookAtributes.bookStatus = "WantToRead"
+        console.log(addBookAtributes)
+
+        addBookWant(addBookAtributes).unwrap().then((res) => {
+            //Displays loading icon
+        });
+    }
+
+    //Handle currentlyReading
+    function handleCurrentlyReading() {
+        addBookAtributes.userId = session.id;
+        addBookAtributes.bookId = bookId;
+        addBookAtributes.title = title;
+        addBookAtributes.author = authors;
+        addBookAtributes.description = description;
+        addBookAtributes.thumbnail = thumbnail ? thumbnail : undefined;
+        addBookAtributes.averageRating = averageRating;
+        addBookAtributes.ratingCount = ratingsCount
+        addBookAtributes.bookStatus = "CurrentlyReading"
+        console.log(addBookAtributes)
+
+        addBookWant(addBookAtributes).unwrap().then((res) => {
+            //Displays loading icon
+        });
+    }
+
+    //Handle History
+    function handleHistory() {
+        addBookAtributes.userId = session.id;
+        addBookAtributes.bookId = bookId;
+        addBookAtributes.title = title;
+        addBookAtributes.author = authors;
+        addBookAtributes.description = description;
+        addBookAtributes.thumbnail = thumbnail ? thumbnail : undefined;
+        addBookAtributes.averageRating = averageRating;
+        addBookAtributes.ratingCount = ratingsCount
+        addBookAtributes.bookStatus = "History"
+        console.log(addBookAtributes)
+
+        addBookWant(addBookAtributes).unwrap().then((res) => {
+            //Displays loading icon
+        });
+    }
+
 
     return (
         <DefaultView>
@@ -206,238 +270,36 @@ function SelectedBookScreen({ navigation, route }: Props) {
                     <View>
 
                         <View style={styles.centerContainer}>
-                            <>
-                                {session.id && (
-                                    <View style={{ width: "30%" }}>
-                                        {isWantToRead ?
-                                            <Pressable style={styles.onMyListBtn} onPress={() => {
-                                                deleteBookAtributes.bookId = currentBook.bookId
-                                                deleteBookAtributes.userId = session.id
-                                                deleteBook(deleteBookAtributes).unwrap().then( () => {
-                                                
-                                                });
+                            <SelectedBookButtons icon="eye" isLoading={(isDeleted && isHistory) || isLoadingCur} isSelected={isHistory}
+                                onPressSelected={() => {
+                                    handleDelete();
+                                }}
 
-                                            }}>
-                                                <>
-                                                    {isDeleted && isWantToRead ?
-                                                        <View style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, backgroundColor: 'rgba(247,247,250,0.5)', zIndex: 99, justifyContent: 'center' }}>
-                                                            <ActivityIndicator style={{}} size="small" color={'#0000FF'} />
-                                                        </View>
+                                onPressNotSelected={() => {
+                                    handleHistory();
+                                }}
+                            />
 
+                            <SelectedBookButtons icon="bookmark-sharp" isLoading={(isDeleted && isCurrentlyReading) || isLoadingCur} isSelected={isCurrentlyReading}
+                                onPressSelected={() => {
+                                    handleDelete();
+                                }}
 
-                                                        :
+                                onPressNotSelected={() => {
+                                    handleCurrentlyReading();
+                                }}
+                            />
 
-                                                        <Text style={{ fontFamily: 'GraphikMedium', fontSize: 12, color: "white" }}>
-                                                            <Ionicons style={{}} name={'eye-outline'} size={20} color={'green'} />
-                                                            <Ionicons style={{}} name={'checkmark-sharp'} size={20} color={'green'} />
-                                                        </Text>
-                                                    }
-                                                </>
-                                            </Pressable>
-
-                                            :
-
-                                            <Pressable style={styles.selectedBookBtn} onPress={() => {
-                                                addBookAtributes.userId = session.id;
-                                                addBookAtributes.bookId = bookId;
-                                                addBookAtributes.title = title;
-                                                addBookAtributes.author = authors;
-                                                addBookAtributes.description = description;
-                                                addBookAtributes.thumbnail = thumbnail ? thumbnail : undefined;
-                                                addBookAtributes.averageRating = averageRating;
-                                                addBookAtributes.ratingCount = ratingsCount
-                                                addBookAtributes.bookStatus = "WantToRead"
-                                                console.log(addBookAtributes)
-
-                                                addBookWant(addBookAtributes).unwrap().then((res) => {
-                                                    //Displays loading icon
-                                                });
-
-                                            }}>
-
-                                                <>
-                                                    {isLoading ?
-                                                        <View style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, backgroundColor: 'rgba(247,247,250,0.5)', zIndex: 99, justifyContent: 'center' }}>
-                                                            <ActivityIndicator style={{}} size="small" color={'#0000FF'} />
-                                                        </View>
+                            <SelectedBookButtons icon="history" isLoading={(isDeleted && isWantToRead) || isLoadingWant} isSelected={isWantToRead}
+                                onPressSelected={() => {
+                                    handleDelete();
+                                }}
+                                onPressNotSelected={() => {
+                                    handleAddWantToRead();
+                                }}
+                            />
 
 
-                                                        :
-
-                                                        <Text style={styles.btnBlackText}>
-                                                            <Ionicons style={{}} name={'eye-outline'} size={20} color={'black'} />
-                                                        </Text>
-                                                    }
-
-                                                </>
-                                            </Pressable>
-                                        }
-                                    </View>
-
-                                )}
-                            </>
-
-                            <View style={{ width: "2%" }}></View>
-
-                            {/* CURRENTLYREADING */}
-
-                            <View style={{ width: "30%" }}>
-
-                                {isCurrentlyReading ?
-
-                                    <Pressable style={styles.onMyListBtn} onPress={() => {
-                                        if (session.id != 0){
-                                            deleteBookAtributes.bookId = currentBook.bookId
-                                            deleteBookAtributes.userId = session.id
-                                            deleteBook(deleteBookAtributes).unwrap().then( () => {
-
-                                            });
-                                        }
-                                    }}>
-
-                                        <>
-                                            {isDeleted && isCurrentlyReading ?
-
-                                                <View style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, backgroundColor: 'rgba(247,247,250,0.5)', zIndex: 99, justifyContent: 'center' }}>
-                                                    <ActivityIndicator style={{}} size="small" color={'#0000FF'} />
-                                                </View>
-
-
-                                                :
-
-                                                <Text style={{ fontFamily: 'GraphikMedium', fontSize: 12, color: 'white' }}>
-                                                    <Ionicons name="bookmark-sharp" size={20} color="green" />
-                                                    <Ionicons style={{}} name={'checkmark-sharp'} size={20} color={'green'} />
-                                                </Text>
-                                            }
-
-                                        </>
-
-                                    </Pressable>
-
-                                    :
-
-                                    <Pressable style={styles.selectedBookBtn} onPress={() => {
-                                        if (session.id != 0){
-                                            addBookAtributes.userId = session.id;
-                                            addBookAtributes.bookId = bookId;
-                                            addBookAtributes.title = title;
-                                            addBookAtributes.author = authors;
-                                            addBookAtributes.description = description;
-                                            addBookAtributes.thumbnail = thumbnail ? thumbnail : undefined;
-                                            addBookAtributes.averageRating = averageRating;
-                                            addBookAtributes.ratingCount = ratingsCount
-                                            addBookAtributes.bookStatus = "CurrentlyReading"
-                                            console.log(addBookAtributes)
-
-                                            addBookCur(addBookAtributes).unwrap().then((res) => {
-                                                //Displays loading icon
-                                            });
-                                        }
-                                    }}>
-
-                                        <>
-                                            {isLoadingCur ?
-
-                                                <View style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, backgroundColor: 'rgba(247,247,250,0.5)', zIndex: 99, justifyContent: 'center' }}>
-                                                    <ActivityIndicator style={{}} size="small" color={'#0000FF'} />
-                                                </View>
-
-
-                                                :
-
-                                                <Text style={styles.btnBlackText}>
-                                                    <Ionicons name="bookmark-sharp" size={20} color="black" />
-                                                </Text>
-                                            }
-
-                                        </>
-
-                                    </Pressable>
-
-                                }
-
-                            </View>
-
-                            <View style={{ width: "2%" }}></View>
-
-                            <View style={{ width: "30%" }}>
-
-                                {isHistory ?
-
-                                    <Pressable style={styles.onMyListBtn} onPress={() => {
-                                        if (session.id != 0){
-                                            deleteBookAtributes.bookId = currentBook.bookId
-                                            deleteBookAtributes.userId = session.id
-                                            deleteBook(deleteBookAtributes).unwrap().then( () => {
-                                                
-                                            });
-                                        }
-                                    }}>
-
-                                        <>
-                                            {isDeleted && isHistory ?
-
-                                                <View style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, backgroundColor: 'rgba(247,247,250,0.5)', zIndex: 99, justifyContent: 'center' }}>
-                                                    <ActivityIndicator style={{}} size="small" color={'#0000FF'} />
-                                                </View>
-
-
-                                                :
-
-                                                <Text style={{ fontFamily: 'GraphikMedium', fontSize: 12, color: 'white' }}>
-                                                    <FontAwesome name="history" size={20} color="green" />
-                                                    <Ionicons style={{}} name={'checkmark-sharp'} size={20} color={'green'} />
-                                                </Text>
-                                            }
-
-                                        </>
-
-                                    </Pressable>
-
-                                    :
-
-                                    <Pressable style={styles.selectedBookBtn} onPress={() => {
-                                        if (session.id != 0){
-                                            addBookAtributes.userId = session.id;
-                                            addBookAtributes.bookId = bookId;
-                                            addBookAtributes.title = title;
-                                            addBookAtributes.author = authors;
-                                            addBookAtributes.description = description;
-                                            addBookAtributes.thumbnail = thumbnail ? thumbnail : undefined;
-                                            addBookAtributes.averageRating = averageRating;
-                                            addBookAtributes.ratingCount = ratingsCount
-                                            addBookAtributes.bookStatus = "History"
-                                            console.log(addBookAtributes)
-
-                                            addBookHis(addBookAtributes).unwrap().then((res) => {
-                                                //Displays loading icon
-                                            });
-                                        }
-                                    }}>
-
-                                        <>
-                                            {isLoadingHis ?
-
-                                                <View style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, backgroundColor: 'rgba(247,247,250,0.5)', zIndex: 99, justifyContent: 'center' }}>
-                                                    <ActivityIndicator style={{}} size="small" color={'#0000FF'} />
-                                                </View>
-
-
-                                                :
-
-                                                <Text style={styles.btnBlackText}>
-                                                    <FontAwesome name="history" size={20} color="black" />
-                                                </Text>
-                                            }
-
-                                        </>
-
-                                    </Pressable>
-
-                                }
-
-                            </View>
                         </View>
                     </View>
 
@@ -495,8 +357,6 @@ function SelectedBookScreen({ navigation, route }: Props) {
                     }
                 </View>
             </View>
-
-
 
 
             <View>
