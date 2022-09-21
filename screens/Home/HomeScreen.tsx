@@ -1,18 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, Pressable, FlatList, Image, TouchableOpacity } from 'react-native'
-import Ionicons from '@expo/vector-icons/Ionicons'
-import Entypo from '@expo/vector-icons/Entypo'
 import { StatusBar } from 'expo-status-bar'
-import { FONTS } from '../../utils/fontUtils'
-import i18n from 'i18n-js'
 import { Book, useGetBooksByUserIdQuery } from "../../redux/services/bookApi"
 import { useGetUserByIdQuery } from "../../redux/services/userApi"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from '../../redux/store'
 import { useGetStatusUpdatesByUserQuery, StatusUpdate } from '../../redux/services/statusUpdateApi'
-import { configureScope } from '@sentry/react-native'
 import DefaultView from "../../components/DefaultView"
-import { endSession } from '../../redux/slices/sessionSlice'
 
 interface HomeScreenProps {
   navigation: any
@@ -29,45 +23,40 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
   const statusUpdates = useGetStatusUpdatesByUserQuery(session.id);
 
-  //const [booksRead, setBooksRead] = useState("?")
-
-  //Arex igang med currentlyReadning
+  //Currently Reading
   const userBooks = useGetBooksByUserIdQuery(session.id, { refetchOnMountOrArgChange: true })
   const userBooksArr = userBooks.data?.books
-  //let currentlyReadingBookThumbnail: string | undefined = ""
-  //let currentlyReadingBookId: string | undefined = ""
-  let currentlyReadingBook: Book = {
-    bookId: "",
-    title: "",
-    author: "",
-    description: "",
-    bookStatus: "",
-    thumbnail: "",
-    averageRating: 0,
-    ratingsCount: 0
-  }
+
+
+  // let currentlyReadingBook: Book = {
+  //   bookId: "",
+  //   title: "",
+  //   author: "",
+  //   description: "",
+  //   bookStatus: "",
+  //   thumbnail: "",
+  //   averageRating: 0,
+  //   ratingsCount: 0
+  // }
+
+  let currentlyReadingBooks: Book[] = []
 
   userBooksArr?.forEach((book) => {
     if (book.bookStatus == "CurrentlyReading") {
-      currentlyReadingBook = {
-        bookId: book.bookId,
-        title: book.title,
-        author: book.author,
-        description: book.description,
-        bookStatus: book.bookStatus,
-        thumbnail: book.thumbnail,
-        averageRating: book.averageRating,
-        ratingsCount: book.ratingsCount
-      }
+      // currentlyReadingBook = {
+      //   bookId: book.bookId,
+      //   title: book.title,
+      //   author: book.author,
+      //   description: book.description,
+      //   bookStatus: book.bookStatus,
+      //   thumbnail: book.thumbnail,
+      //   averageRating: book.averageRating,
+      //   ratingsCount: book.ratingsCount
+      // }
+      currentlyReadingBooks.push(book)
     }
   })
 
-  // useEffect(() => {
-  //   const unsubscribe = navigation.addListener('focus', () => {
-  //     user.refetch()
-  //   })
-  //   return unsubscribe
-  // }, [navigation])
 
   useEffect(() => {
     if (statusUpdates.data) {
@@ -113,33 +102,18 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     user.refetch()
   }, [userBooks.data])
 
+
   return (
     <DefaultView>
 
       {session.token && userBooks.data?.books &&
 
         <View>
-
           <View style={styles.currentlyReadingImage}>
-            <Text style={styles.currentlyReadingHeader}>Currently reading</Text>
-            <TouchableOpacity onPress={() => {
-              navigation.navigate('SelectedBookScreen', {
-                bookId: currentlyReadingBook.bookId,
-                title: currentlyReadingBook.title,
-                authors: currentlyReadingBook.author,
-                description: currentlyReadingBook.description,
-                thumbnail: currentlyReadingBook.thumbnail ? currentlyReadingBook.thumbnail : undefined,
-                averageRating: currentlyReadingBook.averageRating,
-                ratingsCount: currentlyReadingBook.ratingsCount,
-              })
-            }}>
+            <Text style={styles.currentlyReadingHeader}>Currently reading</Text>   
 
-              {currentlyReadingBook.thumbnail ?
-                <Image
-                  source={{ uri: currentlyReadingBook.thumbnail }}
-                  style={{ width: 200, height: 280, borderRadius: 5 }}
-                />
-                :
+            {
+              currentlyReadingBooks.length === 0 ?
                 <div style={{ width: 200, height: 280, backgroundColor: "rgb(242,242,242)", display: "flex", justifyContent: "center", alignItems: "center" }}>
 
                   <View style={{ flexDirection: 'column', width: '70%' }}>
@@ -153,28 +127,59 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                     </Pressable>
                   </View>
                 </div>
-              }
-            </TouchableOpacity>
 
+                :
+                <View style={{flex: 1, maxWidth: 200}}>
+                  <FlatList 
+                  style={{flex: 1}} 
+                  showsHorizontalScrollIndicator={false} 
+                  horizontal={true} 
+                  data={currentlyReadingBooks} 
+                  numColumns={1}
+                  
+                  renderItem={(({ item: book, index: i }) =>
+                    <View style={{ paddingHorizontal: 10, paddingVertical: 8}}>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('SelectedBookScreen', {
+                          bookId: book.bookId,
+                          title: book.title,
+                          authors: book.author,
+                          description: book.description,
+                          thumbnail: book.thumbnail ? book.thumbnail : undefined,
+                          averageRating: book.averageRating,
+                          ratingsCount: book.ratingsCount,
+                        })
+                      }}>
+
+                        <Image
+                          source={{ uri: book.thumbnail }}
+                          style={{ width: 200, height: 280, borderRadius: 5 }}
+                        />
+
+                      </TouchableOpacity>
+                    </View>
+
+                  )}
+                  />
+                </View>
+            }
           </View>
 
 
           <View style={{ marginTop: 70, paddingVertical: 10 }}>
 
             <>
-              {currentlyReadingBook.thumbnail &&
-
+              {currentlyReadingBooks.length != 0 &&
                 <Pressable style={styles.buttonGray} onPress={(() => navigation.navigate('UpdateStatus', {
-                  thumbnail: currentlyReadingBook.thumbnail,
-                  bookId: currentlyReadingBook.bookId,
+                  thumbnail: currentlyReadingBooks[0].thumbnail,
+                  bookId: currentlyReadingBooks[0].bookId,
                   userId: session.id
                 }))}>
                   <Text style={styles.btnBlackText}>Update reading progress</Text>
-                </Pressable>     
-                  
+                </Pressable>
               }
-            </>    
-          </View>    
+            </>
+          </View>
 
 
           {user.data?.booksGoal ?
@@ -183,7 +188,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
               {user.data?.booksRead == user.data?.booksGoal ?
 
-                <Text style={{ fontSize: 16, marginTop: 12, marginLeft: 5, paddingHorizontal: 2, paddingVertical: 5 }}>Reading challenge completed!! 🎉🎉 </Text>
+                <Text style={{ fontSize: 16, paddingBottom: 5}}>Reading challenge completed! 🎉 </Text>
                 :
 
                 <Text style={styles.readingChallengeText}>Reading challenge </Text>
@@ -195,15 +200,15 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                 <View style={{ marginRight: 25, marginTop: -10 }}>
                   <Pressable style={{ backgroundColor: "white", borderRadius: 15, paddingHorizontal: 10, paddingVertical: 8 }}
                     onPress={() => navigation.navigate('UpdateGoalScreen', {
-                      thumbnail: currentlyReadingBook.thumbnail,
-                      bookId: currentlyReadingBook.bookId,
+                      thumbnail: currentlyReadingBooks[0].thumbnail,
+                      bookId: currentlyReadingBooks[0].bookId,
                       userId: session.id
                     })}>
-                    <Text style={{ fontSize: 12, fontFamily: 'GraphikMedium'}}>Edit goal</Text>
+                    <Text style={{ fontSize: 12, fontFamily: 'GraphikMedium' }}>Edit goal</Text>
                   </Pressable>
                 </View>
 
-                <Text style={{ fontSize: 22, fontFamily: 'GraphikMedium', marginTop: 5}}>{user.data?.booksRead}/{user.data?.booksGoal ?? 0}<Text style={{ fontSize: 16}}> books read </Text> </Text>
+                <Text style={{ fontSize: 22, fontFamily: 'GraphikMedium', marginTop: 5 }}>{user.data?.booksRead}/{user.data?.booksGoal ?? 0}<Text style={{ fontSize: 16 }}> books read </Text> </Text>
 
               </View>
 
@@ -215,11 +220,11 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               <View style={{ marginTop: -10 }}>
                 <Pressable style={{ backgroundColor: "rgb(247,247,250)", borderRadius: 15, paddingHorizontal: 10, paddingVertical: 15 }}
                   onPress={() => navigation.navigate('UpdateGoalScreen', {
-                    thumbnail: currentlyReadingBook.thumbnail,
-                    bookId: currentlyReadingBook.bookId,
+                    thumbnail: currentlyReadingBooks[0].thumbnail,
+                    bookId: currentlyReadingBooks[0].bookId,
                     userId: session.id
                   })}>
-                  <Text style={{ fontSize: 14, textAlign: 'center', fontFamily: "GraphikMedium"}}>Set a reading challenge</Text>
+                  <Text style={{ fontSize: 14, textAlign: 'center', fontFamily: "GraphikMedium" }}>Set a reading challenge</Text>
                 </Pressable>
               </View>
             </View>
@@ -273,7 +278,6 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   currentlyReadingImage: {
-    flex: 1,
     alignItems: "center",
     marginTop: 40,
   },
@@ -324,10 +328,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: "GraphikMedium",
   },
-  goalAndStreakHeader:{
-    color: "rgb(225,225,225)", 
-    fontFamily: 'GraphikMedium', 
-    paddingBottom: 5, 
+  goalAndStreakHeader: {
+    color: "rgb(225,225,225)",
+    fontFamily: 'GraphikMedium',
+    paddingBottom: 5,
     fontSize: 13,
   }
 
