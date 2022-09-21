@@ -23,23 +23,12 @@ const UpdateStatusScreen: React.FC<HomeScreenProps> = ({ navigation, route }) =>
     const { bookId, userId } = route.params
 
     const userBooks = useGetBooksByUserIdQuery(userId)
-    const currentlyReadingBook: Book | undefined = userBooks.data?.books.find(book => book.bookId == bookId)
 
     const [editBookStatus, { isLoading, isSuccess }] = useEditStatusMutation()
 
     const [addStatusUpdate] = useAddStatusUpdateMutation()
 
-    const [updateBooksGoal] = useSetBooksGoalMutation()
-
-    const [resetBooksRead] = useResetBooksReadMutation()
-
-    const [finishedBook, setFinishedBook] = useState(false)
-
     const [minutesRead, setMinutesRead] = useState(0)
-
-    const [booksGoal, setBooksGoal] = useState(0)
-
-    const [resetProgress, setResetProgress] = useState(false)
 
     const [message, setMessage] = useState("")
 
@@ -53,7 +42,7 @@ const UpdateStatusScreen: React.FC<HomeScreenProps> = ({ navigation, route }) =>
                 </View>
             }
 
-            <Pressable style={styles.backArrowPos} onPress={() => { navigation.navigate('Home') }}>
+            <Pressable style={styles.backArrowPos} onPress={() => { navigation.pop() }}>
                 <Ionicons name={'chevron-back'} size={25} color={'black'} />
             </Pressable>
 

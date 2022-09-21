@@ -28,16 +28,16 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const userBooksArr = userBooks.data?.books
 
 
-  // let currentlyReadingBook: Book = {
-  //   bookId: "",
-  //   title: "",
-  //   author: "",
-  //   description: "",
-  //   bookStatus: "",
-  //   thumbnail: "",
-  //   averageRating: 0,
-  //   ratingsCount: 0
-  // }
+  let currentlyReadingBook: Book = {
+    bookId: "",
+    title: "",
+    author: "",
+    description: "",
+    bookStatus: "",
+    thumbnail: "",
+    averageRating: 0,
+    ratingsCount: 0
+  }
 
   let currentlyReadingBooks: Book[] = []
 
@@ -102,6 +102,9 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     user.refetch()
   }, [userBooks.data])
 
+  //Flatlist element styling
+  
+
 
   return (
     <DefaultView>
@@ -136,10 +139,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                   horizontal={true} 
                   data={currentlyReadingBooks} 
                   numColumns={1}
-                  
                   renderItem={(({ item: book, index: i }) =>
                     <View style={{ paddingHorizontal: 10, paddingVertical: 8}}>
-                      <TouchableOpacity onPress={() => {
+                      <TouchableOpacity 
+                      onPress={() => {
                         navigation.navigate('SelectedBookScreen', {
                           bookId: book.bookId,
                           title: book.title,
@@ -170,9 +173,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
             <>
               {currentlyReadingBooks.length != 0 &&
-                <Pressable style={styles.buttonGray} onPress={(() => navigation.navigate('UpdateStatus', {
-                  thumbnail: currentlyReadingBooks[0].thumbnail,
-                  bookId: currentlyReadingBooks[0].bookId,
+                <Pressable style={styles.buttonGray} onPress={(() => navigation.navigate('ChooseBookToUpdateScreen', {
                   userId: session.id
                 }))}>
                   <Text style={styles.btnBlackText}>Update reading progress</Text>

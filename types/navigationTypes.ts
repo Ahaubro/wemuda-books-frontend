@@ -107,5 +107,8 @@ export type HomeNavigatorParamList = {
     AllReviewsScreen: {
         bookId: string
     }
+    ChooseBookToUpdateScreen:{
+        userId: number
+    }
 
 }
