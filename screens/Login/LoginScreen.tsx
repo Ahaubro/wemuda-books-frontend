@@ -69,7 +69,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                             <Pressable style={{}} onPress={() => {
                                 dispatch(startSession({ id: 0, token: "guest" }))
                             }}>
-                                <Text style={[styles.btnBlackText, {fontFamily: 'GraphikMedium'}]}>Continue without login</Text>
+                                <Text style={styles.btnBlackText}>Continue without login</Text>
                             </Pressable>
                         </View>
                     </View>
@@ -260,12 +260,18 @@ const styles = StyleSheet.create({
         fontFamily: "GraphikRegular"
     },
     buttonBlack: {
-        fontSize: 12,
         fontFamily: "GraphikMedium",
         textAlign: "center",
         backgroundColor: "black",
         borderRadius: 10,
-        color: "white",
+        paddingVertical: 20,
+    },
+    welcomeLoginPressable: {
+        fontFamily: "GraphikMedium",
+        textAlign: "center",
+        backgroundColor: "none",
+        borderRadius: 10,
+        border: '1px solid black',
         paddingVertical: 20,
     },
     forgotPasswordBtn: {
@@ -275,16 +281,6 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         paddingVertical: 8,
         marginTop: 3,
-    },
-    welcomeLoginPressable: {
-        fontSize: 12,
-        fontFamily: "GraphikMedium",
-        textAlign: "center",
-        backgroundColor: "none",
-        borderRadius: 10,
-        color: "black",
-        border: '1px solid black',
-        paddingVertical: 20,
     },
     btnWhiteText:{
         color: 'white',

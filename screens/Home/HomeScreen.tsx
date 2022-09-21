@@ -203,7 +203,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                   </Pressable>
                 </View>
 
-                <Text style={{ fontSize: 22, fontFamily: 'GraphikMedium', padding: 2 }}> {user.data?.booksRead}/{user.data?.booksGoal ?? 0} <Text style={{ fontSize: 16}}> books read </Text> </Text>
+                <Text style={{ fontSize: 22, fontFamily: 'GraphikMedium', marginTop: 5}}>{user.data?.booksRead}/{user.data?.booksGoal ?? 0}<Text style={{ fontSize: 16}}> books read </Text> </Text>
 
               </View>
 
@@ -211,7 +211,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
             :
 
-            <View style={{ borderBottomColor: "#AAA", borderBottomWidth: 2, width: "100%", paddingVertical: 10 }}>
+            <View>
               <View style={{ marginTop: -10 }}>
                 <Pressable style={{ backgroundColor: "rgb(247,247,250)", borderRadius: 15, paddingHorizontal: 10, paddingVertical: 15 }}
                   onPress={() => navigation.navigate('UpdateGoalScreen', {
@@ -228,28 +228,19 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           <View style={{ marginTop: 10, flexDirection: "row", width: '100%' }}>
 
             <View style={styles.streakAndMinutes}>
-              <Text style={{ color: "#AAA", fontFamily: 'GraphikRegular', paddingVertical: 3 }}>Reading streak</Text>
-              <Text style={{ fontSize: 22, fontFamily: 'GraphikMedium' }}>{streak} <Text style={{ fontSize: 14, fontWeight: "600", fontFamily: "GraphikRegular" }}> days </Text></Text>
+              <Text style={styles.goalAndStreakHeader}>Reading streak</Text>
+              <Text style={{ fontSize: 22, fontFamily: 'GraphikMedium', marginTop: 5 }}>{streak} <Text style={{ fontSize: 14, fontFamily: "GraphikMedium", marginTop: 5 }}> days </Text></Text>
             </View>
 
             <View style={{ width: '2%' }}></View>
 
 
             <View style={styles.streakAndMinutes}>
-              <Text style={{ color: "#AAA",  fontFamily: 'GraphikRegular', paddingVertical: 3 }}>Minutes read</Text>
-              <Text style={{ fontSize: 22, fontFamily: 'GraphikMedium' }}>{minutes} <Text style={{ fontSize: 14, fontWeight: "600", fontFamily: "GraphikRegular" }}> minutes </Text></Text>
+              <Text style={styles.goalAndStreakHeader}>Minutes read</Text>
+              <Text style={{ fontSize: 22, fontFamily: 'GraphikMedium', marginTop: 5 }}>{minutes} <Text style={{ fontSize: 14, fontFamily: "GraphikMedium", marginTop: 5 }}> minutes </Text></Text>
             </View>
 
           </View>
-
-          <View style={{ paddingTop: 40 }}>
-            <Pressable style={styles.buttonWhite} onPress={() => {
-              dispatch(endSession());
-            }}>
-              <Text style={styles.btnBlackText}>Logout</Text>
-            </Pressable>
-          </View>
-
         </View>
       }
 
@@ -297,15 +288,14 @@ const styles = StyleSheet.create({
     backgroundColor: "rgb(247,247,250)",
     borderRadius: 10,
     height: 90,
+    paddingHorizontal: 15,
+    paddingVertical: 15
   },
   readingChallengeText: {
-    color: "#ccc",
-    fontSize: 16,
-    marginTop: 12,
-    marginLeft: 5,
-    paddingHorizontal: 2,
-    paddingVertical: 5,
-    fontFamily: "GraphikRegular",
+    color: "rgb(225,225,225)",
+    fontSize: 13,
+    paddingBottom: 5,
+    fontFamily: "GraphikMedium",
   },
   editNBooksRead: {
     flexDirection: 'row-reverse',
@@ -334,6 +324,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: "GraphikMedium",
   },
+  goalAndStreakHeader:{
+    color: "rgb(225,225,225)", 
+    fontFamily: 'GraphikMedium', 
+    paddingBottom: 5, 
+    fontSize: 13,
+  }
 
 })
 
