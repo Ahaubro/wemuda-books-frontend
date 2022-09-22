@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Button, StyleSheet, Text, View, TextInput, Pressable } from 'react-native'
-import { useLoginMutation, useSignupMutation, User, useChangePasswordMutation } from '../../redux/services/userApi'
+import { useLoginMutation, useSignupMutation, useForgotPasswordMutation } from '../../redux/services/userApi'
 import { useStore, useDispatch } from 'react-redux'
 // import { RootState } from '../../redux/store'
 import store from '../../redux/store'
@@ -32,6 +32,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
     const dispatch = useDispatch();
     const [login] = useLoginMutation();
     const [signup] = useSignupMutation();
+    const [forgotPassword] = useForgotPasswordMutation();
     //const [changePassword] = useChangePasswordMutation();
 
     // const onSubmit: SubmitHandler<LoginFormData> = async data => {
@@ -212,7 +213,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                         <View style={{ flexDirection: "column", marginVertical: 5 }}>
                             <Text style={styles.label}>Email</Text>
                             <TextInput placeholder='eksempel@email.com' placeholderTextColor={"#AAAAAA"} onChangeText={email => {
-                                setForgotPasswordInputs({ ...forgotPasswordInputs, email })
+                                setForgotPasswordInputs({ email })
                             }} style={styles.textInput}>
                             </TextInput>
                         </View>
@@ -220,10 +221,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                         <View style={{ paddingVertical: 10 }}>
                             <Pressable style={styles.buttonBlack} onPress={() => {
                                 if (forgotPasswordInputs.email) {
-                                    console.log(forgotPasswordInputs.email)
-                                    // changePassword(forgotPasswordInputs).unwrap().then( () => {
-                                    //     setScreen("login")
-                                    // })
+                                    forgotPassword(forgotPasswordInputs)
                                 }
                             }}>
                                 <Text style={styles.btnWhiteText}>Send</Text>
