@@ -18,7 +18,7 @@ const Carousel: React.FC<CarouselProps> = ({ items, navigation }) => {
 
     const animation = useRef(new Animated.Value(0));
     const [currentImage, setCurrentImage] = useState(0);
-    useInterval(() => handleAnimation(), 3000)
+    useInterval(() => handleAnimation(), 2500)
 
     const handleAnimation = () => {
         let newCurrentImage = currentImage + 1;
@@ -107,7 +107,6 @@ const styles = StyleSheet.create({
         resizeMode: 'cover',
         marginRight: 50,
         borderRadius: 5,
-        opacity: 0.8
     },
     currentImage: {
         width: 200,

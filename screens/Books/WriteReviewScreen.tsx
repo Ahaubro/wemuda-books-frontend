@@ -26,8 +26,7 @@ function WriteReviewScreen({ navigation, route }: Props) {
     const session = useSelector((state: RootState) => state.session)
 
     const dispatch = useDispatch()
-
-    {/* AREX IGANG HER */ }
+    
 
     // Destructuring fra navigation.navigate (Books.tsx linje 75 - 81)
     const { bookId, userId } = route.params

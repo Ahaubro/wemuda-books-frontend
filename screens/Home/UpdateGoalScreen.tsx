@@ -105,14 +105,14 @@ const styles = StyleSheet.create({
         textAlign: "center",
         backgroundColor: "black",
         borderRadius: 10,
-        paddingVertical: 15,
+        paddingVertical: 20,
     },
     buttonGrey: {
         fontFamily: "GraphikMedium",
         textAlign: "center",
         backgroundColor: "rgb(247,247,250)",
         borderRadius: 10,
-        paddingVertical: 15,
+        paddingVertical: 20,
     },
     textInput: {
         borderWidth: 1,

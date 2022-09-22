@@ -25,6 +25,7 @@ type Props = {
     route: SelectedBookScreenRouteProps
 }
 
+
 function SelectedBookScreen({ navigation, route }: Props) {
     const session = useSelector((state: RootState) => state.session)
     const dispatch = useDispatch()
@@ -125,6 +126,21 @@ function SelectedBookScreen({ navigation, route }: Props) {
         } else {
             slicedContentString = content
             return slicedContentString
+        }
+    }
+
+    //SLice review content function for display
+    let slicedTitleString = ""
+    const sliceTitle = (content: string) => {
+        if (!content) {
+            slicedTitleString = "No content.."
+            return slicedContentString
+        } else if (content.length > 60) {
+            slicedTitleString = content.substring(0, 60) + " ..."
+            return slicedTitleString
+        } else {
+            slicedTitleString = content
+            return slicedTitleString
         }
     }
 
@@ -257,7 +273,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
             </View>
 
             <View style={{ marginBottom: 15, marginTop: 15 }}>
-                <Text style={styles.title}>{title}</Text>
+                <Text style={styles.title}>{sliceTitle(title)}</Text>
                 <Text style={styles.auhtors}>{authors}</Text>
             </View>
 
@@ -306,7 +322,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
 
             <View style={styles.descriptionContainer}>
-                <Text style={{ fontFamily: 'GraphikMedium', fontSize: 14, paddingVertical: 15 }}>Description </Text>
+                <Text style={{ fontFamily: 'GraphikSemibold', fontSize: 14, paddingTop: 20, paddingBottom: 10 }}>Description </Text>
 
                 <>
                     {slicedDescription.length > 0 ?
@@ -379,7 +395,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
                                             />
 
                                         </View>
-                                        <Text style={{ color: 'grey', fontFamily: 'GraphikRegular', fontSize: 14, width: 350 }}>{getContent(item.content)}</Text>
+                                        <Text style={{ color: 'grey', fontFamily: 'GraphikRegular', fontSize: 12, width: 350 }}>{getContent(item.content)}</Text>
                                     </View>
                                 </View>
                             </View>
@@ -397,13 +413,13 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
 
             <View style={{ marginTop: 15 }}>
-                <Pressable style={[styles.selectedBookBtn, { paddingVertical: 8 }]} onPress={() => {
+                <Pressable style={styles.selectedBookBtn} onPress={() => {
                     navigation.navigate("WriteReviewScreen", {
                         bookId: bookId,
                         userId: session.id
                     })
                 }}>
-                    <Text style={{ fontFamily: 'GraphikMedium', fontSize: 16 }}> <Ionicons name={'ios-create'} size={20} color={'black'} style={{ paddingHorizontal: 5 }} /> Write a review </Text>
+                    <Text style={{ fontFamily: 'GraphikSemibold', fontSize: 14 }}> <Ionicons name={'ios-create'} size={20} color={'black'} style={{ paddingHorizontal: 5 }} /> Write a review </Text>
                 </Pressable>
             </View>
 
@@ -451,26 +467,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignContent: 'center',
     },
-    selectedBookBtn: {
-        fontSize: 12,
-        fontFamily: "GraphikMedium",
-        textAlign: "center",
-        backgroundColor: "rgb(247,247,250)",
-        borderRadius: 15,
-        color: "black",
-        paddingVertical: 10,
-        height: 40
-    },
     descriptionContainer: {
         backgroundColor: "rgb(247,247,250)",
         borderRadius: 15,
         height: 110,
         paddingHorizontal: 20,
-        marginTop: 25,
+        marginTop: 20,
     },
     reviewHeader: {
         marginTop: 15,
-        fontWeight: "bold",
+        fontFamily: 'GraphikSemibold',
         fontSize: 16,
     },
     reviewContainer: {
@@ -511,17 +517,13 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontFamily: "GraphikMedium",
     },
-    welcomeLoginPressable: {
-        fontSize: 12,
+    selectedBookBtn: {
         fontFamily: "GraphikMedium",
         textAlign: "center",
-        backgroundColor: "none",
-        borderRadius: 10,
+        backgroundColor: "rgb(247,247,250)",
+        borderRadius: 15,
         color: "black",
-        marginTop: 7,
-        border: '0.5px solid black',
-        paddingVertical: 10,
-        paddingHorizontal: 3
+        paddingVertical: 15,
     },
 })
 

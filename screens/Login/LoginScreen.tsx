@@ -93,21 +93,21 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 
 
                     <View style={{ flexDirection: "column" }}>
-                        <View style={{ marginVertical: 5 }}>
+                        <View style={styles.nextInput}>
                             <Text style={styles.label}>Email</Text>
                             <TextInput placeholder="eksempel@email.dk" placeholderTextColor={"#AAAAAA"} onChangeText={email => {
                                 setLoginInputs({ ...loginInputs, email })
                             }} style={styles.textInput}></TextInput>
                         </View>
 
-                        <View style={{ marginVertical: 5 }}>
+                        <View style={styles.nextInput}>
                             <Text style={styles.label}>Password</Text>
                             <TextInput placeholder="Insert password" placeholderTextColor={"#AAAAAA"} onChangeText={password => {
                                 setLoginInputs({ ...loginInputs, password })
                             }} secureTextEntry={true} style={styles.textInput}></TextInput>
                         </View>
 
-                        <View style={{ paddingVertical: 5 }}>
+                        <View>
                             <Pressable style={styles.buttonBlack} onPress={() => {
                                 if (loginInputs.email && loginInputs.password) {
                                     login({ ...loginInputs }).unwrap().then(res => {
@@ -120,7 +120,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                             </Pressable>
                         </View>
 
-                        <View style={{  }}>
+                        <View style={{ paddingVertical: 25 }}>
                             <Pressable style={styles.forgotPasswordBtn} onPress={() => { setScreen("forgot password") }}>
                                 <Text style={[styles.btnBlackText, {fontFamily: 'GraphikMedium'}]}>Forgot password</Text>
                             </Pressable>
@@ -145,35 +145,35 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                     </View>
 
                     <View style={{ flexDirection: 'column', justifyContent: 'center', alignContent: 'center', }}>
-                        <View style={{ marginVertical: 5 }}>
+                        <View style={styles.nextInput}>
                             <Text style={styles.label}>Full name</Text>
                             <TextInput style={styles.textInput} placeholder="Enter full name" placeholderTextColor={"#AAAAAA"} onChangeText={fullname => {
                                 setSignupInputs({ ...signupInputs, fullname })
                             }}></TextInput>
                         </View>
 
-                        <View style={{ marginVertical: 5 }}>
+                        <View style={styles.nextInput}>
                             <Text style={styles.label}>Email</Text>
                             <TextInput placeholder="Enter email" placeholderTextColor={"#AAAAAA"} onChangeText={email => {
                                 setSignupInputs({ ...signupInputs, email })
                             }} style={styles.textInput}></TextInput>
                         </View>
 
-                        <View style={{ marginVertical: 5 }}>
+                        <View style={styles.nextInput}>
                             <Text style={styles.label}>Password</Text>
                             <TextInput placeholder="Enter password" placeholderTextColor={"#AAAAAA"} onChangeText={password => {
                                 setSignupInputs({ ...signupInputs, password })
                             }} secureTextEntry={true} style={styles.textInput}></TextInput>
                         </View>
 
-                        <View style={{ marginVertical: 5 }}>
+                        <View style={styles.nextInput}>
                             <Text style={styles.label}>Confirm password</Text>
                             <TextInput placeholder="Enter password again to confirm" placeholderTextColor={"#AAAAAA"} onChangeText={password => {
                                 setPassword2( password )
                             }} secureTextEntry={true} style={styles.textInput}></TextInput>
                         </View>
 
-                        <View style={{ paddingVertical: 10 }}>
+                        <View>
                             
                             <Pressable style={styles.buttonBlack} onPress={() => {
                                 if (signupInputs.fullname && signupInputs.email && signupInputs.password && password2) {
@@ -245,8 +245,8 @@ const styles = StyleSheet.create({
     },
     label: {
         fontSize: 14,
-        paddingVertical: 5,
-        fontFamily: "GraphikRegular",
+        paddingVertical: 8,
+        fontFamily: "GraphikSemibold",
     },
     textInput: {
         borderWidth: 1,
@@ -296,6 +296,9 @@ const styles = StyleSheet.create({
         textAlign: 'center', 
         paddingBottom: 80,
         fontFamily: "GraphikMedium",
+    },
+    nextInput:{
+        paddingBottom: 20
     }
 })
 
