@@ -12,6 +12,7 @@ import SelectedBookMoreScreen from "../screens/Books/SelectedBookMoreScreen"
 import { HomeNavigatorParamList } from "../types/navigationTypes"
 import WriteReviewScreen from '../screens/Books/WriteReviewScreen'
 import AllReviewsScreen from '../screens/Books/AllReviewsScreen'
+import ChooseBookToUpdateScreen from '../screens/Home/ChooseBookToUpdateScreen'
 
 const Stack = createStackNavigator<HomeNavigatorParamList>()
 
@@ -29,6 +30,7 @@ export default function HomeNavigator() {
             <Stack.Screen name="UpdateGoalScreen" component={UpdateGoalScreen} />
             <Stack.Screen name="WriteReviewScreen" component={WriteReviewScreen} />
             <Stack.Screen name="AllReviewsScreen" component={AllReviewsScreen} />
+            <Stack.Screen name="ChooseBookToUpdateScreen" component={ChooseBookToUpdateScreen} />
 
 
         </Stack.Navigator>

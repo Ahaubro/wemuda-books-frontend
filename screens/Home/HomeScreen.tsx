@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View, Pressable, FlatList, Image, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, Pressable, FlatList, Image, TouchableOpacity, ScrollView } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import { Book, useGetBooksByUserIdQuery } from "../../redux/services/bookApi"
 import { useGetUserByIdQuery } from "../../redux/services/userApi"
@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { RootState } from '../../redux/store'
 import { useGetStatusUpdatesByUserQuery, StatusUpdate } from '../../redux/services/statusUpdateApi'
 import DefaultView from "../../components/DefaultView"
+import Carousel from "../../components/Carousel"
 
 interface HomeScreenProps {
   navigation: any
@@ -28,16 +29,16 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const userBooksArr = userBooks.data?.books
 
 
-  // let currentlyReadingBook: Book = {
-  //   bookId: "",
-  //   title: "",
-  //   author: "",
-  //   description: "",
-  //   bookStatus: "",
-  //   thumbnail: "",
-  //   averageRating: 0,
-  //   ratingsCount: 0
-  // }
+  let currentlyReadingBook: Book = {
+    bookId: "",
+    title: "",
+    author: "",
+    description: "",
+    bookStatus: "",
+    thumbnail: "",
+    averageRating: 0,
+    ratingsCount: 0
+  }
 
   let currentlyReadingBooks: Book[] = []
 
@@ -102,6 +103,9 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     user.refetch()
   }, [userBooks.data])
 
+  //Flatlist element styling
+  
+
 
   return (
     <DefaultView>
@@ -129,17 +133,15 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                 </div>
 
                 :
-                <View style={{flex: 1, maxWidth: 200}}>
-                  <FlatList 
-                  style={{flex: 1}} 
-                  showsHorizontalScrollIndicator={false} 
-                  horizontal={true} 
+                <View style={{flex: 1}}>
+                  {/* <FlatList 
+                  horizontal={true}
                   data={currentlyReadingBooks} 
                   numColumns={1}
-                  
                   renderItem={(({ item: book, index: i }) =>
                     <View style={{ paddingHorizontal: 10, paddingVertical: 8}}>
-                      <TouchableOpacity onPress={() => {
+                      <TouchableOpacity 
+                      onPress={() => {
                         navigation.navigate('SelectedBookScreen', {
                           bookId: book.bookId,
                           title: book.title,
@@ -160,7 +162,39 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                     </View>
 
                   )}
-                  />
+                  /> */}
+
+                  {/* <MyCarousel items={currentlyReadingBooks}/> */}
+
+
+                  <Carousel items={currentlyReadingBooks}/>
+
+                  {/* {currentlyReadingBooks.map( (book:Book) => {
+                    return (
+                      <View style={{ paddingHorizontal: 10, paddingVertical: 8}}>
+                      <TouchableOpacity 
+                      onPress={() => {
+                        navigation.navigate('SelectedBookScreen', {
+                          bookId: book.bookId,
+                          title: book.title,
+                          authors: book.author,
+                          description: book.description,
+                          thumbnail: book.thumbnail ? book.thumbnail : undefined,
+                          averageRating: book.averageRating,
+                          ratingsCount: book.ratingsCount,
+                        })
+                      }}>
+
+                        <Image
+                          source={{ uri: book.thumbnail }}
+                          style={{ width: 200, height: 280, borderRadius: 5 }}
+                        />
+
+                      </TouchableOpacity>
+                    </View>
+                    )
+                  })} */}
+
                 </View>
             }
           </View>
@@ -170,9 +204,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
             <>
               {currentlyReadingBooks.length != 0 &&
-                <Pressable style={styles.buttonGray} onPress={(() => navigation.navigate('UpdateStatus', {
-                  thumbnail: currentlyReadingBooks[0].thumbnail,
-                  bookId: currentlyReadingBooks[0].bookId,
+                <Pressable style={styles.buttonGray} onPress={(() => navigation.navigate('ChooseBookToUpdateScreen', {
                   userId: session.id
                 }))}>
                   <Text style={styles.btnBlackText}>Update reading progress</Text>

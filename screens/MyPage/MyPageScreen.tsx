@@ -10,13 +10,20 @@ import Navigation from '../../containers/MyPageNavigator'
 import { useGetBooksByUserIdQuery, Book } from '../../redux/services/bookApi'
 import DeafultView from "../../components/DefaultView"
 import Ionicons from '@expo/vector-icons/Ionicons'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { RouteProp } from '@react-navigation/native'
+import { MyPageNavigatorParamList } from '../../types/NavigationTypes'
 
 
-interface MyPageScreenProps {
-  navigation: any
+type MyPageScreenNavigationProps = StackNavigationProp<MyPageNavigatorParamList, 'MyPage'>
+type MyPageScreenRouteProps = RouteProp<MyPageNavigatorParamList, 'MyPage'>
+
+type Props = {
+    navigation: MyPageScreenNavigationProps
+    route: MyPageScreenRouteProps
 }
 
-const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
+function MyPageScreen({ navigation, route }: Props){
   const session = useSelector((state: RootState) => state.session)
   const dispatch = useDispatch()
 
