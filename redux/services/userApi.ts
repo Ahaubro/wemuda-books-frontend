@@ -96,10 +96,17 @@ export const userApi = createApi({
     >({
       query: userId => ({url: `/user/resetBooksRead/${userId}`, method: "PATCH", body: {} }),
       invalidatesTags: ["User"]
+    }),
+
+    forgotPassword: builder.mutation<
+      {statusText: string},
+      {email: string}
+    >({
+      query: body => ({url: `/user/forgotPassword`, method: "PATCH", body})
     })
 
   })
 })
 
 
-export const { /*useGetUsersQuery,*/ useGetUserByIdQuery, useSignupMutation, useLoginMutation, useChangePasswordMutation, useSetBooksGoalMutation, useResetBooksReadMutation } = userApi
+export const { /*useGetUsersQuery,*/ useGetUserByIdQuery, useSignupMutation, useLoginMutation, useChangePasswordMutation, useSetBooksGoalMutation, useResetBooksReadMutation, useForgotPasswordMutation } = userApi
