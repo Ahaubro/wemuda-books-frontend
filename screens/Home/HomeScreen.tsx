@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View, Pressable, FlatList, Image, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, Pressable, FlatList, Image, TouchableOpacity, ScrollView } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import { Book, useGetBooksByUserIdQuery } from "../../redux/services/bookApi"
 import { useGetUserByIdQuery } from "../../redux/services/userApi"
@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { RootState } from '../../redux/store'
 import { useGetStatusUpdatesByUserQuery, StatusUpdate } from '../../redux/services/statusUpdateApi'
 import DefaultView from "../../components/DefaultView"
+import Carousel from "../../components/Carousel"
 
 interface HomeScreenProps {
   navigation: any
@@ -132,11 +133,9 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                 </div>
 
                 :
-                <View style={{flex: 1, maxWidth: 200}}>
-                  <FlatList 
-                  style={{flex: 1}} 
-                  showsHorizontalScrollIndicator={false} 
-                  horizontal={true} 
+                <View style={{flex: 1}}>
+                  {/* <FlatList 
+                  horizontal={true}
                   data={currentlyReadingBooks} 
                   numColumns={1}
                   renderItem={(({ item: book, index: i }) =>
@@ -163,7 +162,39 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                     </View>
 
                   )}
-                  />
+                  /> */}
+
+                  {/* <MyCarousel items={currentlyReadingBooks}/> */}
+
+
+                  <Carousel items={currentlyReadingBooks}/>
+
+                  {/* {currentlyReadingBooks.map( (book:Book) => {
+                    return (
+                      <View style={{ paddingHorizontal: 10, paddingVertical: 8}}>
+                      <TouchableOpacity 
+                      onPress={() => {
+                        navigation.navigate('SelectedBookScreen', {
+                          bookId: book.bookId,
+                          title: book.title,
+                          authors: book.author,
+                          description: book.description,
+                          thumbnail: book.thumbnail ? book.thumbnail : undefined,
+                          averageRating: book.averageRating,
+                          ratingsCount: book.ratingsCount,
+                        })
+                      }}>
+
+                        <Image
+                          source={{ uri: book.thumbnail }}
+                          style={{ width: 200, height: 280, borderRadius: 5 }}
+                        />
+
+                      </TouchableOpacity>
+                    </View>
+                    )
+                  })} */}
+
                 </View>
             }
           </View>

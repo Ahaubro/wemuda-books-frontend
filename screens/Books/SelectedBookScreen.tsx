@@ -174,7 +174,6 @@ function SelectedBookScreen({ navigation, route }: Props) {
         addBookAtributes.averageRating = averageRating;
         addBookAtributes.ratingCount = ratingsCount
         addBookAtributes.bookStatus = "WantToRead"
-        console.log(addBookAtributes)
 
         addBookWant(addBookAtributes).unwrap().then((res) => {
             //Displays loading icon
@@ -192,7 +191,6 @@ function SelectedBookScreen({ navigation, route }: Props) {
         addBookAtributes.averageRating = averageRating;
         addBookAtributes.ratingCount = ratingsCount
         addBookAtributes.bookStatus = "CurrentlyReading"
-        console.log(addBookAtributes)
 
         addBookCur(addBookAtributes).unwrap().then((res) => {
             //Displays loading icon
@@ -210,7 +208,6 @@ function SelectedBookScreen({ navigation, route }: Props) {
         addBookAtributes.averageRating = averageRating;
         addBookAtributes.ratingCount = ratingsCount
         addBookAtributes.bookStatus = "History"
-        console.log(addBookAtributes)
 
         addBookHis(addBookAtributes).unwrap().then((res) => {
             //Displays loading icon

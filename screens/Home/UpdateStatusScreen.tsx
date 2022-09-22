@@ -80,7 +80,7 @@ const UpdateStatusScreen: React.FC<HomeScreenProps> = ({ navigation, route }) =>
             <View style={{ paddingVertical: 4 }}>
                 <Pressable style={{ ...styles.buttonGrey, flexDirection: 'row', justifyContent: 'center' }} onPress={(() => {
                     editBookStatus({ userId, bookId, bookStatus: "History" }).unwrap().then(res => {
-                        navigation.pop()
+                        navigation.navigate("Home")
                     })
                 })}>
                     <Text style={styles.btnBlackText}>Finish Book</Text>
