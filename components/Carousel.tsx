@@ -1,16 +1,20 @@
+import { StackNavigationProp } from '@react-navigation/stack'
 import { produceWithPatches } from 'immer'
 import React, { ReactNode, useRef, useState } from 'react'
-import { Text, View, StyleSheet, Button, Animated, Image, Pressable, Dimensions, ImageStore, FlatList } from 'react-native'
+import { Text, View, StyleSheet, Button, Animated, Image, TouchableOpacity } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { Book } from '../redux/services/bookApi'
+import { BookNavigatorParamList } from '../types/NavigationTypes'
 import useInterval from './useInterval'
 
+type SelectedBookScreenNavigationProps = StackNavigationProp<BookNavigatorParamList, 'SelectedBookScreen'>
 
 interface CarouselProps {
     items: Book[],
+    navigation: SelectedBookScreenNavigationProps
 }
 
-const Carousel: React.FC<CarouselProps> = ({ items }) => {
+const Carousel: React.FC<CarouselProps> = ({ items, navigation }) => {
 
     const animation = useRef(new Animated.Value(0));
     const [currentImage, setCurrentImage] = useState(0);
@@ -36,12 +40,28 @@ const Carousel: React.FC<CarouselProps> = ({ items }) => {
             <View style={{ width: 200, overflow: 'scroll' }}>
                 <Animated.View style={[styles.container, {
                     transform: [{ translateX: animation.current }],
-                    
                 }]}>
 
-                    {items.map( (item, index) => {
+                    {items.map((item, index) => {
                         // return <Image style={[styles.img, index === currentImage ? styles.currentImage : undefined]} key={`${item.thumbnail}_${index}`} source={{uri: item.thumbnail}} />
-                        return <Image style={styles.img} key={item.thumbnail} source={{uri: item.thumbnail}} />
+                        return <View key={item.title}>
+                            <TouchableOpacity key={item.bookId}
+                                onPress={() => {
+                                    navigation.navigate('SelectedBookScreen', {
+                                        bookId: item.bookId,
+                                        title: item.title,
+                                        authors: item.author,
+                                        description: item.description,
+                                        thumbnail: item.thumbnail ? item.thumbnail : undefined,
+                                        averageRating: item.averageRating,
+                                        ratingsCount: item.ratingsCount,
+                                    })
+                                }}>
+
+                                <Image style={styles.img} key={item.thumbnail} source={{ uri: item.thumbnail }} />
+
+                            </TouchableOpacity>
+                        </View>
                     })}
 
                 </Animated.View>
@@ -58,7 +78,7 @@ const Carousel: React.FC<CarouselProps> = ({ items }) => {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        transform: [{translateX: 200}],
+        transform: [{ translateX: 200 }],
     },
     indicatorContainer: {
         position: 'absolute',

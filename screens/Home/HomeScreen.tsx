@@ -133,7 +133,9 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                 </div>
 
                 :
+
                 <View style={{flex: 1}}>
+
                   {/* <FlatList 
                   horizontal={true}
                   data={currentlyReadingBooks} 
@@ -167,33 +169,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                   {/* <MyCarousel items={currentlyReadingBooks}/> */}
 
 
-                  <Carousel items={currentlyReadingBooks}/>
-
-                  {/* {currentlyReadingBooks.map( (book:Book) => {
-                    return (
-                      <View style={{ paddingHorizontal: 10, paddingVertical: 8}}>
-                      <TouchableOpacity 
-                      onPress={() => {
-                        navigation.navigate('SelectedBookScreen', {
-                          bookId: book.bookId,
-                          title: book.title,
-                          authors: book.author,
-                          description: book.description,
-                          thumbnail: book.thumbnail ? book.thumbnail : undefined,
-                          averageRating: book.averageRating,
-                          ratingsCount: book.ratingsCount,
-                        })
-                      }}>
-
-                        <Image
-                          source={{ uri: book.thumbnail }}
-                          style={{ width: 200, height: 280, borderRadius: 5 }}
-                        />
-
-                      </TouchableOpacity>
-                    </View>
-                    )
-                  })} */}
+                  <Carousel items={currentlyReadingBooks} navigation={navigation}/>
 
                 </View>
             }
