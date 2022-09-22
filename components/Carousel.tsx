@@ -19,7 +19,10 @@ const Carousel: React.FC<CarouselProps> = ({ items, navigation }) => {
     const animation = useRef(new Animated.Value(0));
     const [currentImage, setCurrentImage] = useState(0);
     useInterval(() => handleAnimation(), 2500)
+const interval = setInterval( () => {
 
+}, 2500)
+clearInterval(interval)
     const handleAnimation = () => {
         let newCurrentImage = currentImage + 1;
 
@@ -43,6 +46,7 @@ const Carousel: React.FC<CarouselProps> = ({ items, navigation }) => {
                 }]}>
 
                     {items.map((item, index) => {
+
                         // return <Image style={[styles.img, index === currentImage ? styles.currentImage : undefined]} key={`${item.thumbnail}_${index}`} source={{uri: item.thumbnail}} />
                         return <View key={item.title}>
                             <TouchableOpacity key={item.bookId}
@@ -62,6 +66,7 @@ const Carousel: React.FC<CarouselProps> = ({ items, navigation }) => {
 
                             </TouchableOpacity>
                         </View>
+
                     })}
 
                 </Animated.View>

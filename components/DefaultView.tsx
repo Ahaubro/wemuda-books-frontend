@@ -23,6 +23,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 12,
+    maxHeight: 896,
+    maxWidth: 414,
   }
 })
 

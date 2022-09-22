@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
         fontFamily: "GraphikMedium",
     },
     label: {
-        fontSize: 14,
+        fontSize: 12,
         paddingVertical: 8,
         fontFamily: "GraphikSemibold",
     },
