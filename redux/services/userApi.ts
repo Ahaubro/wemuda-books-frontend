@@ -7,7 +7,7 @@ import { RootState } from '../store'
 import { useGetBookByIdQuery } from './googleBookApi'
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'https://localhost:7066/',
+  baseUrl: 'http://192.168.8.148:5001/', //
   prepareHeaders: (headers, api) => {
     const state = api.getState() as RootState
     const token = state.session.token

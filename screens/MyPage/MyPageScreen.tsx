@@ -282,7 +282,6 @@ const styles = StyleSheet.create({
     marginTop: 0,
     paddingHorizontal: 8,
     paddingVertical: 12,
-    height: "fit-content"
   },
   headerContainer: {
     paddingTop: 50,

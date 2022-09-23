@@ -40,7 +40,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
     // }
 
     return (
-        <View>
+        <View style={{height: '100%'}}>
 
             {screen == "welcome" &&
                 <DefaultView>
@@ -113,6 +113,8 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                                     login({ ...loginInputs }).unwrap().then(res => {
                                         if (res.token)
                                             dispatch(startSession({ token: res.token, id: res.id }))
+                                    }).catch( (err) => {
+                                        console.log(err)
                                     })
                                 }
                             }}>
@@ -269,7 +271,8 @@ const styles = StyleSheet.create({
         textAlign: "center",
         backgroundColor: "none",
         borderRadius: 10,
-        border: '1px solid black',
+        borderColor: 'black',
+        borderWidth: 1,
         paddingVertical: 20,
     },
     forgotPasswordBtn: {

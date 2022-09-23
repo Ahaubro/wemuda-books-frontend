@@ -118,7 +118,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
             {
               currentlyReadingBooks.length === 0 ?
-                <div style={{ width: 200, height: 280, backgroundColor: "rgb(242,242,242)", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <View style={{ width: 200, height: 280, backgroundColor: "rgb(242,242,242)", display: "flex", justifyContent: "center", alignItems: "center" }}>
 
                   <View style={{ flexDirection: 'column', width: '70%' }}>
                     <Text style={{ textAlign: 'center', paddingVertical: 20, fontFamily: 'GraphikMedium', marginTop: -35 }}> You are currently not reading a book </Text>
@@ -130,13 +130,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                       <Text style={{ textAlign: 'center', fontFamily: 'GraphikSemibold' }}>Find a book</Text>
                     </Pressable>
                   </View>
-                </div>
+                </View>
 
                 :
 
-                <View style={{flex: 1}}>
+                <View style={{flex: 1, width: 200}}>
 
-                  {/* <FlatList 
+                  <FlatList 
                   horizontal={true}
                   data={currentlyReadingBooks} 
                   numColumns={1}
@@ -164,12 +164,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                     </View>
 
                   )}
-                  /> */}
-
-                  {/* <MyCarousel items={currentlyReadingBooks}/> */}
+                  />
 
 
-                  <Carousel items={currentlyReadingBooks} navigation={navigation}/>
+                  {/* <Carousel items={currentlyReadingBooks} navigation={navigation}/> */}
 
                 </View>
             }
@@ -208,7 +206,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                 <View style={{ marginRight: 25, marginTop: -10 }}>
                   <Pressable style={{ backgroundColor: "white", borderRadius: 15, paddingHorizontal: 10, paddingVertical: 8 }}
                     onPress={() => navigation.navigate('UpdateGoalScreen', {
-                      thumbnail: currentlyReadingBooks[0].thumbnail,
                       bookId: currentlyReadingBooks[0].bookId,
                       userId: session.id
                     })}>
@@ -224,12 +221,11 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
             :
 
-            <View>
+            <View style={{marginTop: 10}}>
               <View style={{ marginTop: -10 }}>
                 <Pressable style={{ backgroundColor: "rgb(247,247,250)", borderRadius: 15, paddingHorizontal: 10, paddingVertical: 15 }}
                   onPress={() => navigation.navigate('UpdateGoalScreen', {
-                    thumbnail: currentlyReadingBooks[0].thumbnail,
-                    bookId: currentlyReadingBooks[0].bookId,
+                    //bookId: currentlyReadingBooks[0].bookId,
                     userId: session.id
                   })}>
                   <Text style={{ fontSize: 14, textAlign: 'center', fontFamily: "GraphikMedium" }}>Set a reading challenge</Text>
