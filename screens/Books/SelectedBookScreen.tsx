@@ -379,9 +379,9 @@ function SelectedBookScreen({ navigation, route }: Props) {
                         showsHorizontalScrollIndicator={false}
                         horizontal={true}
                         keyExtractor={(item) => item.content} data={fetchedReviews.data?.reviews || []} renderItem={({ item, index }) => (
-                            <View style={{ paddingRight: 10 }}>
+                            <View style={{ paddingHorizontal: 10 }}>
                                 <View style={styles.reviewContainer}>
-                                    <View style={{ width: 350 }}>
+                                    <View style={{ width: 300 }}>
                                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: -10, paddingVertical: 10 }}>
                                             <AirbnbRating
                                                 reviews={['Terrible', 'Okay', 'Good', 'Great book', 'Love this book']}
@@ -391,11 +391,11 @@ function SelectedBookScreen({ navigation, route }: Props) {
                                                 defaultRating={item.rating}
                                                 isDisabled={true}
                                                 starContainerStyle={{ paddingLeft: 60 }}
-                                                ratingContainerStyle={{ backgroundColor: 'rgb(247,247,250)', flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}
+                                                ratingContainerStyle={{ backgroundColor: 'rgb(247,247,250)', flexDirection: 'row', justifyContent: 'space-between'}}
                                             />
 
                                         </View>
-                                        <Text style={{ color: 'grey', fontFamily: 'GraphikRegular', fontSize: 12, width: 350 }}>{getContent(item.content)}</Text>
+                                        <Text style={{ color: 'grey', fontFamily: 'GraphikRegular', fontSize: 12, width: 300 }}>{getContent(item.content)}</Text>
                                     </View>
                                 </View>
                             </View>
@@ -412,14 +412,14 @@ function SelectedBookScreen({ navigation, route }: Props) {
             </View>
 
             {session.token && session.token != "guest" &&
-            <View style={{ marginTop: 15 }}>
+            <View style={{ marginTop: 10, marginBottom: 25 }}>
                 <Pressable style={styles.selectedBookBtn} onPress={() => {
                     navigation.navigate("WriteReviewScreen", {
                         bookId: bookId,
                         userId: session.id
                     })
                 }}>
-                    <Text style={{ fontFamily: 'GraphikSemibold', fontSize: 14 }}> <Ionicons name={'ios-create'} size={20} color={'black'} style={{ paddingHorizontal: 5 }} /> Write a review </Text>
+                    <Text style={{ fontFamily: 'GraphikSemibold', fontSize: 14, textAlign: 'center' }}> <Ionicons name={'ios-create'} size={20} color={'black'} style={{ paddingHorizontal: 5, textAlign: 'center' }} /> Write a review </Text>
                 </Pressable>
             </View>
             }
@@ -483,7 +483,7 @@ const styles = StyleSheet.create({
         backgroundColor: "rgb(247,247,250)",
         borderRadius: 15,
         height: 110,
-        paddingHorizontal: 20,
+        paddingHorizontal: 15,
         marginTop: 15,
     },
     reviewBtn: {

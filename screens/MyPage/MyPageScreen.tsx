@@ -116,8 +116,6 @@ function MyPageScreen({ navigation, route }: Props){
     }
   }, [statusUpdates.data])
 
-  const thumbDefault = 'https://books.google.com/books/content?id=qc8qvXhpLA0C&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api'
-
 
   return (
     <DeafultView>
@@ -170,7 +168,6 @@ function MyPageScreen({ navigation, route }: Props){
 
                 <Image
                   source={{ uri: book.thumbnail }}
-                  defaultSource={{ uri: thumbDefault }}
                   style={{ width: 90, height: 130, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 5 }}
                 />
 
@@ -223,7 +220,6 @@ function MyPageScreen({ navigation, route }: Props){
 
                 <Image
                   source={{ uri: book.thumbnail }}
-                  defaultSource={{ uri: thumbDefault }}
                   style={{ width: 90, height: 130, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 5 }}
                 />
               </TouchableOpacity>
