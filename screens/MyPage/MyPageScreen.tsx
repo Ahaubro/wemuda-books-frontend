@@ -239,7 +239,7 @@ function MyPageScreen({ navigation, route }: Props){
         
         { historyBooks.length > 0 && 
         <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 10 }}>
-          <Pressable style={styles.buttonGray} onPress={() => {
+          <Pressable style={[styles.buttonGray, {marginBottom: 20}]} onPress={() => {
             if (historyBooks.length > 0)
               navigation.navigate('BookList', { books: historyBooks, title: "My history" })
           }}><Text style={styles.btnBlackText}>See all</Text></Pressable>

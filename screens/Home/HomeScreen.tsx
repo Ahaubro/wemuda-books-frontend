@@ -134,10 +134,11 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
                 :
 
-                <View style={{flex: 1, width: 200}}>
+                <View style={{ height: 280, width: 200}}>
 
                   <FlatList 
                   horizontal={true}
+                  showsHorizontalScrollIndicator={false}
                   data={currentlyReadingBooks} 
                   numColumns={1}
                   renderItem={(({ item: book, index: i }) =>
@@ -291,6 +292,7 @@ const styles = StyleSheet.create({
     width: '49%',
     paddingVertical: 15,
     paddingHorizontal: 15,
+    marginBottom: 20
   },
   homeInfoOuter: {
     backgroundColor: "rgb(247,247,250)",
