@@ -11,6 +11,7 @@
   "dependencies": {
     "@expo-google-fonts/inter": "^0.2.2",
     "@expo/webpack-config": "^0.17.0",
+    "@hookform/resolvers": "^2.9.8",
     "@react-navigation/bottom-tabs": "^6.3.2",
     "@react-navigation/native": "^6.0.11",
     "@react-navigation/stack": "^6.2.3",
@@ -29,6 +30,7 @@
     "expo-splash-screen": "~0.16.1",
     "expo-status-bar": "~1.4.0",
     "expo-updates": "~0.14.5",
+    "formik": "^2.2.9",
     "i18n-js": "^3.8.0",
     "lodash": "^4.17.21",
     "react": "18.0.0",
@@ -42,7 +44,8 @@
     "react-native-web": "~0.18.7",
     "react-redux": "^8.0.2",
     "react-toastify": "^9.0.8",
-    "sentry-expo": "~5.0.0"
+    "sentry-expo": "~5.0.0",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
