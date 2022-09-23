@@ -1,6 +1,6 @@
 import { produceWithPatches } from 'immer'
 import React, { ReactNode } from 'react'
-import { Text, View, StyleSheet, Button } from 'react-native'
+import { Text, View, StyleSheet, ScrollView} from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { FONTS } from '../utils/fontUtils'
 
@@ -13,9 +13,9 @@ const DefaultView: React.FC<DefaultViewProps> = (props) => {
 
 
   return (
-    <View style={{ ...styles.container }}>
+    <ScrollView style={{ ...styles.container }}>
       {props.children}
-    </View>
+    </ScrollView>
   )
 }
 

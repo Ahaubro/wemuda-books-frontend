@@ -91,7 +91,7 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
 
 
   return (
-    <DefaultView>
+    <View style={{padding: 12, flex: 1}}>
 
       <View style={styles.headerContainer}>
         <Text style={styles.heading}>Search</Text>
@@ -170,7 +170,7 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
       </View>
       }
 
-    </DefaultView>
+    </View>
   )
 }
 

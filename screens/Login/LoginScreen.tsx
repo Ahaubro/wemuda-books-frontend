@@ -95,7 +95,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
     };
 
     return (
-        <View>
+        <View style={{height: '100%'}}>
 
             {screen == "welcome" &&
                 <DefaultView>
@@ -166,8 +166,10 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 
                                     <View style={styles.nextInput}>
                                         <Text style={styles.label}>Email</Text>
-                                        <TextInput placeholder="example@email.dk" placeholderTextColor={"#AAAAAA"} value={values.email} onChangeText={handleChange('email')} style={styles.textInput}></TextInput>
-                                    </View>
+                            <TextInput placeholder="eksempel@email.dk" placeholderTextColor={"#AAAAAA"} onChangeText={email => {
+                                setLoginInputs({ ...loginInputs, email })
+                            }} style={styles.textInput}></TextInput>
+                        </View>
 
                                     {errors.password && (<Text style={{color: "#FF0000"}}>{errors.password}</Text>)}
 
@@ -343,7 +345,8 @@ const styles = StyleSheet.create({
         textAlign: "center",
         backgroundColor: "none",
         borderRadius: 10,
-        border: '1px solid black',
+        borderColor: 'black',
+        borderWidth: 1,
         paddingVertical: 20,
     },
     forgotPasswordBtn: {

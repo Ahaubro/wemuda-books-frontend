@@ -27,21 +27,12 @@ const UpdateGoalScreen: React.FC<UpdateGoalScreenProps> = ({ navigation, route }
     const userBooks = useGetBooksByUserIdQuery(userId)
     const currentlyReadingBook: Book | undefined = userBooks.data?.books.find(book => book.bookId == bookId)
 
-    const [editBookStatus] = useEditStatusMutation()
-
-    const [addStatusUpdate] = useAddStatusUpdateMutation()
-
     const [updateBooksGoal] = useSetBooksGoalMutation()
 
     const [resetBooksRead] = useResetBooksReadMutation()
 
-    const [finishedBook, setFinishedBook] = useState(false)
-
-    const [minutesRead, setMinutesRead] = useState(0)
-
     const [booksGoal, setBooksGoal] = useState(0)
 
-    const [resetProgress, setResetProgress] = useState(false)
 
     const [message, setMessage] = useState("")
 

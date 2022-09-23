@@ -7,6 +7,7 @@ import { googleBookApi } from './services/googleBookApi'
 import { userApi } from './services/userApi'
 import { statusUpdateApi } from './services/statusUpdateApi'
 import { reviewApi } from './services/reviewApi'
+import thunk from 'redux-thunk'
 
 const store = configureStore({
   reducer: {
@@ -18,7 +19,7 @@ const store = configureStore({
     [reviewApi.reducerPath]: reviewApi.reducer,
   },
   middleware: getDefaultMiddleware =>
-    getDefaultMiddleware().concat([bookApi.middleware, reviewApi.middleware, googleBookApi.middleware, userApi.middleware, statusUpdateApi.middleware, rtkQueryErrorLogger]),
+    getDefaultMiddleware().concat([bookApi.middleware, reviewApi.middleware, googleBookApi.middleware, userApi.middleware, statusUpdateApi.middleware, rtkQueryErrorLogger, thunk]),
 })
 // optional, but required for refetchOnFocus/refetchOnReconnect behaviors
 // see `setupListeners` docs - takes an optional callback as the 2nd arg for customization

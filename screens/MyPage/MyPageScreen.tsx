@@ -116,8 +116,6 @@ function MyPageScreen({ navigation, route }: Props){
     }
   }, [statusUpdates.data])
 
-  const thumbDefault = 'https://books.google.com/books/content?id=qc8qvXhpLA0C&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api'
-
 
   return (
     <DeafultView>
@@ -170,7 +168,6 @@ function MyPageScreen({ navigation, route }: Props){
 
                 <Image
                   source={{ uri: book.thumbnail }}
-                  defaultSource={{ uri: thumbDefault }}
                   style={{ width: 90, height: 130, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 5 }}
                 />
 
@@ -223,7 +220,6 @@ function MyPageScreen({ navigation, route }: Props){
 
                 <Image
                   source={{ uri: book.thumbnail }}
-                  defaultSource={{ uri: thumbDefault }}
                   style={{ width: 90, height: 130, borderWidth: 0.5, borderColor: "#d3d3d3", borderRadius: 5 }}
                 />
               </TouchableOpacity>
@@ -239,7 +235,7 @@ function MyPageScreen({ navigation, route }: Props){
         
         { historyBooks.length > 0 && 
         <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 10 }}>
-          <Pressable style={styles.buttonGray} onPress={() => {
+          <Pressable style={[styles.buttonGray, {marginBottom: 20}]} onPress={() => {
             if (historyBooks.length > 0)
               navigation.navigate('BookList', { books: historyBooks, title: "My history" })
           }}><Text style={styles.btnBlackText}>See all</Text></Pressable>
@@ -282,7 +278,6 @@ const styles = StyleSheet.create({
     marginTop: 0,
     paddingHorizontal: 8,
     paddingVertical: 12,
-    height: "fit-content"
   },
   headerContainer: {
     paddingTop: 50,
