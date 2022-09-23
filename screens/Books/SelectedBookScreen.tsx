@@ -411,7 +411,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
             </View>
 
-
+            {session.token && session.token != "guest" &&
             <View style={{ marginTop: 15 }}>
                 <Pressable style={styles.selectedBookBtn} onPress={() => {
                     navigation.navigate("WriteReviewScreen", {
@@ -422,7 +422,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
                     <Text style={{ fontFamily: 'GraphikSemibold', fontSize: 14 }}> <Ionicons name={'ios-create'} size={20} color={'black'} style={{ paddingHorizontal: 5 }} /> Write a review </Text>
                 </Pressable>
             </View>
-
+            }
 
         </DefaultView>
     )
