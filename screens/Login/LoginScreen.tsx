@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, StyleSheet, Text, View, TextInput, Pressable } from 'react-native'
+import { Button, StyleSheet, Text, View, TextInput, Pressable, Keyboard } from 'react-native'
 import { useLoginMutation, useSignupMutation, useForgotPasswordMutation } from '../../redux/services/userApi'
 import { useStore, useDispatch } from 'react-redux'
 // import { RootState } from '../../redux/store'
@@ -10,16 +10,25 @@ import { enableAllPlugins } from 'immer'
 import BookNavigator from '../../containers/BookNavigator'
 import DefaultView from "../../components/DefaultView"
 import BackArrowContainer from "../../components/BackArrowContainer"
-import { SubmitHandler } from "react-hook-form"
+import { useForm, SubmitHandler } from "react-hook-form"
+import * as yup from 'yup'
+import { Formik } from 'formik'
+import { yupResolver } from "@hookform/resolvers/yup";
+import { values } from 'lodash'
 
 interface LoginScreenProps {
     navigation: any,
 }
 
-// type LoginFormData = {
-//     email: string,
+// type SignUpFormData = {
+//     email: string
 //     password: string
 // }
+
+type LoginFormData = {
+    email: string,
+    password: string
+}
 
 const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 
@@ -28,6 +37,10 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
     const [password2, setPassword2] = useState<string>("");
     const [forgotPasswordInputs, setForgotPasswordInputs] = useState<{ email: string }>({ email: "" })
     const [screen, setScreen] = useState<string>("welcome")
+    const [loginState, setLoginState] = useState<{ loading: boolean; success: boolean }>({
+        loading: false,
+        success: false,
+      });
 
     const dispatch = useDispatch();
     const [login] = useLoginMutation();
@@ -38,6 +51,48 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
     // const onSubmit: SubmitHandler<LoginFormData> = async data => {
 
     // }
+
+    const loginSchema: yup.SchemaOf<LoginFormData> = yup.object({
+        email: yup
+          .string()
+          .email('Invalid Email')
+          .required('Email Required'),
+        password: yup
+          .string()
+          .required('Password Required'),
+    });
+
+    const {
+        register:loginRegister,
+        handleSubmit:handleLoginSubmit,
+        setValue,
+        formState: { errors:loginErrors },
+    } = useForm<FormData>({
+        resolver: yupResolver(loginSchema),
+        defaultValues: {},
+    });
+
+    const onLoginSubmit: SubmitHandler<LoginFormData> = (data) => {
+        Keyboard.dismiss()
+
+        login({
+            email: data.email,
+            password: data.password
+        })
+        .unwrap()
+        .then(res => {
+            dispatch(
+                startSession({
+                    token: res.token,
+                    id: res.id
+                })
+            )
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    
+    };
 
     return (
         <View style={{height: '100%'}}>
@@ -93,34 +148,53 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 
 
                     <View style={{ flexDirection: "column" }}>
-                        <View style={styles.nextInput}>
-                            <Text style={styles.label}>Email</Text>
+                        <Formik
+                            initialValues={{ email: '', password: '' }}
+                            onSubmit={values => onLoginSubmit(values)}
+                            validationSchema={loginSchema}
+                            validateOnChange={false}
+                        >
+                            {
+                                ({
+                                    handleChange,
+                                    handleSubmit,
+                                    values,
+                                    errors,
+                                    setFieldValue,
+                                }) => (<>
+                                    {errors.email && (<Text style={{color: "#FF0000"}}>{errors.email}</Text>)}
+
+                                    <View style={styles.nextInput}>
+                                        <Text style={styles.label}>Email</Text>
                             <TextInput placeholder="eksempel@email.dk" placeholderTextColor={"#AAAAAA"} onChangeText={email => {
                                 setLoginInputs({ ...loginInputs, email })
                             }} style={styles.textInput}></TextInput>
                         </View>
 
-                        <View style={styles.nextInput}>
-                            <Text style={styles.label}>Password</Text>
-                            <TextInput placeholder="Insert password" placeholderTextColor={"#AAAAAA"} onChangeText={password => {
-                                setLoginInputs({ ...loginInputs, password })
-                            }} secureTextEntry={true} style={styles.textInput}></TextInput>
-                        </View>
+                                    {errors.password && (<Text style={{color: "#FF0000"}}>{errors.password}</Text>)}
 
-                        <View>
-                            <Pressable style={styles.buttonBlack} onPress={() => {
-                                if (loginInputs.email && loginInputs.password) {
-                                    login({ ...loginInputs }).unwrap().then(res => {
-                                        if (res.token)
-                                            dispatch(startSession({ token: res.token, id: res.id }))
-                                    }).catch( (err) => {
-                                        console.log(err)
-                                    })
-                                }
-                            }}>
-                                <Text style={styles.btnWhiteText}>Log in</Text>
-                            </Pressable>
-                        </View>
+                                    <View style={styles.nextInput}>
+                                        <Text style={styles.label}>Password</Text>
+                                        <TextInput placeholder="Insert password" placeholderTextColor={"#AAAAAA"} value={values.password} onChangeText={handleChange('password')} secureTextEntry={true} style={styles.textInput}></TextInput>
+                                    </View>
+
+                                    <View>
+                                        <Pressable style={styles.buttonBlack} onPress={() => {
+                                            handleSubmit()
+                                            // if (loginInputs.email && loginInputs.password) {
+                                            //     login({ ...loginInputs }).unwrap().then(res => {
+                                            //         if (res.token)
+                                            //             dispatch(startSession({ token: res.token, id: res.id }))
+                                            //     })
+                                            // }
+                                        }}>
+                                            <Text style={styles.btnWhiteText}>Log in</Text>
+                                        </Pressable>
+                                    </View>
+                                </>)
+                            }
+
+                        </Formik>
 
                         <View style={{ paddingVertical: 25 }}>
                             <Pressable style={styles.forgotPasswordBtn} onPress={() => { setScreen("forgot password") }}>
