@@ -65,23 +65,26 @@ function AllReviewsScreen({ navigation, route }: Props) {
                     showsHorizontalScrollIndicator={true}
                     keyExtractor={(item) => item.content} data={fetchedReviews.data?.reviews || []} renderItem={({ item, index }) => (
 
-                        <View style={{ paddingRight: 10 }}>
+                        <View>
                             <View style={styles.reviewContainer}>
-                                <View style={{ width: 350 }}>
-                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: -10, paddingVertical: 10}}>
+                                <View style={{ width: "100%" }}>
+                                    <View style={{ flexDirection: 'column', justifyContent: 'space-between', marginLeft: -10, paddingVertical: 10, paddingHorizontal: 10}}>
                                         <AirbnbRating
-                                            reviews={['Terrible', 'Okay', 'Good', 'Great book', 'Love this book']}
-                                            reviewSize={16}
+                                            reviewSize={0}
+                                            reviews={["", "", "", "", ""]}
                                             reviewColor={'black'}                                          
                                             size={20}
                                             defaultRating={item.rating}
                                             isDisabled={true}
-                                            starContainerStyle={{paddingLeft: 60}}
-                                            ratingContainerStyle={{backgroundColor: 'rgb(247,247,250)', flexDirection: 'row', justifyContent:'space-between', width: '100%' }}
+                                            starContainerStyle={{}}
+                                            ratingContainerStyle={{backgroundColor: 'rgb(247,247,250)', flexDirection: 'row', justifyContent:'space-between'}}
                                         />
                                     </View>
+                                    <View style={{marginTop: -30}}>
+                                        <Text style={{ color: 'black', fontFamily: 'GraphikSemibold', fontSize: 14, width: 150}}>{item.title}</Text>
+                                    </View>
                                     <View style={{height: 65, overflow: 'scroll'}}>
-                                        <Text style={{ color: 'grey', fontFamily: 'GraphikRegular', fontSize: 14, width: 350}}>{item.content}</Text>
+                                        <Text style={{ color: 'grey', fontFamily: 'GraphikRegular', fontSize: 12, width: 350, paddingTop: 15, paddingBottom: 10}}>{item.content}</Text>
                                     </View>
                                 </View>
                             </View>

@@ -82,6 +82,21 @@ function SelectedBookScreen({ navigation, route }: Props) {
         bookStatus: ""
     }
 
+    //SLice book title
+    let slicedTitleString = ""
+    const sliceTitle = (content: string) => {
+        if (!content) {
+            slicedTitleString = "No content.."
+            return slicedContentString
+        } else if (content.length > 60) {
+            slicedTitleString = content.substring(0, 60) + " ..."
+            return slicedTitleString
+        } else {
+            slicedTitleString = content
+            return slicedTitleString
+        }
+    }
+
     //Saving currentbook 
     userBooksArr?.forEach((book) => {
         if (book.bookId === bookId) {
@@ -129,18 +144,18 @@ function SelectedBookScreen({ navigation, route }: Props) {
         }
     }
 
-    //SLice review content function for display
-    let slicedTitleString = ""
-    const sliceTitle = (content: string) => {
+    //SLice review title
+    let slicedReviewTitleString = ""
+    const sliceReviewTitle = (content: string) => {
         if (!content) {
-            slicedTitleString = "No content.."
-            return slicedContentString
-        } else if (content.length > 60) {
-            slicedTitleString = content.substring(0, 60) + " ..."
-            return slicedTitleString
+            slicedReviewTitleString = "No content.."
+            return slicedReviewTitleString
+        } else if (content.length > 18) {
+            slicedReviewTitleString = content.substring(0, 18) + " ..."
+            return slicedReviewTitleString
         } else {
-            slicedTitleString = content
-            return slicedTitleString
+            slicedReviewTitleString = content
+            return slicedReviewTitleString
         }
     }
 
@@ -385,6 +400,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
                                         <View style={{ flexDirection: 'column', justifyContent: 'space-between', marginLeft: -10, paddingVertical: 10 }}>
                                             <AirbnbRating
                                                 reviewSize={0}
+                                                reviews={["", "", "", "", ""]}
                                                 reviewColor={'black'}
                                                 size={20}
                                                 defaultRating={item.rating}
@@ -395,7 +411,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
                                         </View>
                                         <View style={{marginTop: -30}}>
-                                            <Text style={{ fontFamily: 'GraphikSemibold', fontSize: 14, width: 150}}>{item.title}</Text>
+                                            <Text style={{ fontFamily: 'GraphikSemibold', fontSize: 14, width: 150}}>{sliceReviewTitle(item.title)}</Text>
                                         </View>
                                         <Text style={{ color: 'grey', fontFamily: 'GraphikRegular', fontSize: 12, width: 300, paddingTop: 15, paddingBottom: 10 }}>{getContent(item.content)}</Text>
                                     </View>
