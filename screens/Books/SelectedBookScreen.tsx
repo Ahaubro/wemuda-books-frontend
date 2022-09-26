@@ -379,23 +379,25 @@ function SelectedBookScreen({ navigation, route }: Props) {
                         showsHorizontalScrollIndicator={false}
                         horizontal={true}
                         keyExtractor={(item) => item.content} data={fetchedReviews.data?.reviews || []} renderItem={({ item, index }) => (
-                            <View style={{ paddingHorizontal: 10 }}>
+                            <View style={{ paddingEnd: 10 }}>
                                 <View style={styles.reviewContainer}>
-                                    <View style={{ width: 300 }}>
-                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: -10, paddingVertical: 10 }}>
+                                    <View style={{ width: 350 }}>
+                                        <View style={{ flexDirection: 'column', justifyContent: 'space-between', marginLeft: -10, paddingVertical: 10 }}>
                                             <AirbnbRating
-                                                reviews={['Terrible', 'Okay', 'Good', 'Great book', 'Love this book']}
-                                                reviewSize={14}
+                                                reviewSize={0}
                                                 reviewColor={'black'}
                                                 size={20}
                                                 defaultRating={item.rating}
                                                 isDisabled={true}
-                                                starContainerStyle={{ paddingLeft: 60 }}
+                                                starContainerStyle={{  }}
                                                 ratingContainerStyle={{ backgroundColor: 'rgb(247,247,250)', flexDirection: 'row', justifyContent: 'space-between'}}
                                             />
 
                                         </View>
-                                        <Text style={{ color: 'grey', fontFamily: 'GraphikRegular', fontSize: 12, width: 300 }}>{getContent(item.content)}</Text>
+                                        <View style={{marginTop: -30}}>
+                                            <Text style={{ fontFamily: 'GraphikSemibold', fontSize: 14, width: 150}}>{item.title}</Text>
+                                        </View>
+                                        <Text style={{ color: 'grey', fontFamily: 'GraphikRegular', fontSize: 12, width: 300, paddingTop: 15, paddingBottom: 10 }}>{getContent(item.content)}</Text>
                                     </View>
                                 </View>
                             </View>
