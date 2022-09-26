@@ -7,7 +7,7 @@ import { RootState } from '../store'
 import { useGetBookByIdQuery } from './googleBookApi'
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'http://192.168.8.148:5001/', //
+  baseUrl: 'http://192.168.8.149:5001/', //'http://192.168.8.148:5001/',
   prepareHeaders: (headers, api) => {
     const state = api.getState() as RootState
     const token = state.session.token
@@ -51,7 +51,7 @@ export const userApi = createApi({
 
     //Authenticate
     login: builder.mutation<
-      {id: number, fullname: string, username: string, token: string},
+      {id: number, fullname: string, token: string, statusText: string},
       {email: string, password: string}
     >({
       query: body => ({

@@ -41,6 +41,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
         loading: false,
         success: false,
       });
+    const [loginError, setLoginError] = useState<string>("");
 
     const dispatch = useDispatch();
     const [login] = useLoginMutation();
@@ -81,6 +82,15 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
         })
         .unwrap()
         .then(res => {
+            if(res.statusText != "LoogedIn"){
+                let errorMessage = "";
+                switch(res.statusText){
+                    case "UserNotFound": errorMessage = "Invalid email."; break;
+                    case "EmailNotConfirmed": errorMessage = "The user is not activated. Confirm the email."; break;
+                    case "IncorrectPassword": errorMessage = "Incorrect password."; break;
+                }
+                setLoginError(errorMessage)
+            }
             dispatch(
                 startSession({
                     token: res.token,
@@ -166,10 +176,8 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 
                                     <View style={styles.nextInput}>
                                         <Text style={styles.label}>Email</Text>
-                            <TextInput placeholder="eksempel@email.dk" placeholderTextColor={"#AAAAAA"} onChangeText={email => {
-                                setLoginInputs({ ...loginInputs, email })
-                            }} style={styles.textInput}></TextInput>
-                        </View>
+                                        <TextInput placeholder="eksempel@email.dk" placeholderTextColor={"#AAAAAA"} onChangeText={handleChange('email')} style={styles.textInput}></TextInput>
+                                    </View>
 
                                     {errors.password && (<Text style={{color: "#FF0000"}}>{errors.password}</Text>)}
 
@@ -201,6 +209,13 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                                 <Text style={[styles.btnBlackText, {fontFamily: 'GraphikMedium'}]}>Forgot password</Text>
                             </Pressable>
                         </View>
+                        
+                        {loginError &&
+                            <View>
+                                <Text style={{fontFamily: 'GraphikMedium', color: "#FF0000", textAlign: "center"}}>{loginError}</Text>
+                            </View>
+                        }
+                        
                     </View>
                 </DefaultView>
             }
