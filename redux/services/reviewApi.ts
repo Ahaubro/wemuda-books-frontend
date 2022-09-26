@@ -19,6 +19,7 @@ const baseQuery = fetchBaseQuery({
 export type Review = {
   id: number,
   content: string,
+  title: string,
   rating: number
 }
 
@@ -45,6 +46,7 @@ export const reviewApi = createApi({
     { statusText: string },
     { 
       content: string,
+      title: string,
       rating: number,
       bookId: string,
       userId: number,

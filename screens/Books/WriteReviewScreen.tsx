@@ -35,9 +35,9 @@ function WriteReviewScreen({ navigation, route }: Props) {
     //Add book (want to read for now)
     const [addReview] = useAddReviewMutation();
     const [addReviewAtributes, setaddReviewAtributes] = useState<{
-        content: string, rating: number, bookId: string, userId: number
+        content: string, title: string, rating: number, bookId: string, userId: number
     }>({
-        content: "", rating: 0, bookId: bookId, userId: userId
+        content: "", title: "", rating: 0, bookId: bookId, userId: userId
     })
 
 
@@ -57,7 +57,6 @@ function WriteReviewScreen({ navigation, route }: Props) {
 
             <View style={styles.starRating}>              
                 <AirbnbRating
-                    reviews={['Terrible', 'Okay', 'Good', 'Great book', 'Love this book']}
                     reviewSize={0}
                     count={5}
                     size={35}
@@ -67,6 +66,16 @@ function WriteReviewScreen({ navigation, route }: Props) {
                     }}
                 />
             </View>
+
+
+            <View style={styles.inputTitleContainer}>
+                <TextInput style={styles.titleInput} multiline={true} placeholder='Review title' placeholderTextColor={'grey'} onChangeText={(title) => {
+                    addReviewAtributes.title = title
+                }}>
+                </TextInput>
+            </View>
+            
+            
 
 
             <View style={styles.inputContainer}>
@@ -129,6 +138,7 @@ const styles = StyleSheet.create({
         border: 'none',
         outline: 'none',
         opacity: 0.8,
+        marginTop: 15,
     },
     starRating: {
         paddingHorizontal: 25,
@@ -140,6 +150,25 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         height: 130,
         marginTop: 20
+    },
+    inputTitleContainer:{
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        borderWidth: 1,
+        backgroundColor: 'rgb(247,247,247)',
+        height: 40,
+        borderRadius: 15,
+        borderBottomWidth: 1,
+        border: 'none',
+        outline: 'none',
+        opacity: 0.8,
+        marginTop: 15,
+    },
+    titleInput: {
+        flex: 1,
+        outline: 'none',
+        paddingHorizontal: 20,
     },
 })
 
