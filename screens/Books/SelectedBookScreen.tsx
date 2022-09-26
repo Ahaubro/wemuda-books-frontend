@@ -400,6 +400,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
                                         <View style={{ flexDirection: 'column', justifyContent: 'space-between', marginLeft: -10, paddingVertical: 10 }}>
                                             <AirbnbRating
                                                 reviewSize={0}
+                                                reviews={["", "", "", "", ""]}
                                                 reviewColor={'black'}
                                                 size={20}
                                                 defaultRating={item.rating}
