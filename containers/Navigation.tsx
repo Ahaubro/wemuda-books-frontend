@@ -14,6 +14,7 @@ import BookNavigator from './BookNavigator'
 import MyPageNavigator from './MyPageNavigator'
 import HomeNavigator from './HomeNavigator'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
+import AuthNavigator from './AuthNavigator'
 
 interface NavigationProps { }
 
@@ -50,7 +51,7 @@ const Navigation: React.FC<NavigationProps> = () => {
               iconName = focused ? 'person' : 'person'
             } else if (route.name === 'BooksNavigator') {
               iconName = focused ? 'search' : 'search-sharp'
-            } else if (route.name === 'Login') {
+            } else if (route.name === 'AuthNavigator') {
               iconName = focused ? 'key-sharp' : 'key-outline'
             }
 
@@ -75,7 +76,7 @@ const Navigation: React.FC<NavigationProps> = () => {
 
         {!session.token &&
           <>
-            <Tab.Screen name="Login" component={LoginScreen} options={{ tabBarStyle: { display: 'none' } }}></Tab.Screen>
+            <Tab.Screen name="AuthNavigator" component={AuthNavigator} options={{ tabBarStyle: { display: 'none' } }}></Tab.Screen>
           </>
         }
 

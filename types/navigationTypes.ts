@@ -4,7 +4,7 @@ export type TabNavigationParamList = {
     Settings: undefined
     MyPageNavigator: undefined
     HomeNavigator: undefined
-    Login: undefined
+    AuthNavigator: undefined
     BooksScreen: undefined
 }
 
@@ -112,4 +112,11 @@ export type HomeNavigatorParamList = {
         userId: number
     }
 
+}
+
+export type AuthNavigatorParamList = {
+    Welcome: undefined,
+    Login: undefined,
+    SignUp: undefined,
+    ForgotPassword: undefined
 }
