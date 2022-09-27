@@ -29,16 +29,16 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const userBooksArr = userBooks.data?.books
 
 
-  let currentlyReadingBook: Book = {
-    bookId: "",
-    title: "",
-    author: "",
-    description: "",
-    bookStatus: "",
-    thumbnail: "",
-    averageRating: 0,
-    ratingsCount: 0
-  }
+  // let currentlyReadingBook: Book = {
+  //   bookId: "",
+  //   title: "",
+  //   author: "",
+  //   description: "",
+  //   bookStatus: "",
+  //   thumbnail: "",
+  //   averageRating: 0,
+  //   ratingsCount: 0
+  // }
 
   let currentlyReadingBooks: Book[] = []
 

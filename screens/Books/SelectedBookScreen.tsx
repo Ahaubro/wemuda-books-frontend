@@ -125,7 +125,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
     })
 
 
-    //Reviews
+    //Reviews & reviews flatList
     const [reviews, setReviews] = useState<Review[]>([]);
     const fetchedReviews = useGetReviewsByBookIdQuery(bookId);
     const reviewArr: Review[] | undefined = fetchedReviews.data?.reviews 
@@ -133,26 +133,6 @@ function SelectedBookScreen({ navigation, route }: Props) {
     const activeIndex = useRef(0);
     const [activeIndexForStyling, setActiveIndexForStyling] = useState(0);
     let scrollViewRef = useRef<FlatList>(null);
-  
-    // function intervalFn() {
-    //   if (scrollViewRef.current) {
-    //     if (activeIndex.current === reviewArr.length - 1) {
-    //       activeIndex.current = 0;
-    //     } else {
-    //       activeIndex.current++;
-    //     }
-    //     setActiveIndexForStyling(activeIndex.current);
-    //     scrollViewRef.current.scrollToOffset({
-    //       animated: true,
-    //       offset: activeIndex.current * 414,
-    //     });
-    //   }
-    // }
-  
-    // useEffect(() => {
-    //   const interval = setInterval(intervalFn, 5500);
-    //   return () => clearInterval(interval);
-    // }, []);
   
     const onScrollHandler = (
       scroll: number,

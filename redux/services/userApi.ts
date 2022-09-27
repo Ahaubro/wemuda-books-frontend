@@ -6,10 +6,11 @@ import { API_URL } from '../../constants'
 import { RootState } from '../store'
 import { useGetBookByIdQuery } from './googleBookApi'
 
-console.log("BASE_URL =", process.env.BASE_URL)
+// const baseUrl = process.env.BASE_URL ?? 'http://192.168.8.148:5001/'
+// console.log("BASE_URL =", baseUrl)
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: process.env.BASE_URL ?? 'http://192.168.8.148:5001/',
+  baseUrl: 'http://192.168.8.148:5001/',
   prepareHeaders: (headers, api) => {
     const state = api.getState() as RootState
     const token = state.session.token
