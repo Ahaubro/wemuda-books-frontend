@@ -20,6 +20,7 @@ const baseQuery = fetchBaseQuery({
 
 
 export type Book = {
+  id: number,
   bookId: string,
   title: string,
   description: string,
@@ -28,6 +29,14 @@ export type Book = {
   averageRating: number,
   ratingsCount: number,
   bookStatus: string
+}
+
+export type ReviewBook = {
+  id: number,
+  content: string,
+  title: string,
+  rating: number,
+  thumbnail: string,
 }
 
 export const bookApi = createApi({

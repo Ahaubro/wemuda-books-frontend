@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, StyleSheet, Button, Pressable, FlatList, Image, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { Text, View, StyleSheet, Button, Pressable, FlatList, Image, TouchableOpacity, ActivityIndicator, TouchableOpacityBase } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
 import { useGetUserByIdQuery, User } from '../../redux/services/userApi'
@@ -179,22 +179,23 @@ function MyPageScreen({ navigation, route }: Props){
           :
 
           <View style={{ flexDirection: 'row', justifyContent: 'center', paddingVertical: 20}}>
-            <Pressable style={[styles.buttonGray, { paddingHorizontal: 10, paddingVertical: 10, width: 250, borderColor: '1px solid black'}]}
+            <TouchableOpacity activeOpacity={0.7} style={[styles.buttonGray, { paddingHorizontal: 10, paddingVertical: 10, width: 250, borderColor: '1px solid black'}]}
               onPress={() => {
                 navigation.navigate("BookScreen")
               }}>
               <Text style={{ textAlign: 'center', fontFamily: 'GraphikMedium', fontSize: 16 }}>Find books now</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
         }
 
         { wantToReadBooks.length > 0 &&
 
         <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 10 }}>
-          <Pressable style={styles.buttonGray} onPress={() => {
+          <TouchableOpacity activeOpacity={0.7} style={styles.buttonGray} onPress={() => {
             if (wantToReadBooks.length > 0)
               navigation.navigate('BookList', { books: wantToReadBooks, title: "Want to read" })
-          }}><Text style={styles.btnBlackText}>See all</Text></Pressable>
+          }}><Text style={styles.btnBlackText}>See all</Text>
+          </TouchableOpacity>
         </View>
         }
 
@@ -235,10 +236,12 @@ function MyPageScreen({ navigation, route }: Props){
         
         { historyBooks.length > 0 && 
         <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 10 }}>
-          <Pressable style={[styles.buttonGray, {marginBottom: 20}]} onPress={() => {
+          <TouchableOpacity activeOpacity={0.7} style={[styles.buttonGray, {marginBottom: 20}]} onPress={() => {
             if (historyBooks.length > 0)
               navigation.navigate('BookList', { books: historyBooks, title: "My history" })
-          }}><Text style={styles.btnBlackText}>See all</Text></Pressable>
+          }}>
+            <Text style={styles.btnBlackText}>See all</Text>
+          </TouchableOpacity>
         </View>
         }
 

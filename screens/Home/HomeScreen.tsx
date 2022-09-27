@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View, Pressable, FlatList, Image, TouchableOpacity, ScrollView } from 'react-native'
+import React, { useState, useEffect, useRef } from 'react'
+import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, ScrollView } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import { Book, useGetBooksByUserIdQuery } from "../../redux/services/bookApi"
 import { useGetUserByIdQuery } from "../../redux/services/userApi"
@@ -8,6 +8,7 @@ import { RootState } from '../../redux/store'
 import { useGetStatusUpdatesByUserQuery, StatusUpdate } from '../../redux/services/statusUpdateApi'
 import DefaultView from "../../components/DefaultView"
 import Carousel from "../../components/Carousel"
+import Looper from "../../components/Looper"
 
 interface HomeScreenProps {
   navigation: any
@@ -29,16 +30,16 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const userBooksArr = userBooks.data?.books
 
 
-  let currentlyReadingBook: Book = {
-    bookId: "",
-    title: "",
-    author: "",
-    description: "",
-    bookStatus: "",
-    thumbnail: "",
-    averageRating: 0,
-    ratingsCount: 0
-  }
+  // let currentlyReadingBook: Book = {
+  //   bookId: "",
+  //   title: "",
+  //   author: "",
+  //   description: "",
+  //   bookStatus: "",
+  //   thumbnail: "",
+  //   averageRating: 0,
+  //   ratingsCount: 0
+  // }
 
   let currentlyReadingBooks: Book[] = []
 
@@ -103,8 +104,48 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     user.refetch()
   }, [userBooks.data])
 
-  //Flatlist element styling
-  
+  //Flatlist element styling LOOPER BOOK
+  const activeIndex = useRef(0);
+  const [activeIndexForStyling, setActiveIndexForStyling] = useState(0);
+  let scrollViewRef = useRef<FlatList>(null);
+
+  function intervalFn() {
+    if (scrollViewRef.current) {
+      if (activeIndex.current === currentlyReadingBooks.length - 1) {
+        activeIndex.current = 0;
+      } else {
+        activeIndex.current++;
+      }
+      
+      scrollViewRef.current.scrollToOffset({
+        animated: true,
+        offset: activeIndex.current * 225,
+      });
+    }
+  }
+
+  useEffect(() => {
+    if (currentlyReadingBooks.length > 0) {
+      const interval = setInterval(intervalFn, 5000);
+
+      return () => clearInterval(interval);
+    }
+
+  }, [currentlyReadingBooks]);
+
+  const onScrollHandler = (
+    scroll: number,
+  ) => {
+    if (scroll % 225 === 0) {
+      if (scroll === 0) {
+        activeIndex.current = 0;
+      } else {
+        activeIndex.current = scroll / 225;
+      }
+      setActiveIndexForStyling(activeIndex.current);
+    }
+  };
+
 
 
   return (
@@ -114,7 +155,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
         <View>
           <View style={styles.currentlyReadingImage}>
-            <Text style={styles.currentlyReadingHeader}>Currently reading</Text>   
+            <Text style={styles.currentlyReadingHeader}>Currently reading</Text>
 
             {
               currentlyReadingBooks.length === 0 ?
@@ -123,52 +164,54 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                   <View style={{ flexDirection: 'column', width: '70%' }}>
                     <Text style={{ textAlign: 'center', paddingVertical: 20, fontFamily: 'GraphikMedium', marginTop: -35 }}> You are currently not reading a book </Text>
 
-                    <Pressable style={{ backgroundColor: "white", borderRadius: 15, paddingHorizontal: 10, paddingVertical: 8 }}
+                    <TouchableOpacity activeOpacity={0.7} style={{ backgroundColor: "white", borderRadius: 15, paddingHorizontal: 10, paddingVertical: 8 }}
                       onPress={() => {
                         navigation.navigate("BookScreen")
                       }}>
                       <Text style={{ textAlign: 'center', fontFamily: 'GraphikSemibold' }}>Find a book</Text>
-                    </Pressable>
+                    </TouchableOpacity>
                   </View>
                 </View>
 
                 :
 
-                <View style={{ height: 280, width: 200}}>
+                <View style={{ height: 280, width: 200 }}>
 
-                  <FlatList 
-                  horizontal={true}
-                  showsHorizontalScrollIndicator={false}
-                  data={currentlyReadingBooks} 
-                  numColumns={1}
-                  renderItem={(({ item: book, index: i }) =>
-                    <View style={{ paddingHorizontal: 10, paddingVertical: 8}}>
-                      <TouchableOpacity 
-                      onPress={() => {
-                        navigation.navigate('SelectedBookScreen', {
-                          bookId: book.bookId,
-                          title: book.title,
-                          authors: book.author,
-                          description: book.description,
-                          thumbnail: book.thumbnail ? book.thumbnail : undefined,
-                          averageRating: book.averageRating,
-                          ratingsCount: book.ratingsCount,
-                        })
-                      }}>
+                  <FlatList
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    data={currentlyReadingBooks}
+                    numColumns={1}
+                    snapToAlignment={"center"}
+                    decelerationRate={"fast"}
+                    pagingEnabled={true}
+                    ref={scrollViewRef}
+                    onScroll={(e) => {
+                      onScrollHandler(e.nativeEvent.contentOffset.x)
+                    }
+                    }
+                    renderItem={(({ item: book, index: i }) =>
+                      <View>
+                        <TouchableOpacity
+                          onPress={() => {
+                            navigation.navigate('SelectedBookScreen', {
+                              bookId: book.bookId,
+                              title: book.title,
+                              authors: book.author,
+                              description: book.description,
+                              thumbnail: book.thumbnail ? book.thumbnail : undefined,
+                              averageRating: book.averageRating,
+                              ratingsCount: book.ratingsCount,
+                            })
+                          }}>
 
-                        <Image
-                          source={{ uri: book.thumbnail }}
-                          style={{ width: 200, height: 280, borderRadius: 5 }}
-                        />
+                          <Looper item={book} activeIndex={activeIndex.current} index={i} />
 
-                      </TouchableOpacity>
-                    </View>
+                        </TouchableOpacity>
+                      </View>
 
-                  )}
+                    )}
                   />
-
-
-                  {/* <Carousel items={currentlyReadingBooks} navigation={navigation}/> */}
 
                 </View>
             }
@@ -179,11 +222,11 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
             <>
               {currentlyReadingBooks.length != 0 &&
-                <Pressable style={styles.buttonGray} onPress={(() => navigation.navigate('ChooseBookToUpdateScreen', {
+                <TouchableOpacity activeOpacity={0.7} style={styles.buttonGray} onPress={(() => navigation.navigate('ChooseBookToUpdateScreen', {
                   userId: session.id
                 }))}>
                   <Text style={styles.btnBlackText}>Update reading progress</Text>
-                </Pressable>
+                </TouchableOpacity>
               }
             </>
           </View>
@@ -195,7 +238,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
               {user.data?.booksRead == user.data?.booksGoal ?
 
-                <Text style={{ fontSize: 16, paddingBottom: 5}}>Reading challenge completed! 🎉 </Text>
+                <Text style={{ fontSize: 16, paddingBottom: 5 }}>Reading challenge completed! 🎉 </Text>
                 :
 
                 <Text style={styles.readingChallengeText}>Reading challenge </Text>
@@ -205,13 +248,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               <View style={styles.editNBooksRead}>
 
                 <View style={{ marginRight: 25, marginTop: -10 }}>
-                  <Pressable style={{ backgroundColor: "white", borderRadius: 15, paddingHorizontal: 10, paddingVertical: 8 }}
+                  <TouchableOpacity activeOpacity={0.7} style={{ backgroundColor: "white", borderRadius: 15, paddingHorizontal: 10, paddingVertical: 8 }}
                     onPress={() => navigation.navigate('UpdateGoalScreen', {
                       bookId: currentlyReadingBooks[0].bookId,
                       userId: session.id
                     })}>
                     <Text style={{ fontSize: 12, fontFamily: 'GraphikMedium' }}>Edit goal</Text>
-                  </Pressable>
+                  </TouchableOpacity>
                 </View>
 
                 <Text style={{ fontSize: 22, fontFamily: 'GraphikMedium', marginTop: 5 }}>{user.data?.booksRead}/{user.data?.booksGoal ?? 0}<Text style={{ fontSize: 16 }}> books read </Text> </Text>
@@ -222,15 +265,15 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
             :
 
-            <View style={{marginTop: 10}}>
+            <View style={{ marginTop: 10 }}>
               <View style={{ marginTop: -10 }}>
-                <Pressable style={{ backgroundColor: "rgb(247,247,250)", borderRadius: 15, paddingHorizontal: 10, paddingVertical: 15 }}
+                <TouchableOpacity activeOpacity={0.7} style={{ backgroundColor: "rgb(247,247,250)", borderRadius: 15, paddingHorizontal: 10, paddingVertical: 15 }}
                   onPress={() => navigation.navigate('UpdateGoalScreen', {
                     //bookId: currentlyReadingBooks[0].bookId,
                     userId: session.id
                   })}>
                   <Text style={{ fontSize: 14, textAlign: 'center', fontFamily: "GraphikMedium" }}>Set a reading challenge</Text>
-                </Pressable>
+                </TouchableOpacity>
               </View>
             </View>
           }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, StyleSheet, Pressable, TextInput } from 'react-native'
+import { Text, View, StyleSheet, Pressable, TextInput, TouchableOpacity } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../redux/store'
 import { endSession } from '../../redux/slices/sessionSlice'
@@ -90,7 +90,7 @@ function WriteReviewScreen({ navigation, route }: Props) {
             <View style={{ marginTop: 20 }}></View>
 
 
-            <Pressable style={styles.saveReview} onPress={() => {
+            <TouchableOpacity activeOpacity={0.7} style={styles.saveReview} onPress={() => {
                 //Setting dcefault value for rating if none is given
                 if(addReviewAtributes.rating == 0) {
                     addReviewAtributes.rating = 3
@@ -101,7 +101,7 @@ function WriteReviewScreen({ navigation, route }: Props) {
 
                 <Text style={{ color: 'white' }}>Save review</Text>
 
-            </Pressable>
+            </TouchableOpacity>
 
         </DefaultView>
     )

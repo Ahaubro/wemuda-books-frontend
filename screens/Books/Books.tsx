@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, StyleSheet, ActivityIndicator, TextInput, Image, FlatList, Pressable, TouchableOpacity, NativeEventEmitter } from 'react-native'
+import { Text, View, StyleSheet, ActivityIndicator, TextInput, Image, FlatList, TouchableOpacity, NativeEventEmitter } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
 import { GoogleBook, useGetBooksQuery } from "../../redux/services/googleBookApi"
@@ -161,11 +161,11 @@ const BooksScreen: React.FC<BooksScreenProps> = ({ navigation }) => {
 
       { session.token && session.token == "guest" &&
       <View>
-        <Pressable style={{paddingVertical: 15}} onPress={ () => {
+        <TouchableOpacity activeOpacity={0.7} style={{paddingVertical: 15}} onPress={ () => {
           dispatch(endSession());
         }}>
           <Text style={[styles.btnBlackText, {fontFamily: 'GraphikMedium'}]}>Back to start</Text>
-        </Pressable>
+        </TouchableOpacity>
 
       </View>
       }

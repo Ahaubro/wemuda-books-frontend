@@ -8,6 +8,7 @@ import { useEditStatusMutation, useGetBooksByUserIdQuery, Book } from '../../red
 import { useAddStatusUpdateMutation } from '../../redux/services/statusUpdateApi'
 import { useSetBooksGoalMutation, useResetBooksReadMutation } from '../../redux/services/userApi'
 import DefaultView from "../../components/DefaultView"
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 
 
@@ -58,7 +59,7 @@ const UpdateGoalScreen: React.FC<UpdateGoalScreenProps> = ({ navigation, route }
 
 
             <View style={{ paddingVertical: 4 }}>
-                <Pressable style={{ ...styles.buttonBlack, marginTop: 10 }} onPress={(() => {                                          
+                <TouchableOpacity activeOpacity={0.7} style={{ ...styles.buttonBlack, marginTop: 10 }} onPress={(() => {                                          
                     if (booksGoal != NaN) {
                         if (booksGoal > 0)
                             updateBooksGoal({ userId, booksGoal: booksGoal })
@@ -69,11 +70,11 @@ const UpdateGoalScreen: React.FC<UpdateGoalScreenProps> = ({ navigation, route }
                         navigation.navigate("Home")
                 })}>
                     <Text style={styles.btnWhiteText}>Save</Text>
-                </Pressable>
+                </TouchableOpacity>
             </View>
 
             <View style={{ paddingVertical: 4 }}>
-                <Pressable style={{ ...styles.buttonGrey, flexDirection: 'row', justifyContent: 'center'  }} onPress={(() => {
+                <TouchableOpacity activeOpacity={0.7} style={{ ...styles.buttonGrey, flexDirection: 'row', justifyContent: 'center'  }} onPress={(() => {
                     resetBooksRead(userId)
                     navigation.navigate("Home")
                 })}>
@@ -83,7 +84,7 @@ const UpdateGoalScreen: React.FC<UpdateGoalScreenProps> = ({ navigation, route }
                         <Ionicons style={{ marginLeft: 5 }} name={'checkmark-sharp'} size={15} color={'green'} /> :
                         <Ionicons style={{ marginLeft: 5 }} name={'close-sharp'} size={15} color={'red'} />
                     } */}
-                </Pressable>
+                </TouchableOpacity>
             </View>
 
         </DefaultView>
