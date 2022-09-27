@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, StyleSheet, Button, Pressable } from 'react-native'
+import { Text, View, StyleSheet, Button, Pressable, TouchableOpacity } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../redux/store'
 import { endSession } from '../../redux/slices/sessionSlice'
@@ -39,18 +39,18 @@ function SettingsScreen({ navigation, route }: Props) {
 
       <View>
 
-      <Pressable style={styles.buttonWhite} onPress={() => {
+      <TouchableOpacity activeOpacity={0.7} style={styles.buttonWhite} onPress={() => {
           navigation.navigate("ChangePasswordScreen")
         }}>
           <Text style={styles.btnWhiteText}>Change password</Text>
-        </Pressable>
+        </TouchableOpacity>
 
         <View style={{paddingVertical: 5}}>
-          <Pressable style={styles.buttonWhite} onPress={() => {
+          <TouchableOpacity activeOpacity={0.7} style={styles.buttonWhite} onPress={() => {
             dispatch(endSession());
           }}>
             <Text style={styles.btnWhiteText}>Log out</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
       </View>

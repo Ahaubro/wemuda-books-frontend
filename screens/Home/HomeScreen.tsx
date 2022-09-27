@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { StyleSheet, Text, View, Pressable, FlatList, Image, TouchableOpacity, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, ScrollView } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import { Book, useGetBooksByUserIdQuery } from "../../redux/services/bookApi"
 import { useGetUserByIdQuery } from "../../redux/services/userApi"
@@ -164,12 +164,12 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                   <View style={{ flexDirection: 'column', width: '70%' }}>
                     <Text style={{ textAlign: 'center', paddingVertical: 20, fontFamily: 'GraphikMedium', marginTop: -35 }}> You are currently not reading a book </Text>
 
-                    <Pressable style={{ backgroundColor: "white", borderRadius: 15, paddingHorizontal: 10, paddingVertical: 8 }}
+                    <TouchableOpacity activeOpacity={0.7} style={{ backgroundColor: "white", borderRadius: 15, paddingHorizontal: 10, paddingVertical: 8 }}
                       onPress={() => {
                         navigation.navigate("BookScreen")
                       }}>
                       <Text style={{ textAlign: 'center', fontFamily: 'GraphikSemibold' }}>Find a book</Text>
-                    </Pressable>
+                    </TouchableOpacity>
                   </View>
                 </View>
 
@@ -222,11 +222,11 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
             <>
               {currentlyReadingBooks.length != 0 &&
-                <Pressable style={styles.buttonGray} onPress={(() => navigation.navigate('ChooseBookToUpdateScreen', {
+                <TouchableOpacity activeOpacity={0.7} style={styles.buttonGray} onPress={(() => navigation.navigate('ChooseBookToUpdateScreen', {
                   userId: session.id
                 }))}>
                   <Text style={styles.btnBlackText}>Update reading progress</Text>
-                </Pressable>
+                </TouchableOpacity>
               }
             </>
           </View>
@@ -248,13 +248,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               <View style={styles.editNBooksRead}>
 
                 <View style={{ marginRight: 25, marginTop: -10 }}>
-                  <Pressable style={{ backgroundColor: "white", borderRadius: 15, paddingHorizontal: 10, paddingVertical: 8 }}
+                  <TouchableOpacity activeOpacity={0.7} style={{ backgroundColor: "white", borderRadius: 15, paddingHorizontal: 10, paddingVertical: 8 }}
                     onPress={() => navigation.navigate('UpdateGoalScreen', {
                       bookId: currentlyReadingBooks[0].bookId,
                       userId: session.id
                     })}>
                     <Text style={{ fontSize: 12, fontFamily: 'GraphikMedium' }}>Edit goal</Text>
-                  </Pressable>
+                  </TouchableOpacity>
                 </View>
 
                 <Text style={{ fontSize: 22, fontFamily: 'GraphikMedium', marginTop: 5 }}>{user.data?.booksRead}/{user.data?.booksGoal ?? 0}<Text style={{ fontSize: 16 }}> books read </Text> </Text>
@@ -267,13 +267,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
             <View style={{ marginTop: 10 }}>
               <View style={{ marginTop: -10 }}>
-                <Pressable style={{ backgroundColor: "rgb(247,247,250)", borderRadius: 15, paddingHorizontal: 10, paddingVertical: 15 }}
+                <TouchableOpacity activeOpacity={0.7} style={{ backgroundColor: "rgb(247,247,250)", borderRadius: 15, paddingHorizontal: 10, paddingVertical: 15 }}
                   onPress={() => navigation.navigate('UpdateGoalScreen', {
                     //bookId: currentlyReadingBooks[0].bookId,
                     userId: session.id
                   })}>
                   <Text style={{ fontSize: 14, textAlign: 'center', fontFamily: "GraphikMedium" }}>Set a reading challenge</Text>
-                </Pressable>
+                </TouchableOpacity>
               </View>
             </View>
           }

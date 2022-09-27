@@ -364,7 +364,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
                         <Text style={{ color: 'grey', fontFamily: 'GraphikRegular', fontSize: 14, lineHeight: 25 }}>
                             {slicedDescription}...
 
-                            <Pressable onPress={() => {
+                            <TouchableOpacity activeOpacity={0.7} onPress={() => {
                                 navigation.navigate('SelectedBookMoreScreen', {
 
                                     title: title,
@@ -373,7 +373,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
                                 })
                             }}>
                                 <Text style={{ color: 'black', fontFamily: 'GraphikSemibold', fontSize: 14 }}> See more</Text>
-                            </Pressable>
+                            </TouchableOpacity>
                         </Text>
 
                         :
@@ -390,13 +390,13 @@ function SelectedBookScreen({ navigation, route }: Props) {
                 <Text style={styles.reviewHeader}>Reviews</Text>
                 <View>
                     {reviews.length > 0 ?
-                        <Pressable style={{ marginTop: 20 }} onPress={() => {
+                        <TouchableOpacity activeOpacity={0.7} style={{ marginTop: 20 }} onPress={() => {
                             navigation.navigate('AllReviewsScreen', {
                                 bookId: bookId
                             })
                         }}>
                             <Text style={{ color: "#ccc", fontFamily: 'GraphikMedium' }}>See all</Text>
-                        </Pressable>
+                        </TouchableOpacity>
 
                         :
 
@@ -460,14 +460,14 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
             {session.token && session.token != "guest" &&
                 <View style={{ marginTop: 10, marginBottom: 25 }}>
-                    <Pressable style={styles.selectedBookBtn} onPress={() => {
+                    <TouchableOpacity activeOpacity={0.7} style={styles.selectedBookBtn} onPress={() => {
                         navigation.navigate("WriteReviewScreen", {
                             bookId: bookId,
                             userId: session.id
                         })
                     }}>
                         <Text style={{ fontFamily: 'GraphikSemibold', fontSize: 14, textAlign: 'center' }}> <Ionicons name={'ios-create'} size={20} color={'black'} style={{ paddingHorizontal: 5, textAlign: 'center' }} /> Write a review </Text>
-                    </Pressable>
+                    </TouchableOpacity>
                 </View>
             }
 

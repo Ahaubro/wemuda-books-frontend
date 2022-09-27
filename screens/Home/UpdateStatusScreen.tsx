@@ -8,6 +8,8 @@ import { useEditStatusMutation, useGetBooksByUserIdQuery, Book } from '../../red
 import { useAddStatusUpdateMutation } from '../../redux/services/statusUpdateApi'
 import { useSetBooksGoalMutation, useResetBooksReadMutation } from '../../redux/services/userApi'
 import DefaultView from "../../components/DefaultView"
+import BackArrowContainer from "../../components/BackArrowContainer"
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 
 type UpdateStatusScreenNavigationProps = StackNavigationProp<HomeNavigatorParamList, "UpdateStatus">
@@ -42,9 +44,11 @@ const UpdateStatusScreen: React.FC<HomeScreenProps> = ({ navigation, route }) =>
                 </View>
             }
 
-            <Pressable style={styles.backArrowPos} onPress={() => { navigation.pop() }}>
-                <Ionicons name={'chevron-back'} size={25} color={'black'} />
-            </Pressable>
+            <BackArrowContainer>
+                <Pressable onPress={() => { navigation.pop() }}>
+                    <Ionicons name={'chevron-back'} size={25} color={'black'} />
+                </Pressable>
+            </BackArrowContainer>
 
             <Text style={styles.heading}>Update reading progress</Text>
 
@@ -62,7 +66,7 @@ const UpdateStatusScreen: React.FC<HomeScreenProps> = ({ navigation, route }) =>
 
 
             <View style={{ paddingVertical: 4 }}>
-                <Pressable style={{ ...styles.buttonBlack, marginTop: 10 }} onPress={(() => {
+                <TouchableOpacity activeOpacity={0.7} style={{ ...styles.buttonBlack, marginTop: 10 }} onPress={(() => {
                     if (minutesRead != NaN) {
                         if (minutesRead > 0)
                             addStatusUpdate({ userId, minutesAdded: minutesRead })
@@ -73,18 +77,18 @@ const UpdateStatusScreen: React.FC<HomeScreenProps> = ({ navigation, route }) =>
                         navigation.navigate("Home")
                 })}>
                     <Text style={styles.btnWhiteText}>Update progress</Text>
-                </Pressable>
+                </TouchableOpacity>
             </View>
 
 
             <View style={{ paddingVertical: 4 }}>
-                <Pressable style={{ ...styles.buttonGrey, flexDirection: 'row', justifyContent: 'center' }} onPress={(() => {
+                <TouchableOpacity activeOpacity={0.7}  style={{ ...styles.buttonGrey, flexDirection: 'row', justifyContent: 'center' }} onPress={(() => {
                     editBookStatus({ userId, bookId, bookStatus: "History" }).unwrap().then(res => {
                         navigation.navigate("Home")
                     })
                 })}>
                     <Text style={styles.btnBlackText}>Finish Book</Text>
-                </Pressable>
+                </TouchableOpacity>
             </View>
         </DefaultView>
     </>

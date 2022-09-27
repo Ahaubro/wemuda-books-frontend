@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Text, View, StyleSheet, Button, Pressable, TextInput } from 'react-native'
+import { Text, View, StyleSheet, Button, Pressable, TextInput, TouchableOpacity } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../redux/store'
 import { endSession } from '../../redux/slices/sessionSlice'
@@ -74,7 +74,7 @@ function ChangePasswordScreen({ navigation, route }: Props) {
             </View>
 
             <View style={{ paddingVertical: 10 }}>
-                <Pressable style={styles.buttonBlack} onPress={ () => {
+                <TouchableOpacity activeOpacity={0.7} style={styles.buttonBlack} onPress={ () => {
                     if(newPassword == confirmPassword){
                         changePasswordAtributes.newPassword = newPassword
                         changePasswordAtributes.password = currentPassword
@@ -83,7 +83,7 @@ function ChangePasswordScreen({ navigation, route }: Props) {
                     }
                 }} >
                     <Text style={styles.btnWhiteText}>Send</Text>
-                </Pressable>
+                </TouchableOpacity>
             </View>
 
 
