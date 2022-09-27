@@ -28,6 +28,14 @@ export type Book = {
   bookStatus: string
 }
 
+export type ReviewBook = {
+  id: number,
+  content: string,
+  title: string,
+  rating: number,
+  thumbnail: string,
+}
+
 export const bookApi = createApi({
   reducerPath: 'bookApi',
   baseQuery,

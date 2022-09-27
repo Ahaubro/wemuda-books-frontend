@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { StyleSheet, Text, View, Pressable, FlatList, Image, TouchableOpacity, ScrollView } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import { Book, useGetBooksByUserIdQuery } from "../../redux/services/bookApi"
@@ -8,6 +8,7 @@ import { RootState } from '../../redux/store'
 import { useGetStatusUpdatesByUserQuery, StatusUpdate } from '../../redux/services/statusUpdateApi'
 import DefaultView from "../../components/DefaultView"
 import Carousel from "../../components/Carousel"
+import Looper from "../../components/Looper"
 
 interface HomeScreenProps {
   navigation: any
@@ -103,8 +104,51 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     user.refetch()
   }, [userBooks.data])
 
-  //Flatlist element styling
-  
+  //Flatlist element styling LOOPER BOOK
+  const activeIndex = useRef(0);
+  const [activeIndexForStyling, setActiveIndexForStyling] = useState(0);
+  let scrollViewRef = useRef<FlatList>(null);
+
+  function intervalFn() {
+    if (scrollViewRef.current) {
+      if (activeIndex.current === currentlyReadingBooks.length - 1) {
+        activeIndex.current = 0;
+      } else {
+        activeIndex.current++;
+      }
+      
+      scrollViewRef.current.scrollToOffset({
+        animated: true,
+        offset: activeIndex.current * 225,
+      });
+    }
+  }
+
+  useEffect(() => {
+    if (currentlyReadingBooks.length > 0) {
+      const interval = setInterval(intervalFn, 5000);
+
+      return () => clearInterval(interval);
+    }
+
+  }, [currentlyReadingBooks]);
+
+  const onScrollHandler = (
+    scroll: number,
+  ) => {
+    console.log(scroll)
+    if (scroll % 225 === 0) {
+      if (scroll === 0) {
+        console.log("hej")
+        activeIndex.current = 0;
+      } else {
+        console.log("hej2")
+        activeIndex.current = scroll / 225;
+      }
+      setActiveIndexForStyling(activeIndex.current);
+    }
+  };
+
 
 
   return (
@@ -114,7 +158,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
         <View>
           <View style={styles.currentlyReadingImage}>
-            <Text style={styles.currentlyReadingHeader}>Currently reading</Text>   
+            <Text style={styles.currentlyReadingHeader}>Currently reading</Text>
 
             {
               currentlyReadingBooks.length === 0 ?
@@ -134,41 +178,43 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
                 :
 
-                <View style={{ height: 280, width: 200}}>
+                <View style={{ height: 280, width: 200 }}>
 
-                  <FlatList 
-                  horizontal={true}
-                  showsHorizontalScrollIndicator={false}
-                  data={currentlyReadingBooks} 
-                  numColumns={1}
-                  renderItem={(({ item: book, index: i }) =>
-                    <View style={{ paddingHorizontal: 10, paddingVertical: 8}}>
-                      <TouchableOpacity 
-                      onPress={() => {
-                        navigation.navigate('SelectedBookScreen', {
-                          bookId: book.bookId,
-                          title: book.title,
-                          authors: book.author,
-                          description: book.description,
-                          thumbnail: book.thumbnail ? book.thumbnail : undefined,
-                          averageRating: book.averageRating,
-                          ratingsCount: book.ratingsCount,
-                        })
-                      }}>
+                  <FlatList
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    data={currentlyReadingBooks}
+                    numColumns={1}
+                    snapToAlignment={"center"}
+                    decelerationRate={"fast"}
+                    pagingEnabled={true}
+                    ref={scrollViewRef}
+                    onScroll={(e) => {
+                      onScrollHandler(e.nativeEvent.contentOffset.x)
+                    }
+                    }
+                    renderItem={(({ item: book, index: i }) =>
+                      <View>
+                        <TouchableOpacity
+                          onPress={() => {
+                            navigation.navigate('SelectedBookScreen', {
+                              bookId: book.bookId,
+                              title: book.title,
+                              authors: book.author,
+                              description: book.description,
+                              thumbnail: book.thumbnail ? book.thumbnail : undefined,
+                              averageRating: book.averageRating,
+                              ratingsCount: book.ratingsCount,
+                            })
+                          }}>
 
-                        <Image
-                          source={{ uri: book.thumbnail }}
-                          style={{ width: 200, height: 280, borderRadius: 5 }}
-                        />
+                          <Looper item={book} activeIndex={activeIndex.current} index={i} />
 
-                      </TouchableOpacity>
-                    </View>
+                        </TouchableOpacity>
+                      </View>
 
-                  )}
+                    )}
                   />
-
-
-                  {/* <Carousel items={currentlyReadingBooks} navigation={navigation}/> */}
 
                 </View>
             }
@@ -195,7 +241,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
               {user.data?.booksRead == user.data?.booksGoal ?
 
-                <Text style={{ fontSize: 16, paddingBottom: 5}}>Reading challenge completed! 🎉 </Text>
+                <Text style={{ fontSize: 16, paddingBottom: 5 }}>Reading challenge completed! 🎉 </Text>
                 :
 
                 <Text style={styles.readingChallengeText}>Reading challenge </Text>
@@ -222,7 +268,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
             :
 
-            <View style={{marginTop: 10}}>
+            <View style={{ marginTop: 10 }}>
               <View style={{ marginTop: -10 }}>
                 <Pressable style={{ backgroundColor: "rgb(247,247,250)", borderRadius: 15, paddingHorizontal: 10, paddingVertical: 15 }}
                   onPress={() => navigation.navigate('UpdateGoalScreen', {

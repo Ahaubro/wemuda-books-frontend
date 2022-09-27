@@ -1,24 +1,29 @@
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import { Dimensions, StyleSheet, Text, View, Image } from "react-native";
 import React from "react";
-import { Review } from "../redux/services/reviewApi";
 import { Book } from "../redux/services/bookApi";
 
 interface LooperProps {
-  item: Book | Review ;
+  item: Book;
   activeIndex: number;
+  index: number;
 }
 
-const Looper: React.FC<LooperProps> = ({ item, activeIndex }) => {
+const Looper: React.FC<LooperProps> = ({ item, activeIndex, index }) => {
   return (
     <View style={styles.container}>
-      <Text
-        style={[
-          styles.title,
-          {color: activeIndex === item.id ? "red" : "black" },
-        ]}
-      >
-        {item.title}
+      <Text style={[ styles.title, { color: activeIndex === index ? "red" : "black" },]}>
+
       </Text>
+
+      <Image
+        source={{ uri: item.thumbnail }}
+        style={[
+          styles.img, 
+          { opacity: activeIndex === index ? 1 : 0.5 },
+          { borderColor: activeIndex === index ? '#ccc' : undefined },
+          { borderBottomWidth: activeIndex === index ? 2 : undefined },
+        ]}
+      />
     </View>
   );
 };
@@ -27,18 +32,19 @@ export default Looper;
 
 const styles = StyleSheet.create({
   container: {
-    height: "200px",
-    width: "150px",
-    marginHorizontal: Dimensions.get("window").width / 2 - 75,
+    // marginHorizontal: Dimensions.get("window").width / 2 - 75,
+    marginEnd: 25,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#3B5323",
-    borderColor: "#000",
-    borderWidth: 2,
     alignSelf: "center",
   },
   title: {
     color: "#fff",
     fontSize: 20,
   },
+  img:{
+    width: 200, 
+    height: 280, 
+    borderRadius: 5
+  }
 });
