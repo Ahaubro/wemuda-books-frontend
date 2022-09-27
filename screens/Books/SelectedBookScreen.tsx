@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Text, View, StyleSheet, Image, Pressable, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../redux/store'
@@ -72,6 +72,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
     let isWantToRead: boolean = false
 
     let currentBook: Book = {
+        id: 0,
         bookId: "",
         title: "",
         author: "",
@@ -127,6 +128,44 @@ function SelectedBookScreen({ navigation, route }: Props) {
     //Reviews
     const [reviews, setReviews] = useState<Review[]>([]);
     const fetchedReviews = useGetReviewsByBookIdQuery(bookId);
+    const reviewArr: Review[] | undefined = fetchedReviews.data?.reviews 
+
+    const activeIndex = useRef(0);
+    const [activeIndexForStyling, setActiveIndexForStyling] = useState(0);
+    let scrollViewRef = useRef<FlatList>(null);
+  
+    // function intervalFn() {
+    //   if (scrollViewRef.current) {
+    //     if (activeIndex.current === reviewArr.length - 1) {
+    //       activeIndex.current = 0;
+    //     } else {
+    //       activeIndex.current++;
+    //     }
+    //     setActiveIndexForStyling(activeIndex.current);
+    //     scrollViewRef.current.scrollToOffset({
+    //       animated: true,
+    //       offset: activeIndex.current * 414,
+    //     });
+    //   }
+    // }
+  
+    // useEffect(() => {
+    //   const interval = setInterval(intervalFn, 5500);
+    //   return () => clearInterval(interval);
+    // }, []);
+  
+    const onScrollHandler = (
+      scroll: number,
+    ) => {
+      if (scroll % 370 === 0) {
+        if (scroll === 0) {
+          activeIndex.current = 0;
+        } else {
+          activeIndex.current = scroll / 370;
+        }
+        setActiveIndexForStyling(activeIndex.current);
+      }
+    };
 
 
     //SLice review content function for display
@@ -244,6 +283,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
             //Displays loading icon
         });
     }
+    
 
 
     return (
@@ -393,10 +433,20 @@ function SelectedBookScreen({ navigation, route }: Props) {
                         contentContainerStyle={{}}
                         showsHorizontalScrollIndicator={false}
                         horizontal={true}
-                        keyExtractor={(item) => item.content} data={fetchedReviews.data?.reviews || []} renderItem={({ item, index }) => (
-                            <View style={{ paddingEnd: 10 }}>
+                        snapToAlignment={"center"}
+                        decelerationRate={"fast"}
+                        pagingEnabled={true}
+                        snapToInterval={358}
+                        keyExtractor={(item) => item.content} 
+                        onScroll={(e) =>
+                            {onScrollHandler(e.nativeEvent.contentOffset.x)
+                            console.log(e.nativeEvent.contentOffset.x)}
+                          }
+                        data={fetchedReviews.data?.reviews || []} 
+                        renderItem={({ item, index }) => (
+                            <View style={{ marginEnd: 10 }}>
                                 <View style={styles.reviewContainer}>
-                                    <View style={{ width: 350 }}>
+                                    <View style={{ width: 320 }}>
                                         <View style={{ flexDirection: 'column', justifyContent: 'space-between', marginLeft: -10, paddingVertical: 10 }}>
                                             <AirbnbRating
                                                 reviewSize={0}
@@ -405,13 +455,12 @@ function SelectedBookScreen({ navigation, route }: Props) {
                                                 size={20}
                                                 defaultRating={item.rating}
                                                 isDisabled={true}
-                                                starContainerStyle={{  }}
-                                                ratingContainerStyle={{ backgroundColor: 'rgb(247,247,250)', flexDirection: 'row', justifyContent: 'space-between'}}
+                                                ratingContainerStyle={{ backgroundColor: 'rgb(247,247,250)', flexDirection: 'row', justifyContent: 'space-between' }}
                                             />
 
                                         </View>
-                                        <View style={{marginTop: -30}}>
-                                            <Text style={{ fontFamily: 'GraphikSemibold', fontSize: 14, width: 150}}>{sliceReviewTitle(item.title)}</Text>
+                                        <View style={{ marginTop: -30 }}>
+                                            <Text style={{ fontFamily: 'GraphikSemibold', fontSize: 14, width: 150 }}>{sliceReviewTitle(item.title)}</Text>
                                         </View>
                                         <Text style={{ color: 'grey', fontFamily: 'GraphikRegular', fontSize: 12, width: 300, paddingTop: 15, paddingBottom: 10 }}>{getContent(item.content)}</Text>
                                     </View>
@@ -430,16 +479,16 @@ function SelectedBookScreen({ navigation, route }: Props) {
             </View>
 
             {session.token && session.token != "guest" &&
-            <View style={{ marginTop: 10, marginBottom: 25 }}>
-                <Pressable style={styles.selectedBookBtn} onPress={() => {
-                    navigation.navigate("WriteReviewScreen", {
-                        bookId: bookId,
-                        userId: session.id
-                    })
-                }}>
-                    <Text style={{ fontFamily: 'GraphikSemibold', fontSize: 14, textAlign: 'center' }}> <Ionicons name={'ios-create'} size={20} color={'black'} style={{ paddingHorizontal: 5, textAlign: 'center' }} /> Write a review </Text>
-                </Pressable>
-            </View>
+                <View style={{ marginTop: 10, marginBottom: 25 }}>
+                    <Pressable style={styles.selectedBookBtn} onPress={() => {
+                        navigation.navigate("WriteReviewScreen", {
+                            bookId: bookId,
+                            userId: session.id
+                        })
+                    }}>
+                        <Text style={{ fontFamily: 'GraphikSemibold', fontSize: 14, textAlign: 'center' }}> <Ionicons name={'ios-create'} size={20} color={'black'} style={{ paddingHorizontal: 5, textAlign: 'center' }} /> Write a review </Text>
+                    </Pressable>
+                </View>
             }
 
         </DefaultView>
@@ -499,7 +548,7 @@ const styles = StyleSheet.create({
     },
     reviewContainer: {
         backgroundColor: "rgb(247,247,250)",
-        borderRadius: 15,
+        borderRadius: 25,
         height: 110,
         paddingHorizontal: 15,
         marginTop: 15,

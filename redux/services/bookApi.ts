@@ -17,6 +17,7 @@ const baseQuery = fetchBaseQuery({
 
 
 export type Book = {
+  id: number,
   bookId: string,
   title: string,
   description: string,
