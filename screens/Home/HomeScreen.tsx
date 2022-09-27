@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, ScrollView, Dimensions } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import { Book, useGetBooksByUserIdQuery } from "../../redux/services/bookApi"
 import { useGetUserByIdQuery } from "../../redux/services/userApi"
@@ -119,7 +119,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       
       scrollViewRef.current.scrollToOffset({
         animated: true,
-        offset: activeIndex.current * 225,
+        offset: activeIndex.current * Dimensions.get("window").width,
       });
     }
   }
@@ -136,11 +136,11 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const onScrollHandler = (
     scroll: number,
   ) => {
-    if (scroll % 225 === 0) {
+    if (scroll %  Dimensions.get("window").width === 0) {
       if (scroll === 0) {
         activeIndex.current = 0;
       } else {
-        activeIndex.current = scroll / 225;
+        activeIndex.current = scroll /  Dimensions.get("window").width;
       }
       setActiveIndexForStyling(activeIndex.current);
     }
@@ -164,7 +164,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                   <View style={{ flexDirection: 'column', width: '70%' }}>
                     <Text style={{ textAlign: 'center', paddingVertical: 20, fontFamily: 'GraphikMedium', marginTop: -35 }}> You are currently not reading a book </Text>
 
-                    <TouchableOpacity activeOpacity={0.7} style={{ backgroundColor: "white", borderRadius: 15, paddingHorizontal: 10, paddingVertical: 8 }}
+                    <TouchableOpacity activeOpacity={0.7} style={{ backgroundColor: "white", borderRadius: 15, paddingVertical: 8 }}
                       onPress={() => {
                         navigation.navigate("BookScreen")
                       }}>
@@ -175,7 +175,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
                 :
 
-                <View style={{ height: 280, width: 200 }}>
+                <View style={{width: Dimensions.get("window").width }}>
 
                   <FlatList
                     horizontal={true}
@@ -185,13 +185,15 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                     snapToAlignment={"center"}
                     decelerationRate={"fast"}
                     pagingEnabled={true}
+                    snapToInterval={Dimensions.get("window").width}
                     ref={scrollViewRef}
                     onScroll={(e) => {
                       onScrollHandler(e.nativeEvent.contentOffset.x)
+                      console.log(e.nativeEvent.contentOffset.x)
                     }
                     }
                     renderItem={(({ item: book, index: i }) =>
-                      <View>
+                      <View style={{width: Dimensions.get("window").width}}>
                         <TouchableOpacity
                           onPress={() => {
                             navigation.navigate('SelectedBookScreen', {
