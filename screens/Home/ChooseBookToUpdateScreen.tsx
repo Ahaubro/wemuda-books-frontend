@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { View, Pressable, Image, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { StackNavigationProp } from '@react-navigation/stack'
@@ -9,6 +9,7 @@ import { useAddStatusUpdateMutation } from '../../redux/services/statusUpdateApi
 import { useSetBooksGoalMutation, useResetBooksReadMutation } from '../../redux/services/userApi'
 import DefaultView from "../../components/DefaultView"
 import BackArrowContainer from '../../components/BackArrowContainer'
+import Looper from "../../components/Looper"
 
 
 type ChooseBookPropsNavigationProps = StackNavigationProp<HomeNavigatorParamList, "ChooseBookToUpdateScreen">
@@ -33,47 +34,94 @@ const ChooseBookToUpdateScreen: React.FC<ChooseBookProps> = ({ navigation, route
         }
     });
 
+     //Flatlist element styling LOOPER BOOK
+  const activeIndex = useRef(0);
+  const [activeIndexForStyling, setActiveIndexForStyling] = useState(0);
+  let scrollViewRef = useRef<FlatList>(null);
+
+  function intervalFn() {
+    if (scrollViewRef.current) {
+      if (activeIndex.current === currentlyReadingBooks.length - 1) {
+        activeIndex.current = 0;
+      } else {
+        activeIndex.current++;
+      }
+      
+      scrollViewRef.current.scrollToOffset({
+        animated: true,
+        offset: activeIndex.current * 225,
+      });
+    }
+  }
+
+  useEffect(() => {
+    if (currentlyReadingBooks.length > 0) {
+      const interval = setInterval(intervalFn, 3000);
+
+      return () => clearInterval(interval);
+    }
+
+  }, [currentlyReadingBooks]);
+
+  const onScrollHandler = (
+    scroll: number,
+  ) => {
+    console.log(scroll)
+    if (scroll % 225 === 0) {
+      if (scroll === 0) {
+        activeIndex.current = 0;
+      } else {
+        activeIndex.current = scroll / 225;
+      }
+      setActiveIndexForStyling(activeIndex.current);
+    }
+  };
+
 
 
 
 
     return <>
         <DefaultView>
-
             <BackArrowContainer>
                 <Pressable onPress={() => { navigation.pop(); }}>
                     <Ionicons name={'chevron-back'} size={25} color={'black'} />
                 </Pressable>
             </BackArrowContainer>
 
-            <Text style={styles.heading}>Choose which book to update</Text>
+            <Text style={styles.heading}>Choose book to update progress</Text>
 
+            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                <View style={{ flex: 1, marginTop: 75, width: "50%", justifyContent: 'center'}}>
+                    <FlatList
+                        horizontal={true}
+                        showsHorizontalScrollIndicator={false}
+                        snapToAlignment={"center"}
+                        decelerationRate={"fast"}
+                        pagingEnabled={true}
+                        ref={scrollViewRef}
+                        data={currentlyReadingBooks}
+                        onScroll={(e) => {
+                        onScrollHandler(e.nativeEvent.contentOffset.x)
+                        }}
+                        renderItem={(({ item: book, index: i }) =>
+                            <View>
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        navigation.navigate('UpdateStatus', {
+                                            bookId: book.bookId,
+                                            userId: userId
+                                        })
+                                    }}>
+                                    
+                                    <Looper item={book} activeIndex={activeIndex.current} index={i} />
 
-            <View style={{ flex: 1, maxWidth: 390, marginTop: 75 }}>
-                <FlatList
-                    style={{ flex: 1 }}
-                    showsHorizontalScrollIndicator={false}
-                    horizontal={true}
-                    data={currentlyReadingBooks}
-                    numColumns={1}
-                    renderItem={(({ item: book, index: i }) =>
-                        <View style={{ paddingHorizontal: 10, paddingVertical: 8}}>
-                            <TouchableOpacity
-                                onPress={() => {
-                                    navigation.navigate('UpdateStatus', {
-                                        bookId: book.bookId,
-                                        userId: userId
-                                    })
-                                }}>
-                                <Image
-                                    source={{ uri: book.thumbnail }}
-                                    style={{ width: 150, height: 230, borderRadius: 5 }}
-                                />
-                            </TouchableOpacity>
-                        </View>
+                                </TouchableOpacity>
+                            </View>
 
-                    )}
-                />
+                        )}
+                    />
+                </View>
             </View>
         </DefaultView>
     </>

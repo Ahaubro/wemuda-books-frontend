@@ -22,6 +22,7 @@ const Looper: React.FC<LooperProps> = ({ item, activeIndex, index }) => {
           { opacity: activeIndex === index ? 1 : 0.5 },
           { borderColor: activeIndex === index ? '#ccc' : undefined },
           { borderBottomWidth: activeIndex === index ? 2 : undefined },
+          
         ]}
       />
     </View>

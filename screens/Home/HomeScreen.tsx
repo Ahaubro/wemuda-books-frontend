@@ -136,13 +136,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const onScrollHandler = (
     scroll: number,
   ) => {
-    console.log(scroll)
     if (scroll % 225 === 0) {
       if (scroll === 0) {
-        console.log("hej")
         activeIndex.current = 0;
       } else {
-        console.log("hej2")
         activeIndex.current = scroll / 225;
       }
       setActiveIndexForStyling(activeIndex.current);
