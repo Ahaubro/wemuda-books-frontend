@@ -13,6 +13,3 @@ web-build/
 # macOS
 .DS_Store
 .env
-redux/services/reviewApi.ts
-redux/services/statusUpdateApi.ts
-redux/services/userApi.ts
