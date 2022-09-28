@@ -6,7 +6,6 @@ import { API_URL } from '../../constants'
 import { RootState } from '../store'
 import { useGetBookByIdQuery } from './googleBookApi'
 
-console.log("UserApi BASE_URL =", process.env.BASE_URL)
 
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.BASE_URL,

@@ -34,7 +34,6 @@ export default Looper;
 const styles = StyleSheet.create({
   container: {
     // marginHorizontal: Dimensions.get("window").width / 2 - 75,
-    marginEnd: 25,
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",

@@ -107,20 +107,23 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   //Flatlist element styling LOOPER BOOK
   const activeIndex = useRef(0);
   const [activeIndexForStyling, setActiveIndexForStyling] = useState(0);
+  const [intervalScroll, setIntervalScroll] = useState(true);
   let scrollViewRef = useRef<FlatList>(null);
 
   function intervalFn() {
-    if (scrollViewRef.current) {
-      if (activeIndex.current === currentlyReadingBooks.length - 1) {
-        activeIndex.current = 0;
-      } else {
-        activeIndex.current++;
+    if(intervalScroll) {
+      if (scrollViewRef.current) {
+        if (activeIndex.current === currentlyReadingBooks.length - 1) {
+          activeIndex.current = 0;
+        } else {
+          activeIndex.current++;
+        }
+        
+        scrollViewRef.current.scrollToOffset({
+          animated: true,
+          offset: activeIndex.current * Dimensions.get("window").width,
+        });
       }
-      
-      scrollViewRef.current.scrollToOffset({
-        animated: true,
-        offset: activeIndex.current * Dimensions.get("window").width,
-      });
     }
   }
 
@@ -136,6 +139,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const onScrollHandler = (
     scroll: number,
   ) => {
+    if(intervalScroll) setIntervalScroll(false)
     if (scroll %  Dimensions.get("window").width === 0) {
       if (scroll === 0) {
         activeIndex.current = 0;
@@ -143,6 +147,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         activeIndex.current = scroll /  Dimensions.get("window").width;
       }
       setActiveIndexForStyling(activeIndex.current);
+      setIntervalScroll(true)
     }
   };
 
@@ -181,7 +186,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
                     data={currentlyReadingBooks}
-                    numColumns={1}
                     snapToAlignment={"center"}
                     decelerationRate={"fast"}
                     pagingEnabled={true}

@@ -3,8 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { API_URL } from '../../constants'
 import { RootState } from '../store'
 
-const baseUrl = process.env.BASE_URL + "/api"
-console.log("BookApi BASE_URL =", baseUrl)
+const baseUrl = process.env.BASE_URL + "api"
 
 const baseQuery = fetchBaseQuery({
     baseUrl,
