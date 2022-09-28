@@ -93,12 +93,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     }
   }, [statusUpdates.data])
 
-  // useEffect(() => {
-  //   const historyBooks = userBooks.data?.books.filter(book => book.bookStatus == "History")
-  //   const text = String(historyBooks?.length)
-  //   console.log(historyBooks, text)
-  //   setBooksRead(text)
-  // }, [userBooks.data])
 
   useEffect(() => {
     user.refetch()

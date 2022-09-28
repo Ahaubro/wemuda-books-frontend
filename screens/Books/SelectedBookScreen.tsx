@@ -195,7 +195,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
     let slicedReviewTitleString = ""
     const sliceReviewTitle = (content: string) => {
         if (!content) {
-            slicedReviewTitleString = "No content.."
+            slicedReviewTitleString = "No title.."
             return slicedReviewTitleString
         } else if (content.length > 18) {
             slicedReviewTitleString = content.substring(0, 18) + " ..."
@@ -447,7 +447,6 @@ function SelectedBookScreen({ navigation, route }: Props) {
                         ref={scrollViewRef}
                         onScroll={(e) => {
                             onScrollHandler(e.nativeEvent.contentOffset.x)
-                            console.log(e.nativeEvent.contentOffset.x)
                         }}
                         data={fetchedReviews.data?.reviews || []}
                         renderItem={({ item, index }) => (
@@ -559,6 +558,7 @@ const styles = StyleSheet.create({
         height: 110,
         paddingHorizontal: 15,
         marginTop: 15,
+        marginBottom: 20,
         width: Dimensions.get("window").width / 100 * 93
     },
     reviewBtn: {

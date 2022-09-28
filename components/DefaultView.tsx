@@ -14,7 +14,9 @@ const DefaultView: React.FC<DefaultViewProps> = (props) => {
 
   return (
     <ScrollView style={{ ...styles.container }}>
-      {props.children}
+      <View style={{...styles.center}}>
+        {props.children}
+      </View>
     </ScrollView>
   )
 }
@@ -25,6 +27,9 @@ const styles = StyleSheet.create({
     padding: 12,
     maxHeight: 896,
     maxWidth: 414,
+  },
+  center:{
+    justifyContent:'center',
   }
 })
 

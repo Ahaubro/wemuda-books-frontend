@@ -57,6 +57,7 @@ function WriteReviewScreen({ navigation, route }: Props) {
 
             <View style={styles.starRating}>              
                 <AirbnbRating
+                    reviews={["", "", "", "", ""]}
                     reviewSize={0}
                     count={5}
                     size={35}
@@ -99,7 +100,7 @@ function WriteReviewScreen({ navigation, route }: Props) {
                 navigation.pop();
             }}>
 
-                <Text style={{ color: 'white' }}>Save review</Text>
+                <Text style={styles.btnWhiteText}> <Ionicons name={'ios-create'} size={20} color={'white'} style={{ paddingHorizontal: 5, textAlign: 'center' }} /> Save review</Text>
 
             </TouchableOpacity>
 
@@ -115,16 +116,6 @@ const styles = StyleSheet.create({
         paddingTop: 5,
         paddingBottom: 15,
         fontFamily: 'GraphikMedium'
-    },
-    saveReview: {
-        fontSize: 12,
-        fontFamily: "GraphikMedium",
-        textAlign: "center",
-        backgroundColor: "black",
-        borderRadius: 15,
-        color: "White",
-        paddingVertical: 10,
-        height: 40
     },
     inputContainer: {
         flexDirection: "row",
@@ -169,6 +160,19 @@ const styles = StyleSheet.create({
         flex: 1,
         outline: 'none',
         paddingHorizontal: 20,
+    },
+    btnWhiteText:{
+        color: 'white',
+        fontSize: 14,
+        textAlign: 'center',
+        fontFamily: "GraphikMedium",
+    },
+    saveReview: {
+        fontFamily: "GraphikMedium",
+        textAlign: "center",
+        backgroundColor: "black",
+        borderRadius: 15,
+        paddingVertical: 20,
     },
 })
 
