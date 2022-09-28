@@ -193,9 +193,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                     ref={scrollViewRef}
                     onScroll={(e) => {
                       onScrollHandler(e.nativeEvent.contentOffset.x)
-                      console.log(e.nativeEvent.contentOffset.x)
-                    }
-                    }
+                    }}
                     renderItem={(({ item: book, index: i }) =>
                       <View style={{width: Dimensions.get("window").width}}>
                         <TouchableOpacity

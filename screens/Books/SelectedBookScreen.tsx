@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Text, View, StyleSheet, Image, Pressable, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native'
+import { Text, View, StyleSheet, Image, Pressable, TouchableOpacity, FlatList, ActivityIndicator, Dimensions } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../redux/store'
 import { endSession } from '../../redux/slices/sessionSlice'
@@ -128,25 +128,53 @@ function SelectedBookScreen({ navigation, route }: Props) {
     //Reviews & reviews flatList
     const [reviews, setReviews] = useState<Review[]>([]);
     const fetchedReviews = useGetReviewsByBookIdQuery(bookId);
-    const reviewArr: Review[] | undefined = fetchedReviews.data?.reviews 
+    const reviewArr: Review[] | undefined = fetchedReviews.data?.reviews
 
     const activeIndex = useRef(0);
     const [activeIndexForStyling, setActiveIndexForStyling] = useState(0);
+    const [intervalScroll, setIntervalScroll] = useState(true);
     let scrollViewRef = useRef<FlatList>(null);
-  
-    const onScrollHandler = (
-      scroll: number,
-    ) => {
-      if (scroll % 370 === 0) {
-        if (scroll === 0) {
-          activeIndex.current = 0;
-        } else {
-          activeIndex.current = scroll / 370;
-        }
-        setActiveIndexForStyling(activeIndex.current);
-      }
-    };
 
+    function intervalFn() {
+        if (intervalScroll) {
+            if (scrollViewRef.current) {
+                if (activeIndex.current === reviews.length - 1) {
+                    activeIndex.current = 0;
+                } else {
+                    activeIndex.current++;
+                }
+
+                scrollViewRef.current.scrollToOffset({
+                    animated: true,
+                    offset: activeIndex.current * Dimensions.get("window").width / 100 * 94,
+                });
+            }
+        }
+    }
+
+    useEffect(() => {
+        if (reviews.length > 0) {
+            const interval = setInterval(intervalFn, 5000);
+
+            return () => clearInterval(interval);
+        }
+
+    }, [reviews]);
+
+    const onScrollHandler = (
+        scroll: number,
+    ) => {
+        if (intervalScroll) setIntervalScroll(false)
+        if (scroll % Dimensions.get("window").width / 100 * 94 === 0) {
+            if (scroll === 0) {
+                activeIndex.current = 0;
+            } else {
+                activeIndex.current = scroll / Dimensions.get("window").width / 100 * 94;
+            }
+            setActiveIndexForStyling(activeIndex.current);
+            setIntervalScroll(true)
+        }
+    };
 
     //SLice review content function for display
     let slicedContentString = ""
@@ -263,7 +291,7 @@ function SelectedBookScreen({ navigation, route }: Props) {
             //Displays loading icon
         });
     }
-    
+
 
 
     return (
@@ -407,27 +435,26 @@ function SelectedBookScreen({ navigation, route }: Props) {
             </View>
 
 
-            <View>
+            <View style={{ width: Dimensions.get("window").width / 100 * 93}}>
                 {reviews.length > 0 ?
                     <FlatList
-                        contentContainerStyle={{}}
-                        showsHorizontalScrollIndicator={false}
                         horizontal={true}
+                        showsHorizontalScrollIndicator={false}
                         snapToAlignment={"center"}
                         decelerationRate={"fast"}
                         pagingEnabled={true}
-                        snapToInterval={358}
-                        keyExtractor={(item) => item.content} 
-                        onScroll={(e) =>
-                            {onScrollHandler(e.nativeEvent.contentOffset.x)
-                            console.log(e.nativeEvent.contentOffset.x)}
-                          }
-                        data={fetchedReviews.data?.reviews || []} 
+                        snapToInterval={Dimensions.get("window").width / 100 * 94}
+                        ref={scrollViewRef}
+                        onScroll={(e) => {
+                            onScrollHandler(e.nativeEvent.contentOffset.x)
+                            console.log(e.nativeEvent.contentOffset.x)
+                        }}
+                        data={fetchedReviews.data?.reviews || []}
                         renderItem={({ item, index }) => (
-                            <View style={{ marginEnd: 10 }}>
+                            <View style={{paddingEnd: Dimensions.get("window").width / 100 * 1}}>
                                 <View style={styles.reviewContainer}>
-                                    <View style={{ width: 320 }}>
-                                        <View style={{ flexDirection: 'column', justifyContent: 'space-between', marginLeft: -10, paddingVertical: 10 }}>
+                                    <View>
+                                        <View style={{ flexDirection: 'column', justifyContent: 'space-between', paddingVertical: 10 }}>
                                             <AirbnbRating
                                                 reviewSize={0}
                                                 reviews={["", "", "", "", ""]}
@@ -440,9 +467,9 @@ function SelectedBookScreen({ navigation, route }: Props) {
 
                                         </View>
                                         <View style={{ marginTop: -30 }}>
-                                            <Text style={{ fontFamily: 'GraphikSemibold', fontSize: 14, width: 150 }}>{sliceReviewTitle(item.title)}</Text>
+                                            <Text style={{ fontFamily: 'GraphikSemibold', fontSize: 14}}>{sliceReviewTitle(item.title)}</Text>
                                         </View>
-                                        <Text style={{ color: 'grey', fontFamily: 'GraphikRegular', fontSize: 12, width: 300, paddingTop: 15, paddingBottom: 10 }}>{getContent(item.content)}</Text>
+                                        <Text style={{ color: 'grey', fontFamily: 'GraphikRegular', fontSize: 12, paddingTop: 15, paddingBottom: 10 }}>{getContent(item.content)}</Text>
                                     </View>
                                 </View>
                             </View>
@@ -532,6 +559,7 @@ const styles = StyleSheet.create({
         height: 110,
         paddingHorizontal: 15,
         marginTop: 15,
+        width: Dimensions.get("window").width / 100 * 93
     },
     reviewBtn: {
         fontSize: 12,

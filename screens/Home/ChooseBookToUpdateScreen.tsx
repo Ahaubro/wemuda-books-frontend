@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { View, Pressable, Image, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
+import { View, Pressable, Image, Text, StyleSheet, FlatList, TouchableOpacity, Dimensions } from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { HomeNavigatorParamList } from '../../types/NavigationTypes'
@@ -38,25 +38,28 @@ const ChooseBookToUpdateScreen: React.FC<ChooseBookProps> = ({ navigation, route
   const activeIndex = useRef(0);
   const [activeIndexForStyling, setActiveIndexForStyling] = useState(0);
   let scrollViewRef = useRef<FlatList>(null);
+  const [intervalScroll, setIntervalScroll] = useState(true);
 
   function intervalFn() {
-    if (scrollViewRef.current) {
-      if (activeIndex.current === currentlyReadingBooks.length - 1) {
-        activeIndex.current = 0;
-      } else {
-        activeIndex.current++;
+    if(intervalScroll) {
+      if (scrollViewRef.current) {
+        if (activeIndex.current === currentlyReadingBooks.length - 1) {
+          activeIndex.current = 0;
+        } else {
+          activeIndex.current++;
+        }
+        
+        scrollViewRef.current.scrollToOffset({
+          animated: true,
+          offset: activeIndex.current * Dimensions.get("window").width,
+        });
       }
-      
-      scrollViewRef.current.scrollToOffset({
-        animated: true,
-        offset: activeIndex.current * 225,
-      });
     }
   }
 
   useEffect(() => {
     if (currentlyReadingBooks.length > 0) {
-      const interval = setInterval(intervalFn, 3000);
+      const interval = setInterval(intervalFn, 5000);
 
       return () => clearInterval(interval);
     }
@@ -66,14 +69,15 @@ const ChooseBookToUpdateScreen: React.FC<ChooseBookProps> = ({ navigation, route
   const onScrollHandler = (
     scroll: number,
   ) => {
-    console.log(scroll)
-    if (scroll % 225 === 0) {
+    if(intervalScroll) setIntervalScroll(false)
+    if (scroll %  Dimensions.get("window").width === 0) {
       if (scroll === 0) {
         activeIndex.current = 0;
       } else {
-        activeIndex.current = scroll / 225;
+        activeIndex.current = scroll /  Dimensions.get("window").width;
       }
       setActiveIndexForStyling(activeIndex.current);
+      setIntervalScroll(true)
     }
   };
 
@@ -92,7 +96,7 @@ const ChooseBookToUpdateScreen: React.FC<ChooseBookProps> = ({ navigation, route
             <Text style={styles.heading}>Choose book to update progress</Text>
 
             <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                <View style={{ flex: 1, marginTop: 75, width: "50%", justifyContent: 'center'}}>
+                <View style={{ flex: 1, marginTop: 75, width: Dimensions.get("window").width, justifyContent: 'center'}}>
                     <FlatList
                         horizontal={true}
                         showsHorizontalScrollIndicator={false}
@@ -105,7 +109,7 @@ const ChooseBookToUpdateScreen: React.FC<ChooseBookProps> = ({ navigation, route
                         onScrollHandler(e.nativeEvent.contentOffset.x)
                         }}
                         renderItem={(({ item: book, index: i }) =>
-                            <View>
+                            <View style={{width: Dimensions.get("window").width}}>
                                 <TouchableOpacity
                                     onPress={() => {
                                         navigation.navigate('UpdateStatus', {
